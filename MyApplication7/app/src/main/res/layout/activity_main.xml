@@ -7,5 +7,69 @@
     tools:context=".MainActivity"
     android:src="@drawable/iv"
     android:background="@drawable/iv">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="50dp"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/medicine"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:layout_margin="30dp"
+                android:id="@+id/med"
+                android:onClick="med"
+                />
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/doctor"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:layout_margin="30dp"
+                android:id="@+id/doc"
+                android:onClick="doc"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/pharmacy"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:layout_margin="30dp"
+                android:id="@+id/pharma"
+                android:onClick="pharma"
+                />
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/hospital"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:layout_margin="30dp"
+                android:id="@+id/hos"
+                android:onClick="hos"
+                />
+        </LinearLayout>
+
+
+
+    </LinearLayout>
 
 </RelativeLayout>
