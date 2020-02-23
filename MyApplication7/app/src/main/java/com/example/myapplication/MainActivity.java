@@ -14,8 +14,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    public void lunchhopitals(View view) {
-        Intent hopitalsIntent =new Intent(MainActivity.this,hospital_activity.class);
-        startActivity(hopitalsIntent);
+    public void med(View view) {
+    }
+
+    public void doc(View view) {
+    }
+
+    public void pharma(View view) {
+        Intent intent = new Intent(this,pharmacies.class);
+        startActivity(intent);
+    }
+
+    public void hos(View view) {
+        Intent intent = new Intent(this,hospital_activity.class);
+        startActivity(intent);
     }
 }
