@@ -13,7 +13,7 @@
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".hospital_activity"></activity>
         <activity
-            android:name=".hospitals_activity"
+            android:name=".hospital_activity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
