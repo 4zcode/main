@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Lista</string>
+    <string name="app_name">my application </string>
     <string name="title_placeholder">Title</string>
     <string name="news_label">News</string>
     <string name="sports_info_placeholder">Here is some news</string>

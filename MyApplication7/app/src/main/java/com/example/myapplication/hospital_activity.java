@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.res.TypedArray;
@@ -29,5 +30,6 @@ public class hospital_activity extends AppCompatActivity {
         mAdapter = new HopitalsAdapter(this, mSportsData);
 
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(hospital_activity.this,2));
     }
 }
