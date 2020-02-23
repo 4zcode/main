@@ -14,6 +14,9 @@
         <activity
             android:name=".hospital_activity"
             android:parentActivityName=".MainActivity" />
+        <activity android:name=".pharmacies"
+            android:parentActivityName=".MainActivity"
+            />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
