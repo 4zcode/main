@@ -18,4 +18,8 @@ public class MainActivity extends AppCompatActivity {
         Intent hopitalsIntent =new Intent(MainActivity.this,hospital_activity.class);
         startActivity(hopitalsIntent);
     }
+    public void lunchb(View view) {
+        Intent intent= new Intent(MainActivity.this,pharmacies.class);
+        startActivity(intent);
+    }
 }

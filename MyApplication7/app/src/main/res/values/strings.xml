@@ -12,6 +12,35 @@
         molestie lorem. Suspendisse at purus mauris. Proin nibh ligula, suscipit vel pharetra
         posuere, bibendum id lorem.</string>
     <string name="hopitals">Hopitals</string>
+    <string name="phqr_qsies">phqr;qsies</string>
+    <string-array name="thename">
+        <item>name1</item>
+        <item>name2</item>
+        <item>name3</item>
+        <item>name4</item>
+        <item>name5</item>
+    </string-array>
+    <string-array name="theadress">
+        <item>adr1</item>
+        <item>adr2</item>
+        <item>adr3</item>
+        <item>adr4</item>
+        <item>adr5</item>
+    </string-array>
+    <string-array name="oppen">
+        <item>oppen1</item>
+        <item>oppen2</item>
+        <item>oppen3</item>
+        <item>oppen4</item>
+        <item>oppen5</item>
+    </string-array>
+    <string-array name="close">
+        <item>close1</item>
+        <item>close2</item>
+        <item>close3</item>
+        <item>close4</item>
+        <item>close5</item>
+    </string-array>
     <string-array name="sports_titles">
         <item>Baseball</item>
         <item>Badminton</item>
