@@ -95,4 +95,7 @@
         <item>@drawable/img_tabletennis</item>
         <item>@drawable/img_tennis</item>
     </array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

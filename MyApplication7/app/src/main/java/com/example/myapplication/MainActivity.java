@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doc(View view) {
+        Intent intent2 = new Intent(this,DoctorActivity.class);
+        startActivity(intent2);
     }
 
     public void pharma(View view) {
