@@ -39,7 +39,31 @@ public class SpecialisteDoctorsFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.d("akram","we stil alive fragment 4");
 
-        ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
+        ArrayList<DoctorsSpecialistes> mDoctorsSpecialistes = new ArrayList<DoctorsSpecialistes>();
+        Log.d("akram","we stil alive fragment 5");
+
+        String[] SpecialisteNames = getResources().getStringArray(R.array.doctor_specialistes);
+        Log.d("akram","we stil alive fragment 6");
+
+        //TypedArray sportsImageResources = getResources().obtainTypedArray(R.array.sports_images);
+
+
+        for (int i = 0; i < SpecialisteNames.length; i++) {
+            mDoctorsSpecialistes.add(new DoctorsSpecialistes(SpecialisteNames[i]));
+        }
+        Log.d("akram","we stil alive fragment 9");
+
+        DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsSpecialistes);
+        Log.d("akram","we stil alive fragment 10");
+
+        mRecyclerView.setAdapter(mAdapter);
+        Log.d("akram","we stil alive fragment 11");
+
+        // Inflate the layout for this fragment
+        return view;
+
+
+       /* ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
         Log.d("akram","we stil alive fragment 5");
 
         String[] NameDoctors = getResources().getStringArray(R.array.doctor_names);
@@ -64,6 +88,9 @@ public class SpecialisteDoctorsFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
+
+        */
+
     }
 
 }

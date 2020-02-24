@@ -143,6 +143,18 @@
     </string-array>
 
 
+    <string-array name="doctor_specialistes">
+        <item>Cardiologue</item>
+        <item>Gynécologue</item>
+        <item>Radiologie </item>
+        <item>Dentiste</item>
+        <item>Diabétologue</item>
+        <item>Neurologue</item>
+        <item>Ophtalmologue</item>
+        <item>Borthopédiste</item>
+    </string-array>
+
+
 
 
     <!-- TODO: Remove or change this placeholder text -->
