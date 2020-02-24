@@ -1,34 +1,29 @@
 package com.example.myapplication;
 
 public class Doctors {
-    private final String title;
-    private final String info;
-    private final String cate;
-    private final int imageResource;
+    private final String NameDoctor;
+    private final String PlaceDoctor;
+    private final String SexDoctor;
 
 
 
-    Doctors(String title, String info, String cate, int imageResource) {
-        this.title = title;
-        this.info = info;
-        this.cate=cate;
-        this.imageResource = imageResource;
+    Doctors(String name, String place, String sex) {
+        this.NameDoctor = name;
+        this.PlaceDoctor = place;
+        this.SexDoctor = sex;
     }
 
 
-    String getTitle() {
-        return title;
+    String getNameDoctor() {
+        return NameDoctor;
     }
 
-    String getInfo() {
-        return info;
+    String getPlaceDoctor() {
+        return PlaceDoctor;
     }
-    String getCate(){
-        return cate;
+    String getSexDoctor(){
+        return SexDoctor;
     }
 
-    int getImageResource() {
-        return imageResource;
-    }
 
 }

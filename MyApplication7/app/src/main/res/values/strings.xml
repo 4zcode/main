@@ -96,6 +96,55 @@
         <item>@drawable/img_tennis</item>
     </array>
 
+
+
+    <!-- c'est pour les mdcins-->
+
+    <string-array name="doctor_names">
+        <item>Benotmane Amar</item>
+        <item>DEHIMI YOUSRA</item>
+        <item>Bensmira Hassina</item>
+        <item>Louerad Nadia</item>
+        <item>Jamous Nael</item>
+        <item>HAMDACHE EP. DRISS-KHODJA Nacera</item>
+        <item>BENISSAD Abdelmajid</item>
+        <item>HADDAK MOHAND</item>
+        <item>Heba Cherifa</item>
+        <item>ZIAD Amel</item>
+        <item>Aïdi Assia Rim</item>
+    </string-array>
+    <string-array name="doctor_sex">
+        <item>m</item>
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>f</item>
+        <item>f</item>
+        <item>m</item>
+    </string-array>
+
+
+    <string-array name="doctor_place">
+        <item>Ain Smara, CONSTANTINE</item>
+        <item>Constantine, CONSTANTINE</item>
+        <item>Constantine, CONSTANTINE</item>
+        <item>Oran, ORAN</item>
+        <item>Oran, ORAN</item>
+        <item>Oran, ORAN</item>
+        <item>Oran, ORAN</item>
+        <item>Birkhadem, ALGER</item>
+        <item>Ouled-Fayet, ALGER</item>
+        <item>Birkhadem, ALGER</item>
+        <item>Hadjout, TIPAZA</item>
+    </string-array>
+
+
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
