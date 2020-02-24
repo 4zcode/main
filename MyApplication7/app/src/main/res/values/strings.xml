@@ -14,32 +14,32 @@
     <string name="hopitals">Hopitals</string>
     <string name="phqr_qsies">phqr;qsies</string>
     <string-array name="thename">
-        <item>name1</item>
-        <item>name2</item>
-        <item>name3</item>
-        <item>name4</item>
-        <item>name5</item>
+        <item>ilyes pharmacies </item>
+        <item>borhan pharmacies</item>
+        <item>arbaoui slimane pharmacies</item>
+        <item>akram pharmacies</item>
+        <item>raouf pharmacies</item>
     </string-array>
     <string-array name="theadress">
-        <item>adr1</item>
-        <item>adr2</item>
-        <item>adr3</item>
-        <item>adr4</item>
-        <item>adr5</item>
+        <item>tepaza et bloc i chambre 23 with akram</item>
+        <item>togirt et bloc d chambre 23 with yaser</item>
+        <item>elbayadh et bloc b chambre 23 with nassim</item>
+        <item>mediya et bloc i chambre 23 with ilyes</item>
+        <item>mediya et bloc i chambre 23 with no one</item>
     </string-array>
     <string-array name="oppen">
-        <item>oppen1</item>
-        <item>oppen2</item>
-        <item>oppen3</item>
-        <item>oppen4</item>
-        <item>oppen5</item>
+        <item>the oppening will be at 8</item>
+        <item>the oppening will be at 8</item>
+        <item>the oppening will be at 8</item>
+        <item>the oppening will be at 8</item>
+        <item>the oppening will be at 8</item>
     </string-array>
     <string-array name="close">
-        <item>close1</item>
-        <item>close2</item>
-        <item>close3</item>
-        <item>close4</item>
-        <item>close5</item>
+        <item>the closing will be at 5</item>
+        <item>the closing will be at 5</item>
+        <item>the closing will be at 5</item>
+        <item>the closing will be at 5</item>
+        <item>the closing will be at 5</item>
     </string-array>
     <string-array name="sports_titles">
         <item>Baseball</item>
