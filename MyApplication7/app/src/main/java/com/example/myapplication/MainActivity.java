@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void med(View view) {
+        Intent intent3 = new Intent(this,medicament_activity.class);
+        startActivity(intent3);
     }
 
     public void doc(View view) {
