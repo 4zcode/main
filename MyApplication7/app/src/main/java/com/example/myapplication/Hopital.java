@@ -7,30 +7,30 @@ import android.util.Log;
 import androidx.annotation.DrawableRes;
 
 public class Hopital {
-    private final String title;
-    private final String info;
-    private final String cate;
+    private final String hopitalName;
+    private final String hopitalPlace;
+    private final String hopitalContact;
     private final int imageResource;
 
 
 
-    Hopital(String title, String info, String cate, int imageResource) {
-        this.title = title;
-        this.info = info;
-        this.cate=cate;
-        this.imageResource = imageResource;
+    Hopital(String name, String place, String contact, int hopitalImage) {
+        this.hopitalName = name;
+        this.hopitalPlace = place;
+        this.hopitalContact=contact;
+        this.imageResource = hopitalImage;
     }
 
 
-    String getTitle() {
-        return title;
+    String getHopitalName() {
+        return hopitalName;
     }
 
-    String getInfo() {
-        return info;
+    String getHopitalPlace() {
+        return hopitalPlace;
     }
-    String getCate(){
-        return cate;
+    String getHopitalContact(){
+        return hopitalContact;
     }
 
     int getImageResource() {
