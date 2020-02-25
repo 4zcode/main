@@ -18,15 +18,15 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.SportsViewHolder>  {
+class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.MedicamentViewHolder>  {
 
     //Member variables
     public GradientDrawable mGradientDrawable;
-    public ArrayList<Medicament> mSportsData;
+    public ArrayList<Medicament> mMedicamentData;
     public static Context mContext;
 
-    MedicamentsAdapter(Context context, ArrayList<Medicament> sportsData) {
-        this.mSportsData = sportsData;
+    MedicamentsAdapter(Context context, ArrayList<Medicament> medicamntData) {
+        this.mMedicamentData = medicamntData;
         this.mContext = context;
 
         //Prepare gray placeholder
@@ -35,7 +35,7 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.SportsV
 
         //Make the placeholder same size as the images
         Drawable drawable = ContextCompat.getDrawable
-                (mContext,R.drawable.img_badminton);
+                (mContext,R.drawable.doctorm);
         if(drawable != null) {
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
@@ -44,16 +44,16 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.SportsV
 
 
     @Override
-    public SportsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public MedicamentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view=LayoutInflater.from(mContext).inflate(R.layout.hospital_item_view,parent,false);
-        return new SportsViewHolder(mContext,view, mGradientDrawable);
+        return new MedicamentViewHolder(mContext,view, mGradientDrawable);
     }
 
     @Override
-    public void onBindViewHolder(SportsViewHolder holder, int position) {
+    public void onBindViewHolder(MedicamentViewHolder holder, int position) {
 
         //Get the current sport
-        Medicament currentMedicament = mSportsData.get(position);
+        Medicament currentMedicament = mMedicamentData.get(position);
 
         //Bind the data to the views
         holder.bindTo(currentMedicament);
@@ -63,29 +63,29 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.SportsV
 
     @Override
     public int getItemCount() {
-        return mSportsData.size();
+        return mMedicamentData.size();
     }
 
-    static class SportsViewHolder extends RecyclerView.ViewHolder
+    static class MedicamentViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
         //Member Variables for the holder data
-        public TextView mTitleText;
-        public TextView mInfoText;
-        public TextView mCate;
-        ImageView mSportsImage;
+        public TextView mNameMedicamentTextView;
+        public TextView mPrixMedicamentTextView;
+        public TextView mClassMedicamentTextView;
+        ImageView mMedicamentImage;
         Context mCont;
         Medicament mCurrentMedicament;
         GradientDrawable mGradientDrawable;
 
-        SportsViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
+        MedicamentViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
 
             //Initialize the views
-            mTitleText = (TextView)itemView.findViewById(R.id.title);
-            mInfoText = (TextView)itemView.findViewById(R.id.subTitle);
-            mCate=(TextView)itemView.findViewById(R.id.newsTitle);
-            mSportsImage = (ImageView)itemView.findViewById(R.id.sportsImage);
+            mNameMedicamentTextView = (TextView)itemView.findViewById(R.id.title);
+            mClassMedicamentTextView = (TextView)itemView.findViewById(R.id.subTitle);
+            mPrixMedicamentTextView=(TextView)itemView.findViewById(R.id.newsTitle);
+            mMedicamentImage = (ImageView)itemView.findViewById(R.id.sportsImage);
 
             mCont = context;
             mGradientDrawable = gradientDrawable;
@@ -96,15 +96,14 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.SportsV
 
         void bindTo(Medicament currentMedicament){
             //Populate the textviews with data
-            mTitleText.setText(currentMedicament.getTitle());
-            mInfoText.setText(currentMedicament.getInfo());
-            mCate.setText(currentMedicament.getCate());
+            mNameMedicamentTextView.setText(currentMedicament.getMedicamenName());
+            mClassMedicamentTextView.setText(currentMedicament.getMedicamentClass());
+            mPrixMedicamentTextView.setText(currentMedicament.getMedicamenPrix());
 
             //Get the current sport
             mCurrentMedicament = currentMedicament;
 
-            Glide.with(mCont).load(currentMedicament.
-                    getImageResource()).placeholder(mGradientDrawable).into(mSportsImage);
+            Glide.with(mCont).load(R.drawable.img_badminton).placeholder(mGradientDrawable).into(mMedicamentImage);
         }
 
         @Override
