@@ -18,13 +18,13 @@ public class medicament_activity extends AppCompatActivity {
         setContentView(R.layout.activity_medicament);
         super.onCreate(savedInstanceState);
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.RecycleView1);
-        ArrayList<Medicament> mSportsData = new ArrayList<Medicament>();
-        MedicamentsAdapter mAdapter = new MedicamentsAdapter(this, mSportsData);
-        String[] sportsList = getResources().getStringArray(R.array.doctor_names);
-        String[] sportsInfo = getResources().getStringArray(R.array.doctor_sex);
-        String[] sportsCate = getResources().getStringArray(R.array.doctor_place);
-        for (int i = 0; i < sportsList.length; i++) {
-            mSportsData.add(new Medicament(sportsList[i], sportsInfo[i], sportsCate[i]));
+        ArrayList<Medicament> mMedicamentsData = new ArrayList<Medicament>();
+        MedicamentsAdapter mAdapter = new MedicamentsAdapter(this, mMedicamentsData);
+        String[] medicamentName = getResources().getStringArray(R.array.doctor_names);
+        String[] medicamentClass = getResources().getStringArray(R.array.doctor_sex);
+        String[] medicamentPrix = getResources().getStringArray(R.array.doctor_place);
+        for (int i = 0; i < medicamentName.length; i++) {
+            mMedicamentsData.add(new Medicament("Medicament"+ i+1, "Prix 200 DA","Class i"));
         }
 
         mRecyclerView.setAdapter(mAdapter);

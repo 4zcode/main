@@ -103,7 +103,7 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.Medicam
             //Get the current sport
             mCurrentMedicament = currentMedicament;
 
-            Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mMedicamentImage);
+            Glide.with(mCont).load(R.drawable.medicament).placeholder(mGradientDrawable).into(mMedicamentImage);
         }
 
         @Override

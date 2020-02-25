@@ -24,7 +24,7 @@ public class HopitalActivity extends AppCompatActivity {
         String[] HopitalsContact = getResources().getStringArray(R.array.doctor_names);
         //TypedArray sportsImageResources = getResources().obtainTypedArray(R.array.sports_images);
         for (int i = 0; i < HopitalsName.length; i++) {
-            mHopitalsData.add(new Hopital(HopitalsContact[i], HopitalsLocation[i], HopitalsContact[i],R.drawable.doctorf));
+            mHopitalsData.add(new Hopital("Hopital Name "+i+1, "Hopital place "+i+1, "07 99 43 42 "+i,R.drawable.hospital));
         }
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mAdapter = new HopitalsAdapter(this, mHopitalsData);
