@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void hos(View view) {
-        Intent intent = new Intent(this,hospital_activity.class);
-        startActivity(intent);
+        Intent intent4 = new Intent(this, HopitalActivity.class);
+        startActivity(intent4);
     }
 }

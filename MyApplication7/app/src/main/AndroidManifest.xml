@@ -18,7 +18,7 @@
             android:name=".pharmacies"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".hospital_activity"
+            android:name=".HopitalActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DoctorActivity"

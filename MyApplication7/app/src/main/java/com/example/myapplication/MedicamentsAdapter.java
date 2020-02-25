@@ -45,7 +45,7 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.Medicam
 
     @Override
     public MedicamentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view=LayoutInflater.from(mContext).inflate(R.layout.hospital_item_view,parent,false);
+        View view=LayoutInflater.from(mContext).inflate(R.layout.medicament_list_item,parent,false);
         return new MedicamentViewHolder(mContext,view, mGradientDrawable);
     }
 
@@ -82,10 +82,10 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.Medicam
             super(itemView);
 
             //Initialize the views
-            mNameMedicamentTextView = (TextView)itemView.findViewById(R.id.title);
-            mClassMedicamentTextView = (TextView)itemView.findViewById(R.id.subTitle);
-            mPrixMedicamentTextView=(TextView)itemView.findViewById(R.id.newsTitle);
-            mMedicamentImage = (ImageView)itemView.findViewById(R.id.sportsImage);
+            mNameMedicamentTextView = (TextView)itemView.findViewById(R.id.medicament_name);
+            mClassMedicamentTextView = (TextView)itemView.findViewById(R.id.medicament_class);
+            mPrixMedicamentTextView=(TextView)itemView.findViewById(R.id.medicament_prix);
+            mMedicamentImage = (ImageView)itemView.findViewById(R.id.medicament_image);
 
             mCont = context;
             mGradientDrawable = gradientDrawable;
@@ -103,7 +103,7 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.Medicam
             //Get the current sport
             mCurrentMedicament = currentMedicament;
 
-            Glide.with(mCont).load(R.drawable.img_badminton).placeholder(mGradientDrawable).into(mMedicamentImage);
+            Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mMedicamentImage);
         }
 
         @Override
