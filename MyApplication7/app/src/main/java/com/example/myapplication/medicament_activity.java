@@ -23,10 +23,8 @@ public class medicament_activity extends AppCompatActivity {
         String[] sportsList = getResources().getStringArray(R.array.sports_titles);
         String[] sportsInfo = getResources().getStringArray(R.array.sports_info);
         String[] sportsCate = getResources().getStringArray(R.array.sports_cate);
-        TypedArray sportsImageResources = getResources().obtainTypedArray(R.array.sports_images);
         for (int i = 0; i < sportsList.length; i++) {
-            mSportsData.add(new Medicament(sportsList[i], sportsInfo[i], sportsCate[i],
-                    sportsImageResources.getResourceId(i, 0)));
+            mSportsData.add(new Medicament(sportsList[i], sportsInfo[i], sportsCate[i]));
         }
 
         mRecyclerView.setAdapter(mAdapter);

@@ -1,34 +1,29 @@
 package com.example.myapplication;
 
 public class Medicament {
-    private final String title;
-    private final String info;
-    private final String cate;
-    private final int imageResource;
+    private final String MedicamenName;
+    private final String MedicamenPrix;
+    private final String MedicamentClass;
 
 
-    Medicament(String title, String info, String cate, int imageResource) {
-        this.title = title;
-        this.info = info;
-        this.cate = cate;
-        this.imageResource = imageResource;
+    Medicament(String name, String prix, String mClass) {
+        this.MedicamenName = name;
+        this.MedicamenPrix = prix;
+        this.MedicamentClass = mClass;
     }
 
 
-    String getTitle() {
-        return title;
+    String getMedicamenName() {
+        return MedicamenName;
     }
 
-    String getInfo() {
-        return info;
+    String getMedicamenPrix() {
+        return MedicamentClass;
     }
 
-    String getCate() {
-        return cate;
+    String getMedicamentClass() {
+        return MedicamenPrix;
     }
 
-    int getImageResource() {
-        return imageResource;
-    }
 
 }
