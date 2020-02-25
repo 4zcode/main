@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import android.net.Uri;
 
 public class adapterpharmacies extends RecyclerView.Adapter<adapterpharmacies.viewholder> {
   public  ArrayList<pharmaciesinit> liste;
@@ -27,8 +28,6 @@ public class adapterpharmacies extends RecyclerView.Adapter<adapterpharmacies.vi
      this.liste=liste1;
      gradientDrawable=new GradientDrawable();
      gradientDrawable.setColor(Color.BLUE);
-     Drawable drawable = ContextCompat.getDrawable(context,R.drawable.img_badminton);
-     if(drawable!=null){gradientDrawable.setSize(drawable.getIntrinsicWidth(),drawable.getIntrinsicHeight());}
  }
 
     @NonNull
@@ -75,12 +74,15 @@ public class adapterpharmacies extends RecyclerView.Adapter<adapterpharmacies.vi
             textView3.setText(ilyes.getOppen());
             textView4.setText(ilyes.getClose());
             mword=ilyes;
-            Glide.with(context).load(ilyes.getIm()).placeholder(gradientDrawable).into(imageView);
         }
 
 
         @Override
         public void onClick(View v) {
+            String adrs =mword.getTheadress();
+            Uri addressUri = Uri.parse("geo:0,0?q=" +adrs);
+            Intent intent = new Intent(Intent.ACTION_VIEW, addressUri);
+            context.startActivity(intent);
 
         }
     }

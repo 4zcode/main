@@ -23,13 +23,12 @@ public class pharmacies extends AppCompatActivity {
         String[] theadress=getResources().getStringArray(R.array.theadress);
         String[] oppen =getResources().getStringArray(R.array.oppen);
         String[] close =getResources().getStringArray(R.array.close);
-        TypedArray image =getResources().obtainTypedArray(R.array.sports_images);
 
         int counter;
         RecyclerView mreclview;
 
         for (counter=0;counter<=4;counter++) {
-            linkedList.add(new pharmaciesinit(thename[counter],theadress[counter],oppen[counter],close[counter],image.getResourceId(counter,0)));
+            linkedList.add(new pharmaciesinit(thename[counter],theadress[counter],oppen[counter],close[counter]));
         }
         mreclview=(RecyclerView) findViewById(R.id.recycle);
 
