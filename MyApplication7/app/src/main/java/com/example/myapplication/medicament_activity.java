@@ -20,17 +20,15 @@ public class medicament_activity extends AppCompatActivity {
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.RecycleView1);
         ArrayList<Medicament> mSportsData = new ArrayList<Medicament>();
         MedicamentsAdapter mAdapter = new MedicamentsAdapter(this, mSportsData);
-        String[] sportsList = getResources().getStringArray(R.array.sports_titles);
-        String[] sportsInfo = getResources().getStringArray(R.array.sports_info);
-        String[] sportsCate = getResources().getStringArray(R.array.sports_cate);
-        TypedArray sportsImageResources = getResources().obtainTypedArray(R.array.sports_images);
+        String[] sportsList = getResources().getStringArray(R.array.doctor_names);
+        String[] sportsInfo = getResources().getStringArray(R.array.doctor_sex);
+        String[] sportsCate = getResources().getStringArray(R.array.doctor_place);
         for (int i = 0; i < sportsList.length; i++) {
-            mSportsData.add(new Medicament(sportsList[i], sportsInfo[i], sportsCate[i],
-                    sportsImageResources.getResourceId(i, 0)));
+            mSportsData.add(new Medicament(sportsList[i], sportsInfo[i], sportsCate[i]));
         }
 
         mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 }
 

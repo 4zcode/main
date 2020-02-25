@@ -19,15 +19,15 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.SportsViewHolder> {
+class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewHolder> {
 
     //Member variables
     public GradientDrawable mGradientDrawable;
     public ArrayList<Hopital> mHopitalsData;
     public static Context mContext;
 
-    HopitalsAdapter(Context context, ArrayList<Hopital> sportsData) {
-        this.mHopitalsData = sportsData;
+    HopitalsAdapter(Context context, ArrayList<Hopital> HopitalsData) {
+        this.mHopitalsData = HopitalsData;
         this.mContext = context;
 
         //Prepare gray placeholder
@@ -36,7 +36,7 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.SportsViewHol
 
         //Make the placeholder same size as the images
         Drawable drawable = ContextCompat.getDrawable
-                (mContext, R.drawable.img_badminton);
+                (mContext, R.drawable.doctorm);
         if (drawable != null) {
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
@@ -44,13 +44,13 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.SportsViewHol
 
 
     @Override
-    public SportsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HopitalsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.hospital_item_view, parent, false);
-        return new SportsViewHolder(mContext, view, mGradientDrawable);
+        return new HopitalsViewHolder(mContext, view, mGradientDrawable);
     }
 
     @Override
-    public void onBindViewHolder(SportsViewHolder holder, int position) {
+    public void onBindViewHolder(HopitalsViewHolder holder, int position) {
 
         //Get the current sport
         Hopital currentHopital = mHopitalsData.get(position);
@@ -66,26 +66,26 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.SportsViewHol
         return mHopitalsData.size();
     }
 
-    static class SportsViewHolder extends RecyclerView.ViewHolder
+    static class HopitalsViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
         //Member Variables for the holder data
-        public TextView mTitleText;
-        public TextView mInfoText;
-        public TextView mCate;
-        ImageView mSportsImage;
+        public TextView mHopitalNameTextView;
+        public TextView mHopitalPlaceTextView;
+        public TextView mHopitalContactTextView;
+        ImageView mHopitalImage;
         Context mCont;
         Hopital mCurrentHopital;
         GradientDrawable mGradientDrawable;
 
-        SportsViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
+        HopitalsViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
 
             //Initialize the views
-            mTitleText = (TextView) itemView.findViewById(R.id.title);
-            mInfoText = (TextView) itemView.findViewById(R.id.subTitle);
-            mCate = (TextView) itemView.findViewById(R.id.newsTitle);
-            mSportsImage = (ImageView) itemView.findViewById(R.id.sportsImage);
+            mHopitalNameTextView = (TextView) itemView.findViewById(R.id.hopital_name);
+            mHopitalPlaceTextView = (TextView) itemView.findViewById(R.id.hopital_place);
+            mHopitalContactTextView = (TextView) itemView.findViewById(R.id.hopital_contact);
+            mHopitalImage = (ImageView) itemView.findViewById(R.id.hopital_image);
 
             mCont = context;
             mGradientDrawable = gradientDrawable;
@@ -96,15 +96,14 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.SportsViewHol
 
         void bindTo(Hopital currentHopital) {
             //Populate the textviews with data
-            mTitleText.setText(currentHopital.getTitle());
-            mInfoText.setText(currentHopital.getInfo());
-            mCate.setText(currentHopital.getCate());
+            mHopitalNameTextView.setText(currentHopital.getHopitalName());
+            mHopitalPlaceTextView.setText(currentHopital.getHopitalPlace());
+            mHopitalContactTextView.setText(currentHopital.getHopitalContact());
 
             //Get the current sport
             mCurrentHopital = currentHopital;
 
-            Glide.with(mCont).load(currentHopital.
-                    getImageResource()).placeholder(mGradientDrawable).into(mSportsImage);
+            Glide.with(mCont).load(currentHopital.getImageResource()).placeholder(mGradientDrawable).into(mHopitalImage);
         }
 
         @Override
