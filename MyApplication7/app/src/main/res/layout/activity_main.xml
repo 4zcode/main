@@ -18,35 +18,36 @@
         android:layout_marginBottom="51dp"
         android:layout_centerVertical="true"
         >
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
             <ImageButton
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/medicine"
-                android:background="@null"
-                android:scaleType="fitXY"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
-                android:layout_marginTop="50dp"
                 android:id="@+id/med"
-                android:onClick="med"
-                />
-            <ImageButton
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/doctor"
-                android:background="@null"
-                android:scaleType="fitXY"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
                 android:layout_marginTop="50dp"
+                android:layout_marginRight="30dp"
+                android:background="@null"
+                android:onClick="med"
+                android:scaleType="fitXY"
+                android:src="@drawable/medicine" />
+
+            <ImageButton
                 android:id="@+id/doc"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="50dp"
+                android:layout_marginRight="30dp"
+                android:background="@null"
                 android:onClick="doc"
-                />
+                android:scaleType="fitXY"
+                android:src="@drawable/doctor" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="wrap_content"
@@ -108,6 +109,8 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_gravity="center"
+            android:id="@+id/phho"
+            android:
             >
             <TextView
                 android:layout_width="wrap_content"
