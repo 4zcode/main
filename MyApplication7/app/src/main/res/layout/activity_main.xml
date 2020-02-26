@@ -110,7 +110,6 @@
             android:orientation="horizontal"
             android:layout_gravity="center"
             android:id="@+id/phho"
-            android:
             >
             <TextView
                 android:layout_width="wrap_content"

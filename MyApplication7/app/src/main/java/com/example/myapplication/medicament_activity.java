@@ -24,7 +24,7 @@ public class medicament_activity extends AppCompatActivity {
         String[] medicamentClass = getResources().getStringArray(R.array.doctor_sex);
         String[] medicamentPrix = getResources().getStringArray(R.array.doctor_place);
         for (int i = 0; i < medicamentName.length; i++) {
-            mMedicamentsData.add(new Medicament("Medicament"+ i+1, "Prix 200 DA","Class i"));
+            mMedicamentsData.add(new Medicament("Medicament "+ (i+1), "Class i","Prix: 200 DA"));
         }
 
         mRecyclerView.setAdapter(mAdapter);
