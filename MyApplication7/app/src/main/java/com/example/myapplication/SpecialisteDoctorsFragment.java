@@ -1,12 +1,9 @@
 package com.example.myapplication;
 
 
-import android.content.Context;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,7 +50,7 @@ public class SpecialisteDoctorsFragment extends Fragment {
         }
         Log.d("akram","we stil alive fragment 9");
 
-        DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsSpecialistes);
+        DoctorsSpecialisteAdapter mAdapter= new DoctorsSpecialisteAdapter( getActivity(), mDoctorsSpecialistes);
         Log.d("akram","we stil alive fragment 10");
 
         mRecyclerView.setAdapter(mAdapter);
@@ -80,7 +77,7 @@ public class SpecialisteDoctorsFragment extends Fragment {
         }
         Log.d("akram","we stil alive fragment 9");
 
-        DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsData);
+        DoctorsSpecialisteAdapter mAdapter= new DoctorsSpecialisteAdapter( getActivity(), mDoctorsData);
         Log.d("akram","we stil alive fragment 10");
 
         mRecyclerView.setAdapter(mAdapter);
