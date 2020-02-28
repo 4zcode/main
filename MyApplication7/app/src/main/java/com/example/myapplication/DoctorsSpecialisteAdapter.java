@@ -1,4 +1,4 @@
-package com.example.myapplication.doctors;
+package com.example.myapplication;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,21 +15,20 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.myapplication.R;
 
 import java.util.ArrayList;
 
-class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHolder> {
+class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteAdapter.DoctorSViewHolder> {
 
     //Member variables
     public GradientDrawable mGradientDrawable;
-    public ArrayList<Doctors> mDoctors;
+    public ArrayList<DoctorsSpecialistes> mDoctorsspecialistes;
     public Context mContext;
 
-    DoctorsAdapter(Context context, ArrayList<Doctors> doctorData) {
+    DoctorsSpecialisteAdapter(Context context, ArrayList<DoctorsSpecialistes> doctorData) {
         Log.d("akram","we stil alive adapter 1");
 
-        this.mDoctors = doctorData;
+        this.mDoctorsspecialistes = doctorData;
         this.mContext = context;
 
         //Prepare gray placeholder
@@ -39,7 +38,7 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
 
         //Make the placeholder same size as the images
         Drawable drawable = ContextCompat.getDrawable
-                (mContext, R.drawable.doctorm);
+                (mContext, R.drawable.img_badminton);
         if (drawable != null) {
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
@@ -50,7 +49,7 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
     public DoctorSViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Log.d("akram","we stil alive adapter 4");
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.doctor_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.specialite_item, parent, false);
         Log.d("akram","we stil alive adapter 5");
 
         return new DoctorSViewHolder(mContext, view, mGradientDrawable);
@@ -61,7 +60,7 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
         Log.d("akram","we stil alive adapter 6");
 
         //Get the current sport
-        Doctors currentDoctor = mDoctors.get(position);
+        DoctorsSpecialistes currentDoctor = mDoctorsspecialistes.get(position);
         Log.d("akram","we stil alive adapter 7");
 
         //Bind the data to the views
@@ -74,17 +73,17 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
     public int getItemCount() {
         Log.d("akram","we stil alive adapter 8");
 
-        return mDoctors.size();
+        return mDoctorsspecialistes.size();
     }
 
     static class DoctorSViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
         //Member Variables for the holder data
-        public TextView mNameText, mPlaceText;
+        public TextView mNameText;
         ImageView mDoctorImage;
         Context mCont;
-        Doctors mCurrentDoctor;
+        DoctorsSpecialistes mCurrentDoctor;
         GradientDrawable mGradientDrawable;
 
         DoctorSViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
@@ -92,11 +91,11 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
             Log.d("akram","we stil alive adapter 9");
 
             //Initialize the views
-            mNameText = (TextView) itemView.findViewById(R.id.name_doctor);
+            mNameText = (TextView) itemView.findViewById(R.id.specialite_name);
             Log.d("akram","we stil alive adapter 10");
 
-            mPlaceText = (TextView) itemView.findViewById(R.id.place_doctor) ;
-            mDoctorImage = (ImageView) itemView.findViewById(R.id.doctor_image);
+
+            mDoctorImage = (ImageView) itemView.findViewById(R.id.spec_doctor_image);
             Log.d("akram","we stil alive adapter 12");
 
             mCont = context;
@@ -107,21 +106,21 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
             itemView.setOnClickListener(this);
         }
 
-        void bindTo(Doctors currentDoctor) {
+        void bindTo(DoctorsSpecialistes currentDoctor) {
             //Populate the textviews with data
             Log.d("akram","we stil alive adapter 14");
 
-            mNameText.setText(currentDoctor.getNameDoctor());
+            mNameText.setText(currentDoctor.getSpecialiste());
             Log.d("akram","we stil alive adapter 15");
 
-           mPlaceText.setText(currentDoctor.getPlaceDoctor());
+
 
             //Get the current sport
             mCurrentDoctor = currentDoctor;
             Log.d("akram","we stil alive adapter 17");
 
-            if(mCurrentDoctor.getSexDoctor().equals("m")) Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mDoctorImage);
-             else Glide.with(mCont).load(R.drawable.doctorf).placeholder(mGradientDrawable).into(mDoctorImage);
+
+            Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mDoctorImage);
         }
 
         @Override

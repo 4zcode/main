@@ -51,7 +51,7 @@ public class SpecialisteDoctorsFragment extends Fragment {
         }
         Log.d("akram","we stil alive fragment 9");
 
-        DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsSpecialistes);
+        DoctorsSpecialisteAdapter mAdapter= new DoctorsSpecialisteAdapter( getActivity(), mDoctorsSpecialistes);
         Log.d("akram","we stil alive fragment 10");
 
         mRecyclerView.setAdapter(mAdapter);
@@ -78,7 +78,7 @@ public class SpecialisteDoctorsFragment extends Fragment {
         }
         Log.d("akram","we stil alive fragment 9");
 
-        DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsData);
+        DoctorsSpecialisteAdapter mAdapter= new DoctorsSpecialisteAdapter( getActivity(), mDoctorsData);
         Log.d("akram","we stil alive fragment 10");
 
         mRecyclerView.setAdapter(mAdapter);

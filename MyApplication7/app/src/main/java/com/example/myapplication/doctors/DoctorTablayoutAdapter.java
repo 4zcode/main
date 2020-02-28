@@ -25,9 +25,9 @@ public class DoctorTablayoutAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0:
-                return new SpecialisteDoctorsFragment();
             case 1:
+                return new SpecialisteDoctorsFragment();
+            case 0:
                 return new AdvanceSearchDoctorFragment();
             default:
                 return null;}
@@ -37,9 +37,9 @@ public class DoctorTablayoutAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            case 0:
-                return "Les Spécialités";
             case 1:
+                return "Les Spécialités";
+            case 0:
                 return "Recherche Avancé";
             default:
                 return null;
