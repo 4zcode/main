@@ -16,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.example.myapplication.Drugs.medicament_activity;
 import com.example.myapplication.Hospitals.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacies;
+import com.example.myapplication.doctors.DoctorActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doc(View view) {
-        Intent intent2 = new Intent(this,DoctorActivity.class);
+        Intent intent2 = new Intent(this, DoctorActivity.class);
         startActivity(intent2);
     }
 

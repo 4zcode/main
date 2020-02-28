@@ -21,7 +21,7 @@
             android:name=".Hospitals.HopitalActivity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".DoctorActivity"
+            android:name=".doctors.DoctorActivity"
             android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity"
                   android:theme="@style/AppTheme.NoActionBar">

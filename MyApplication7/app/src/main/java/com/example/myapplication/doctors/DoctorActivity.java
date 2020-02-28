@@ -5,7 +5,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.myapplication.DoctorTablayoutAdapter;
+import com.example.myapplication.doctors.DoctorTablayoutAdapter;
 import com.example.myapplication.R;
 import com.google.android.material.tabs.TabLayout;
 
