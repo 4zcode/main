@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.doctors;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.R;
 
 import java.util.ArrayList;
 

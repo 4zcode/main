@@ -12,13 +12,13 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".medicament_activity"
+            android:name=".Drugs.medicament_activity"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".pharmacies"
+            android:name=".Pharmacies.pharmacies"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".HopitalActivity"
+            android:name=".Hospitals.HopitalActivity"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".DoctorActivity"

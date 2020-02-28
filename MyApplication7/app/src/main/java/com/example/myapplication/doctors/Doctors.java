@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.doctors;
 
 public class Doctors {
     private final String NameDoctor;

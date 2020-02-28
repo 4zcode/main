@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Pharmacies;
 
 public class pharmaciesinit {
     String thename;

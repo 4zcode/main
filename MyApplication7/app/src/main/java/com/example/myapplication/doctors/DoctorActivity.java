@@ -1,12 +1,12 @@
-package com.example.myapplication;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+package com.example.myapplication.doctors;
 
 import android.os.Bundle;
-import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.example.myapplication.DoctorTablayoutAdapter;
+import com.example.myapplication.R;
 import com.google.android.material.tabs.TabLayout;
 
 public class DoctorActivity extends AppCompatActivity {

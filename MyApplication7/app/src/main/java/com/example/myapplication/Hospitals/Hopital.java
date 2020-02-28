@@ -1,10 +1,4 @@
-package com.example.myapplication;
-
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
-
-import androidx.annotation.DrawableRes;
+package com.example.myapplication.Hospitals;
 
 public class Hopital {
     private final String hopitalName;

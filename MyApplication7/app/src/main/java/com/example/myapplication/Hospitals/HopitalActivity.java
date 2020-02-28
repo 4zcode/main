@@ -1,12 +1,12 @@
-package com.example.myapplication;
+package com.example.myapplication.Hospitals;
+
+import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.res.TypedArray;
-import android.os.Bundle;
+import com.example.myapplication.R;
 
 import java.util.ArrayList;
 
