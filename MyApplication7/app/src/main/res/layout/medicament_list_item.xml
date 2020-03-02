@@ -29,6 +29,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:textSize="23sp"
                 tools:text="Medicament Name"
                 />
 
@@ -45,7 +48,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
-                tools:text="200 DA" />
+                tools:text="200 DA"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"/>
 
         </LinearLayout>
     </LinearLayout>
