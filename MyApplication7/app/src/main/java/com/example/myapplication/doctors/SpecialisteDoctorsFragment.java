@@ -1,6 +1,7 @@
 package com.example.myapplication.doctors;
 
 
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,11 +44,11 @@ public class SpecialisteDoctorsFragment extends Fragment {
         String[] SpecialisteNames = getResources().getStringArray(R.array.doctor_specialistes);
         Log.d("akram","we stil alive fragment 6");
 
-        //TypedArray sportsImageResources = getResources().obtainTypedArray(R.array.sports_images);
+        TypedArray doctorSpecialistesImages = getResources().obtainTypedArray(R.array.sports_images);
 
 
         for (int i = 0; i < SpecialisteNames.length; i++) {
-            mDoctorsSpecialistes.add(new DoctorsSpecialistes(SpecialisteNames[i]));
+            mDoctorsSpecialistes.add(new DoctorsSpecialistes(SpecialisteNames[i],doctorSpecialistesImages.getResourceId(i,0)));
         }
         Log.d("akram","we stil alive fragment 9");
 

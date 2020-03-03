@@ -2,14 +2,14 @@ package com.example.myapplication.doctors;
 
 public class DoctorsSpecialistes {
     private final String SpecialisteName;
-   // private final int SpecialisteImage;
+    private final int SpecialisteImage;
 
 
 
 
-    DoctorsSpecialistes(String name) {
+    DoctorsSpecialistes(String name, int image) {
         this.SpecialisteName = name;
-        //this.SpecialisteImage = image;
+        this.SpecialisteImage = image;
     }
 
 
@@ -17,5 +17,5 @@ public class DoctorsSpecialistes {
         return this.SpecialisteName;
     }
 
-   // int getImageSpecialiste() {return this.SpecialisteImage;}
+      int getImageSpecialiste() {return this.SpecialisteImage;}
 }
