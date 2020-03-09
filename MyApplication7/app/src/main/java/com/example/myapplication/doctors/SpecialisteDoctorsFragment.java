@@ -7,6 +7,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,8 +20,6 @@ import java.util.ArrayList;
 
 
 public class SpecialisteDoctorsFragment extends Fragment {
-
-    
     public SpecialisteDoctorsFragment() {
         // Required empty public constructor
     }
@@ -29,7 +29,6 @@ public class SpecialisteDoctorsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d("akram","we stil alive 30");
-
         View view = inflater.inflate(R.layout.fragment_specialistes_doctor, container, false);
         Log.d("akram","we stil alive fragment 2");
         RecyclerView mRecyclerView =  view.findViewById(R.id.doctor_recycler);
@@ -60,8 +59,6 @@ public class SpecialisteDoctorsFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
-
-
        /* ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
         Log.d("akram","we stil alive fragment 5");
 

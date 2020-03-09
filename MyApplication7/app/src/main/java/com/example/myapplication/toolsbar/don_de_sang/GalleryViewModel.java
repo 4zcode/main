@@ -1,16 +1,16 @@
-package com.example.myapplication.ui.share;
+package com.example.myapplication.toolsbar.don_de_sang;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ShareViewModel extends ViewModel {
+public class GalleryViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ShareViewModel() {
+    public GalleryViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is share fragment");
+        mText.setValue("This is don_de_sang fragment");
     }
 
     public LiveData<String> getText() {

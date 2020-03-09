@@ -1,16 +1,16 @@
-package com.example.myapplication.ui.tools;
+package com.example.myapplication.toolsbar.sahti_fi_ydi;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ToolsViewModel extends ViewModel {
+public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ToolsViewModel() {
+    public HomeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is tools fragment");
+        mText.setValue("This is sahti_fi_ydi fragment");
     }
 
     public LiveData<String> getText() {
