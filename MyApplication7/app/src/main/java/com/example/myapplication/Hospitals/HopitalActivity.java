@@ -6,12 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.DBManagerPharmacie;
+import com.example.myapplication.DatabaseHelper;
+import com.example.myapplication.Pharmacies.adapterpharmacies;
+import com.example.myapplication.Pharmacies.pharmaciesinit;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
 
 public class HopitalActivity extends AppCompatActivity {
-
+    private DBManagerHospital dbManagerHospital;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,13 +27,16 @@ public class HopitalActivity extends AppCompatActivity {
         String[] HopitalsLocation = getResources().getStringArray(R.array.doctor_place);
         String[] HopitalsContact = getResources().getStringArray(R.array.doctor_names);
         //TypedArray sportsImageResources = getResources().obtainTypedArray(R.array.sports_images);
-        for (int i = 0; i < HopitalsName.length-1; i++) {
-            mHopitalsData.add(new Hopital("Hopital Name "+(i+1), "Hopital place "+i+1, "07 99 43 42 0"+i,R.drawable.hospital));
-        }
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        mAdapter = new HopitalsAdapter(this, mHopitalsData);
 
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+
+        ArrayList<Hopital> linkedList = new ArrayList<Hopital>();
+        dbManagerHospital = new DBManagerHospital(this);
+        dbManagerHospital.open();
+        linkedList = dbManagerHospital.listHopital();
+        HopitalsAdapter ada= new HopitalsAdapter(this,linkedList);
+        mRecyclerView.setAdapter(ada);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(HopitalActivity.this));
+        dbManagerHospital.close();
     }
 }

@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.DBManager;
+import com.example.myapplication.DBManagerPharmacie;
 import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
 
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class pharmacies extends AppCompatActivity {
-    private DBManager dbManager;
+    private DBManagerPharmacie dbManagerPharmacie;
     private DatabaseHelper mDatabase;
     private LinkedList<pharmaciesinit> linkedList;
     adapterpharmacies ada;
@@ -41,25 +41,11 @@ public class pharmacies extends AppCompatActivity {
         RecyclerView mreclview;
         Log.d("pharma","here is the prblm 3");
 
-        dbManager = new DBManager(this);
+        dbManagerPharmacie = new DBManagerPharmacie(this);
         Log.d("pharma","here is the prblm 4");
 
-        dbManager.open();
-        Log.d("pharma","here is the prblm 5");
-
-        Cursor cursor = dbManager.fetch();
-        Log.d("pharma","here is the prblm 6");
-
+        dbManagerPharmacie.open();
         mDatabase = new DatabaseHelper(this);
-        Log.d("pharma","here is the prblm 1");
-        /*
-        for (counter=0; counter <20; counter++){
-            Log.d("pharma","here is the inside boucle "+counter);
-
-            dbManager.insert("akram "+counter,"medea","tminya","l7chiya");
-        }
-
-        */
         linkedList = mDatabase.listPharmacies();
         Log.d("pharma","here is the prblm 2");
 
@@ -71,5 +57,6 @@ public class pharmacies extends AppCompatActivity {
         ada=new adapterpharmacies(this,linkedList);
         mreclview.setAdapter(ada);
         mreclview.setLayoutManager(new LinearLayoutManager(pharmacies.this));
+        dbManagerPharmacie.close();
     }
 }

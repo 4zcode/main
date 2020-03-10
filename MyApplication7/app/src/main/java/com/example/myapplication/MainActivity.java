@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,6 +15,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.myapplication.Drugs.medicament_activity;
+import com.example.myapplication.Hospitals.DBManagerHospital;
 import com.example.myapplication.Hospitals.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacies;
 import com.example.myapplication.doctors.DoctorActivity;
@@ -44,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+        DBManagerHospital dBManagerHospital = new DBManagerHospital(this);
+        dBManagerHospital.open();
+        dBManagerHospital.insert("Borhan","TGGRT","0976738290");
+        dBManagerHospital.insert("AKRAM","MEDEA","0456738290");
+        dBManagerHospital.close();
     }
 
     public void med(View view) {
@@ -77,5 +86,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+    public void addpharma(View view){
+        Intent intent=new Intent(this,Add.class);
+        startActivity(intent);
     }
 }

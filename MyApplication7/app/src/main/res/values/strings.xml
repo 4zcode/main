@@ -1,8 +1,18 @@
 <resources>
     <string name="app_name">Sahti fi ydi</string>
+    <string name="title_placeholder">Title</string>
+    <string name="news_label">News</string>
+    <string name="sports_info_placeholder">Here is some news</string>
+    <string name="sports_image">Sports Image</string>
+    <string name="filler_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
+        vitae semper quam. In a metus ut nisl pharetra hendrerit et a leo. Curabitur nec sapien
+        odio. Vestibulum a mollis felis. Cras molestie felis nibh, ut maximus mauris feugiat
+        tincidunt. Curabitur ultricies eros sed ipsum pulvinar vehicula. Maecenas volutpat,
+        massa sit amet aliquam eleifend, massa lorem tempor sapien, eget finibus massa dolor
+        molestie lorem. Suspendisse at purus mauris. Proin nibh ligula, suscipit vel pharetra
+        posuere, bibendum id lorem.</string>
     <string name="hopitals">Hopitals</string>
-    <!-- c'est pour les pharmacies-->
-    <string name="pharmacies">pharmacies</string>
+    <string name="phqr_qsies">phqr;qsies</string>
     <string-array name="thename">
         <item>ilyes pharmacies </item>
         <item>borhan pharmacies</item>
@@ -31,7 +41,141 @@
         <item>the closing will be at 5</item>
         <item>the closing will be at 5</item>
     </string-array>
-    <!-- c'est pour les pharmacies-->
+    <string-array name="sports_titles">
+        <item>Baseball</item>
+        <item>Badminton</item>
+        <item>Basketball</item>
+        <item>Bowling</item>
+        <item>Cycling</item>
+        <item>Golf</item>
+        <item>Running</item>
+        <item>Soccer</item>
+        <item>Swimming</item>
+        <item>Table Tennis</item>
+        <item>Tennis</item>
+    </string-array>
+
+    <string-array name="sports_info">
+        <item>Here is some Baseball news!</item>
+        <item>Here is some Badminton news!</item>
+        <item>Here is some Basketball news!</item>
+        <item>Here is some Bowling news!</item>
+        <item>Here is some Cycling news!</item>
+        <item>Here is some Golf news!</item>
+        <item>Here is some Running news!</item>
+        <item>Here is some Soccer news!</item>
+        <item>Here is some Swimming news!</item>
+        <item>Here is some Table Tennis news!</item>
+        <item>Here is some Tennis news!</item>
+    </string-array>
+    <string-array name="sports_cate">
+        <item>Here is some Baseball news!</item>
+        <item>Here is some Badminton news!</item>
+        <item>Here is some Basketball news!</item>
+        <item>Here is some Bowling news!</item>
+        <item>Here is some Cycling news!</item>
+        <item>Here is some Golf news!</item>
+        <item>Here is some Running news!</item>
+        <item>Here is some Soccer news!</item>
+        <item>Here is some Swimming news!</item>
+        <item>Here is some Table Tennis news!</item>
+        <item>Here is some Tennis news!</item>
+    </string-array>
+
+    <array name="sports_images">
+        <item>@drawable/img_baseball</item>
+        <item>@drawable/img_badminton</item>
+        <item>@drawable/img_basketball</item>
+        <item>@drawable/img_bowling</item>
+        <item>@drawable/img_cycling</item>
+        <item>@drawable/img_golf</item>
+        <item>@drawable/img_running</item>
+        <item>@drawable/img_soccer</item>
+        <item>@drawable/img_swimming</item>
+        <item>@drawable/img_tabletennis</item>
+        <item>@drawable/img_tennis</item>
+    </array>
+
+
+    <!-- c'est pour les mdcins-->
+
+    <string-array name="doctor_names">
+        <item>Benotmane Amar</item>
+        <item>DEHIMI YOUSRA</item>
+        <item>Bensmira Hassina</item>
+        <item>Louerad Nadia</item>
+        <item>Jamous Nael</item>
+        <item>HAMDACHE EP. DRISS-KHODJA Nacera</item>
+        <item>BENISSAD Abdelmajid</item>
+        <item>HADDAK MOHAND</item>
+        <item>Heba Cherifa</item>
+        <item>ZIAD Amel</item>
+        <item>Aïdi Assia Rim</item>
+    </string-array>
+    <string-array name="doctor_sex">
+        <item>m</item>
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>f</item>
+        <item>f</item>
+        <item>m</item>
+    </string-array>
+
+
+    <string-array name="doctor_place">
+        <item>Ain Smara, CONSTANTINE</item>
+        <item>Constantine, CONSTANTINE</item>
+        <item>Constantine, CONSTANTINE</item>
+        <item>Oran, ORAN</item>
+        <item>Oran, ORAN</item>
+        <item>Oran, ORAN</item>
+        <item>Oran, ORAN</item>
+        <item>Birkhadem, ALGER</item>
+        <item>Ouled-Fayet, ALGER</item>
+        <item>Birkhadem, ALGER</item>
+        <item>Hadjout, TIPAZA</item>
+    </string-array>
+
+
+    <string-array name="doctor_specialistes">
+        <item>Cardiologue</item>
+        <item>Gynécologue</item>
+        <item>Radiologie </item>
+        <item>Dentiste</item>
+        <item>Diabétologue</item>
+        <item>Neurologue</item>
+        <item>Ophtalmologue</item>
+        <item>Borthopédiste</item>
+    </string-array>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Sahti fi ydi</string>
+    <string name="nav_header_subtitle">sahti.fiydi@esi-sba.dz</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Paramétre</string>
+
+    <string name="menu_home">Sahti fi ydi</string>
+    <string name="menu_gallery">don de sang</string>
+    <string name="menu_slideshow">a propos de nous</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="entre_votre_wilaya">entre votre wilaya</string>
+    <string name="search">Search</string>
+    <string name="contact_nous">Contactez-nous</string>
+    <string name="partager">Partager</string>
+    <string name="a_prpos_de_nous">A propos de nous</string>
+    <string name="don_de_sang">Don de Sang</string>
+    <string name="sahti_fi_yedi">Sahti fi yedi</string>
     <string-array name="wilaya">
         <item>Tous les états</item>
         <item>Adrar01</item>
@@ -93,99 +237,4 @@
         <item>In Salah57</item>
         <item>In Guezzan58</item>
     </string-array>
-    <!-- c'est pour les mdcins-->
-
-    <string-array name="doctor_names">
-        <item>Benotmane Amar</item>
-        <item>DEHIMI YOUSRA</item>
-        <item>Bensmira Hassina</item>
-        <item>Louerad Nadia</item>
-        <item>Jamous Nael</item>
-        <item>HAMDACHE EP. DRISS-KHODJA Nacera</item>
-        <item>BENISSAD Abdelmajid</item>
-        <item>HADDAK MOHAND</item>
-        <item>Heba Cherifa</item>
-        <item>ZIAD Amel</item>
-        <item>Aïdi Assia Rim</item>
-    </string-array>
-    <string-array name="doctor_sex">
-        <item>m</item>
-        <item>f</item>
-        <item>f</item>
-        <item>f</item>
-        <item>m</item>
-        <item>m</item>
-        <item>m</item>
-        <item>m</item>
-        <item>f</item>
-        <item>f</item>
-        <item>m</item>
-    </string-array>
-
-
-    <string-array name="doctor_place">
-        <item>Ain Smara, CONSTANTINE</item>
-        <item>Constantine, CONSTANTINE</item>
-        <item>Constantine, CONSTANTINE</item>
-        <item>Oran, ORAN</item>
-        <item>Oran, ORAN</item>
-        <item>Oran, ORAN</item>
-        <item>Oran, ORAN</item>
-        <item>Birkhadem, ALGER</item>
-        <item>Ouled-Fayet, ALGER</item>
-        <item>Birkhadem, ALGER</item>
-        <item>Hadjout, TIPAZA</item>
-    </string-array>
-
-
-    <string-array name="doctor_specialistes">
-        <item>Cardiologue</item>
-        <item>Gynécologue</item>
-        <item>Radiologie </item>
-        <item>Dentiste</item>
-        <item>Diabétologue</item>
-        <item>Neurologue</item>
-        <item>Ophtalmologue</item>
-        <item>Borthopédiste</item>
-    </string-array>
-<string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Sahti fi ydi</string>
-    <string name="nav_header_subtitle">sahti.fiydi@esi-sba.dz</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Paramétre</string>
-
-    <string name="menu_home">Sahti fi ydi</string>
-    <string name="menu_gallery">don de sang</string>
-    <string name="menu_slideshow">a propos de nous</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
-    <array name="sports_images">
-        <item>@drawable/img_baseball</item>
-        <item>@drawable/img_badminton</item>
-        <item>@drawable/img_basketball</item>
-        <item>@drawable/img_bowling</item>
-        <item>@drawable/img_cycling</item>
-        <item>@drawable/img_golf</item>
-        <item>@drawable/img_running</item>
-        <item>@drawable/img_soccer</item>
-        <item>@drawable/img_swimming</item>
-        <item>@drawable/img_tabletennis</item>
-        <item>@drawable/img_tennis</item>
-    </array>
-
-
-
-
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="entre_votre_wilaya">entre votre wilaya</string>
-    <string name="search">Search</string>
-    <string name="contact_nous">Contactez-nous</string>
-    <string name="partager">Partager</string>
-    <string name="a_prpos_de_nous">A propos de nous</string>
-    <string name="don_de_sang">Don de Sang</string>
-    <string name="sahti_fi_yedi">Sahti fi yedi</string>
 </resources>

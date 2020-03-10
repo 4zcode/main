@@ -8,7 +8,7 @@ public class Hopital {
 
 
 
-    Hopital(String name, String place, String contact, int hopitalImage) {
+    public Hopital(String name, String place, String contact, int hopitalImage) {
         this.hopitalName = name;
         this.hopitalPlace = place;
         this.hopitalContact=contact;

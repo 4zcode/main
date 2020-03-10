@@ -51,5 +51,4 @@
             android:layout_below="@id/text3"
             />
     </RelativeLayout>
-
 </androidx.cardview.widget.CardView>
