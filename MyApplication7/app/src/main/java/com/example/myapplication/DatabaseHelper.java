@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CLOSE = "close";
 
     // Database Information
-    static final String DB_NAME = "Pharmacie.DB";
+    static final String DB_NAME = "database.db";
 
     // database version
     static final int DB_VERSION = 1;
@@ -39,26 +39,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE);
     }
-   public ArrayList<pharmaciesinit> listPharmacies() {
-        String sql = "select * from " + TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
-        ArrayList<pharmaciesinit> storeContacts = new ArrayList<>();
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.moveToFirst()) {
-            do {
-                int id = Integer.parseInt(cursor.getString(0));
-                String name = cursor.getString(1);
-                String place = cursor.getString(2);
-                String open = cursor.getString(3);
-                String close = cursor.getString(4);
-                storeContacts.add(new pharmaciesinit(name, place,open,close));
-            }
-            while (cursor.moveToNext());
-        }
-        cursor.close();
-        return storeContacts;
-    }
-
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
