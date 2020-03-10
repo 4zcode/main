@@ -1,18 +1,8 @@
 <resources>
     <string name="app_name">Sahti fi ydi</string>
-    <string name="title_placeholder">Title</string>
-    <string name="news_label">News</string>
-    <string name="sports_info_placeholder">Here is some news</string>
-    <string name="sports_image">Sports Image</string>
-    <string name="filler_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-        vitae semper quam. In a metus ut nisl pharetra hendrerit et a leo. Curabitur nec sapien
-        odio. Vestibulum a mollis felis. Cras molestie felis nibh, ut maximus mauris feugiat
-        tincidunt. Curabitur ultricies eros sed ipsum pulvinar vehicula. Maecenas volutpat,
-        massa sit amet aliquam eleifend, massa lorem tempor sapien, eget finibus massa dolor
-        molestie lorem. Suspendisse at purus mauris. Proin nibh ligula, suscipit vel pharetra
-        posuere, bibendum id lorem.</string>
     <string name="hopitals">Hopitals</string>
-    <string name="phqr_qsies">phqr;qsies</string>
+    <!-- c'est pour les pharmacies-->
+    <string name="pharmacies">pharmacies</string>
     <string-array name="thename">
         <item>ilyes pharmacies </item>
         <item>borhan pharmacies</item>
@@ -41,63 +31,68 @@
         <item>the closing will be at 5</item>
         <item>the closing will be at 5</item>
     </string-array>
-    <string-array name="sports_titles">
-        <item>Baseball</item>
-        <item>Badminton</item>
-        <item>Basketball</item>
-        <item>Bowling</item>
-        <item>Cycling</item>
-        <item>Golf</item>
-        <item>Running</item>
-        <item>Soccer</item>
-        <item>Swimming</item>
-        <item>Table Tennis</item>
-        <item>Tennis</item>
+    <!-- c'est pour les pharmacies-->
+    <string-array name="wilaya">
+        <item>Tous les états</item>
+        <item>Adrar01</item>
+        <item>Chlef02</item>
+        <item>Laghouat03</item>
+        <item>OumElBowaghi04</item>
+        <item>Batna05</item>
+        <item>Bejaia06</item>
+        <item>Biskra07</item>
+        <item>Bechar08</item>
+        <item>Blida09</item>
+        <item>Bouira10</item>
+        <item>Tamanrasset11</item>
+        <item>Tebessa12</item>
+        <item>Tlemcen13</item>
+        <item>Tiaret14</item>
+        <item>Tiziouzou15</item>
+        <item>Alger16</item>
+        <item>Djelfa17</item>
+        <item>Jijel18</item>
+        <item>Setif19</item>
+        <item>Saida20</item>
+        <item>Skikda21</item>
+        <item>Sidibelabbes22</item>
+        <item>Annaba23</item>
+        <item>Guelma24</item>
+        <item>Constantine25</item>
+        <item>Medea26</item>
+        <item>Mostaghanem27</item>
+        <item>Msila28</item>
+        <item>Mascara29</item>
+        <item>Owargla30</item>
+        <item>Oran31</item>
+        <item>ElBayadh32</item>
+        <item>Illizi33</item>
+        <item>BorjbouArrieridj34</item>
+        <item>Boumerdes35</item>
+        <item>ElTarif36</item>
+        <item>Tindouf37</item>
+        <item>Tissemsilt38</item>
+        <item>Eloued39</item>
+        <item>Khanchela40</item>
+        <item>SoukAhras41</item>
+        <item>Tipaza42</item>
+        <item>Mila43</item>
+        <item>AinDefla44</item>
+        <item>Naama45</item>
+        <item>Ain Temouchent46</item>
+        <item>Ghadaia47</item>
+        <item>Relizane48</item>
+        <item>ElMghair49</item>
+        <item>ElMeniaa50</item>
+        <item>Ouled Djelal51</item>
+        <item>BorjBajiMokhtar52</item>
+        <item>Beni Abbes53</item>
+        <item>Timimoun54</item>
+        <item>Touggourt55</item>
+        <item>Djanet56</item>
+        <item>In Salah57</item>
+        <item>In Guezzan58</item>
     </string-array>
-
-    <string-array name="sports_info">
-        <item>Here is some Baseball news!</item>
-        <item>Here is some Badminton news!</item>
-        <item>Here is some Basketball news!</item>
-        <item>Here is some Bowling news!</item>
-        <item>Here is some Cycling news!</item>
-        <item>Here is some Golf news!</item>
-        <item>Here is some Running news!</item>
-        <item>Here is some Soccer news!</item>
-        <item>Here is some Swimming news!</item>
-        <item>Here is some Table Tennis news!</item>
-        <item>Here is some Tennis news!</item>
-    </string-array>
-    <string-array name="sports_cate">
-        <item>Here is some Baseball news!</item>
-        <item>Here is some Badminton news!</item>
-        <item>Here is some Basketball news!</item>
-        <item>Here is some Bowling news!</item>
-        <item>Here is some Cycling news!</item>
-        <item>Here is some Golf news!</item>
-        <item>Here is some Running news!</item>
-        <item>Here is some Soccer news!</item>
-        <item>Here is some Swimming news!</item>
-        <item>Here is some Table Tennis news!</item>
-        <item>Here is some Tennis news!</item>
-    </string-array>
-
-    <array name="sports_images">
-        <item>@drawable/img_baseball</item>
-        <item>@drawable/img_badminton</item>
-        <item>@drawable/img_basketball</item>
-        <item>@drawable/img_bowling</item>
-        <item>@drawable/img_cycling</item>
-        <item>@drawable/img_golf</item>
-        <item>@drawable/img_running</item>
-        <item>@drawable/img_soccer</item>
-        <item>@drawable/img_swimming</item>
-        <item>@drawable/img_tabletennis</item>
-        <item>@drawable/img_tennis</item>
-    </array>
-
-
-
     <!-- c'est pour les mdcins-->
 
     <string-array name="doctor_names">
@@ -166,6 +161,20 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <array name="sports_images">
+        <item>@drawable/img_baseball</item>
+        <item>@drawable/img_badminton</item>
+        <item>@drawable/img_basketball</item>
+        <item>@drawable/img_bowling</item>
+        <item>@drawable/img_cycling</item>
+        <item>@drawable/img_golf</item>
+        <item>@drawable/img_running</item>
+        <item>@drawable/img_soccer</item>
+        <item>@drawable/img_swimming</item>
+        <item>@drawable/img_tabletennis</item>
+        <item>@drawable/img_tennis</item>
+    </array>
+
 
 
 

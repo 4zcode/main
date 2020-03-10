@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.a_propos_de_nous;
+package com.example.myapplication.toolsbar.a_propos_de_nous;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

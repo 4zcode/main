@@ -1,16 +1,16 @@
-package com.example.myapplication.ui.sahti_fi_ydi;
+package com.example.myapplication.toolsbar.send;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class SendViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public SendViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is sahti_fi_ydi fragment");
+        mText.setValue("This is send fragment");
     }
 
     public LiveData<String> getText() {
