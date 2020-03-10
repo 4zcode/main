@@ -52,11 +52,14 @@ public class pharmacies extends AppCompatActivity {
 
         mDatabase = new DatabaseHelper(this);
         Log.d("pharma","here is the prblm 1");
+        /*
         for (counter=0; counter <20; counter++){
             Log.d("pharma","here is the inside boucle "+counter);
 
             dbManager.insert("akram "+counter,"medea","tminya","l7chiya");
         }
+
+        */
         linkedList = mDatabase.listPharmacies();
         Log.d("pharma","here is the prblm 2");
 
