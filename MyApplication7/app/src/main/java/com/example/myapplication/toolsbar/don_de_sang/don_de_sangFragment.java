@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.myapplication.R;
 
-public class GalleryFragment extends Fragment {
+public class don_de_sangFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private don_de_sangViewModel dondesangViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_gallery, container, false);
+        dondesangViewModel =
+                ViewModelProviders.of(this).get(don_de_sangViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_a_proos_de_nous, container, false);
         final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(this, new Observer<String>() {
+        dondesangViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

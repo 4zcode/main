@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.myapplication.R;
 
-public class SlideshowFragment extends Fragment {
+public class A_propos_de_nousFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private A_propos_de_nousModel aproposdenousModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_slideshow, container, false);
+        aproposdenousModel =
+                ViewModelProviders.of(this).get(A_propos_de_nousModel.class);
+        View root = inflater.inflate(R.layout.fragment_don_de_sang, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(this, new Observer<String>() {
+        aproposdenousModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -4,11 +4,11 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class GalleryViewModel extends ViewModel {
+public class don_de_sangViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public GalleryViewModel() {
+    public don_de_sangViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is don_de_sang fragment");
     }
