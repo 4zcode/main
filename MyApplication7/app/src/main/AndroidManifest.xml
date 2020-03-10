@@ -11,7 +11,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Insersion"></activity>
+        <activity android:name=".AddHospital"></activity>
+        <activity android:name=".Insertion" />
         <activity android:name=".Add" />
         <activity
             android:name=".Drugs.medicament_activity"

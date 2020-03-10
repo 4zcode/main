@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -19,9 +18,7 @@ import com.example.myapplication.Hospitals.DBManagerHospital;
 import com.example.myapplication.Hospitals.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacies;
 import com.example.myapplication.doctors.DoctorActivity;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,11 +45,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-        DBManagerHospital dBManagerHospital = new DBManagerHospital(this);
-        dBManagerHospital.open();
-        dBManagerHospital.insert("Borhan","TGGRT","0976738290");
-        dBManagerHospital.insert("AKRAM","MEDEA","0456738290");
-        dBManagerHospital.close();
     }
 
     public void med(View view) {
@@ -87,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-    public void addpharma(View view){
-        Intent intent=new Intent(this,Add.class);
+    public void insertion(View view){
+        Intent intent=new Intent(this, Insertion.class);
         startActivity(intent);
     }
 }

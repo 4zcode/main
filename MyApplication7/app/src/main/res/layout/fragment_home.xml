@@ -137,7 +137,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:background="@null"
-        android:onClick="addpharma"
+        android:onClick="insertion"
         android:text="Add your etablissement"
         android:textSize="10dp" />
 </RelativeLayout>
