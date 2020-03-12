@@ -18,6 +18,7 @@ import com.example.myapplication.Drugs.medicament_activity;
 import com.example.myapplication.Hospitals.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacies;
 import com.example.myapplication.doctors.DoctorActivity;
+import com.example.myapplication.ui.login.SignupActivity;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -84,6 +85,15 @@ public class MainActivity extends AppCompatActivity {
     }
     public void insertion(View view){
         Intent intent=new Intent(this, Insertion.class);
+        startActivity(intent);
+    }
+    public void log(View view){
+        Intent intent=new Intent(this, SignupActivity.class);
+        startActivity(intent);
+
+    }
+    public void insecre(View view){
+        Intent intent=new Intent(this, Signin.class);
         startActivity(intent);
     }
 }
