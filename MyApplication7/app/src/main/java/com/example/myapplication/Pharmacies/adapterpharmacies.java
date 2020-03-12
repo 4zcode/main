@@ -18,7 +18,7 @@ import com.example.myapplication.R;
 
 import java.util.ArrayList;
 
-public class adapterpharmacies extends RecyclerView.Adapter<adapterpharmacies.viewholder> {
+public class    adapterpharmacies extends RecyclerView.Adapter<adapterpharmacies.viewholder> {
   public  ArrayList<pharmaciesinit> liste;
   public Context context;
  public GradientDrawable gradientDrawable;

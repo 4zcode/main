@@ -6,10 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.DBManagerPharmacie;
-import com.example.myapplication.DatabaseHelper;
-import com.example.myapplication.Pharmacies.adapterpharmacies;
-import com.example.myapplication.Pharmacies.pharmaciesinit;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;

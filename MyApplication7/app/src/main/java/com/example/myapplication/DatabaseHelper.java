@@ -1,21 +1,16 @@
 package com.example.myapplication;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.myapplication.Hospitals.Hopital;
-import com.example.myapplication.Pharmacies.pharmaciesinit;
-
-import java.util.ArrayList;
 
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     // Table Name
     public static final String TABLE_NAME_PHARMACIE = "Pharmacies";
     public static final String TABLE_NAME_HOSPITAL = "hospital";
-    public static final String DOCTOR_TABLE = "doctor";
+    public static final String TABLE_NAME_DOCTORS = "doctors";
+
 
     // Table columns
     public static final String _ID_PHARMA = "_id";
@@ -27,10 +22,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String NUMBER__HOSPITAL = "number";
     public static final String OPEN = "open";
     public static final String CLOSE = "close";
-    public static final String _ID_Doctor = "_id";
-    public static final String DOCTOR_NAME = "name";
-    public static final String DOCTOR_PLACE = "place";
-    public static final String DOCTOR_SEX = "sex";
+    public static final String _ID_DOCTOR = "_id";
+    public static final String NAME_DOCTOR = "name";
+    public static final String PLACE_DOCTOR = "place";
+    public static final String PHONE_DOCTOR = "phone";
+    public static final String SPEC_DOCTOR = "specaility";
+    public static final String SEX_DOCTOR = "sex";
 
     // Database Information
     static final String DB_NAME = "SahtiFiYdi.db";
@@ -43,8 +40,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME_PHARMA + " TEXT NOT NULL, " + PLACE_PHARMA + " TEXT, " + OPEN + " TEXT, " + CLOSE + " TEXT);";
     private static final String CREATE_TABLE_HOSPITAL = "create table " + TABLE_NAME_HOSPITAL + "(" + _ID_HOSPITAL
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME__HOSPITAL + " TEXT NOT NULL, " + PLACE__HOSPITAL + " TEXT, " + NUMBER__HOSPITAL + " TEXT);";
-    private static final String CREATE_TABLE_DOCTOR = "create table " + DOCTOR_TABLE + "(" + _ID_Doctor
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + DOCTOR_NAME + " TEXT NOT NULL, " + DOCTOR_PLACE + " TEXT, " + DOCTOR_SEX + " TEXT);";
+    private static final String CREATE_TABLE_DOCTORS = "create table " + TABLE_NAME_DOCTORS + "(" + _ID_DOCTOR
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME_DOCTOR + " TEXT NOT NULL, " + PLACE_DOCTOR + " TEXT, " + PHONE_DOCTOR+ " TEXT, "+SPEC_DOCTOR+" TEXT NOT NULL, "+SEX_DOCTOR+" TEXT);";
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -53,7 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_PHARMACIE);
         db.execSQL(CREATE_TABLE_HOSPITAL);
-        db.execSQL(CREATE_TABLE_DOCTOR);
+        db.execSQL(CREATE_TABLE_DOCTORS);
 
     }
 
@@ -61,8 +58,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PHARMACIE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_HOSPITAL);
-        db.execSQL("DROP TABLE IF EXISTS " + DOCTOR_TABLE);
-
+        db.execSQL("DROP TABLE IF EXISTS " +TABLE_NAME_DOCTORS);
         onCreate(db);
     }
 }

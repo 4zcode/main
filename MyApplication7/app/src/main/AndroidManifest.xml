@@ -11,9 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".AddHospital"></activity>
-        <activity android:name=".Insertion" />
-        <activity android:name=".Add" />
+        <activity android:name=".insertdoct"></activity>
         <activity
             android:name=".Drugs.medicament_activity"
             android:parentActivityName=".MainActivity" />
@@ -25,6 +23,15 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".doctors.DoctorActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Insertion"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Add"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".AddHospital"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
