@@ -1,0 +1,188 @@
+<resources>
+    <string name="app_name">Sahti fi ydi</string>
+    <string name="hopitals">Hopitals</string>
+    <!-- c'est pour les pharmacies-->
+    <string name="pharmacies">pharmacies</string>
+    <string-array name="thename">
+        <item>ilyes pharmacies </item>
+        <item>borhan pharmacies</item>
+        <item>arbaoui slimane pharmacies</item>
+        <item>akram pharmacies</item>
+        <item>raouf pharmacies</item>
+    </string-array>
+    <string-array name="theadress">
+        <item>tepaza et bloc i chambre 23 with akram</item>
+        <item>togirt et bloc d chambre 23 with yaser</item>
+        <item>elbayadh et bloc b chambre 23 with nassim</item>
+        <item>mediya et bloc i chambre 23 with ilyes</item>
+        <item>mediya et bloc i chambre 23 with no one</item>
+    </string-array>
+    <string-array name="oppen">
+        <item>the oppening will be at 8</item>
+        <item>the oppening will be at 8</item>
+        <item>the oppening will be at 8</item>
+        <item>the oppening will be at 8</item>
+        <item>the oppening will be at 8</item>
+    </string-array>
+    <string-array name="close">
+        <item>the closing will be at 5</item>
+        <item>the closing will be at 5</item>
+        <item>the closing will be at 5</item>
+        <item>the closing will be at 5</item>
+        <item>the closing will be at 5</item>
+    </string-array>
+    <!-- c'est pour les pharmacies-->
+    <string-array name="wilaya">
+        <item>Tous les états</item>
+        <item>Adrar01</item>
+        <item>Chlef02</item>
+        <item>Laghouat03</item>
+        <item>OumElBowaghi04</item>
+        <item>Batna05</item>
+        <item>Bejaia06</item>
+        <item>Biskra07</item>
+        <item>Bechar08</item>
+        <item>Blida09</item>
+        <item>Bouira10</item>
+        <item>Tamanrasset11</item>
+        <item>Tebessa12</item>
+        <item>Tlemcen13</item>
+        <item>Tiaret14</item>
+        <item>Tiziouzou15</item>
+        <item>Alger16</item>
+        <item>Djelfa17</item>
+        <item>Jijel18</item>
+        <item>Setif19</item>
+        <item>Saida20</item>
+        <item>Skikda21</item>
+        <item>Sidibelabbes22</item>
+        <item>Annaba23</item>
+        <item>Guelma24</item>
+        <item>Constantine25</item>
+        <item>Medea26</item>
+        <item>Mostaghanem27</item>
+        <item>Msila28</item>
+        <item>Mascara29</item>
+        <item>Owargla30</item>
+        <item>Oran31</item>
+        <item>ElBayadh32</item>
+        <item>Illizi33</item>
+        <item>BorjbouArrieridj34</item>
+        <item>Boumerdes35</item>
+        <item>ElTarif36</item>
+        <item>Tindouf37</item>
+        <item>Tissemsilt38</item>
+        <item>Eloued39</item>
+        <item>Khanchela40</item>
+        <item>SoukAhras41</item>
+        <item>Tipaza42</item>
+        <item>Mila43</item>
+        <item>AinDefla44</item>
+        <item>Naama45</item>
+        <item>Ain Temouchent46</item>
+        <item>Ghadaia47</item>
+        <item>Relizane48</item>
+        <item>ElMghair49</item>
+        <item>ElMeniaa50</item>
+        <item>Ouled Djelal51</item>
+        <item>BorjBajiMokhtar52</item>
+        <item>Beni Abbes53</item>
+        <item>Timimoun54</item>
+        <item>Touggourt55</item>
+        <item>Djanet56</item>
+        <item>In Salah57</item>
+        <item>In Guezzan58</item>
+    </string-array>
+    <!-- c'est pour les mdcins-->
+
+    <string-array name="doctor_names">
+        <item>Benotmane Amar</item>
+        <item>DEHIMI YOUSRA</item>
+        <item>Bensmira Hassina</item>
+        <item>Louerad Nadia</item>
+        <item>Jamous Nael</item>
+        <item>HAMDACHE EP. DRISS-KHODJA Nacera</item>
+        <item>BENISSAD Abdelmajid</item>
+        <item>HADDAK MOHAND</item>
+        <item>Heba Cherifa</item>
+        <item>ZIAD Amel</item>
+        <item>Aïdi Assia Rim</item>
+    </string-array>
+    <string-array name="doctor_sex">
+        <item>m</item>
+        <item>f</item>
+        <item>f</item>
+        <item>f</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>m</item>
+        <item>f</item>
+        <item>f</item>
+        <item>m</item>
+    </string-array>
+
+
+    <string-array name="doctor_place">
+        <item>Ain Smara, CONSTANTINE</item>
+        <item>Constantine, CONSTANTINE</item>
+        <item>Constantine, CONSTANTINE</item>
+        <item>Oran, ORAN</item>
+        <item>Oran, ORAN</item>
+        <item>Oran, ORAN</item>
+        <item>Oran, ORAN</item>
+        <item>Birkhadem, ALGER</item>
+        <item>Ouled-Fayet, ALGER</item>
+        <item>Birkhadem, ALGER</item>
+        <item>Hadjout, TIPAZA</item>
+    </string-array>
+
+
+    <string-array name="doctor_specialistes">
+        <item>Cardiologue</item>
+        <item>Gynécologue</item>
+        <item>Radiologie </item>
+        <item>Dentiste</item>
+        <item>Diabétologue</item>
+        <item>Neurologue</item>
+        <item>Ophtalmologue</item>
+        <item>Borthopédiste</item>
+    </string-array>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Sahti fi ydi</string>
+    <string name="nav_header_subtitle">sahti.fiydi@esi-sba.dz</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Paramétre</string>
+
+    <string name="menu_home">Sahti fi ydi</string>
+    <string name="menu_gallery">don de sang</string>
+    <string name="menu_slideshow">a propos de nous</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <array name="sports_images">
+        <item>@drawable/img_baseball</item>
+        <item>@drawable/img_badminton</item>
+        <item>@drawable/img_basketball</item>
+        <item>@drawable/img_bowling</item>
+        <item>@drawable/img_cycling</item>
+        <item>@drawable/img_golf</item>
+        <item>@drawable/img_running</item>
+        <item>@drawable/img_soccer</item>
+        <item>@drawable/img_swimming</item>
+        <item>@drawable/img_tabletennis</item>
+        <item>@drawable/img_tennis</item>
+    </array>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="entre_votre_wilaya">entre votre wilaya</string>
+    <string name="search">Search</string>
+    <string name="contact_nous">Contactez-nous</string>
+    <string name="partager">Partager</string>
+    <string name="a_prpos_de_nous">A propos de nous</string>
+    <string name="don_de_sang">Don de Sang</string>
+    <string name="sahti_fi_yedi">Sahti fi yedi</string>
+</resources>

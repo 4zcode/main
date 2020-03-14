@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/logo"
+            android:title="@string/sahti_fi_yedi" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_opacity"
+            android:title="@string/don_de_sang" />
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/ic_action_info"
+            android:title="@string/a_prpos_de_nous" />
+        <item
+            android:id="@+id/nav_tools"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="@string/action_settings" />
+    </group>
+
+    <item android:title="Communication">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="@string/partager" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="@string/contact_nous" />
+        </menu>
+    </item>
+
+</menu>

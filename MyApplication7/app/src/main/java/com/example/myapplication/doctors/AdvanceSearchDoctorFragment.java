@@ -40,7 +40,7 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
                              Bundle savedInstanceState) {
         Spinner spinner;
         ArrayAdapter<CharSequence> adapspin;
-         DBManagerDoctor dbManager;
+        DBManagerDoctor dbManager;
 
 
         Log.d("akram","we stil alive advanceSearchFragment 1");
@@ -53,13 +53,10 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
 
         /*String[] NameDoctors = getResources().getStringArray(R.array.doctor_names);
         Log.d("akram","we stil alive advanceSearchFragment 6");
-
         String[] PlaceDoctors = getResources().getStringArray(R.array.doctor_place);
         Log.d("akram","we stil alive advanceSearchFragment 7");
-
         String[] SexDactors = getResources().getStringArray(R.array.doctor_sex);
         Log.d("akram","we stil alive advanceSearchFragment 8");
-
         for (int i = 0; i < NameDoctors.length; i++) {
             mDoctorsData.add(new Doctors(NameDoctors[i], PlaceDoctors[i], SexDactors[i]));
         }*/
@@ -71,10 +68,9 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
         dbManager.open();
         Log.d("DBF","DATA BASE 3");
 
-        dbManager.insert("akram","medea","0780115465");
         Log.d("DBF","DATA BASE 5");
 
-        mDoctorsData = dbManager.listDoctors();
+        mDoctorsData = dbManager.listdoctors();
         Log.d("akram","we stil alive advanceSearchFragment 9");
 
         DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsData);

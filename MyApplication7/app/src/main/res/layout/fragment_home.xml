@@ -83,4 +83,19 @@
         android:onClick="insertion"
         android:text="Add your etablissement"
         android:textSize="10dp" />
+    <Button
+        android:id="@+id/b1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="sign up"
+        android:onClick="log"
+        />
+    <Button
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="log in"
+        android:onClick="insecre"
+        />
+
 </RelativeLayout>

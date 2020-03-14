@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
@@ -14,10 +15,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.myapplication.Drugs.medicament_activity;
-import com.example.myapplication.Hospitals.DBManagerHospital;
 import com.example.myapplication.Hospitals.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacies;
 import com.example.myapplication.doctors.DoctorActivity;
+import com.example.myapplication.ui.login.SignupActivity;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,8 +54,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void doc(View view) {
+        Log.d("borhan","dadasda1");
         Intent intent2 = new Intent(this, DoctorActivity.class);
+        Log.d("borhan","dadasda2");
         startActivity(intent2);
+        Log.d("borhan","dadasda3");
     }
 
     public void pharma(View view) {
@@ -81,6 +85,15 @@ public class MainActivity extends AppCompatActivity {
     }
     public void insertion(View view){
         Intent intent=new Intent(this, Insertion.class);
+        startActivity(intent);
+    }
+    public void log(View view){
+        Intent intent=new Intent(this, SignupActivity.class);
+        startActivity(intent);
+
+    }
+    public void insecre(View view){
+        Intent intent=new Intent(this, Signin.class);
         startActivity(intent);
     }
 }

@@ -11,7 +11,6 @@ import com.example.myapplication.DatabaseHelper;
 import java.util.ArrayList;
 
 import static com.example.myapplication.DatabaseHelper.TABLE_NAME_PHARMACIE;
-import static com.example.myapplication.DatabaseHelper.TABLE_NAME_PHARMACIE;
 
 public class DBManagerph {
     private DatabaseHelper dbHelper;

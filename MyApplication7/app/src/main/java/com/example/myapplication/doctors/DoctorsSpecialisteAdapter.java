@@ -27,16 +27,12 @@ class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteA
     public Context mContext;
 
     DoctorsSpecialisteAdapter(Context context, ArrayList<DoctorsSpecialistes> doctorData) {
-        Log.d("akram","we stil alive adapter 1");
-
         this.mDoctorsspecialistes = doctorData;
         this.mContext = context;
 
         //Prepare gray placeholder
         mGradientDrawable = new GradientDrawable();
         mGradientDrawable.setColor(Color.GRAY);
-        Log.d("akram","we stil alive adapter 3");
-
         //Make the placeholder same size as the images
         Drawable drawable = ContextCompat.getDrawable
                 (mContext, R.drawable.img_badminton);
@@ -48,22 +44,14 @@ class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteA
 
     @Override
     public DoctorSViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d("akram","we stil alive adapter 4");
-
         View view = LayoutInflater.from(mContext).inflate(R.layout.specialite_item, parent, false);
-        Log.d("akram","we stil alive adapter 5");
-
         return new DoctorSViewHolder(mContext, view, mGradientDrawable);
     }
 
     @Override
     public void onBindViewHolder(DoctorSViewHolder  holder, int position) {
-        Log.d("akram","we stil alive adapter 6");
-
         //Get the current sport
         DoctorsSpecialistes currentDoctor = mDoctorsspecialistes.get(position);
-        Log.d("akram","we stil alive adapter 7");
-
         //Bind the data to the views
         holder.bindTo(currentDoctor);
 

@@ -1,8 +1,6 @@
 package com.example.myapplication.Pharmacies;
 
-import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,7 +14,6 @@ import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class pharmacies extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     private DBManagerph dbManager;
@@ -40,7 +37,7 @@ public class pharmacies extends AppCompatActivity implements AdapterView.OnItemS
         mreclview.setLayoutManager(new LinearLayoutManager(pharmacies.this));
         spinner=(Spinner) findViewById(R.id.phspinner);
         if(spinner!=null){spinner.setOnItemSelectedListener(pharmacies.this);}
-        adapspin=ArrayAdapter.createFromResource(pharmacies.this,R.array.wilaya,android.R.layout.simple_spinner_item);
+        adapspin=ArrayAdapter.createFromResource(pharmacies.this, R.array.wilaya,android.R.layout.simple_spinner_item);
         adapspin.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
         if (spinner != null) {

@@ -1,6 +1,7 @@
 package com.example.myapplication.doctors;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -9,7 +10,6 @@ import android.widget.Spinner;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
-import com.example.myapplication.doctors.DoctorTablayoutAdapter;
 import com.example.myapplication.R;
 import com.google.android.material.tabs.TabLayout;
 
@@ -31,7 +31,7 @@ public class DoctorActivity extends AppCompatActivity implements AdapterView.OnI
         tabLayout.setupWithViewPager(viewPager);
         spinner=(Spinner)findViewById(R.id.docspinner);
         if(spinner!=null){spinner.setOnItemSelectedListener(DoctorActivity.this);}
-        arrayAdapter=ArrayAdapter.createFromResource(DoctorActivity.this,R.array.wilaya,android.R.layout.simple_spinner_item);
+        arrayAdapter=ArrayAdapter.createFromResource(DoctorActivity.this, R.array.wilaya,android.R.layout.simple_spinner_item);
         arrayAdapter.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
         if (spinner != null) {

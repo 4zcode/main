@@ -7,13 +7,11 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.myapplication.DatabaseHelper;
-import com.example.myapplication.Pharmacies.pharmaciesinit;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
 
 import static com.example.myapplication.DatabaseHelper.TABLE_NAME_HOSPITAL;
-import static com.example.myapplication.DatabaseHelper.TABLE_NAME_PHARMACIE;
 
 public class DBManagerHospital {
     private DatabaseHelper dbHelper;
@@ -22,7 +20,7 @@ public class DBManagerHospital {
     public DBManagerHospital(Context c) {
         context = c;
     }
-    public DBManagerHospital  open() throws SQLException {
+    public DBManagerHospital open() throws SQLException {
         dbHelper = new DatabaseHelper(context);
         database = dbHelper.getWritableDatabase();
         return this;
