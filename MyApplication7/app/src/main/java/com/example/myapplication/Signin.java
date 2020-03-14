@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ public class Signin extends AppCompatActivity {
     public EditText username;
     public EditText pass;
     public FirebaseAuth firebaseAuth;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +37,24 @@ public class Signin extends AppCompatActivity {
         if (TextUtils.isEmpty(user)|TextUtils.isEmpty(pass)){
             Toast.makeText(this,"error",Toast.LENGTH_LONG).show();
         }else{
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Loading");
+            progressDialog.setMessage("Please wait ...");
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar);
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
             firebaseAuth.signInWithEmailAndPassword(user,pass).addOnCompleteListener(this,new OnCompleteListener<AuthResult>(){
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"sign in with sucess",Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(),Insertion.class);
                         startActivity(intent);
                     }else{
-                        String error=task.getException().getMessage();
+                        progressDialog.dismiss();
+                         String error=task.getException().getMessage();
                         Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
                     }
 

@@ -1,8 +1,14 @@
 package com.example.myapplication.doctors;
 
 
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,11 +21,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
-import com.example.myapplication.DatabaseHelper;
-import com.example.myapplication.Pharmacies.DBManagerph;
-import com.example.myapplication.Pharmacies.adapterpharmacies;
-import com.example.myapplication.Pharmacies.pharmacies;
 import com.example.myapplication.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -67,9 +75,31 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
 
         dbManager.open();
         Log.d("DBF","DATA BASE 3");
+        FirebaseAuth firebaseAuth;
+        firebaseAuth=FirebaseAuth.getInstance();
+        DatabaseReference firebaseDatabase;
+        firebaseDatabase= FirebaseDatabase.getInstance().getReference();
+
 
         Log.d("DBF","DATA BASE 5");
+       /* if (isNetworkAvailable()){
+            final ArrayList<Doctors> doctorArray = new ArrayList<>();
+            firebaseDatabase.child("doctors").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    doctorArray.clear();
+                    for (DataSnapshot data:dataSnapshot.getChildren()){doctorArray.add(data.getValue());
+                    }
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+         */
         mDoctorsData = dbManager.listdoctors();
         Log.d("akram","we stil alive advanceSearchFragment 9");
 
@@ -100,4 +130,20 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+    /*private boolean isNetworkAvailable(){
+        boolean HaveConnectWIFI = false;
+        boolean HaveConnectMobile = false;
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(getContext().CONNECTIVITY_SERVICE);
+        NetworkInfo[] activeNetworkInfo = connectivityManager.getAllNetworkInfo();
+        for (NetworkInfo ni : activeNetworkInfo){
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    HaveConnectWIFI= true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    HaveConnectMobile= true;
+        }
+        return  HaveConnectMobile || HaveConnectWIFI;
+    }*/
 }

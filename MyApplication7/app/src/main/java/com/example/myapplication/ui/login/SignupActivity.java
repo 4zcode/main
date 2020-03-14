@@ -1,5 +1,6 @@
 package com.example.myapplication.ui.login;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,6 +20,7 @@ public class SignupActivity extends AppCompatActivity {
     public EditText username;
     public EditText pass;
    public FirebaseAuth firebaseAuth;
+   private ProgressDialog progressDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +36,18 @@ public class SignupActivity extends AppCompatActivity {
         if (TextUtils.isEmpty(user)|TextUtils.isEmpty(pass)){
             Toast.makeText(this,"error",Toast.LENGTH_LONG).show();
         }else{
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Creating Account");
+            progressDialog.setMessage("Please wait ...");
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar);
+            progressDialog.setIndeterminate(true);
+            progressDialog.show();
             firebaseAuth.createUserWithEmailAndPassword(user,pass).addOnCompleteListener(this,new OnCompleteListener<AuthResult>(){
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"sign in with sucess",Toast.LENGTH_LONG).show();
                         FirebaseUser user1=firebaseAuth.getCurrentUser();
                         user1.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>(){
@@ -51,6 +61,7 @@ public class SignupActivity extends AppCompatActivity {
                         });
                     }else{
                         String error=task.getException().getMessage();
+                        progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
                     }
 
