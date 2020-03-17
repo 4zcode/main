@@ -9,7 +9,7 @@ public class Doctors {
 
 
 
-    Doctors(String name, String place, String phone, String spec, String sex) {
+    public  Doctors(String name, String place, String phone, String spec, String sex) {
         this.NameDoctor = name;
         this.PlaceDoctor = place;
         this.phone = phone;

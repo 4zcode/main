@@ -3,6 +3,7 @@ package com.example.myapplication.Drugs;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -26,9 +27,10 @@ public class medicament_activity extends AppCompatActivity {
         for (int i = 0; i < medicamentName.length; i++) {
             mMedicamentsData.add(new Medicament("Medicament "+ (i+1), "Class i","Prix: 200 DA"));
         }
-
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
     }
 }
 

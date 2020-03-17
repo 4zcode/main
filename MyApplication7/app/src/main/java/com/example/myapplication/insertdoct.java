@@ -8,16 +8,21 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.doctors.DBManagerDoctor;
+import com.example.myapplication.doctors.Doctors;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 public class insertdoct extends AppCompatActivity {
 
@@ -55,13 +60,17 @@ public class insertdoct extends AppCompatActivity {
         FirebaseAuth firebaseAuth;
         firebaseAuth=FirebaseAuth.getInstance();
         DatabaseReference firebaseDatabase;
-        firebaseDatabase=FirebaseDatabase.getInstance().getReference().child(firebaseAuth.getCurrentUser().getUid());
-        HashMap user=new HashMap();
-        user.put("name",name);
-        user.put("adress",adress);
+        firebaseDatabase=FirebaseDatabase.getInstance().getReference().child("Doctor");
+       Map<String,Object> user= new HashMap<String,Object>();
+        user.put("NameDoctor",name);
+        user.put("PlaceDoctor",adress);
         user.put("phone",phone);
-        user.put("sex",sex);
-        firebaseDatabase.updateChildren(user).addOnCompleteListener(new OnCompleteListener() {
+        user.put("spec",spec);
+        user.put("SexDoctor",sex);
+
+
+        //Doctors doc = new Doctors(name,adress,phone,spec,sex);
+        firebaseDatabase.setValue(user).addOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
                 if(task.isSuccessful()){

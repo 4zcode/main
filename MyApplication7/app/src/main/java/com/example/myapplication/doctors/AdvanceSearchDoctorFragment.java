@@ -1,6 +1,8 @@
 package com.example.myapplication.doctors;
 
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -10,6 +12,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,19 +31,34 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
-
+    public  final ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
+    public  DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+    public  final DatabaseReference DoctorsRef = rootRef.child("Doctor");
+    public final ArrayList<String> list = new ArrayList<String>();
+    public RecyclerView mRecyclerView;
 
     public AdvanceSearchDoctorFragment() {
         // Required empty public constructor
+    }
+    private interface FireBaseCallBack{
+       // void onStart();
+         void onCallBack(ArrayList<String> list2);
+        //void onSuccess(DataSnapshot dataSnapshot);
+        //void onFailed(DatabaseError databaseError);
     }
 
 
@@ -50,37 +69,49 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
         ArrayAdapter<CharSequence> adapspin;
         DBManagerDoctor dbManager;
 
-
-        Log.d("akram","we stil alive advanceSearchFragment 1");
+      /*  if (isNetworkAvailable()){
+              Toast.makeText(getContext(),"there is connection",Toast.LENGTH_LONG);
+        }else {Toast.makeText(getContext(),"no connection",Toast.LENGTH_LONG);}
+        */
         View view = inflater.inflate(R.layout.fragment_doctor_advance_search, container, false);
-        RecyclerView mRecyclerView =  view.findViewById(R.id.doctor_recycler_advanced_search);
+        mRecyclerView =  view.findViewById(R.id.doctor_recycler_advanced_search);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
-        Log.d("akram","we stil alive fragment advanceSearchFragment 5");
-
-        /*String[] NameDoctors = getResources().getStringArray(R.array.doctor_names);
-        Log.d("akram","we stil alive advanceSearchFragment 6");
-        String[] PlaceDoctors = getResources().getStringArray(R.array.doctor_place);
-        Log.d("akram","we stil alive advanceSearchFragment 7");
-        String[] SexDactors = getResources().getStringArray(R.array.doctor_sex);
-        Log.d("akram","we stil alive advanceSearchFragment 8");
-        for (int i = 0; i < NameDoctors.length; i++) {
-            mDoctorsData.add(new Doctors(NameDoctors[i], PlaceDoctors[i], SexDactors[i]));
-        }*/
-        Log.d("DBF","DATA BASE 1");
-
         dbManager = new DBManagerDoctor(getActivity());
-        Log.d("DBF","DATA BASE 2");
-
         dbManager.open();
-        Log.d("DBF","DATA BASE 3");
-        FirebaseAuth firebaseAuth;
-        firebaseAuth=FirebaseAuth.getInstance();
-        DatabaseReference firebaseDatabase;
-        firebaseDatabase= FirebaseDatabase.getInstance().getReference();
+        readData(new FireBaseCallBack() {
+            @Override
+            public void onCallBack(ArrayList<String> list2) {
+                Log.d("doctor_activity_test","inside on callback readdata");
 
+                Log.d("doctor_activity_test",list.toString());
+            }
+        });
+     /*  DoctorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("doctor_activity_test", "avant");
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String Name = ds.child("name").getValue(String.class);
+                    String Place = ds.child("adress").getValue(String.class);
+                    String Phone = ds.child("phone").getValue(String.class);
+                    String Spec = ds.child("spec").getValue(String.class);
+                    String Sex = ds.child("sex").getValue(String.class);
 
+                    Log.d("doctor_activity_test", Name + " / " + Place + " / " + Phone + " / " + Sex);
+                    mDoctorsData.add(new Doctors(Name, Place, Phone, Spec, Sex));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("doctor_activity_test",databaseError.getMessage());
+            }
+        });
+
+      */
+
+     // DoctorsRef.addListenerForSingleValueEvent(valueEventListener);
         Log.d("DBF","DATA BASE 5");
        /* if (isNetworkAvailable()){
             final ArrayList<Doctors> doctorArray = new ArrayList<>();
@@ -100,13 +131,13 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
 
         }
          */
-        mDoctorsData = dbManager.listdoctors();
-        Log.d("akram","we stil alive advanceSearchFragment 9");
+        // mDoctorsData = dbManager.listdoctors();
+        Log.d("doctor_activity_test", String.valueOf(mDoctorsData.size()));
 
-        DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsData);
+       // DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsData);
         Log.d("akram","we stil alive advanceSearchFragment 10");
 
-        mRecyclerView.setAdapter(mAdapter);
+       // mRecyclerView.setAdapter(mAdapter);
         Log.d("akram","we stil alive advanceSearchFragment 11");
 
         // Inflate the layout for this fragment
@@ -120,6 +151,68 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
         }
         return view;
     }
+    /*public void readData(final FireBaseCallBack fireBaseCallBack){
+        fireBaseCallBack.onStart();
+        //  final ArrayList<String> list = new ArrayList<String>();
+        DoctorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                /*Log.d("doctor_activity_test", "avant");
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+
+                    Log.d("doctor_activity_test", "inside for");
+                    String Name = ds.child("name").getValue(String.class);
+                    String Place = ds.child("adress").getValue(String.class);
+                    String Phone = ds.child("phone").getValue(String.class);
+                    String Spec = ds.child("spec").getValue(String.class);
+                    String Sex = ds.child("sex").getValue(String.class);
+
+                    Log.d("doctor_activity_test", Name + " / " + Place + " / " + Phone + " / " + Sex);
+                    //mDoctorsData.add(new Doctors(Name, Place, Phone, Spec, Sex));
+                    list.add(Name);
+                }
+                fireBaseCallBack.onSuccess(dataSnapshot);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("doctor_activity_test",databaseError.getMessage());
+                fireBaseCallBack.onFailed(databaseError);
+            }
+        });
+    }
+
+     */
+    public void readData(FireBaseCallBack fireBaseCallBack){
+        DoctorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                Log.d("doctor_activity_test", "avant mData");
+                Log.d("doctor_activity_test", "avant");
+                Log.d("doctor_activity_test","Doctor has : " + String.valueOf(dataSnapshot.getChildrenCount())+ " children");
+                Log.d("doctor_activity_test","Doctor has DoctorNamz as children : " + dataSnapshot.child("NameDoctor").getValue() );
+                list.add((String) dataSnapshot.child("NameDoctor").getValue());
+                Log.d("doctor_activity_test",list.toString());
+                String Name = dataSnapshot.child("NameDoctor").getValue().toString();
+                mDoctorsData.add(new  Doctors(Name,Name,Name,Name,Name));
+                DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsData);
+                Log.d("akram","we stil alive advanceSearchFragment 10");
+
+                mRecyclerView.setAdapter(mAdapter);
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.d("doctor_activity_test",databaseError.getMessage());
+            }
+        });
+    }
+
+
+
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -145,5 +238,6 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
                     HaveConnectMobile= true;
         }
         return  HaveConnectMobile || HaveConnectWIFI;
-    }*/
+    }
+    */
 }
