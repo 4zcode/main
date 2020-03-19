@@ -16,6 +16,7 @@ import com.example.myapplication.doctors.Doctors;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -53,7 +54,7 @@ public class insertdoct extends AppCompatActivity {
         db.open();
         int i=this.sex.getCheckedRadioButtonId();
         if(i== R.id.man){sex= "man";}else{sex="woman";}
-        db.insert(name,adress,phone,spec,sex);
+        //db.insert(name,adress,phone,spec,sex);
         db.close();
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
@@ -61,16 +62,17 @@ public class insertdoct extends AppCompatActivity {
         firebaseAuth=FirebaseAuth.getInstance();
         DatabaseReference firebaseDatabase;
         firebaseDatabase=FirebaseDatabase.getInstance().getReference().child("Doctor");
-       Map<String,Object> user= new HashMap<String,Object>();
+        FirebaseUser user1=FirebaseAuth.getInstance().getInstance().getCurrentUser();
+        Map<String,Object> user= new HashMap<String,Object>();
         user.put("NameDoctor",name);
         user.put("PlaceDoctor",adress);
         user.put("phone",phone);
         user.put("spec",spec);
         user.put("SexDoctor",sex);
-
+        user.put("Doctor_ID_Firebase",user1.getUid());
 
         //Doctors doc = new Doctors(name,adress,phone,spec,sex);
-        firebaseDatabase.setValue(user).addOnCompleteListener(new OnCompleteListener() {
+        firebaseDatabase.child(user1.getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
                 if(task.isSuccessful()){

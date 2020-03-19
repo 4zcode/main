@@ -1,6 +1,7 @@
 package com.example.myapplication.doctors;
 
 public class Doctors {
+    private String Doctor_ID_Firebase;
     private final String NameDoctor;
     private final String PlaceDoctor;
     private final String phone;
@@ -9,7 +10,8 @@ public class Doctors {
 
 
 
-    public  Doctors(String name, String place, String phone, String spec, String sex) {
+    public  Doctors(String id,String name, String place, String phone, String spec, String sex) {
+       this.Doctor_ID_Firebase=id;
         this.NameDoctor = name;
         this.PlaceDoctor = place;
         this.phone = phone;
@@ -18,14 +20,14 @@ public class Doctors {
     }
 
 
-    String getNameDoctor() {
+    public String getNameDoctor() {
         return NameDoctor;
     }
 
-    String getPlaceDoctor() {
+    public String getPlaceDoctor() {
         return PlaceDoctor;
     }
-    String getSexDoctor(){
+    public String getSexDoctor(){
         return SexDoctor;
     }
 
@@ -39,4 +41,11 @@ public class Doctors {
     }
 
 
+    public String getDoctor_ID_Firebase() {
+        return Doctor_ID_Firebase;
+    }
+
+    public void setDoctor_ID_Firebase(String doctor_ID_Firebase) {
+        Doctor_ID_Firebase = doctor_ID_Firebase;
+    }
 }

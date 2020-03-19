@@ -20,6 +20,7 @@
                     android:layout_weight="5"
                     />
                 <Spinner
+                    android:background="#FFFFFF"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/docspinner"

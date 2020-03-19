@@ -3,6 +3,8 @@ package com.example.myapplication.doctors;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
@@ -25,6 +27,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -39,26 +42,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.jar.Attributes;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
-    public  final ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
-    public  DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-    public  final DatabaseReference DoctorsRef = rootRef.child("Doctor");
-    public final ArrayList<String> list = new ArrayList<String>();
-    public RecyclerView mRecyclerView;
+    private ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
+    private DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+    private final DatabaseReference DoctorsRef = rootRef.child("Doctor");
+    private final ArrayList<String> list = new ArrayList<String>();
+    private RecyclerView mRecyclerView;
+    private DBManagerDoctor dbManager;
+    private DatabaseHelper dbHelper;
+    private Context context;
+    private SQLiteDatabase database;
+    private ProgressDialog mProgressDialog;
+
 
     public AdvanceSearchDoctorFragment() {
-        // Required empty public constructor
     }
-    private interface FireBaseCallBack{
-       // void onStart();
-         void onCallBack(ArrayList<String> list2);
-        //void onSuccess(DataSnapshot dataSnapshot);
-        //void onFailed(DatabaseError databaseError);
+
+    private interface FireBaseCallBack {
+        void onCallBack(ArrayList<String> list2);
+
     }
 
 
@@ -67,83 +75,39 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
                              Bundle savedInstanceState) {
         Spinner spinner;
         ArrayAdapter<CharSequence> adapspin;
-        DBManagerDoctor dbManager;
+        Log.d("doctor_activity_test", "**************");
 
-      /*  if (isNetworkAvailable()){
-              Toast.makeText(getContext(),"there is connection",Toast.LENGTH_LONG);
-        }else {Toast.makeText(getContext(),"no connection",Toast.LENGTH_LONG);}
-        */
+
         View view = inflater.inflate(R.layout.fragment_doctor_advance_search, container, false);
-        mRecyclerView =  view.findViewById(R.id.doctor_recycler_advanced_search);
+        mRecyclerView = view.findViewById(R.id.doctor_recycler_advanced_search);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         dbManager = new DBManagerDoctor(getActivity());
         dbManager.open();
-        readData(new FireBaseCallBack() {
-            @Override
-            public void onCallBack(ArrayList<String> list2) {
-                Log.d("doctor_activity_test","inside on callback readdata");
-
-                Log.d("doctor_activity_test",list.toString());
-            }
-        });
-     /*  DoctorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("doctor_activity_test", "avant");
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String Name = ds.child("name").getValue(String.class);
-                    String Place = ds.child("adress").getValue(String.class);
-                    String Phone = ds.child("phone").getValue(String.class);
-                    String Spec = ds.child("spec").getValue(String.class);
-                    String Sex = ds.child("sex").getValue(String.class);
-
-                    Log.d("doctor_activity_test", Name + " / " + Place + " / " + Phone + " / " + Sex);
-                    mDoctorsData.add(new Doctors(Name, Place, Phone, Spec, Sex));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("doctor_activity_test",databaseError.getMessage());
-            }
-        });
-
-      */
-
-     // DoctorsRef.addListenerForSingleValueEvent(valueEventListener);
-        Log.d("DBF","DATA BASE 5");
-       /* if (isNetworkAvailable()){
-            final ArrayList<Doctors> doctorArray = new ArrayList<>();
-            firebaseDatabase.child("doctors").addValueEventListener(new ValueEventListener() {
+       // for (int i=0; i<70;i++) dbManager.delete(i);
+        if (isNetworkAvailable()) {
+            Toast.makeText(getContext(), "there is connection", Toast.LENGTH_LONG).show();
+            readData(new FireBaseCallBack() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    doctorArray.clear();
-                    for (DataSnapshot data:dataSnapshot.getChildren()){doctorArray.add(data.getValue());
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+                public void onCallBack(ArrayList<String> list2) {
 
                 }
             });
-
+        } else {
+            Toast.makeText(getContext(), "no connection", Toast.LENGTH_LONG).show();
         }
-         */
-        // mDoctorsData = dbManager.listdoctors();
-        Log.d("doctor_activity_test", String.valueOf(mDoctorsData.size()));
 
-       // DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsData);
-        Log.d("akram","we stil alive advanceSearchFragment 10");
 
-       // mRecyclerView.setAdapter(mAdapter);
-        Log.d("akram","we stil alive advanceSearchFragment 11");
+        mDoctorsData = dbManager.listdoctors();
+        DoctorsAdapter mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
 
-        // Inflate the layout for this fragment
-        spinner=(Spinner) view.findViewById(R.id.docspinner);
-        if(spinner!=null){spinner.setOnItemSelectedListener(AdvanceSearchDoctorFragment.this);}
-        adapspin= ArrayAdapter.createFromResource(getActivity(),R.array.wilaya,android.R.layout.simple_spinner_item);
+        spinner = view.findViewById(R.id.docspinner);
+        if (spinner != null) {
+            spinner.setOnItemSelectedListener(AdvanceSearchDoctorFragment.this);
+        }
+        adapspin = ArrayAdapter.createFromResource(getActivity(), R.array.wilaya, android.R.layout.simple_spinner_item);
         adapspin.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
         if (spinner != null) {
@@ -151,67 +115,46 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
         }
         return view;
     }
-    /*public void readData(final FireBaseCallBack fireBaseCallBack){
-        fireBaseCallBack.onStart();
-        //  final ArrayList<String> list = new ArrayList<String>();
-        DoctorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                /*Log.d("doctor_activity_test", "avant");
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+    public void readData(FireBaseCallBack fireBaseCallBack) {
+        if (mProgressDialog == null){
+            mProgressDialog = new ProgressDialog(getContext());
+            mProgressDialog.setMessage("Loading");
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
 
-                    Log.d("doctor_activity_test", "inside for");
-                    String Name = ds.child("name").getValue(String.class);
-                    String Place = ds.child("adress").getValue(String.class);
-                    String Phone = ds.child("phone").getValue(String.class);
-                    String Spec = ds.child("spec").getValue(String.class);
-                    String Sex = ds.child("sex").getValue(String.class);
-
-                    Log.d("doctor_activity_test", Name + " / " + Place + " / " + Phone + " / " + Sex);
-                    //mDoctorsData.add(new Doctors(Name, Place, Phone, Spec, Sex));
-                    list.add(Name);
-                }
-                fireBaseCallBack.onSuccess(dataSnapshot);
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.d("doctor_activity_test",databaseError.getMessage());
-                fireBaseCallBack.onFailed(databaseError);
-            }
-        });
-    }
-
-     */
-    public void readData(FireBaseCallBack fireBaseCallBack){
         DoctorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.d("doctor_activity_test", "avant mData");
-                Log.d("doctor_activity_test", "avant");
-                Log.d("doctor_activity_test","Doctor has : " + String.valueOf(dataSnapshot.getChildrenCount())+ " children");
-                Log.d("doctor_activity_test","Doctor has DoctorNamz as children : " + dataSnapshot.child("NameDoctor").getValue() );
-                list.add((String) dataSnapshot.child("NameDoctor").getValue());
-                Log.d("doctor_activity_test",list.toString());
-                String Name = dataSnapshot.child("NameDoctor").getValue().toString();
-                mDoctorsData.add(new  Doctors(Name,Name,Name,Name,Name));
-                DoctorsAdapter mAdapter= new DoctorsAdapter( getActivity(), mDoctorsData);
-                Log.d("akram","we stil alive advanceSearchFragment 10");
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String id_firebase = ds.child("Doctor_ID_Firebase").getValue(String.class);
+                    String Name = ds.child("NameDoctor").getValue(String.class);
+                    String Place = ds.child("PlaceDoctor").getValue(String.class);
+                    String Phone = ds.child("phone").getValue(String.class);
+                    String Spec = ds.child("spec").getValue(String.class);
+                    String Sex = ds.child("SexDoctor").getValue(String.class);
+                    if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)){
+                        Log.d("doctor_activity_test", Name + " exist");
+                        Log.d("doctor_activity_test", id_firebase + " exist");
+                        dbManager.update(id_firebase,Name,Place,Phone,Spec,Sex);
+                    }
+                    else {
+                        Log.d("doctor_activity_test", Name + " not exist ");
+                        Log.d("doctor_activity_test", id_firebase + " not exist");
+                        dbManager.insert(id_firebase,Name, Place, Phone, Spec, Sex);
+                    }
+                }
+                mProgressDialog.dismiss();
 
-                mRecyclerView.setAdapter(mAdapter);
-                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("doctor_activity_test",databaseError.getMessage());
+                Log.d("doctor_activity_test", databaseError.getMessage());
             }
         });
     }
-
-
 
 
     @Override
@@ -223,21 +166,23 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-    /*private boolean isNetworkAvailable(){
+
+    private boolean isNetworkAvailable() {
         boolean HaveConnectWIFI = false;
         boolean HaveConnectMobile = false;
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(getContext().CONNECTIVITY_SERVICE);
         NetworkInfo[] activeNetworkInfo = connectivityManager.getAllNetworkInfo();
-        for (NetworkInfo ni : activeNetworkInfo){
+        for (NetworkInfo ni : activeNetworkInfo) {
             if (ni.getTypeName().equalsIgnoreCase("WIFI"))
                 if (ni.isConnected())
-                    HaveConnectWIFI= true;
+                    HaveConnectWIFI = true;
             if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
                 if (ni.isConnected())
-                    HaveConnectMobile= true;
+                    HaveConnectMobile = true;
         }
-        return  HaveConnectMobile || HaveConnectWIFI;
+        return HaveConnectMobile || HaveConnectWIFI;
     }
-    */
+
+
 }
