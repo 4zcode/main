@@ -2,19 +2,12 @@ package com.example.myapplication.doctors;
 
 
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
-import android.net.Network;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,22 +20,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.jar.Attributes;
 
 
 /**
@@ -50,22 +35,18 @@ import java.util.jar.Attributes;
  */
 public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
     private ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
-    private DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-    private final DatabaseReference DoctorsRef = rootRef.child("Doctor");
-    private final ArrayList<String> list = new ArrayList<String>();
+    private final DatabaseReference DoctorsRef = FirebaseDatabase.getInstance().getReference().child("Doctor");
     private RecyclerView mRecyclerView;
     private DBManagerDoctor dbManager;
-    private DatabaseHelper dbHelper;
-    private Context context;
-    private SQLiteDatabase database;
     private ProgressDialog mProgressDialog;
+    private DoctorsAdapter mAdapter;
 
 
     public AdvanceSearchDoctorFragment() {
     }
 
     private interface FireBaseCallBack {
-        void onCallBack(ArrayList<String> list2);
+        void onCallBack(ArrayList<String> list);
 
     }
 
@@ -75,21 +56,17 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
                              Bundle savedInstanceState) {
         Spinner spinner;
         ArrayAdapter<CharSequence> adapspin;
-        Log.d("doctor_activity_test", "**************");
-
-
         View view = inflater.inflate(R.layout.fragment_doctor_advance_search, container, false);
         mRecyclerView = view.findViewById(R.id.doctor_recycler_advanced_search);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         dbManager = new DBManagerDoctor(getActivity());
         dbManager.open();
-       // for (int i=0; i<70;i++) dbManager.delete(i);
         if (isNetworkAvailable()) {
             Toast.makeText(getContext(), "there is connection", Toast.LENGTH_LONG).show();
             readData(new FireBaseCallBack() {
                 @Override
-                public void onCallBack(ArrayList<String> list2) {
+                public void onCallBack(ArrayList<String> list) {
 
                 }
             });
@@ -97,9 +74,9 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
             Toast.makeText(getContext(), "no connection", Toast.LENGTH_LONG).show();
         }
 
-
         mDoctorsData = dbManager.listdoctors();
-        DoctorsAdapter mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
+
+        mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
@@ -117,7 +94,7 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
     }
 
     public void readData(FireBaseCallBack fireBaseCallBack) {
-        if (mProgressDialog == null){
+        if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getContext());
             mProgressDialog.setMessage("Loading");
             mProgressDialog.setIndeterminate(true);
@@ -134,17 +111,17 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
                     String Phone = ds.child("phone").getValue(String.class);
                     String Spec = ds.child("spec").getValue(String.class);
                     String Sex = ds.child("SexDoctor").getValue(String.class);
-                    if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)){
-                        Log.d("doctor_activity_test", Name + " exist");
-                        Log.d("doctor_activity_test", id_firebase + " exist");
-                        dbManager.update(id_firebase,Name,Place,Phone,Spec,Sex);
-                    }
-                    else {
+                    if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
+                        dbManager.update(id_firebase, Name, Place, Phone, Spec, Sex);
+                    } else {
                         Log.d("doctor_activity_test", Name + " not exist ");
                         Log.d("doctor_activity_test", id_firebase + " not exist");
-                        dbManager.insert(id_firebase,Name, Place, Phone, Spec, Sex);
+                        dbManager.insert(id_firebase, Name, Place, Phone, Spec, Sex);
                     }
                 }
+                mDoctorsData = dbManager.listdoctors();
+                mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
+                mRecyclerView.setAdapter(mAdapter);
                 mProgressDialog.dismiss();
 
             }

@@ -50,16 +50,10 @@ public class insertdoct extends AppCompatActivity {
         String spec =this.specailety.getText().toString();
         String phone=this.phone.getText().toString();
         String sex;
-        DBManagerDoctor db= new DBManagerDoctor(this);
-        db.open();
         int i=this.sex.getCheckedRadioButtonId();
         if(i== R.id.man){sex= "man";}else{sex="woman";}
-        //db.insert(name,adress,phone,spec,sex);
-        db.close();
         Intent intent=new Intent(this,MainActivity.class);
         startActivity(intent);
-        FirebaseAuth firebaseAuth;
-        firebaseAuth=FirebaseAuth.getInstance();
         DatabaseReference firebaseDatabase;
         firebaseDatabase=FirebaseDatabase.getInstance().getReference().child("Doctor");
         FirebaseUser user1=FirebaseAuth.getInstance().getInstance().getCurrentUser();
