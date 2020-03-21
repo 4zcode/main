@@ -69,12 +69,19 @@ public class MainActivity extends AppCompatActivity {
             try {
                 addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
                 if (addresses.size() > 0) {
+                    Address returnAdd =  addresses.get(0);
+                    StringBuilder str = new StringBuilder("");
+                    for (int i =0; i < returnAdd.getMaxAddressLineIndex();i++){
+                        str.append(returnAdd.getAddressLine(i)).append(" ");
+                    }
                     CityName = addresses.get(0).getLocality();
                     myPef = getSharedPreferences("userPref", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = myPef.edit();
                     editor.putString("city",CityName);
                     editor.apply();
                     Log.d("Main_activity_test", " city : " + CityName);
+                    Log.d("Main_activity_test", " street : " +str.toString());
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();

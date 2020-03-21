@@ -1,5 +1,11 @@
 package com.example.myapplication.doctors;
 
+import android.content.Context;
+import android.content.Intent;
+
+import com.example.myapplication.chatRoom;
+
+
 public class Doctors {
     private String Doctor_ID_Firebase;
     private final String NameDoctor;
@@ -7,7 +13,8 @@ public class Doctors {
     private final String phone;
     private final String spec;
     private final String SexDoctor;
-
+    public static final String RECIVER = "Reciver";
+    public static final String SENDER = "sender";
 
 
     public  Doctors(String id,String name, String place, String phone, String spec, String sex) {
@@ -47,5 +54,11 @@ public class Doctors {
 
     public void setDoctor_ID_Firebase(String doctor_ID_Firebase) {
         Doctor_ID_Firebase = doctor_ID_Firebase;
+    }
+    static Intent starter(Context context,String reciver,String sender) {
+        Intent chatIntent = new Intent(context, chatRoom.class);
+        chatIntent.putExtra(RECIVER, reciver);
+        chatIntent.putExtra(SENDER, sender);
+        return chatIntent;
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,13 +24,15 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.Medicam
     //Member variables
     public GradientDrawable mGradientDrawable;
     public ArrayList<Medicament> mMedicamentData;
+    public ArrayList<Medicament> mMedicamentDataArray= new ArrayList<Medicament>();
     public static Context mContext;
+    private  Medicament currentMedicament;
 
     MedicamentsAdapter(Context context, ArrayList<Medicament> medicamntData) {
         this.mMedicamentData = medicamntData;
         this.mContext = context;
-
-        //Prepare gray placeholder
+        this.mMedicamentDataArray.addAll(mMedicamentData);
+//Prepare gray placeholder
         mGradientDrawable = new GradientDrawable();
         mGradientDrawable.setColor(Color.GRAY);
 
@@ -41,7 +44,25 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.Medicam
         }
     }
 
-
+    public void filter(String text) {
+        if(text.isEmpty()){
+            mMedicamentData.clear();
+            mMedicamentData.addAll(mMedicamentDataArray);
+        } else{
+            ArrayList<Medicament> result = new ArrayList<>();
+            text = text.toLowerCase();
+            for(Medicament item: mMedicamentDataArray){
+                //match by name or phone
+                if(item.getMedicamenName().toLowerCase().contains(text) ||
+                        item.getMedicamenPrix().toLowerCase().contains(text)){
+                    result.add(item);
+                }
+            }
+            mMedicamentData.clear();
+            mMedicamentData.addAll(result);
+        }
+        notifyDataSetChanged();
+    }
 
     @Override
     public MedicamentViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -53,10 +74,11 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.Medicam
     public void onBindViewHolder(MedicamentViewHolder holder, int position) {
 
         //Get the current sport
-        Medicament currentMedicament = mMedicamentData.get(position);
+        currentMedicament = mMedicamentData.get(position);
 
         //Bind the data to the views
         holder.bindTo(currentMedicament);
+
 
     }
 

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -40,7 +41,7 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
     private DBManagerDoctor dbManager;
     private ProgressDialog mProgressDialog;
     private DoctorsAdapter mAdapter;
-
+    private SearchView searchView;
 
     public AdvanceSearchDoctorFragment() {
     }
@@ -59,7 +60,7 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
         View view = inflater.inflate(R.layout.fragment_doctor_advance_search, container, false);
         mRecyclerView = view.findViewById(R.id.doctor_recycler_advanced_search);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        searchView = view.findViewById(R.id.search_doctor);
         dbManager = new DBManagerDoctor(getActivity());
         dbManager.open();
         if (isNetworkAvailable()) {
@@ -90,6 +91,18 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
         if (spinner != null) {
             spinner.setAdapter(adapspin);
         }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mAdapter.filter(query);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.filter(newText);
+                return true;
+            }
+        });
         return view;
     }
 

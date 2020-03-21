@@ -1,6 +1,7 @@
 package com.example.myapplication.doctors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -10,12 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.Drugs.Medicament;
 import com.example.myapplication.R;
+import com.example.myapplication.chatRoom;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
@@ -25,11 +31,12 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
     public GradientDrawable mGradientDrawable;
     public ArrayList<Doctors> mDoctors;
     public Context mContext;
+    private ArrayList<Doctors> mDoctorArray = new ArrayList<>();
 
     DoctorsAdapter(Context context, ArrayList<Doctors> doctorData) {
         this.mDoctors = doctorData;
         this.mContext = context;
-
+        this.mDoctorArray.addAll(doctorData);
         //Prepare gray placeholder
         mGradientDrawable = new GradientDrawable();
         mGradientDrawable.setColor(Color.GRAY);
@@ -39,6 +46,25 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
         if (drawable != null) {
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
+    }
+    public void filter(String text) {
+        if(text.isEmpty()){
+            mDoctors.clear();
+            mDoctors.addAll(mDoctorArray);
+        } else{
+            ArrayList<Doctors> result = new ArrayList<>();
+            text = text.toLowerCase();
+            for(Doctors item: mDoctorArray){
+                //match by name or phone
+                if(item.getNameDoctor().toLowerCase().contains(text) ||
+                        item.getSpec().toLowerCase().contains(text)){
+                    result.add(item);
+                }
+            }
+            mDoctors.clear();
+            mDoctors.addAll(result);
+        }
+        notifyDataSetChanged();
     }
 
 
@@ -99,6 +125,13 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
 
         @Override
         public void onClick(View view) {
+            FirebaseUser user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
+            if (!user1.getUid().equals(mCurrentDoctor.getDoctor_ID_Firebase()) ){
+            Intent intent = Doctors.starter(mCont, mCurrentDoctor.getDoctor_ID_Firebase(), user1.getUid().toString());
+            mCont.startActivity(intent);
+        }else {
+            Toast.makeText(mCont,"you cant send to your self",Toast.LENGTH_LONG).show();
+        }
         }
     }
 }
