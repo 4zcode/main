@@ -127,7 +127,7 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
         public void onClick(View view) {
             FirebaseUser user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
             if (!user1.getUid().equals(mCurrentDoctor.getDoctor_ID_Firebase()) ){
-            Intent intent = Doctors.starter(mCont, mCurrentDoctor.getDoctor_ID_Firebase(), user1.getUid().toString());
+            Intent intent = Doctors.starter(mCont, mCurrentDoctor.getDoctor_ID_Firebase(), mCurrentDoctor.getNameDoctor());
             mCont.startActivity(intent);
         }else {
             Toast.makeText(mCont,"you cant send to your self",Toast.LENGTH_LONG).show();

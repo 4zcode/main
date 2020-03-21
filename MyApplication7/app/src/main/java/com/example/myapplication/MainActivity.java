@@ -16,7 +16,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,13 +36,13 @@ import com.example.myapplication.Hospitals.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacies;
 import com.example.myapplication.doctors.DoctorActivity;
 import com.example.myapplication.ui.login.SignupActivity;
+import com.example.myapplication.message.messageBoit;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
@@ -230,6 +229,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(this, Signin.class);
         startActivity(intent);
     }
+public void message(View view){
+        startActivity(new Intent(this, messageBoit.class));
+}
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {

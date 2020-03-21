@@ -50,7 +50,7 @@ public class Signin extends AppCompatActivity {
                     if(task.isSuccessful()){
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"sign in with sucess",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(),Insertion.class);
+                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                         startActivity(intent);
                     }else{
                         progressDialog.dismiss();

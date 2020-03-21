@@ -44,7 +44,7 @@ public class chatRoom extends AppCompatActivity {
     private DatabaseReference firebaseDatabase;
     private FirebaseUser user1;
     private Map<String,Object> user,senderUser;
-    private String ID_reciver,MessageRecever = "";
+    private String ID_reciver,MessageRecever = "",SenderName;
     private SharedPreferences myPef ;
     private ProgressDialog mProgressDialog;
     private Handler handler;
@@ -57,12 +57,14 @@ public class chatRoom extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("chatdd","no problem 1");
         setContentView(R.layout.activity_chat_room);
         textView =(TextView) findViewById(R.id.text_view_messages);
         button =(Button) findViewById(R.id.envoyer_button);
         editText = (EditText) findViewById(R.id.edit_text_envoyer);
         scrollView = (ScrollView) findViewById(R.id.scroll_chat);
         ID_reciver = getIntent().getStringExtra(Doctors.RECIVER);
+        SenderName =getIntent().getStringExtra(Doctors.SENDER);
          handler= new Handler();
         user= new HashMap<String,Object>();
         senderUser = new HashMap<String,Object>();
@@ -87,12 +89,17 @@ public class chatRoom extends AppCompatActivity {
     };
 
          thread.start();
+        Log.d("chatdd","no problem 2");
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                scrollView.fullScroll(View.FOCUS_DOWN);
-            }
-        },4000);    }
+                scrollView.fullScroll(View.FOCUS_DOWN); }
+        },4000);
+        Log.d("chatdd","no problem 3");
+
+    }
+
     public Spanned getSpannedText(String text){
         if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
             return Html.fromHtml(text,Html.FROM_HTML_MODE_COMPACT);
@@ -110,9 +117,12 @@ public class chatRoom extends AppCompatActivity {
         DoctorsRef.child("RECEVER").child(user1.getUid()).child(ID_reciver).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
                     String msg = dataSnapshot.child("message_afficher").getValue(String.class);
-                    MessageRecever=msg;
-                textView.setText(getSpannedText(msg));
+                    MessageRecever = msg;
+                    textView.setText(getSpannedText(msg));
+                }
+                else  textView.setText("");
 
 
             }
@@ -135,8 +145,26 @@ public class chatRoom extends AppCompatActivity {
         myPef = getSharedPreferences("userPref", Context.MODE_PRIVATE);
         String name_current_user = myPef.getString("userName","annonyme");
         user.put("ID_Reciver",ID_reciver);
-        user.put("message_envoyer",name_current_user+": "+message+"<br>");
+        user.put("Sender_Name",SenderName);
+        user.put("message_envoyer","Moi: "+message);
         firebaseDatabase.child("ENVOYE").child(user1.getUid()).child(ID_reciver).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(getApplicationContext(),"le message est envoyé",Toast.LENGTH_LONG).show();
+
+                }else{
+                    String error;
+                    error=task.getException().getMessage();
+                    Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+
+                }
+            }
+        });
+        user.put("ID_Reciver",user1.getUid());
+        user.put("Sender_Name",name_current_user);
+        user.put("message_envoyer",message);
+        firebaseDatabase.child("ENVOYE").child(ID_reciver).child(user1.getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task task) {
                 if(task.isSuccessful()){

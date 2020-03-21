@@ -16,9 +16,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".chatRoom"
-            android:parentActivityName=".doctors.DoctorActivity"
-            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".message.messageBoit"
+            android:parentActivityName=".MainActivity"></activity>
+        <activity
+            android:name=".chatRoom"
+            android:parentActivityName=".message.messageBoit"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Signin" />
         <activity
             android:name=".ui.login.SignupActivity"
