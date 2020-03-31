@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.login;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.myapplication.MainActivity;
+import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -50,7 +52,7 @@ public class Signin extends AppCompatActivity {
                     if(task.isSuccessful()){
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"sign in with sucess",Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                     }else{
                         progressDialog.dismiss();

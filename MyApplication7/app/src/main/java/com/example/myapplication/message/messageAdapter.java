@@ -3,9 +3,9 @@ package com.example.myapplication.message;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
-import com.example.myapplication.doctors.Doctors;
 
 import java.util.ArrayList;
+
+import static com.example.myapplication.R.*;
 
 public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageViewHolder> {
     public GradientDrawable mGradientDrawable;
@@ -44,7 +45,7 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.message_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(layout.message_item, parent, false);
         return new messageAdapter.MessageViewHolder(mContext, view, mGradientDrawable);
     }
 
@@ -74,9 +75,9 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
             super(itemView);
 
             //Initialize the views
-            mSenderNameTextView = (TextView) itemView.findViewById(R.id.name_message_sender);
-            mMessageTextView = (TextView) itemView.findViewById(R.id.messageText);
-            mSenderImage = (ImageView) itemView.findViewById(R.id.sender_image);
+            mSenderNameTextView = (TextView) itemView.findViewById(id.name_message_sender);
+            mMessageTextView = (TextView) itemView.findViewById(id.messageText);
+            mSenderImage = (ImageView) itemView.findViewById(id.sender_image);
 
             mCont = context;
             mGradientDrawable = gradientDrawable;
@@ -90,12 +91,15 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
         }
 
         public void bindTo(Message currentMessage) {
-            //Populate the textviews with data
             mCurrentMessage = currentMessage;
             mSenderNameTextView.setText(currentMessage.getSender());
+            if (! currentMessage.Is_Readed()){
+                mMessageTextView.setTextColor(Color.GRAY);
+                mMessageTextView.setTypeface(Typeface.DEFAULT_BOLD);
+            }
             mMessageTextView.setText(currentMessage.getMessage());
 
-            Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mSenderImage);
+            Glide.with(mCont).load(drawable.doctorm).placeholder(mGradientDrawable).into(mSenderImage);
 
         }
     }

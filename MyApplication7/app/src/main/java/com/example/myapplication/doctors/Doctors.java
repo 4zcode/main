@@ -3,7 +3,7 @@ package com.example.myapplication.doctors;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.myapplication.chatRoom;
+import com.example.myapplication.message.chatRoom;
 
 
 public class Doctors {

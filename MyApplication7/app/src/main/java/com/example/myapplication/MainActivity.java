@@ -35,8 +35,13 @@ import com.example.myapplication.Drugs.medicament_activity;
 import com.example.myapplication.Hospitals.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacies;
 import com.example.myapplication.doctors.DoctorActivity;
+import com.example.myapplication.location.MyLocation;
+import com.example.myapplication.toolsbar.sahti_fi_ydi.HomeFragment;
+import com.example.myapplication.ui.login.Signin;
 import com.example.myapplication.ui.login.SignupActivity;
 import com.example.myapplication.message.messageBoit;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -46,73 +51,39 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
     private final DatabaseReference DoctorsRef = rootRef.child("Doctor");
+    private final DatabaseReference MessageNonReadRef = rootRef.child("Message").child("ENVOYE");
     private TextView nav_user;
-    private SharedPreferences myPef ;
-    public static final int MY_PERMISSION = 99;
+    private Thread thread;
+    private SharedPreferences myPef;
+    public static final int LOCATION_PERMISSION = 99;
+    private Integer count = new Integer(0);
+    private FragmentRefreshListener fragmentRefreshListener;
+    private LocationManager locationManager ;
+    private LocationListener locationListener ;
 
-    class MyLocation implements LocationListener {
-        @Override
-        public void onLocationChanged(Location location) {
 
-            String CityName = null;
-            Geocoder gcd = new Geocoder(getBaseContext(), Locale.getDefault());
-            List<Address> addresses;
-            try {
-                addresses = gcd.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                if (addresses.size() > 0) {
-                    Address returnAdd =  addresses.get(0);
-                    StringBuilder str = new StringBuilder("");
-                    for (int i =0; i < returnAdd.getMaxAddressLineIndex();i++){
-                        str.append(returnAdd.getAddressLine(i)).append(" ");
-                    }
-                    CityName = addresses.get(0).getLocality();
-                    myPef = getSharedPreferences("userPref", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = myPef.edit();
-                    editor.putString("city",CityName);
-                    editor.apply();
-                    Log.d("Main_activity_test", " city : " + CityName);
-                    Log.d("Main_activity_test", " street : " +str.toString());
 
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-
-        }
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        updateNbrMessagesNoRead();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
                 R.id.nav_tools, R.id.nav_share, R.id.nav_send)
@@ -121,43 +92,18 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+         locationListener = new MyLocation(getBaseContext());
 
-
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        LocationListener locationListener = new MyLocation();
-        if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
-            // TODO: Consider calling
-            //    Activity#requestPermissions
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
-                new AlertDialog.Builder(this)
-                        .setTitle("Permission")
-                        .setMessage("GPS permission please")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSION);
-
-                            }
-
-                        }).create().show();
-            }else {
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},MY_PERMISSION);
-            }
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for Activity#requestPermissions for more details.
-            return;
-        }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+        checkPermissions();
 
         View hView = navigationView.getHeaderView(0);
          nav_user = (TextView) hView.findViewById(R.id.nav_name);
-        myPef = getSharedPreferences("userPref", Context.MODE_PRIVATE);
+         myPef =getSharedPreferences("userPref", Context.MODE_PRIVATE);
 
         if (FirebaseAuth.getInstance().getCurrentUser()!= null) {
+
+
             DoctorsRef.child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -178,6 +124,17 @@ public class MainActivity extends AppCompatActivity {
 
         nav_user.setText(myPef.getString("userName","Sahti fi yedi"));
 
+       //refreshFregment();
+
+
+
+    }
+
+    public FragmentRefreshListener getFragmentRefreshListener() {
+        return fragmentRefreshListener;
+    }
+    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener){
+        this.fragmentRefreshListener = fragmentRefreshListener;
     }
 
     public void med(View view) {
@@ -229,9 +186,71 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(this, Signin.class);
         startActivity(intent);
     }
-public void message(View view){
+     public void message(View view){
+
         startActivity(new Intent(this, messageBoit.class));
-}
+      }
+     public void getNbrMessageNoRead(){
+         MessageNonReadRef.child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())).child("Message_Non_Read").addListenerForSingleValueEvent(new ValueEventListener() {
+             @Override
+             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                 SharedPreferences.Editor editor = myPef.edit();
+                 if (dataSnapshot.child("nbr_Messages").exists()){
+                     String  NbrMsg = dataSnapshot.child("nbr_Messages").getValue(String.class);
+                     editor.putString("NbrMessageNoRead",NbrMsg);
+                     editor.apply();
+                 }else{
+                     editor.putString("NbrMessageNoRead","0");
+                     editor.apply();
+                     Log.d("here_the_problem","n'existe pas: ");
+
+                 }
+
+             }
+             @Override
+             public void onCancelled(@NonNull DatabaseError databaseError) {
+
+             }
+         });
+     }
+
+    public void updateNbrMessagesNoRead(){
+        MessageNonReadRef.child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                count = 0;
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    if (ds.child("Is_Readed").exists()){
+                        String Is_Readed = ds.child("Is_Readed").getValue(String.class);
+                        if (Is_Readed.equals("false")){
+                            count += 1;
+                        }
+                    }
+                }
+                Map<String,Object> user= new HashMap<String,Object>();
+                user.put("nbr_Messages",count.toString());
+                MessageNonReadRef.child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())).child("Message_Non_Read").setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            getNbrMessageNoRead();
+
+                        }else{
+                            String error;
+                            error=task.getException().getMessage();
+                            Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+              Log.d("here_the_problem",databaseError.getMessage());
+            }
+        });
+    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -241,15 +260,56 @@ public void message(View view){
         return super.onKeyDown(keyCode,event);
     }
 
+    public void refreshFregment(){
+        thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!thread.isInterrupted()) {
+                        Thread.sleep(10000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                updateNbrMessagesNoRead();
+                                if (getFragmentRefreshListener()!= null){
+                                    getFragmentRefreshListener().onRefresh();
+                                }
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        thread.start();
+
+    }
+    private void checkPermissions(){
+
+        int permissionLocation = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
+        List<String> listPermission = new ArrayList<>();
+        if (permissionLocation != PackageManager.PERMISSION_GRANTED){
+            listPermission.add(Manifest.permission.ACCESS_FINE_LOCATION);
+            if (!listPermission.isEmpty()){
+                ActivityCompat.requestPermissions(this,listPermission.toArray(new String[listPermission.size()]),LOCATION_PERMISSION);
+            }
+        }else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+
+    }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
         switch(requestCode){
-            case MY_PERMISSION: {
+            case LOCATION_PERMISSION: {
                 if (grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
                     if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
-                        Toast.makeText(getApplicationContext(),"accept",Toast.LENGTH_SHORT).show();
+                        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
                     }
-                    else {Toast.makeText(getApplicationContext(),"DENIED",Toast.LENGTH_SHORT).show();}
                     return;
                 }
             }

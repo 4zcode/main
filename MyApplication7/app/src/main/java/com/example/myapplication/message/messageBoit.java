@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.chatRoom;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,7 +17,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class messageBoit extends AppCompatActivity {
     private RecyclerView mRecyclerView;
@@ -84,13 +86,21 @@ public class messageBoit extends AppCompatActivity {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
 
-
-                    String SenderName = ds.child("Sender_Name").getValue(String.class);
-
-                    String message = ds.child("message_envoyer").getValue(String.class);
-                    String ID_firebase = ds.child("ID_Reciver").getValue(String.class);
-                    Log.d("messageBoitTest","sender name est : "+ID_firebase);
-                    linkedList.add(new Message(ID_firebase,SenderName,message,R.drawable.doctorm));
+       if (ds.child("message_envoyer").exists() && ds.child("Sender_Name").exists()&& ds.child("ID_Reciver").exists()&& ds.child("Is_Readed").exists()&& ds.child("Date").exists()) {
+                  String SenderName = ds.child("Sender_Name").getValue(String.class);
+                  String message = ds.child("message_envoyer").getValue(String.class);
+                  String ID_firebase = ds.child("ID_Reciver").getValue(String.class);
+                  String Is_Readed = ds.child("Is_Readed").getValue(String.class);
+                  String Date = ds.child("Date").getValue(String.class);
+                  Log.d("messageBoitTest", "sender name est : " + ID_firebase);
+           SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
+           try {
+               java.util.Date date = format.parse(Date);
+           } catch (ParseException e) {
+               e.printStackTrace();
+           }
+           linkedList.add(new Message(ID_firebase, SenderName, message, R.drawable.doctorm,Is_Readed));
+         }
                 }
                 mRecyclerView.setAdapter(ada);
             }
