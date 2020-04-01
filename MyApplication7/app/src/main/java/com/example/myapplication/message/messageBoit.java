@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 public class messageBoit extends AppCompatActivity {
@@ -29,6 +30,7 @@ public class messageBoit extends AppCompatActivity {
     private FirebaseUser user1;
     private final DatabaseReference DoctorsRef = FirebaseDatabase.getInstance().getReference().child("Message");
     private Thread thread;
+    java.util.Date date;
     private messageAdapter ada;
 
     private interface FireBaseCallBack {
@@ -85,8 +87,8 @@ public class messageBoit extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
-
-       if (ds.child("message_envoyer").exists() && ds.child("Sender_Name").exists()&& ds.child("ID_Reciver").exists()&& ds.child("Is_Readed").exists()&& ds.child("Date").exists()) {
+                    boolean is_exist = ds.child("message_envoyer").exists() && ds.child("Sender_Name").exists()&& ds.child("ID_Reciver").exists()&& ds.child("Is_Readed").exists()&& ds.child("Date").exists();
+                    if (is_exist) {
                   String SenderName = ds.child("Sender_Name").getValue(String.class);
                   String message = ds.child("message_envoyer").getValue(String.class);
                   String ID_firebase = ds.child("ID_Reciver").getValue(String.class);
@@ -95,13 +97,16 @@ public class messageBoit extends AppCompatActivity {
                   Log.d("messageBoitTest", "sender name est : " + ID_firebase);
            SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
            try {
-               java.util.Date date = format.parse(Date);
+                date = format.parse(Date);
            } catch (ParseException e) {
                e.printStackTrace();
            }
-           linkedList.add(new Message(ID_firebase, SenderName, message, R.drawable.doctorm,Is_Readed));
+           if (!ID_firebase.equals(user1.getUid())) {
+               linkedList.add(new Message(ID_firebase, SenderName, message, R.drawable.doctorm, Is_Readed, date));
+           }
          }
                 }
+                Collections.sort(linkedList);
                 mRecyclerView.setAdapter(ada);
             }
 

@@ -18,7 +18,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 import static com.example.myapplication.R.*;
@@ -66,11 +69,11 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
             implements View.OnClickListener {
 
         public TextView mSenderNameTextView;
-        public TextView mMessageTextView;
+        public TextView mMessageTextView, mDateTest;
         public ImageView mSenderImage;
-       public Context mCont;
-       public Message mCurrentMessage;
-       public GradientDrawable mGradientDrawable;
+        public Context mCont;
+        public Message mCurrentMessage;
+        public GradientDrawable mGradientDrawable;
         public MessageViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
 
@@ -78,6 +81,7 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
             mSenderNameTextView = (TextView) itemView.findViewById(id.name_message_sender);
             mMessageTextView = (TextView) itemView.findViewById(id.messageText);
             mSenderImage = (ImageView) itemView.findViewById(id.sender_image);
+            mDateTest = (TextView) itemView.findViewById(id.dateTest);
 
             mCont = context;
             mGradientDrawable = gradientDrawable;
@@ -86,8 +90,11 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
 
         @Override
         public void onClick(View v) {
-            Intent intent = Message.starter(mCont, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender());
-            mCont.startActivity(intent);
+            FirebaseUser user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
+            if (!user1.getUid().equals(mCurrentMessage.getMessage_ID_Firebase()) ) {
+                Intent intent = Message.starter(mCont, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender());
+                mCont.startActivity(intent);
+            }
         }
 
         public void bindTo(Message currentMessage) {
@@ -98,7 +105,8 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
                 mMessageTextView.setTypeface(Typeface.DEFAULT_BOLD);
             }
             mMessageTextView.setText(currentMessage.getMessage());
-
+            String mydate = DateFormat.getDateTimeInstance().format(currentMessage.getDate());
+            mDateTest.setText(mydate);
             Glide.with(mCont).load(drawable.doctorm).placeholder(mGradientDrawable).into(mSenderImage);
 
         }

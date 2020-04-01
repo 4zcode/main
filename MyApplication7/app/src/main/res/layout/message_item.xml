@@ -42,6 +42,13 @@
                 android:layout_marginLeft="15dp"
                 tools:text="message"
                 android:textColor="?android:textColorSecondary" />
+            <TextView
+                android:id="@+id/dateTest"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                tools:text="message"
+                android:textColor="?android:textColorSecondary" />
 
         </LinearLayout>
     </LinearLayout>

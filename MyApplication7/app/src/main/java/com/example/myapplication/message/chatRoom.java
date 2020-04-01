@@ -35,8 +35,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class chatRoom extends AppCompatActivity {
@@ -53,6 +53,7 @@ public class chatRoom extends AppCompatActivity {
     private Handler handler;
     private final DatabaseReference DoctorsRef = FirebaseDatabase.getInstance().getReference().child("Message");
     private Thread thread;
+
     private interface FireBaseCallBack {
         void onCallBack(String message);
 
@@ -60,7 +61,6 @@ public class chatRoom extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("chatdd","no problem 1");
         setContentView(R.layout.activity_chat_room);
         textView =(TextView) findViewById(R.id.text_view_messages);
         button =(Button) findViewById(R.id.envoyer_button);
@@ -73,27 +73,29 @@ public class chatRoom extends AppCompatActivity {
         senderUser = new HashMap<String,Object>();
         firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("Message");
         user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
+        updateAffichage(1000);
+        ScrollDown(3000);
+    }
+    public void updateAffichage(final int duree){
         thread = new Thread(){
-          @Override
-          public void run() {
-           try {
-               while (!thread.isInterrupted()) {
-                   Thread.sleep(1000);
-                   runOnUiThread(new Runnable() {
-                       @Override
-                       public void run() {
-                           Afficher();
-                       }
-                   });
-               }
-           }catch (InterruptedException e){e.printStackTrace();
-           }
-          }
-    };
+            @Override
+            public void run() {
+                try {
+                    while (!thread.isInterrupted()) {
+                        Thread.sleep(duree);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Afficher();
+                            }
+                        });
+                    }
+                }catch (InterruptedException e){e.printStackTrace();
+                }
+            }
+        };
 
-         thread.start();
-        ScrollDown(4000);
-
+        thread.start();
     }
 
     public Spanned getSpannedText(String text){
@@ -111,24 +113,23 @@ public class chatRoom extends AppCompatActivity {
         });
     }
     public void readData(FireBaseCallBack fireBaseCallBack) {
-        DoctorsRef.child("RECEVER").child(user1.getUid()).child(ID_reciver).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String msg = dataSnapshot.child("message_afficher").getValue(String.class);
-                    MessageRecever = msg;
-                    textView.setText(getSpannedText(msg));
+        if (!ID_reciver.equals(user1.getUid())) {
+            DoctorsRef.child("RECEVER").child(user1.getUid()).child(ID_reciver).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        String msg = dataSnapshot.child("message_afficher").getValue(String.class);
+                        MessageRecever = msg;
+                        textView.setText(getSpannedText(msg));
+                    } else textView.setText("");
                 }
-                else  textView.setText("");
 
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("chatdd", databaseError.getMessage());
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d("chatdd", databaseError.getMessage());
+                }
+            });
+        }
     }
 
     public void Envoyer(View view) {
@@ -154,75 +155,81 @@ public class chatRoom extends AppCompatActivity {
         ScrollDown(1000);
     }
    public void updateUserReceiver(String message,String senderName,String ID_reciver,String date){
-       user.put("ID_Reciver",ID_reciver);
-       user.put("Sender_Name",senderName);
-       user.put("message_envoyer","Moi: "+message);
-       user.put("Is_Readed","true");
-       user.put("Date", date);
-       firebaseDatabase.child("ENVOYE").child(user1.getUid()).child(ID_reciver).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-           @Override
-           public void onComplete(@NonNull Task task) {
-               if(task.isSuccessful()){
-                   Toast.makeText(getApplicationContext(),"le message est envoyé",Toast.LENGTH_LONG).show();
+        if (!ID_reciver.equals(user1.getUid())) {
+            user.put("ID_Reciver", ID_reciver);
+            user.put("Sender_Name", senderName);
+            user.put("message_envoyer", "Moi: " + message);
+            user.put("Is_Readed", "true");
+            user.put("Date", date);
+            firebaseDatabase.child("ENVOYE").child(user1.getUid()).child(ID_reciver).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "le message est envoyé", Toast.LENGTH_LONG).show();
 
-               }else{
-                   String error;
-                   error=task.getException().getMessage();
-                   Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+                    } else {
+                        String error;
+                        error = task.getException().getMessage();
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 
-               }
-           }
-       });
+                    }
+                }
+            });
+        }
    }
    public void updateReceiverUser(String name_current_user,String message,String ID_reciver,String date){
-       user.put("ID_Reciver",user1.getUid());
-       user.put("Sender_Name",name_current_user);
-       user.put("message_envoyer",message);
-       user.put("Is_Readed","false");
-       user.put("Date", date);
-       firebaseDatabase.child("ENVOYE").child(ID_reciver).child(user1.getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-           @Override
-           public void onComplete(@NonNull Task task) {
-               if(task.isSuccessful()){
-                   Toast.makeText(getApplicationContext(),"le message est envoyé",Toast.LENGTH_LONG).show();
+        if (!ID_reciver.equals(user1.getUid())) {
+            user.put("ID_Reciver", user1.getUid());
+            user.put("Sender_Name", name_current_user);
+            user.put("message_envoyer", message);
+            user.put("Is_Readed", "false");
+            user.put("Date", date);
+            firebaseDatabase.child("ENVOYE").child(ID_reciver).child(user1.getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "le message est envoyé", Toast.LENGTH_LONG).show();
 
-               }else{
-                   String error;
-                   error=task.getException().getMessage();
-                   Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+                    } else {
+                        String error;
+                        error = task.getException().getMessage();
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 
-               }
-           }
-       });
+                    }
+                }
+            });
+        }
    }
    public void updateAllMsg(String allMSG,String ID_reciver){
-       senderUser.put("message_afficher",allMSG);
-       firebaseDatabase.child("RECEVER").child(user1.getUid()).child(ID_reciver).setValue(senderUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-           @Override
-           public void onComplete(@NonNull Task task) {
-               if(task.isSuccessful()){
-                   Toast.makeText(getApplicationContext(),"le message est envoyé",Toast.LENGTH_LONG).show();
+        if (!ID_reciver.equals(user1.getUid())) {
+            senderUser.put("message_afficher", allMSG);
+            firebaseDatabase.child("RECEVER").child(user1.getUid()).child(ID_reciver).setValue(senderUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "le message est envoyé", Toast.LENGTH_LONG).show();
 
-               }else{
-                   String error;
-                   error=task.getException().getMessage();
-                   Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+                    } else {
+                        String error;
+                        error = task.getException().getMessage();
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 
-               }
-           }
-       });
-       firebaseDatabase.child("RECEVER").child(ID_reciver).child(user1.getUid()).setValue(senderUser).addOnCompleteListener(new OnCompleteListener<Void>() {
-           @Override
-           public void onComplete(@NonNull Task task) {
-               if(task.isSuccessful()){
-               }else{
-                   String error;
-                   error=task.getException().getMessage();
-                   Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            firebaseDatabase.child("RECEVER").child(ID_reciver).child(user1.getUid()).setValue(senderUser).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                    } else {
+                        String error;
+                        error = task.getException().getMessage();
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 
-               }
-           }
-       });
+                    }
+                }
+            });
+        }
    }
    public void hideKeyBoard(View view){
        InputMethodManager imm = (InputMethodManager) chatRoom.this.getSystemService(Activity.INPUT_METHOD_SERVICE);
@@ -240,32 +247,37 @@ public class chatRoom extends AppCompatActivity {
            }
        },duree);
    }
-   public void updateIs_ReadedStatus(String message,String senderName,String ID_reciver){
-       user.put("ID_Reciver",ID_reciver);
-       user.put("Sender_Name",senderName);
-       user.put("message_envoyer",message);
-       user.put("Is_Readed","true");
-       firebaseDatabase.child("ENVOYE").child(user1.getUid()).child(ID_reciver).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-           @Override
-           public void onComplete(@NonNull Task task) {
-               if(task.isSuccessful()){
-               Log.d("here_the_problem","le message est envoyé");
-               }else{
-                   String error;
-                   error=task.getException().getMessage();
-                   Toast.makeText(getApplicationContext(),error,Toast.LENGTH_LONG).show();
+   public void updateIs_ReadedStatus(String message,String senderName,String ID_reciver,String date){
+        if (!ID_reciver.equals(user1.getUid())) {
+            user.put("ID_Reciver", ID_reciver);
+            user.put("Sender_Name", senderName);
+            user.put("message_envoyer", message);
+            user.put("Is_Readed", "true");
+            user.put("Date", date);
+            firebaseDatabase.child("ENVOYE").child(user1.getUid()).child(ID_reciver).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        Log.d("here_the_problem", "update is read is the problem");
+                    } else {
+                        String error;
+                        error = task.getException().getMessage();
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
 
-               }
-           }
-       });
+                    }
+                }
+            });
+        }
    }
    public void getMessageReceiver(){
        DoctorsRef.child("ENVOYE").child(user1.getUid()).child(ID_reciver).addListenerForSingleValueEvent(new ValueEventListener() {
            @Override
            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               if (dataSnapshot.child("message_envoyer").exists()) {
+               boolean is_exist = dataSnapshot.child("message_envoyer").exists() && dataSnapshot.child("Date").exists();
+               if (is_exist) {
                    String msg = dataSnapshot.child("message_envoyer").getValue(String.class);
-                   updateIs_ReadedStatus(msg,SenderName, ID_reciver);
+                   String date = dataSnapshot.child("Date").getValue(String.class);
+                   updateIs_ReadedStatus(msg,SenderName, ID_reciver,date);
                }
                else  Log.d("chatdd","nothing updated!!!!!!!");
 
@@ -278,4 +290,16 @@ public class chatRoom extends AppCompatActivity {
            }
        });
    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (thread.isAlive()) { thread.interrupt();}
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (thread.isAlive()) { thread.interrupt();}
+    }
 }

@@ -12,6 +12,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -78,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        updateNbrMessagesNoRead();
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -92,18 +92,18 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-         locationListener = new MyLocation(getBaseContext());
-
-        checkPermissions();
-
-        View hView = navigationView.getHeaderView(0);
-         nav_user = (TextView) hView.findViewById(R.id.nav_name);
-         myPef =getSharedPreferences("userPref", Context.MODE_PRIVATE);
-
+       locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+       locationListener = new MyLocation(getBaseContext());
+       checkPermissions();
+       View hView = navigationView.getHeaderView(0);
+       nav_user = (TextView) hView.findViewById(R.id.nav_name);
+       myPef =getSharedPreferences("userPref", Context.MODE_PRIVATE);
+       saveUserInfo(myPef);
+       nav_user.setText(myPef.getString("userName","Sahti fi yedi"));
+       refreshFregment();
+    }
+    public void saveUserInfo(final SharedPreferences myPef){
         if (FirebaseAuth.getInstance().getCurrentUser()!= null) {
-
-
             DoctorsRef.child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -113,20 +113,14 @@ public class MainActivity extends AppCompatActivity {
                     editor.apply();
                     nav_user.setText(myPef.getString("userName","Sahti fi yedi"));
                 }
-
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
                 }
             });
+            updateNbrMessagesNoRead();
 
         }
-
-        nav_user.setText(myPef.getString("userName","Sahti fi yedi"));
-
-       //refreshFregment();
-
-
 
     }
 
@@ -261,29 +255,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshFregment(){
-        thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (!thread.isInterrupted()) {
-                        Thread.sleep(10000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                updateNbrMessagesNoRead();
-                                if (getFragmentRefreshListener()!= null){
-                                    getFragmentRefreshListener().onRefresh();
+        if (FirebaseAuth.getInstance().getCurrentUser()!= null) {
+            thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        while (!thread.isInterrupted()) {
+                            Thread.sleep(10000);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    updateNbrMessagesNoRead();
+                                    if (getFragmentRefreshListener() != null) {
+                                        getFragmentRefreshListener().onRefresh();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
-            }
-        };
+            };
 
-        thread.start();
+            thread.start();
+        }
 
     }
     private void checkPermissions(){
@@ -314,6 +310,24 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        refreshFregment();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (thread.isAlive()) { thread.interrupt();}
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (thread.isAlive()) { thread.interrupt();}
     }
 }
 
