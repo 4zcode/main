@@ -1,86 +1,5 @@
 <resources>
     <string name="app_name">Sahti fi ydi</string>
-    <string name="title_placeholder">Title</string>
-    <string name="news_label">News</string>
-    <string name="sports_info_placeholder">Here is some news</string>
-    <string name="sports_image">Sports Image</string>
-    <string name="filler_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas
-        vitae semper quam. In a metus ut nisl pharetra hendrerit et a leo. Curabitur nec sapien
-        odio. Vestibulum a mollis felis. Cras molestie felis nibh, ut maximus mauris feugiat
-        tincidunt. Curabitur ultricies eros sed ipsum pulvinar vehicula. Maecenas volutpat,
-        massa sit amet aliquam eleifend, massa lorem tempor sapien, eget finibus massa dolor
-        molestie lorem. Suspendisse at purus mauris. Proin nibh ligula, suscipit vel pharetra
-        posuere, bibendum id lorem.</string>
-    <string name="hopitals">Hopitals</string>
-    <string name="phqr_qsies">phqr;qsies</string>
-    <string-array name="thename">
-        <item>ilyes pharmacies </item>
-        <item>borhan pharmacies</item>
-        <item>arbaoui slimane pharmacies</item>
-        <item>akram pharmacies</item>
-        <item>raouf pharmacies</item>
-    </string-array>
-    <string-array name="theadress">
-        <item>tepaza et bloc i chambre 23 with akram</item>
-        <item>togirt et bloc d chambre 23 with yaser</item>
-        <item>elbayadh et bloc b chambre 23 with nassim</item>
-        <item>mediya et bloc i chambre 23 with ilyes</item>
-        <item>mediya et bloc i chambre 23 with no one</item>
-    </string-array>
-    <string-array name="oppen">
-        <item>the oppening will be at 8</item>
-        <item>the oppening will be at 8</item>
-        <item>the oppening will be at 8</item>
-        <item>the oppening will be at 8</item>
-        <item>the oppening will be at 8</item>
-    </string-array>
-    <string-array name="close">
-        <item>the closing will be at 5</item>
-        <item>the closing will be at 5</item>
-        <item>the closing will be at 5</item>
-        <item>the closing will be at 5</item>
-        <item>the closing will be at 5</item>
-    </string-array>
-    <string-array name="sports_titles">
-        <item>Baseball</item>
-        <item>Badminton</item>
-        <item>Basketball</item>
-        <item>Bowling</item>
-        <item>Cycling</item>
-        <item>Golf</item>
-        <item>Running</item>
-        <item>Soccer</item>
-        <item>Swimming</item>
-        <item>Table Tennis</item>
-        <item>Tennis</item>
-    </string-array>
-
-    <string-array name="sports_info">
-        <item>Here is some Baseball news!</item>
-        <item>Here is some Badminton news!</item>
-        <item>Here is some Basketball news!</item>
-        <item>Here is some Bowling news!</item>
-        <item>Here is some Cycling news!</item>
-        <item>Here is some Golf news!</item>
-        <item>Here is some Running news!</item>
-        <item>Here is some Soccer news!</item>
-        <item>Here is some Swimming news!</item>
-        <item>Here is some Table Tennis news!</item>
-        <item>Here is some Tennis news!</item>
-    </string-array>
-    <string-array name="sports_cate">
-        <item>Here is some Baseball news!</item>
-        <item>Here is some Badminton news!</item>
-        <item>Here is some Basketball news!</item>
-        <item>Here is some Bowling news!</item>
-        <item>Here is some Cycling news!</item>
-        <item>Here is some Golf news!</item>
-        <item>Here is some Running news!</item>
-        <item>Here is some Soccer news!</item>
-        <item>Here is some Swimming news!</item>
-        <item>Here is some Table Tennis news!</item>
-        <item>Here is some Tennis news!</item>
-    </string-array>
 
     <array name="sports_images">
         <item>@drawable/img_baseball</item>
@@ -152,25 +71,13 @@
         <item>Ophtalmologue</item>
         <item>Borthopédiste</item>
     </string-array>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Sahti fi ydi</string>
     <string name="nav_header_subtitle">sahti.fiydi@esi-sba.dz</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Paramétre</string>
 
-    <string name="menu_home">Sahti fi ydi</string>
-    <string name="menu_gallery">don de sang</string>
-    <string name="menu_slideshow">a propos de nous</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
-
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="entre_votre_wilaya">entre votre wilaya</string>
-    <string name="search">Search</string>
     <string name="contact_nous">Contactez-nous</string>
     <string name="partager">Partager</string>
     <string name="a_prpos_de_nous">A propos de nous</string>
@@ -240,10 +147,5 @@
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
-    <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
-    <string name="welcome">"Welcome !"</string>
-    <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
-    <string name="login_failed">"Login failed"</string>
 </resources>

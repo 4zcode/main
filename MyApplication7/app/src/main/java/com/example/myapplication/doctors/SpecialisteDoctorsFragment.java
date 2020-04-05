@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,6 +40,8 @@ public class SpecialisteDoctorsFragment extends Fragment {
         }
         DoctorsSpecialisteAdapter mAdapter= new DoctorsSpecialisteAdapter( getActivity(), mDoctorsSpecialistes);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
         // Inflate the layout for this fragment
         return view;
        /* ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
