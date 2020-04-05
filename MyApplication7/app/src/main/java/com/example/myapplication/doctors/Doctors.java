@@ -18,14 +18,14 @@ public class Doctors {
     }
 
 
-    String getNameDoctor() {
+    public String getNameDoctor() {
         return NameDoctor;
     }
 
-    String getPlaceDoctor() {
+     public String getPlaceDoctor() {
         return PlaceDoctor;
     }
-    String getSexDoctor(){
+   public  String getSexDoctor(){
         return SexDoctor;
     }
 
