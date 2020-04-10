@@ -16,8 +16,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".message.messageBoit"
-            android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".profile"></activity>
+        <activity
+            android:name=".message.messageBoit"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".message.chatRoom"
             android:parentActivityName=".message.messageBoit"
@@ -53,6 +55,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
