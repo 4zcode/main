@@ -2,17 +2,14 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -21,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
@@ -37,7 +33,6 @@ import com.example.myapplication.Hospitals.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacies;
 import com.example.myapplication.doctors.DoctorActivity;
 import com.example.myapplication.location.MyLocation;
-import com.example.myapplication.toolsbar.sahti_fi_ydi.HomeFragment;
 import com.example.myapplication.ui.login.Signin;
 import com.example.myapplication.ui.login.SignupActivity;
 import com.example.myapplication.message.messageBoit;
@@ -51,11 +46,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
@@ -72,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentRefreshListener fragmentRefreshListener;
     private LocationManager locationManager ;
     private LocationListener locationListener ;
+
 
 
 
@@ -100,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
        myPef =getSharedPreferences("userPref", Context.MODE_PRIVATE);
        saveUserInfo(myPef);
        nav_user.setText(myPef.getString("userName","Sahti fi yedi"));
-       refreshFregment();
+        if (isNetworkAvailable()){
+            refreshFregment();}
     }
     public void saveUserInfo(final SharedPreferences myPef){
         if (FirebaseAuth.getInstance().getCurrentUser()!= null) {
@@ -283,7 +278,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
     private void checkPermissions(){
-
         int permissionLocation = ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION);
         List<String> listPermission = new ArrayList<>();
         if (permissionLocation != PackageManager.PERMISSION_GRANTED){
@@ -292,10 +286,8 @@ public class MainActivity extends AppCompatActivity {
                 ActivityCompat.requestPermissions(this,listPermission.toArray(new String[listPermission.size()]),LOCATION_PERMISSION);
             }
         }else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
+          locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
-
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -311,7 +303,22 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    public boolean isNetworkAvailable() {
+        boolean HaveConnectWIFI = false;
+        boolean HaveConnectMobile = false;
 
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+        NetworkInfo[] activeNetworkInfo = connectivityManager.getAllNetworkInfo();
+        for (NetworkInfo ni : activeNetworkInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    HaveConnectWIFI = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    HaveConnectMobile = true;
+        }
+        return HaveConnectMobile || HaveConnectWIFI;
+    }
     @Override
     protected void onStart() {
         super.onStart();

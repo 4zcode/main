@@ -157,7 +157,7 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
 
     }
 
-    private boolean isNetworkAvailable() {
+    public boolean isNetworkAvailable() {
         boolean HaveConnectWIFI = false;
         boolean HaveConnectMobile = false;
 

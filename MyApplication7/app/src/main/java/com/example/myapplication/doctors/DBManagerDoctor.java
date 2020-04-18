@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.util.Log;
 
 import com.example.myapplication.DatabaseHelper;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 
 
 public class DBManagerDoctor {
-    private DatabaseHelper dbHelper;
+     private DatabaseHelper dbHelper;
 
     private Context context;
 

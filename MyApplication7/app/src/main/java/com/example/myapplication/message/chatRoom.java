@@ -36,7 +36,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class chatRoom extends AppCompatActivity {
@@ -286,7 +285,7 @@ public class chatRoom extends AppCompatActivity {
 
            @Override
            public void onCancelled(@NonNull DatabaseError databaseError) {
-               Log.d("chatdd", databaseError.getMessage());
+               Log.d("chatRoom", databaseError.getMessage());
            }
        });
    }

@@ -1,5 +1,7 @@
 package com.example.myapplication;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,8 +54,6 @@ public class insertdoct extends AppCompatActivity {
         String sex;
         int i=this.sex.getCheckedRadioButtonId();
         if(i== R.id.man){sex= "man";}else{sex="woman";}
-        Intent intent=new Intent(this,MainActivity.class);
-        startActivity(intent);
         DatabaseReference firebaseDatabase;
         firebaseDatabase=FirebaseDatabase.getInstance().getReference().child("Doctor");
         FirebaseUser user1=FirebaseAuth.getInstance().getInstance().getCurrentUser();
@@ -80,6 +80,9 @@ public class insertdoct extends AppCompatActivity {
                 }
             }
         });
+
+        Intent intent=new Intent(this,MainActivity.class);
+        startActivity(intent);
 
     }
 }

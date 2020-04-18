@@ -14,9 +14,7 @@ public class Insertion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        Log.d("aymane","we still dead1");
         setContentView(R.layout.activity_insersion);
-        Log.d("aymane","we still dead2");
     }
     public void insererpharma(View view){
         Intent intent=new Intent(this, Add.class);
@@ -28,11 +26,8 @@ public class Insertion extends AppCompatActivity {
     }
 
     public void addc (View view) {
-        Log.d("aymane","we still dead3");
         Intent intent=new Intent(this,insertdoct.class );
-        Log.d("aymane","we still dead4");
         startActivity(intent);
-        Log.d("aymane","we still dead5");
     }
 
     public void addlabo(View view) {
