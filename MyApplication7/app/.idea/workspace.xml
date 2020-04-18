@@ -11,9 +11,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8f141638-1725-487d-bafc-3ee0c64beee9" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="8f141638-1725-487d-bafc-3ee0c64beee9" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -352,7 +350,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587204480645</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="with profile">
+      <created>1587205698988</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1587205698988</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -381,7 +386,8 @@
     <MESSAGE value="chat room" />
     <MESSAGE value="finish message module with succefull" />
     <MESSAGE value="fixing GPS" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixing GPS" />
+    <MESSAGE value="with profile" />
+    <option name="LAST_COMMIT_MESSAGE" value="with profile" />
   </component>
   <component name="WindowStateProjectService">
     <state x="402" y="97" key="#app" />
