@@ -13,9 +13,9 @@ public class DoctorsSpecialistes {
     }
 
 
-        String getSpecialiste() {
+       public String getSpecialiste() {
         return this.SpecialisteName;
     }
 
-      int getImageSpecialiste() {return this.SpecialisteImage;}
+     public int getImageSpecialiste() {return this.SpecialisteImage;}
 }

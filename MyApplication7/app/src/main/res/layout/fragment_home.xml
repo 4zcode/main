@@ -83,13 +83,15 @@
         android:onClick="insertion"
         android:text="Add your etablissement"
         android:textSize="10dp" />
+
     <Button
         android:id="@+id/b1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="sign up"
+        android:layout_below="@+id/message_button_intent"
+        android:layout_marginTop="95dp"
         android:onClick="log"
-        />
+        android:text="sign up" />
 
     <Button
         android:id="@+id/message_button_intent"
@@ -108,5 +110,14 @@
         android:text="log in"
         android:onClick="insecre"
         />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="235dp"
+        android:layout_marginRight="235dp"
+        android:onClick="profile"
+        android:text="profile" />
+
 
 </RelativeLayout>

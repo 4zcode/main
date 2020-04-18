@@ -18,7 +18,7 @@ public class Doctors {
 
 
     public  Doctors(String id,String name, String place, String phone, String spec, String sex) {
-       this.Doctor_ID_Firebase=id;
+        this.Doctor_ID_Firebase=id;
         this.NameDoctor = name;
         this.PlaceDoctor = place;
         this.phone = phone;

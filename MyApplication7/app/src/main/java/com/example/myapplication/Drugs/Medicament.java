@@ -13,15 +13,15 @@ public class Medicament {
     }
 
 
-    String getMedicamenName() {
+    public String getMedicamenName() {
         return MedicamenName;
     }
 
-    String getMedicamenPrix() {
+   public  String getMedicamenPrix() {
         return MedicamentClass;
     }
 
-    String getMedicamentClass() {
+   public  String getMedicamentClass() {
         return MedicamenPrix;
     }
 

@@ -16,18 +16,18 @@ public class Hopital {
     }
 
 
-    String getHopitalName() {
+    public String getHopitalName() {
         return hopitalName;
     }
 
-    String getHopitalPlace() {
+   public String getHopitalPlace() {
         return hopitalPlace;
     }
-    String getHopitalContact(){
+   public String getHopitalContact(){
         return hopitalContact;
     }
 
-    int getImageResource() {
+  public  int getImageResource() {
         return imageResource;
     }
 

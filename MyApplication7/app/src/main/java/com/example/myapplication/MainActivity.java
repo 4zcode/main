@@ -166,6 +166,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent=new Intent(this, Insertion.class);
         startActivity(intent);
     }
+    public void profile(View view){
+        Intent intent=new Intent(this, profile.class);
+        startActivity(intent);
+    }
     public void log(View view){
         Intent intent=new Intent(this, SignupActivity.class);
         startActivity(intent);

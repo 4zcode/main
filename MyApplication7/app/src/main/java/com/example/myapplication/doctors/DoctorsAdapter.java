@@ -77,7 +77,6 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
         Doctors currentDoctor = mDoctors.get(position);
         //Bind the data to the views
         holder.bindTo(currentDoctor);
-
     }
 
 
