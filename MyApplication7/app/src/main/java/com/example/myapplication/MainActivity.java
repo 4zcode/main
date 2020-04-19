@@ -30,6 +30,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.myapplication.Drugs.medicament_activity;
 import com.example.myapplication.Hospitals.HopitalActivity;
+import com.example.myapplication.Laboratoir.Labo_activity;
 import com.example.myapplication.Pharmacies.pharmacies;
 import com.example.myapplication.doctors.DoctorActivity;
 import com.example.myapplication.location.MyLocation;
@@ -147,6 +148,11 @@ public class MainActivity extends AppCompatActivity {
     public void hos(View view) {
         Intent intent4 = new Intent(this, HopitalActivity.class);
         startActivity(intent4);
+
+    }
+    public void labo(View view) {
+        Intent intent5 = new Intent(this, Labo_activity.class);
+        startActivity(intent5);
 
     }
     @Override

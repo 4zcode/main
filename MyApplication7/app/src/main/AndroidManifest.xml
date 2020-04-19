@@ -16,7 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".profile"></activity>
+        <activity android:name=".Add_labo"></activity>
+        <activity android:name=".Laboratoir.Labo_activity" />
+        <activity android:name=".profile" />
         <activity
             android:name=".message.messageBoit"
             android:parentActivityName=".MainActivity" />
