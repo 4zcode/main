@@ -13,17 +13,19 @@ public class Doctors {
     private final String phone;
     private final String spec;
     private final String SexDoctor;
+    private String ImageUrl;
     public static final String RECIVER = "Reciver";
     public static final String SENDER = "sender";
 
 
-    public  Doctors(String id,String name, String place, String phone, String spec, String sex) {
+    public  Doctors(String id,String name, String place, String phone, String spec, String sex,String image) {
         this.Doctor_ID_Firebase=id;
         this.NameDoctor = name;
         this.PlaceDoctor = place;
         this.phone = phone;
         this.spec = spec;
         this.SexDoctor = sex;
+        this.ImageUrl = image;
     }
 
 
@@ -55,10 +57,21 @@ public class Doctors {
     public void setDoctor_ID_Firebase(String doctor_ID_Firebase) {
         Doctor_ID_Firebase = doctor_ID_Firebase;
     }
+
+    public String getImageUrl() {
+        return ImageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        ImageUrl = imageUrl;
+    }
+
     static Intent starter(Context context,String reciver,String sender) {
         Intent chatIntent = new Intent(context, chatRoom.class);
         chatIntent.putExtra(RECIVER, reciver);
         chatIntent.putExtra(SENDER, sender);
         return chatIntent;
     }
+
+
 }

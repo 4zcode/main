@@ -23,17 +23,17 @@ public class HomeFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-         View root = inflater.inflate(R.layout.fragment_home, container, false);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
         message_button = root.findViewById(R.id.message_button_intent);
         myPef = getActivity().getSharedPreferences("userPref", Context.MODE_PRIVATE);
         ((MainActivity)getActivity()).setFragmentRefreshListener(new FragmentRefreshListener() {
             @Override
             public void onRefresh() {
-                message_button.setText("Messages: "+myPef.getString("NbrMessageNoRead","Messages"));
+           message_button.setText("Messages: "+myPef.getString("NbrMessageNoRead","Messages"));
             }
         });
         message_button.setText("Messages: "+myPef.getString("NbrMessageNoRead","Messages"));
-        if (FirebaseAuth.getInstance().getCurrentUser()!= null) {
+        if (myPef.getBoolean("IsLogIn",false ) && FirebaseAuth.getInstance().getCurrentUser()!=null) {
             message_button.setVisibility(View.VISIBLE);
         }
         return root;

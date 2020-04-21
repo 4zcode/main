@@ -42,6 +42,9 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
     private ProgressDialog mProgressDialog;
     private DoctorsAdapter mAdapter;
     private SearchView searchView;
+    private Spinner spinner;
+    private ArrayAdapter<CharSequence> spinnerAdapter;
+
 
     public AdvanceSearchDoctorFragment() {
     }
@@ -55,8 +58,7 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Spinner spinner;
-        ArrayAdapter<CharSequence> adapspin;
+
         View view = inflater.inflate(R.layout.fragment_doctor_advance_search, container, false);
         mRecyclerView = view.findViewById(R.id.doctor_recycler_advanced_search);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -85,11 +87,11 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
         if (spinner != null) {
             spinner.setOnItemSelectedListener(AdvanceSearchDoctorFragment.this);
         }
-        adapspin = ArrayAdapter.createFromResource(getActivity(), R.array.wilaya, android.R.layout.simple_spinner_item);
-        adapspin.setDropDownViewResource
+        spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.wilaya, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource
                 (android.R.layout.simple_spinner_dropdown_item);
         if (spinner != null) {
-            spinner.setAdapter(adapspin);
+            spinner.setAdapter(spinnerAdapter);
         }
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -118,18 +120,23 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    String id_firebase = ds.child("Doctor_ID_Firebase").getValue(String.class);
-                    String Name = ds.child("NameDoctor").getValue(String.class);
-                    String Place = ds.child("PlaceDoctor").getValue(String.class);
-                    String Phone = ds.child("phone").getValue(String.class);
-                    String Spec = ds.child("spec").getValue(String.class);
-                    String Sex = ds.child("SexDoctor").getValue(String.class);
-                    if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
-                        dbManager.update(id_firebase, Name, Place, Phone, Spec, Sex);
-                    } else {
-                        Log.d("doctor_activity_test", Name + " not exist ");
-                        Log.d("doctor_activity_test", id_firebase + " not exist");
-                        dbManager.insert(id_firebase, Name, Place, Phone, Spec, Sex);
+                    boolean Is_Exist =ds.child("Doctor_ID_Firebase").exists() &&ds.child("mImageUrl").exists() && ds.child("NameDoctor").exists() && ds.child("PlaceDoctor").exists() && ds.child("phone").exists() && ds.child("Speciality").exists() &&ds.child("SexDoctor").exists();
+                    if (Is_Exist) {
+                        String id_firebase = ds.child("Doctor_ID_Firebase").getValue(String.class);
+                        String Name = ds.child("NameDoctor").getValue(String.class);
+                        String Place = ds.child("PlaceDoctor").getValue(String.class);
+                        String Phone = ds.child("phone").getValue(String.class);
+                        String Spec = ds.child("Speciality").getValue(String.class);
+                        String Sex = ds.child("SexDoctor").getValue(String.class);
+                        String ImageUrl = ds.child("mImageUrl").getValue(String.class);
+
+                        if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
+                            dbManager.update(id_firebase, Name, Place, Phone, Spec, Sex,ImageUrl);
+                        } else {
+                            Log.d("doctor_activity_test", Name + " not exist ");
+                            Log.d("doctor_activity_test", id_firebase + " not exist");
+                            dbManager.insert(id_firebase, Name, Place, Phone, Spec, Sex,ImageUrl);
+                        }
                     }
                 }
                 mDoctorsData = dbManager.listdoctors();

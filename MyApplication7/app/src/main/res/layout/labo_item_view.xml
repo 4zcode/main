@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="@dimen/card_margin"
+    android:background="?android:selectableItemBackground">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/labo_image"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            tools:src="@drawable/doctorm"
+            />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/labo_name"
+                style="@style/TextAppearance.AppCompat.Headline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                tools:text="Medicament Name"
+                />
+
+            <TextView
+                android:id="@+id/labo_place"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:textStyle="italic"
+                tools:text="Class : I"
+                android:textColor="?android:textColorSecondary" />
+
+            <TextView
+                android:id="@+id/labo_contact"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                tools:text="200 DA" />
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

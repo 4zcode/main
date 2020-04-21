@@ -6,7 +6,7 @@
     android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
-    tools:context=".profile"
+    tools:context=".addProfile.AddDoctorProfile"
     android:background="@drawable/bb">
   <androidx.cardview.widget.CardView
       android:layout_width="120dp"
@@ -61,8 +61,8 @@
         android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="your mail"
-        android:id="@+id/pmail"
+        android:hint="your speciality"
+        android:id="@+id/doctor_speciality"
         android:typeface="serif"
         ></EditText>
     <EditText

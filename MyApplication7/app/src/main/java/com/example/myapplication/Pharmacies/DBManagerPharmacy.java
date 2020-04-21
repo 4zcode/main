@@ -12,18 +12,18 @@ import java.util.ArrayList;
 
 import static com.example.myapplication.DatabaseHelper.TABLE_NAME_PHARMACIE;
 
-public class DBManagerph {
+public class DBManagerPharmacy {
     private DatabaseHelper dbHelper;
 
     private Context context;
 
     private SQLiteDatabase database;
 
-    public DBManagerph(Context c) {
+    public DBManagerPharmacy(Context c) {
         context = c;
     }
 
-    public DBManagerph open() throws SQLException {
+    public DBManagerPharmacy open() throws SQLException {
         dbHelper = new DatabaseHelper(context);
         database = dbHelper.getWritableDatabase();
         return this;
@@ -64,10 +64,10 @@ public class DBManagerph {
     public void delete(long _id) {
         database.delete(TABLE_NAME_PHARMACIE, DatabaseHelper._ID_PHARMA + "=" + _id, null);
     }
-    public ArrayList<pharmaciesinit> listPharmacies() {
+    public ArrayList<pharmacy> listPharmacies() {
         String sql = "select * from " + TABLE_NAME_PHARMACIE;
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        ArrayList<pharmaciesinit> storeContacts = new ArrayList<>();
+        ArrayList<pharmacy> storeContacts = new ArrayList<>();
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
             do {
@@ -76,7 +76,7 @@ public class DBManagerph {
                 String place = cursor.getString(2);
                 String open = cursor.getString(3);
                 String close = cursor.getString(4);
-                storeContacts.add(new pharmaciesinit(name, place,open,close));
+                storeContacts.add(new pharmacy(name, place,open,close));
             }
             while (cursor.moveToNext());
         }

@@ -1,11 +1,12 @@
-package com.example.myapplication;
+package com.example.myapplication.addProfile;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.myapplication.R;
 
 
 public class Insertion extends AppCompatActivity {
@@ -17,16 +18,16 @@ public class Insertion extends AppCompatActivity {
         setContentView(R.layout.activity_insersion);
     }
     public void insererpharma(View view){
-        Intent intent=new Intent(this, Add.class);
+        Intent intent=new Intent(this, AddPharmacyProfil.class);
         startActivity(intent);
     }
     public void insererhopital(View view){
-        Intent intent=new Intent(this, AddHospital.class);
+        Intent intent=new Intent(this, AddHospitalProfil.class);
         startActivity(intent);
     }
 
     public void addc (View view) {
-        Intent intent=new Intent(this,insertdoct.class );
+        Intent intent=new Intent(this,AddDoctorProfile.class );
         startActivity(intent);
     }
 

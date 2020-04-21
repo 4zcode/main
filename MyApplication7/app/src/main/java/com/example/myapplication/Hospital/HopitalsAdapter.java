@@ -1,4 +1,4 @@
-package com.example.myapplication.Hospitals;
+package com.example.myapplication.Hospital;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -20,25 +20,41 @@ import java.util.ArrayList;
 
 class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewHolder> {
 
-    //Member variables
     public GradientDrawable mGradientDrawable;
     public ArrayList<Hopital> mHopitalsData;
     public static Context mContext;
+    private ArrayList<Hopital> mHopitalArray = new ArrayList<>();
+
 
     HopitalsAdapter(Context context, ArrayList<Hopital> HopitalsData) {
         this.mHopitalsData = HopitalsData;
         this.mContext = context;
-
-        //Prepare gray placeholder
+        this.mHopitalArray.addAll(mHopitalsData);
         mGradientDrawable = new GradientDrawable();
         mGradientDrawable.setColor(Color.GRAY);
-
-        //Make the placeholder same size as the images
         Drawable drawable = ContextCompat.getDrawable
                 (mContext, R.drawable.doctorm);
         if (drawable != null) {
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
+    }
+    public void filter(String text) {
+        if(text.isEmpty()){
+            mHopitalsData.clear();
+            mHopitalsData.addAll(mHopitalArray);
+        } else{
+            ArrayList<Hopital> result = new ArrayList<>();
+            text = text.toLowerCase();
+            for(Hopital item: mHopitalArray){
+                if(item.getHopitalName().toLowerCase().contains(text) ||
+                        item.getHopitalPlace().toLowerCase().contains(text)){
+                    result.add(item);
+                }
+            }
+            mHopitalsData.clear();
+            mHopitalsData.addAll(result);
+        }
+        notifyDataSetChanged();
     }
 
 
@@ -50,13 +66,8 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewH
 
     @Override
     public void onBindViewHolder(HopitalsViewHolder holder, int position) {
-
-        //Get the current sport
         Hopital currentHopital = mHopitalsData.get(position);
-
-        //Bind the data to the views
         holder.bindTo(currentHopital);
-
     }
 
 
@@ -67,8 +78,6 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewH
 
     static class HopitalsViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-
-        //Member Variables for the holder data
         public TextView mHopitalNameTextView;
         public TextView mHopitalPlaceTextView;
         public TextView mHopitalContactTextView;
@@ -79,29 +88,20 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewH
 
         HopitalsViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
-
-            //Initialize the views
             mHopitalNameTextView = (TextView) itemView.findViewById(R.id.hopital_name);
             mHopitalPlaceTextView = (TextView) itemView.findViewById(R.id.hopital_place);
             mHopitalContactTextView = (TextView) itemView.findViewById(R.id.hopital_contact);
             mHopitalImage = (ImageView) itemView.findViewById(R.id.hopital_image);
-
             mCont = context;
             mGradientDrawable = gradientDrawable;
-
-            //Set the OnClickListener to the whole view
             itemView.setOnClickListener(this);
         }
 
         void bindTo(Hopital currentHopital) {
-            //Populate the textviews with data
             mHopitalNameTextView.setText(currentHopital.getHopitalName());
             mHopitalPlaceTextView.setText(currentHopital.getHopitalPlace());
             mHopitalContactTextView.setText(currentHopital.getHopitalContact());
-
-            //Get the current sport
             mCurrentHopital = currentHopital;
-
             Glide.with(mCont).load(currentHopital.getImageResource()).placeholder(mGradientDrawable).into(mHopitalImage);
         }
 

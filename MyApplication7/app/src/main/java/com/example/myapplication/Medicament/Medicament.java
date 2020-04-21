@@ -1,4 +1,4 @@
-package com.example.myapplication.Drugs;
+package com.example.myapplication.Medicament;
 
 public class Medicament {
     private final String MedicamenName;

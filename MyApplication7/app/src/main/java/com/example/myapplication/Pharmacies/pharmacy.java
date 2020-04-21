@@ -1,11 +1,11 @@
 package com.example.myapplication.Pharmacies;
 
-public class pharmaciesinit {
+public class pharmacy {
     String thename;
     String theadress;
     String oppen;
     String close;
-    public pharmaciesinit(String thenamem,String theadressm,String oppenm,String closem){
+    public pharmacy(String thenamem, String theadressm, String oppenm, String closem){
         this.close=closem;
         this.oppen=oppenm;
         this.theadress=theadressm;

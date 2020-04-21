@@ -1,6 +1,7 @@
-package com.example.myapplication.Hospitals;
+package com.example.myapplication.Hospital;
 
 import android.os.Bundle;
+import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,27 +13,35 @@ import java.util.ArrayList;
 
 public class HopitalActivity extends AppCompatActivity {
     private DBManagerHospital dbManagerHospital;
+    private SearchView searchView;
+    private HopitalsAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hospital_activity);
         RecyclerView mRecyclerView;
-        final HopitalsAdapter mAdapter;
-        final ArrayList<Hopital> mHopitalsData = new ArrayList<Hopital>();
-        String[] HopitalsName = getResources().getStringArray(R.array.doctor_names);
-        String[] HopitalsLocation = getResources().getStringArray(R.array.doctor_place);
-        String[] HopitalsContact = getResources().getStringArray(R.array.doctor_names);
-        //TypedArray sportsImageResources = getResources().obtainTypedArray(R.array.sports_images);
-
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-        ArrayList<Hopital> linkedList = new ArrayList<Hopital>();
+        searchView = findViewById(R.id.search_hopital);
+        ArrayList<Hopital> HopitalItems = new ArrayList<Hopital>();
         dbManagerHospital = new DBManagerHospital(this);
         dbManagerHospital.open();
-        linkedList = dbManagerHospital.listHopital();
-        HopitalsAdapter ada= new HopitalsAdapter(this,linkedList);
-        mRecyclerView.setAdapter(ada);
+        HopitalItems = dbManagerHospital.listHopital();
+        adapter = new HopitalsAdapter(this,HopitalItems);
+        mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(HopitalActivity.this));
         dbManagerHospital.close();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+               adapter.filter(query);
+                return true;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter.filter(newText);
+                return true;
+            }
+        });
     }
 }

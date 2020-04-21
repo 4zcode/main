@@ -84,14 +84,6 @@
         android:text="Add your etablissement"
         android:textSize="10dp" />
 
-    <Button
-        android:id="@+id/b1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/message_button_intent"
-        android:layout_marginTop="95dp"
-        android:onClick="log"
-        android:text="sign up" />
 
     <Button
         android:id="@+id/message_button_intent"

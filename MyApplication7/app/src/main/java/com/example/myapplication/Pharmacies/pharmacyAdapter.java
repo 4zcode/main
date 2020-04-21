@@ -18,16 +18,39 @@ import com.example.myapplication.R;
 
 import java.util.ArrayList;
 
-public class    adapterpharmacies extends RecyclerView.Adapter<adapterpharmacies.viewholder> {
-  public  ArrayList<pharmaciesinit> liste;
-  public Context context;
- public GradientDrawable gradientDrawable;
- public  adapterpharmacies (Context context1,ArrayList liste1){
+public class pharmacyAdapter extends RecyclerView.Adapter<pharmacyAdapter.viewholder> {
+  private   ArrayList<pharmacy> pharmacyData;
+  private Context context;
+  private GradientDrawable gradientDrawable;
+  private ArrayList<pharmacy> mPharmacyArray = new ArrayList<>();
+
+
+    public pharmacyAdapter(Context context1, ArrayList liste){
      this.context=context1;
-     this.liste=liste1;
-     gradientDrawable=new GradientDrawable();
+     this.pharmacyData=liste;
+     this.mPharmacyArray.addAll(pharmacyData);
+
+        gradientDrawable=new GradientDrawable();
      gradientDrawable.setColor(Color.BLUE);
  }
+    public void filter(String text) {
+        if(text.isEmpty()){
+            pharmacyData.clear();
+            pharmacyData.addAll(mPharmacyArray);
+        } else{
+            ArrayList<pharmacy> result = new ArrayList<>();
+            text = text.toLowerCase();
+            for(pharmacy item: mPharmacyArray){
+                if(item.getThename().toLowerCase().contains(text) ||
+                        item.getTheadress().toLowerCase().contains(text)){
+                    result.add(item);
+                }
+            }
+            pharmacyData.clear();
+            pharmacyData.addAll(result);
+        }
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
@@ -38,23 +61,24 @@ public class    adapterpharmacies extends RecyclerView.Adapter<adapterpharmacies
 
     @Override
     public void onBindViewHolder(@NonNull viewholder holder, int position) {
-        pharmaciesinit mcarent=liste.get(position);
+        pharmacy mcarent=pharmacyData.get(position);
         holder.onbind(mcarent);
 
     }
 
     @Override
     public int getItemCount() {
-        return liste.size();
+        return pharmacyData.size();
     }
 
 
     public class viewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        public TextView textView1,textView2,textView3,textView4;
-        ImageView imageView;
-        Context mcontextm;
-        pharmaciesinit mword;
-        GradientDrawable mgd;
+        private TextView textView1,textView2,textView3,textView4;
+        private ImageView imageView;
+        private Context mcontextm;
+        private pharmacy mword;
+        private GradientDrawable mgd;
+
         public viewholder(@NonNull Context contextm, View itemView,GradientDrawable mgradientDrawable) {
             super(itemView);
             mcontextm = contextm;
@@ -67,7 +91,7 @@ public class    adapterpharmacies extends RecyclerView.Adapter<adapterpharmacies
             gradientDrawable=mgradientDrawable;
             itemView.setOnClickListener(this);
         }
-        public void onbind(pharmaciesinit ilyes){
+        public void onbind(pharmacy ilyes){
             textView1.setText(ilyes.getThename());
             textView2.setText(ilyes.getTheadress());
             textView3.setText(ilyes.getOppen());

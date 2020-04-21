@@ -2,9 +2,13 @@ package com.example.myapplication.doctors;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,25 +23,23 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHolder> {
 
-    //Member variables
-    public GradientDrawable mGradientDrawable;
-    public ArrayList<Doctors> mDoctors;
-    public Context mContext;
+    private GradientDrawable mGradientDrawable;
+    private ArrayList<Doctors> mDoctors;
+    private Context mContext;
     private ArrayList<Doctors> mDoctorArray = new ArrayList<>();
 
     DoctorsAdapter(Context context, ArrayList<Doctors> doctorData) {
         this.mDoctors = doctorData;
         this.mContext = context;
         this.mDoctorArray.addAll(doctorData);
-        //Prepare gray placeholder
         mGradientDrawable = new GradientDrawable();
         mGradientDrawable.setColor(Color.GRAY);
-        //Make the placeholder same size as the images
         Drawable drawable = ContextCompat.getDrawable
                 (mContext, R.drawable.doctorm);
         if (drawable != null) {
@@ -52,7 +54,6 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
             ArrayList<Doctors> result = new ArrayList<>();
             text = text.toLowerCase();
             for(Doctors item: mDoctorArray){
-                //match by name or phone
                 if(item.getNameDoctor().toLowerCase().contains(text) ||
                         item.getSpec().toLowerCase().contains(text)){
                     result.add(item);
@@ -73,9 +74,7 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
 
     @Override
     public void onBindViewHolder(DoctorSViewHolder  holder, int position) {
-        //Get the current sport
         Doctors currentDoctor = mDoctors.get(position);
-        //Bind the data to the views
         holder.bindTo(currentDoctor);
     }
 
@@ -87,47 +86,67 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
 
     static class DoctorSViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
+        private TextView mNameText, mPlaceText,mSpecialiteText;
+        private ImageView mDoctorImage;
+        private Context mCont;
+        private Doctors mCurrentDoctor;
+        private GradientDrawable mGradientDrawable;
+        private SharedPreferences myPef;
 
-        //Member Variables for the holder data
-        public TextView mNameText, mPlaceText,mSpecialiteText;
-        ImageView mDoctorImage;
-        Context mCont;
-        Doctors mCurrentDoctor;
-        GradientDrawable mGradientDrawable;
 
         DoctorSViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
-            //Initialize the views
             mNameText = (TextView) itemView.findViewById(R.id.name_doctor);
             mPlaceText = (TextView) itemView.findViewById(R.id.place_doctor) ;
             mDoctorImage = (ImageView) itemView.findViewById(R.id.doctor_image);
             mSpecialiteText =(TextView) itemView.findViewById(R.id.specialite_doctor);
             mCont = context;
             mGradientDrawable = gradientDrawable;
-            //Set the OnClickListener to the whole view
             itemView.setOnClickListener(this);
         }
 
         void bindTo(Doctors currentDoctor) {
-            //Populate the textviews with data
             mNameText.setText(currentDoctor.getNameDoctor());
             mPlaceText.setText(currentDoctor.getPlaceDoctor());
             mSpecialiteText.setText(currentDoctor.getSpec());
-            //Get the current sport
             mCurrentDoctor = currentDoctor;
-            if(mCurrentDoctor.getSexDoctor().equals("man")) Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mDoctorImage);
-            else Glide.with(mCont).load(R.drawable.doctorf).placeholder(mGradientDrawable).into(mDoctorImage);
+            if (isNetworkAvailable()) {
+                Picasso.with(mCont).load(mCurrentDoctor.getImageUrl()).into(mDoctorImage);
+                Log.d("imageTest", "firebase id is : " + mCurrentDoctor.getDoctor_ID_Firebase());
+            }else{
+                if(mCurrentDoctor.getSexDoctor().equals("man")) Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mDoctorImage);
+                else Glide.with(mCont).load(R.drawable.doctorf).placeholder(mGradientDrawable).into(mDoctorImage);
+            }
+        }
+        public boolean isNetworkAvailable() {
+            boolean HaveConnectWIFI = false;
+            boolean HaveConnectMobile = false;
+
+            ConnectivityManager connectivityManager = (ConnectivityManager) mCont.getSystemService(mCont.CONNECTIVITY_SERVICE);
+            NetworkInfo[] activeNetworkInfo = connectivityManager.getAllNetworkInfo();
+            for (NetworkInfo ni : activeNetworkInfo) {
+                if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                    if (ni.isConnected())
+                        HaveConnectWIFI = true;
+                if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                    if (ni.isConnected())
+                        HaveConnectMobile = true;
+            }
+            return HaveConnectMobile || HaveConnectWIFI;
         }
 
         @Override
         public void onClick(View view) {
-            FirebaseUser user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
-            if (!user1.getUid().equals(mCurrentDoctor.getDoctor_ID_Firebase()) ){
-            Intent intent = Doctors.starter(mCont, mCurrentDoctor.getDoctor_ID_Firebase(), mCurrentDoctor.getNameDoctor());
-            mCont.startActivity(intent);
-        }else {
-            Toast.makeText(mCont,"you cant send to your self",Toast.LENGTH_LONG).show();
-        }
+            myPef =mCont.getSharedPreferences("userPref", Context.MODE_PRIVATE);
+            if (myPef.getBoolean("IsLogIn", false) && FirebaseAuth.getInstance().getCurrentUser() != null) {
+                FirebaseUser user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
+                if (!user1.getUid().equals(mCurrentDoctor.getDoctor_ID_Firebase())) {
+                    Intent intent = Doctors.starter(mCont, mCurrentDoctor.getDoctor_ID_Firebase(), mCurrentDoctor.getNameDoctor());
+                    mCont.startActivity(intent);
+                } else {
+                    Toast.makeText(mCont, "you cant send to your self", Toast.LENGTH_LONG).show();
+                }
+            }
         }
     }
 }

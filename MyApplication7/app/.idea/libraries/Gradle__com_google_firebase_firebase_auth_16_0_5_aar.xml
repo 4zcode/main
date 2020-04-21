@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.google.firebase:firebase-auth:16.0.5@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.4.1-all/gradle-5.4.1/caches/transforms-2/files-2.1/7dea1301f9ff0a3b9913615b8a845c38/jetified-firebase-auth-16.0.5/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-5.4.1-all/gradle-5.4.1/caches/transforms-2/files-2.1/7dea1301f9ff0a3b9913615b8a845c38/jetified-firebase-auth-16.0.5/res" />
+      <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.4.1-all/gradle-5.4.1/caches/transforms-2/files-2.1/443de7e055f356aec06d48827ff8da13/jetified-firebase-auth-16.0.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/wrapper/dists/gradle-5.4.1-all/gradle-5.4.1/caches/transforms-2/files-2.1/443de7e055f356aec06d48827ff8da13/jetified-firebase-auth-16.0.5/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/wrapper/dists/gradle-5.4.1-all/gradle-5.4.1/caches/modules-2/files-2.1/com.google.firebase/firebase-auth/16.0.5/a52a62631987728ed029b753a4585dae04425b9a/firebase-auth-16.0.5-javadoc.jar!/" />

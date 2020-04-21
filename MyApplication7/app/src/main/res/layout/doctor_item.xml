@@ -14,10 +14,11 @@
         <ImageView
             android:id="@+id/doctor_image"
             android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_height="85dp"
             android:adjustViewBounds="true"
             tools:src="@drawable/doctorm"
-            android:background="@null"
+            android:padding="1dp"
+            android:background="@drawable/borderxml"
             android:layout_gravity="center"/>
         <LinearLayout
             android:layout_width="match_parent"

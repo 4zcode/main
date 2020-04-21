@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -19,10 +21,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class Signin extends AppCompatActivity {
-    public EditText username;
-    public EditText pass;
-    public FirebaseAuth firebaseAuth;
+    private EditText username;
+    private EditText pass;
+    private FirebaseAuth firebaseAuth;
     private ProgressDialog progressDialog;
+    private SharedPreferences myPef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,7 @@ public class Signin extends AppCompatActivity {
         username=(EditText) findViewById(R.id.usernamein);
         pass=(EditText)findViewById(R.id.passwordin);
         firebaseAuth=FirebaseAuth.getInstance();
+        myPef =getSharedPreferences("userPref", Context.MODE_PRIVATE);
     }
 
     public void signin(View view) {
@@ -50,6 +54,9 @@ public class Signin extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+                        SharedPreferences.Editor editor = myPef.edit();
+                        editor.putBoolean("IsLogIn",true);
+                        editor.apply();
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"sign in with sucess",Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
@@ -63,5 +70,10 @@ public class Signin extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void signUp(View view) {
+            Intent intent=new Intent(this, SignupActivity.class);
+            startActivity(intent);
     }
 }

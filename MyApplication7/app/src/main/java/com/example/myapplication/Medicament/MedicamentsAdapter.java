@@ -1,10 +1,9 @@
-package com.example.myapplication.Drugs;
+package com.example.myapplication.Medicament;
 
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

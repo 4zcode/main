@@ -1,10 +1,9 @@
-package com.example.myapplication.Drugs;
+package com.example.myapplication.Medicament;
 
 import android.os.Bundle;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 

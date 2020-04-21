@@ -40,6 +40,8 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.0.0'
     implementation 'androidx.navigation:navigation-ui:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'androidx.exifinterface:exifinterface:1.2.0'
 }
 
 buildscript {
@@ -52,6 +54,6 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.google.gms:google-services:4.2.0'
+        classpath 'com.google.gms:google-services:4.3.3'
     }
 }

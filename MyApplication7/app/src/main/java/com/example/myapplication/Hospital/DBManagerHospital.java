@@ -1,4 +1,4 @@
-package com.example.myapplication.Hospitals;
+package com.example.myapplication.Hospital;
 
 import android.content.ContentValues;
 import android.content.Context;
