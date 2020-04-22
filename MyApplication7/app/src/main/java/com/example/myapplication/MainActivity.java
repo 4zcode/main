@@ -56,16 +56,9 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
+    public static final String TAG = MainActivity.class.getSimpleName();
     private AppBarConfiguration mAppBarConfiguration;
-   /*
-    private DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-    private final DatabaseReference DoctorsRef = rootRef.child("Doctor");
-    private final DatabaseReference MessageNonReadRef = rootRef.child("Message").child("ENVOYE");
-
-
-    */
-   private DatabaseReference rootRef;
+    private DatabaseReference rootRef;
     private  DatabaseReference DoctorsRef ;
     private  DatabaseReference MessageNonReadRef ;
 
@@ -77,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentRefreshListener fragmentRefreshListener;
     private LocationManager locationManager ;
     private LocationListener locationListener ;
-
+    private Menu menu;
 
 
 
@@ -89,11 +82,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         if (FirebaseDatabase.getInstance().getReference()!=null){
             rootRef = FirebaseDatabase.getInstance().getReference();
             DoctorsRef = rootRef.child("Doctor");
              MessageNonReadRef = rootRef.child("Message").child("ENVOYE");
         }
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -111,15 +106,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         View hView = navigationView.getHeaderView(0);
-        nav_user = (TextView) hView.findViewById(R.id.nav_name);
-        myPef =getSharedPreferences("userPref", Context.MODE_PRIVATE);saveUserInfo(myPef);
 
+        nav_user = (TextView) hView.findViewById(R.id.nav_name);
+        myPef =getSharedPreferences("userPref", Context.MODE_PRIVATE);
+        saveUserInfo(myPef);
         nav_user.setText(myPef.getString("userName","Sahti fi yedi"));
-        Log.d("TestMainSIGN", "is connected : "+myPef.getBoolean("IsLogIn",false ));
-        if (isNetworkAvailable() &&  myPef.getBoolean("IsLogIn",false )){
-           refreshFregment();
-        }
-        Log.d("testIntentProblem","is conacted "+myPef.getBoolean("IsLogIn",false ));
+
+        refreshFregment();
+
     }
     public void saveUserInfo(final SharedPreferences myPef){
         if (myPef.getBoolean("IsLogIn",false ) && FirebaseAuth.getInstance().getCurrentUser()!=null) {
@@ -175,11 +169,14 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.main, menu);
         if (!myPef.getBoolean("IsLogIn",false ) || FirebaseAuth.getInstance().getCurrentUser()==null) {
-            getMenuInflater().inflate(R.menu.main, menu);
-        }else if (myPef.getBoolean("IsLogIn",false ) && FirebaseAuth.getInstance().getCurrentUser() != null){
-            getMenuInflater().inflate(R.menu.second_main, menu);
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(false);
+        }else{
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(true);
         }
         return true;
     }
@@ -196,10 +193,15 @@ public class MainActivity extends AppCompatActivity {
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            FirebaseAuth.getInstance().signOut();
                             SharedPreferences.Editor editor = myPef.edit();
                             editor.putBoolean("IsLogIn",false);
+                            editor.putString("userName","Sahti fi yedi");
                             editor.apply();
-                            Toast.makeText(getBaseContext(), "sign out", Toast.LENGTH_SHORT).show();
+                            nav_user.setText("Sahti fi yedi");
+                            menu.getItem(0).setVisible(true);
+                            menu.getItem(1).setVisible(false);
+                            Toast.makeText(getBaseContext(), "Sign out", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .setNegativeButton("Cancel",null)
@@ -225,14 +227,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void insecre(View view){
-        Intent intent=new Intent(this, Signin.class);
-        startActivity(intent);
-    }
     public void message(View view){
-
         startActivity(new Intent(this, messageBoit.class));
     }
+
     public void getNbrMessageNoRead(){
         if (FirebaseAuth.getInstance().getCurrentUser()!= null && myPef.getBoolean("IsLogIn",false )) {
             MessageNonReadRef.child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())).child("Message_Non_Read").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -246,8 +244,6 @@ public class MainActivity extends AppCompatActivity {
                     } else {
                         editor.putString("NbrMessageNoRead", "0");
                         editor.apply();
-                        Log.d("here_the_problem", "n'existe pas: ");
-
                     }
 
                 }
@@ -294,7 +290,7 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.d("here_the_problem", databaseError.getMessage());
+                    Log.d(TAG, databaseError.getMessage());
                 }
             });
         }
@@ -309,7 +305,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void refreshFregment(){
-        if (FirebaseAuth.getInstance().getCurrentUser()!= null && myPef.getBoolean("IsLogIn",false )) {
+        if (myPef.getBoolean("IsLogIn",false )&& FirebaseAuth.getInstance().getCurrentUser()!= null) {
             thread = new Thread() {
                 @Override
                 public void run() {
@@ -367,6 +363,7 @@ public class MainActivity extends AppCompatActivity {
         boolean HaveConnectMobile = false;
 
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(getBaseContext().CONNECTIVITY_SERVICE);
+        assert connectivityManager != null;
         NetworkInfo[] activeNetworkInfo = connectivityManager.getAllNetworkInfo();
         for (NetworkInfo ni : activeNetworkInfo) {
             if (ni.getTypeName().equalsIgnoreCase("WIFI"))
@@ -382,7 +379,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-       refreshFregment();
+            refreshFregment();
     }
 
     @Override

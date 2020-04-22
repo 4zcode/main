@@ -48,6 +48,9 @@
         android:text="Sign in"
         android:onClick="signin"/>
     <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/creat_account"
+        android:padding="10dp"
         android:layout_below="@id/button_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -57,5 +60,26 @@
         android:clickable="true"
         android:onClick="signUp"
         />
-
+    <TextView
+        android:id="@+id/or_text_view"
+        android:padding="10dp"
+        android:layout_below="@id/creat_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/or"
+        android:textColor="@color/common_google_signin_btn_text_light_pressed"
+        android:textStyle="bold"
+        />
+    <TextView
+        android:padding="10dp"
+        android:layout_below="@id/or_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="@string/return_to_mainpage"
+        android:textColor="@color/common_google_signin_btn_text_light_pressed"
+        android:clickable="true"
+        android:onClick="returnToMainActivity"
+        />
 </RelativeLayout>

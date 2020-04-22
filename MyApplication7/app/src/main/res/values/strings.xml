@@ -148,4 +148,10 @@
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="log_in">log in</string>
+    <string name="add_your_etablissement">Add your etablissement</string>
+    <string name="profile">Profile</string>
+    <string name="messages">Messages</string>
+    <string name="or">Or</string>
+    <string name="return_to_mainpage">Return to MainPage</string>
 </resources>

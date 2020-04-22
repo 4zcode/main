@@ -76,4 +76,8 @@ public class Signin extends AppCompatActivity {
             Intent intent=new Intent(this, SignupActivity.class);
             startActivity(intent);
     }
+
+    public void returnToMainActivity(View view) {
+        startActivity(new Intent(this,MainActivity.class));
+    }
 }
