@@ -201,6 +201,9 @@ public class MainActivity extends AppCompatActivity {
                             nav_user.setText("Sahti fi yedi");
                             menu.getItem(0).setVisible(true);
                             menu.getItem(1).setVisible(false);
+                            if (getFragmentRefreshListener() != null) {
+                                getFragmentRefreshListener().onRefresh();
+                            }
                             Toast.makeText(getBaseContext(), "Sign out", Toast.LENGTH_SHORT).show();
                         }
                     })

@@ -16,12 +16,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/MainActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/toolsbar/sahti_fi_ydi/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/toolsbar/sahti_fi_ydi/HomeFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/ui/login/Signin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/ui/login/Signin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_signin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_signin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/fragment_home.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/menu/main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/menu/main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/menu/second_main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/strings.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -454,7 +448,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587505763188</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fixing all the oproblem">
+      <created>1587551306462</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1587551306462</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -485,7 +486,8 @@
     <MESSAGE value="fixing GPS" />
     <MESSAGE value="with profile" />
     <MESSAGE value="- optimiser le code&#10;- fixer les problem&#10;- ajouter le module de la rechrche aux classes : pharmacy , hopital" />
-    <option name="LAST_COMMIT_MESSAGE" value="- optimiser le code&#10;- fixer les problem&#10;- ajouter le module de la rechrche aux classes : pharmacy , hopital" />
+    <MESSAGE value="fixing all the oproblem" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing all the oproblem" />
   </component>
   <component name="WindowStateProjectService">
     <state x="402" y="97" key="#app" />

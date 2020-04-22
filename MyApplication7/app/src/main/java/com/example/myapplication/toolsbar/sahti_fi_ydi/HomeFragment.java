@@ -32,6 +32,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onRefresh() {
            message_button.setText("Messages: "+myPef.getString("NbrMessageNoRead","Messages"));
+                if (!myPef.getBoolean("IsLogIn",false ) || FirebaseAuth.getInstance().getCurrentUser()==null) {
+                    message_button.setVisibility(View.INVISIBLE);
+                    profile_button.setVisibility(View.INVISIBLE);
+
+                }else{
+                    message_button.setVisibility(View.VISIBLE);
+                    profile_button.setVisibility(View.VISIBLE);
+                }
+
             }
         });
         message_button.setText("Messages: "+myPef.getString("NbrMessageNoRead","Messages"));
