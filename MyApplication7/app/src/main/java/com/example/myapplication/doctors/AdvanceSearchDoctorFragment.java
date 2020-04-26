@@ -30,11 +30,16 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.myapplication.utilities.tools.isNetworkAvailable;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+
+    public static final String TAG = AdvanceSearchDoctorFragment.class.getSimpleName();
+
     private ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
     private final DatabaseReference DoctorsRef = FirebaseDatabase.getInstance().getReference().child("Doctor");
     private RecyclerView mRecyclerView;
@@ -65,8 +70,7 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
         searchView = view.findViewById(R.id.search_doctor);
         dbManager = new DBManagerDoctor(getActivity());
         dbManager.open();
-        if (isNetworkAvailable()) {
-            Toast.makeText(getContext(), "there is connection", Toast.LENGTH_LONG).show();
+        if (isNetworkAvailable(getContext())) {
             readData(new FireBaseCallBack() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
@@ -133,8 +137,6 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
                         if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
                             dbManager.update(id_firebase, Name, Place, Phone, Spec, Sex,ImageUrl);
                         } else {
-                            Log.d("doctor_activity_test", Name + " not exist ");
-                            Log.d("doctor_activity_test", id_firebase + " not exist");
                             dbManager.insert(id_firebase, Name, Place, Phone, Spec, Sex,ImageUrl);
                         }
                     }
@@ -148,7 +150,7 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("doctor_activity_test", databaseError.getMessage());
+                Log.d(TAG, databaseError.getMessage());
             }
         });
     }
@@ -163,23 +165,4 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
-
-    public boolean isNetworkAvailable() {
-        boolean HaveConnectWIFI = false;
-        boolean HaveConnectMobile = false;
-
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(getContext().CONNECTIVITY_SERVICE);
-        NetworkInfo[] activeNetworkInfo = connectivityManager.getAllNetworkInfo();
-        for (NetworkInfo ni : activeNetworkInfo) {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                if (ni.isConnected())
-                    HaveConnectWIFI = true;
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                if (ni.isConnected())
-                    HaveConnectMobile = true;
-        }
-        return HaveConnectMobile || HaveConnectWIFI;
-    }
-
-
 }

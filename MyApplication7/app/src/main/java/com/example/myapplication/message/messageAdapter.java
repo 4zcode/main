@@ -2,10 +2,12 @@ package com.example.myapplication.message;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,13 +22,21 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
+import java.security.PublicKey;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
 import static com.example.myapplication.R.*;
+import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_IMAGE;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
+import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE_NAME;
 
 public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageViewHolder> {
+
+    public final static String TAG = messageAdapter.class.getSimpleName();
+
     public GradientDrawable mGradientDrawable;
     public ArrayList<Message> mMessagesData;
     public Context mContext;
@@ -92,7 +102,7 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
         public void onClick(View v) {
             FirebaseUser user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
             if (!user1.getUid().equals(mCurrentMessage.getMessage_ID_Firebase()) ) {
-                Intent intent = Message.starter(mCont, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender());
+                Intent intent = Message.starter(mCont, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender(),mCurrentMessage.getImageResource());
                 mCont.startActivity(intent);
             }
         }
@@ -107,7 +117,11 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
             mMessageTextView.setText(currentMessage.getMessage());
             String mydate = DateFormat.getDateTimeInstance().format(currentMessage.getDate());
             mDateTest.setText(mydate);
-            Glide.with(mCont).load(drawable.doctorm).placeholder(mGradientDrawable).into(mSenderImage);
+            if (!mCurrentMessage.getImageResource().equals("R.drawable.doctorm")) {
+                Picasso.with(mCont).load(mCurrentMessage.getImageResource()).placeholder(mGradientDrawable).into(mSenderImage);
+            }else {
+                mSenderImage.setImageResource(R.drawable.doctorm);
+            }
 
         }
     }

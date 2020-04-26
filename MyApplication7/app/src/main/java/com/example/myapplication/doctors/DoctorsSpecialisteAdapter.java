@@ -77,45 +77,25 @@ class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteA
 
         DoctorSViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
-            Log.d("akram","we stil alive adapter 9");
-
             //Initialize the views
             mNameText = (TextView) itemView.findViewById(R.id.specialite_name);
-            Log.d("akram","we stil alive adapter 10");
-
-
             mDoctorImage = (ImageView) itemView.findViewById(R.id.spec_doctor_image);
-            Log.d("akram","we stil alive adapter 12");
-
             mCont = context;
             mGradientDrawable = gradientDrawable;
             //Set the OnClickListener to the whole view
-            Log.d("akram","we stil alive adapter 13");
-
             itemView.setOnClickListener(this);
         }
 
         void bindTo(DoctorsSpecialistes currentDoctor) {
             //Populate the textviews with data
-            Log.d("akram","we stil alive adapter 14");
-
             mNameText.setText(currentDoctor.getSpecialiste());
-            Log.d("akram","we stil alive adapter 15");
-
-
-
             //Get the current sport
             mCurrentDoctor = currentDoctor;
-            Log.d("akram","we stil alive adapter 17");
-
-
             Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mDoctorImage);
         }
 
         @Override
         public void onClick(View view) {
-            Log.d("akram","we stil alive adapter 19");
-
         }
     }
 }

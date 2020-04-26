@@ -187,9 +187,10 @@ public class AddDoctorProfile extends AppCompatActivity {
         });
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
         Map<String, Object> UserData = new HashMap<String, Object>();
-        UserData.put("NameDoctor", name);
+        UserData.put("UserName", name);
         UserData.put("UserType", "Doctor");
         UserData.put("User_ID_Firebase", user.getUid());
+        UserData.put("UserImageUrl", image_url);
         mDatabaseRef.child(user.getUid()).setValue(UserData).addOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {

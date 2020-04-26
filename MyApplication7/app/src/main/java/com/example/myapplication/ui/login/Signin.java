@@ -15,10 +15,13 @@ import android.widget.Toast;
 
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.utilities.PreferenceUtilities;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_IS_LOGIN;
 
 public class Signin extends AppCompatActivity {
     private EditText username;
@@ -55,10 +58,11 @@ public class Signin extends AppCompatActivity {
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         SharedPreferences.Editor editor = myPef.edit();
-                        editor.putBoolean("IsLogIn",true);
+                        editor.putBoolean(KEY_IS_LOGIN,true);
                         editor.apply();
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"sign in with sucess",Toast.LENGTH_LONG).show();
+                        PreferenceUtilities.saveUserInfo(getBaseContext(),FirebaseAuth.getInstance().getCurrentUser() != null);
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                     }else{

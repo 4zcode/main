@@ -10,7 +10,35 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4b359aa2-42a9-4c81-b95d-b743f32fb7e5" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/libraries/Gradle__com_mikhaellopez_circularimageview_4_2_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/libraries/Gradle__de_hdodenhof_circleimageview_3_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/libraries/Gradle__org_jetbrains_annotations_13_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_3_61_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_3_61_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/backgroundtasks/updateUserInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/utilities/PreferenceUtilities.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/utilities/tools.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/drawable/circlexml.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/drawable/img.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/addProfile/AddDoctorProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/addProfile/AddDoctorProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/AdvanceSearchDoctorFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/AdvanceSearchDoctorFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/Doctors.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/Doctors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/DoctorsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/DoctorsAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/DoctorsSpecialisteAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/DoctorsSpecialisteAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/chatRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/chatRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/messageAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/messageAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/messageBoit.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/messageBoit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/ui/login/Signin.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/ui/login/Signin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/doctor_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/doctor_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/message_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/message_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/nav_header_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/nav_header_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/values/dimens.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +70,7 @@
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/MyApplication7/app" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/MyApplication7" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
@@ -87,7 +115,9 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
