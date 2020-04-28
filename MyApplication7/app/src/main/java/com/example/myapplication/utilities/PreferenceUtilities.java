@@ -4,13 +4,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.FutureTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.example.myapplication.R;
 import com.example.myapplication.addProfile.Insertion;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,8 +32,16 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ExecutionException;
 
 public class PreferenceUtilities {
 
@@ -108,6 +126,52 @@ public class PreferenceUtilities {
         }
 
     }
+/*
+
+    public static String SaveImage(Context context,Bitmap image){
+        Log.d("DownloadImageFireBase","SaveImage 1 ");
+        String savedImagePath= null;
+       String imageFileName = FirebaseAuth.getInstance().getCurrentUser().getUid();
+       File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/sahtifiyedisavedimage/");
+       boolean success =true;
+       if (!storageDir.exists()){
+           Log.d("DownloadImageFireBase","doesnt exist ");
+
+           success = storageDir.mkdir();
+           Log.d("DownloadImageFireBase","is created : "+success);
+
+       }
+       if (success){
+           Log.d("DownloadImageFireBase"," exist ");
+
+           File imageFile =new File(storageDir,imageFileName);
+           savedImagePath = imageFile.getAbsolutePath();
+           try {
+               Log.d("DownloadImageFireBase","in try ");
+               OutputStream fOut = new FileOutputStream(imageFile);
+               image.compress(Bitmap.CompressFormat.JPEG,100,fOut);
+               fOut.close();
+           }catch (Exception e){
+               e.printStackTrace();
+               Log.e("DownloadImageFireBase","SaveImage error : "+e.getMessage());
+           }
+           Log.d("DownloadImageFireBase","image path is : "+savedImagePath);
+           galleryAddPic(context,savedImagePath);
+           Toast.makeText(context,"image saved",Toast.LENGTH_SHORT).show();
+       }
+      return savedImagePath;
+    }
+
+    public static void galleryAddPic(Context context,String imagePath){
+        Intent mediaINtent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File f =new File(imagePath);
+        Uri contentUri =Uri.fromFile(f);
+        mediaINtent.setData(contentUri);
+        context.sendBroadcast(mediaINtent);
+    }
+
+
+ */
     public static void saveData(Context context, String userName, String userImage, String userType, boolean isLogin, boolean isProfileExist){
         SharedPreferences prefs = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

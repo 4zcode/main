@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,6 +28,8 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.Medicament.medicament_activity;
 import com.example.myapplication.Hospital.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacyActivity;
@@ -41,7 +44,7 @@ import com.example.myapplication.utilities.tools;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import com.squareup.picasso.Picasso;
+
 
 
 
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
 
-    private TextView nav_user;
+    private TextView nav_user,nav_user_profil;
     private ImageView nav_user_image;
     private Thread thread;
     private SharedPreferences myPef;
@@ -98,23 +101,17 @@ public class MainActivity extends AppCompatActivity {
 
         View hView = navigationView.getHeaderView(0);
         nav_user = (TextView) hView.findViewById(R.id.nav_user_name);
+        nav_user_profil=(TextView) hView.findViewById(R.id.nav_user_profile);
         nav_user_image = (ImageView) hView.findViewById(R.id.nav_user_image);
 
         myPef =getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         PreferenceUtilities.saveUserInfo(this,FirebaseAuth.getInstance().getCurrentUser() != null);
 
 
-        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Picasso.with(this).load(myPef.getString(KEY_USER_IMAGE, DEFAULT_USER_IMAGE)).into(nav_user_image);
-            nav_user.setText(myPef.getString(KEY_USER_NAME,DEFAULT_USER_NAME));
-
-        }else {
-            nav_user.setText(DEFAULT_USER_NAME);
-            nav_user_image.setImageResource(R.drawable.logo);
-        }
-
-
+        synchronizeLayout();
         refreshFregment();
+
+
     }
 
 
@@ -128,24 +125,28 @@ public class MainActivity extends AppCompatActivity {
         this.fragmentRefreshListener = fragmentRefreshListener;
     }
 
-    public void med(View view) {
+    public void goToMedicament(View view) {
 
         startActivity(new Intent(this, medicament_activity.class));
     }
 
-    public void doc(View view) {
+    public void goToDoctors(View view) {
 
         startActivity(new Intent(this, DoctorActivity.class));
     }
 
-    public void pharma(View view) {
+    public void goToPharmacies(View view) {
 
         startActivity(new Intent(this, pharmacyActivity.class));
     }
 
-    public void hos(View view) {
+    public void goToHopitaux(View view) {
         startActivity(new Intent(this, HopitalActivity.class));
 
+    }
+    public void message(View view){
+
+        startActivity(new Intent(this, messageBoit.class));
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -179,16 +180,9 @@ public class MainActivity extends AppCompatActivity {
                             editor.putBoolean(KEY_IS_LOGIN, false);
                             editor.apply();
                             PreferenceUtilities.saveUserInfo(getBaseContext(),false);
-                            nav_user.setText(DEFAULT_USER_NAME);
-                            nav_user_image.setImageResource(R.drawable.logo);
+                            DefaultLayout();
                             menu.getItem(0).setVisible(true);
                             menu.getItem(1).setVisible(false);
-
-                            if (getFragmentRefreshListener() != null) {
-                                getFragmentRefreshListener().onRefresh();
-                            }
-
-
                             Toast.makeText(getBaseContext(), "Sign out", Toast.LENGTH_SHORT).show();
                         }
                     })
@@ -207,34 +201,12 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public void insertion(View view){
 
-        startActivity(new Intent(this, Insertion.class));
-    }
-    public void profile(View view){
 
-        startActivity(new Intent(this, AddDoctorProfile.class));
-    }
 
-    public void message(View view){
-
-        startActivity(new Intent(this, messageBoit.class));
-    }
 
 
     public void refreshFregment(){
-
-        PreferenceUtilities.saveUserInfo(this,FirebaseAuth.getInstance().getCurrentUser() != null);
-
-        if (myPef.getBoolean(KEY_IS_LOGIN,false ) && FirebaseAuth.getInstance().getCurrentUser()!= null) {
-            nav_user.setText(myPef.getString(KEY_USER_NAME,DEFAULT_USER_NAME));
-            Picasso.with(this).load(myPef.getString(KEY_USER_IMAGE,DEFAULT_USER_IMAGE)).into(nav_user_image);
-            PreferenceUtilities.updateNbrMessagesNoRead(getBaseContext());
-
-            if (getFragmentRefreshListener() != null) {
-                getFragmentRefreshListener().onRefresh();
-            }
-
             thread = new Thread() {
                 @Override
                 public void run() {
@@ -244,13 +216,7 @@ public class MainActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    PreferenceUtilities.updateNbrMessagesNoRead(getBaseContext());
-                                    nav_user.setText(myPef.getString(KEY_USER_NAME,DEFAULT_USER_NAME));
-                                    Picasso.with(getBaseContext()).load(myPef.getString(KEY_USER_IMAGE,DEFAULT_USER_IMAGE)).into(nav_user_image);
-
-                                    if (getFragmentRefreshListener() != null) {
-                                        getFragmentRefreshListener().onRefresh();
-                                    }
+                                    synchronizeLayout();
                                 }
                             });
                         }
@@ -260,12 +226,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
             thread.start();
-        }else {
-
-            nav_user.setText(DEFAULT_USER_NAME);
-            nav_user_image.setImageResource(R.drawable.logo);
-
-        }
 
     }
 
@@ -285,18 +245,56 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void synchronizeLayout(){
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            nav_user.setText(myPef.getString(KEY_USER_NAME,DEFAULT_USER_NAME));
+            nav_user_profil.setText("My Profile");
+            nav_user_profil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), AddDoctorProfile.class));
+            }
+        });
+            Glide.with(this)
+                    .load(myPef.getString(KEY_USER_IMAGE, DEFAULT_USER_IMAGE))
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .into(nav_user_image);
+        }else DefaultLayout();
+        if (getFragmentRefreshListener() != null) getFragmentRefreshListener().onRefresh();
+    }
+  public void  DefaultLayout(){
+        nav_user.setText("Sahti fi yedi");
+        nav_user_profil.setText("Ajouter votre etablissement");
+        nav_user_profil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getBaseContext(), AddDoctorProfile.class));
+            }
+        });
+        nav_user_image.setImageResource(R.drawable.logo);
+
+        if (getFragmentRefreshListener() != null) {
+          getFragmentRefreshListener().onRefresh();
+        }
+  }
     @Override
     protected void onStart() {
         super.onStart();
-        PreferenceUtilities.saveUserInfo(this,FirebaseAuth.getInstance().getCurrentUser() != null);
+        synchronizeLayout();
         refreshFregment();
+
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        PreferenceUtilities.saveUserInfo(this,FirebaseAuth.getInstance().getCurrentUser() != null);
+        if (thread != null && thread.isAlive()) {
+            thread.interrupt();
+        }
+        synchronizeLayout();
         refreshFregment();
+
     }
 
     @Override

@@ -39,7 +39,7 @@
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 android:background="@null"
-                android:onClick="doc"
+                android:onClick="goToDoctors"
                 />
             <Button
                 android:id="@+id/hos"
@@ -48,7 +48,7 @@
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:background="@null"
-                android:onClick="hos"
+                android:onClick="goToHopitaux"
                 />
 
         </LinearLayout>
@@ -65,7 +65,7 @@
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 android:background="@null"
-                android:onClick="med"
+                android:onClick="goToMedicament"
                 />
             <Button
                 android:id="@+id/pharma"
@@ -74,23 +74,13 @@
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 android:background="@null"
-                android:onClick="pharma" />
+                android:onClick="goToPharmacies" />
 
 
         </LinearLayout>
 
     </LinearLayout>
     </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@null"
-        android:onClick="insertion"
-        android:text="@string/add_your_etablissement"
-        android:textSize="10dp" />
 
 
     <Button
@@ -103,15 +93,7 @@
         android:text="@string/messages"
         android:visibility="gone"
         android:onClick="message"/>
-    <Button
-        android:id="@+id/profile_home_fragment_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="235dp"
-        android:layout_marginRight="235dp"
-        android:onClick="profile"
-        android:visibility="gone"
-        android:text="@string/profile" />
+
 
 
 </RelativeLayout>

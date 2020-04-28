@@ -64,6 +64,7 @@ public class chatRoom extends AppCompatActivity {
 
     public void resize(View view) {
         ScrollDown(1000);
+        Log.d("msgPrblmTest","clickable");
 
     }
 
@@ -85,6 +86,7 @@ public class chatRoom extends AppCompatActivity {
         handler= new Handler();
         user= new HashMap<String,Object>();
         senderUser = new HashMap<String,Object>();
+        this.setTitle(SenderName);
         firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("Message");
         user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
         myPef = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -135,7 +137,9 @@ public class chatRoom extends AppCompatActivity {
                     if (dataSnapshot.exists()) {
                         String msg = dataSnapshot.child("message_afficher").getValue(String.class);
                         MessageRecever = msg;
-                        textView.setText(getSpannedText(msg));
+                        String msgAfficher= msg.replaceAll(ID_reciver,SenderName);
+                      String  msgAfficher2=  msgAfficher.replaceAll( user1.getUid(),myPef.getString("userName","Annonyme"));
+                        textView.setText(getSpannedText(msgAfficher2));
                     } else textView.setText("");
                 }
 
@@ -154,19 +158,22 @@ public class chatRoom extends AppCompatActivity {
             mProgressDialog.setIndeterminate(true);
         }
         mProgressDialog.show();
-        String message = editText.getText().toString();
-        String name_current_user = myPef.getString("userName","Annonyme");
-        DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
-        String dt = date.format(Calendar.getInstance().getTime());
-        updateUserReceiver(message,SenderName,ID_reciver,dt);
-        updateReceiverUser(name_current_user,message,ID_reciver,dt);
-        String allMSG = MessageRecever + "<br>" + "  <b>"+ name_current_user+"</b> "+": "+message+"<br>";
-        updateAllMsg(allMSG,ID_reciver);
-        mProgressDialog.dismiss();
-        editText.getText().clear();
-        hideKeyBoard(view);
-        Afficher();
-        ScrollDown(1000);
+        String message = editText.getText().toString().trim();
+        if(!message.isEmpty()) {
+            String name_current_user = myPef.getString("userName", "Annonyme");
+            DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
+            String dt = date.format(Calendar.getInstance().getTime());
+            updateUserReceiver(message, SenderName, ID_reciver, dt);
+            updateReceiverUser(name_current_user, message, ID_reciver, dt);
+            String allMSG = MessageRecever + "<br>" + "<b>" + user1.getUid() + "</b>" + " : <br> " + message + "<br> ";
+            updateAllMsg(allMSG, ID_reciver);
+            mProgressDialog.dismiss();
+            editText.getText().clear();
+            hideKeyBoard(view);
+            Afficher();
+            ScrollDown(1000);
+        }else             mProgressDialog.dismiss();
+
     }
    public void updateUserReceiver(String message,String senderName,String ID_reciver,String date){
         if (!ID_reciver.equals(user1.getUid())) {

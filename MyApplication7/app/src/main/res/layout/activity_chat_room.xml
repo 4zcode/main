@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".message.chatRoom"
-    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:fitsSystemWindows="false"
 
     >
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+
+        >
     <ScrollView
         android:id="@+id/scroll_chat"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/linear_id_envoyer"
+        android:layout_height="fill_parent"
         >
     <TextView
         android:layout_margin="20dp"
@@ -23,34 +26,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text=""
-
         />
     </ScrollView>
-    <LinearLayout
-        android:id="@+id/linear_id_envoyer"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/envoyer_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:layout_alignParentBottom="true"
-        >
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:padding="5dp"
+        android:gravity="center"
+        android:text="Envoyer"
+        android:onClick="Envoyer"/>
     <EditText
         android:id="@+id/edit_text_envoyer"
-        android:layout_width="0dp"
-        android:layout_weight="5"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="10dp"
         android:padding="5dp"
         android:onClick="resize"
         />
-        <Button
-            android:id="@+id/envoyer_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:padding="5dp"
-            android:gravity="center"
-            android:text="Envoyer"
-            android:onClick="Envoyer"/>
-    </LinearLayout>
     </RelativeLayout>
-</RelativeLayout>
+</FrameLayout>

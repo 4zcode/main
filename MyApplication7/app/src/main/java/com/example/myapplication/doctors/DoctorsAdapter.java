@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -118,12 +119,14 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
             mPlaceText.setText(currentDoctor.getPlaceDoctor());
             mSpecialiteText.setText(currentDoctor.getSpec());
             mCurrentDoctor = currentDoctor;
-            if (isNetworkAvailable(mCont)) {
-                Picasso.with(mCont).load(mCurrentDoctor.getImageUrl()).into(mDoctorImage);
-            }else{
-                if(mCurrentDoctor.getSexDoctor().equals("man")) Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mDoctorImage);
-                else Glide.with(mCont).load(R.drawable.doctorf).placeholder(mGradientDrawable).into(mDoctorImage);
-            }
+                int placeHolder;
+                if(mCurrentDoctor.getSexDoctor().equals("man")) placeHolder =R.drawable.doctorm  ;
+                else placeHolder=R.drawable.doctorf;
+                Glide.with(mCont).load(mCurrentDoctor.getImageUrl())
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(placeHolder)
+                        .into(mDoctorImage);
+
         }
 
 
