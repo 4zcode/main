@@ -134,8 +134,8 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
         public void onClick(View view) {
             myPef =mCont.getSharedPreferences("userPref", Context.MODE_PRIVATE);
             if (myPef.getBoolean("IsLogIn", false) && FirebaseAuth.getInstance().getCurrentUser() != null) {
-                FirebaseUser user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
-                if (!user1.getUid().equals(mCurrentDoctor.getDoctor_ID_Firebase())) {
+                FirebaseUser user = FirebaseAuth.getInstance().getInstance().getCurrentUser();
+                if (!user.getUid().equals(mCurrentDoctor.getDoctor_ID_Firebase())) {
                     Intent intent = Doctors.starter(mCont, mCurrentDoctor.getDoctor_ID_Firebase(), mCurrentDoctor.getNameDoctor(),mCurrentDoctor.getImageUrl());
                     mCont.startActivity(intent);
                 } else {

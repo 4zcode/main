@@ -74,24 +74,61 @@ public class chatRoom extends AppCompatActivity {
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("messageofflinetest","chat 1");
         super.onCreate(savedInstanceState);
+        Log.d("messageofflinetest","chat 2");
+
         setContentView(R.layout.activity_chat_room);
+        Log.d("messageofflinetest","chat 3");
+
         textView =(TextView) findViewById(R.id.text_view_messages);
+        Log.d("messageofflinetest","chat 4");
+
         button =(Button) findViewById(R.id.envoyer_button);
+        Log.d("messageofflinetest","chat 5");
+
         editText = (EditText) findViewById(R.id.edit_text_envoyer);
+        Log.d("messageofflinetest","chat 6");
+
         scrollView = (ScrollView) findViewById(R.id.scroll_chat);
+        Log.d("messageofflinetest","chat 7");
+
         ID_reciver = getIntent().getStringExtra(Doctors.RECIVER);
+        Log.d("messageofflinetest","chat 8");
+
         ReceiverImage = getIntent().getStringExtra(Doctors.RECIVER_IMAGE);
+        Log.d("messageofflinetest","chat 9");
+
         SenderName =getIntent().getStringExtra(Doctors.SENDER);
+        Log.d("messageofflinetest","chat 10");
+
         handler= new Handler();
+        Log.d("messageofflinetest","chat 11");
+
         user= new HashMap<String,Object>();
+        Log.d("messageofflinetest","chat 12");
+
         senderUser = new HashMap<String,Object>();
+        Log.d("messageofflinetest","chat 13");
+
         this.setTitle(SenderName);
+        Log.d("messageofflinetest","chat 14");
+
         firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("Message");
+        Log.d("messageofflinetest","chat 15");
+
         user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
+        Log.d("messageofflinetest","chat 16");
+
         myPef = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        Log.d("messageofflinetest","chat 17");
+
         updateAffichage(1000);
+        Log.d("messageofflinetest","chat 18");
+
         ScrollDown(3000);
+        Log.d("messageofflinetest","chat 19");
+
     }
     public void updateAffichage(final int duree){
         thread = new Thread(){

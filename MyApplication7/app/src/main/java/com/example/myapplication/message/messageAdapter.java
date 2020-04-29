@@ -13,12 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,9 +41,9 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
     public final static String TAG = messageAdapter.class.getSimpleName();
 
     public GradientDrawable mGradientDrawable;
-    public ArrayList<Message> mMessagesData;
+    public ArrayList<MessageItem> mMessagesData;
     public Context mContext;
-    public messageAdapter(Context context, ArrayList<Message> message){
+    public messageAdapter(Context context, ArrayList<MessageItem> message){
         this.mMessagesData = message;
         this.mContext = context;
         mGradientDrawable = new GradientDrawable();
@@ -65,7 +68,7 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         //Get the current sport
-        Message currentMessage = mMessagesData.get(position);
+        MessageItem currentMessage = mMessagesData.get(position);
 
         //Bind the data to the views
         holder.bindTo(currentMessage);
@@ -82,7 +85,7 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
         public TextView mMessageTextView, mDateTest;
         public ImageView mSenderImage;
         public Context mCont;
-        public Message mCurrentMessage;
+        public MessageItem mCurrentMessage;
         public GradientDrawable mGradientDrawable;
         public MessageViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
@@ -96,29 +99,42 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
             mCont = context;
             mGradientDrawable = gradientDrawable;
             //Set the OnClickListener to the whole view
-            itemView.setOnClickListener(this);        }
+            itemView.setOnClickListener(this);
+        }
 
         @Override
         public void onClick(View v) {
-            FirebaseUser user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
-            if (!user1.getUid().equals(mCurrentMessage.getMessage_ID_Firebase()) ) {
-                Intent intent = Message.starter(mCont, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender(),mCurrentMessage.getImageResource());
-                mCont.startActivity(intent);
-            }
+
+            FirebaseUser user= FirebaseAuth.getInstance().getInstance().getCurrentUser();
+            try {
+               if (!user.getUid().equals(mCurrentMessage.getMessage_ID_Firebase()) ) {
+                   Intent intent = MessageItem.starter(mContext, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender(), mCurrentMessage.getImageResource());
+                   mCont.startActivity(intent);
+               }
+           }catch (Exception e){
+               Log.d(TAG,"error : "+e.getMessage());
+               e.printStackTrace();
+               Toast.makeText(mCont,"clicked",Toast.LENGTH_SHORT).show();
+           }
+
+
         }
 
-        public void bindTo(Message currentMessage) {
+        public void bindTo(MessageItem currentMessage) {
             mCurrentMessage = currentMessage;
             mSenderNameTextView.setText(currentMessage.getSender());
             if (! currentMessage.Is_Readed()){
                 mMessageTextView.setTextColor(Color.GRAY);
                 mMessageTextView.setTypeface(Typeface.DEFAULT_BOLD);
             }
-            mMessageTextView.setText(currentMessage.getMessage());
+            mMessageTextView.setText(currentMessage.getRecent_message());
             String mydate = DateFormat.getDateTimeInstance().format(currentMessage.getDate());
             mDateTest.setText(mydate);
             if (!mCurrentMessage.getImageResource().equals("R.drawable.doctorm")) {
-                Picasso.with(mCont).load(mCurrentMessage.getImageResource()).placeholder(mGradientDrawable).into(mSenderImage);
+                Glide.with(mCont).load(mCurrentMessage.getImageResource())
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(mGradientDrawable)
+                        .into(mSenderImage);
             }else {
                 mSenderImage.setImageResource(R.drawable.doctorm);
             }

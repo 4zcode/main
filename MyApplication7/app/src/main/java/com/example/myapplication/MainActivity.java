@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +33,6 @@ import com.example.myapplication.Medicament.medicament_activity;
 import com.example.myapplication.Hospital.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacyActivity;
 import com.example.myapplication.addProfile.AddDoctorProfile;
-import com.example.myapplication.addProfile.Insertion;
 import com.example.myapplication.doctors.DoctorActivity;
 import com.example.myapplication.location.MyLocation;
 import com.example.myapplication.ui.login.Signin;
@@ -207,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void refreshFregment(){
-            thread = new Thread() {
+           /* thread = new Thread() {
                 @Override
                 public void run() {
                     try {
@@ -226,6 +224,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             };
             thread.start();
+
+            */
 
     }
 
@@ -262,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
         }else DefaultLayout();
         if (getFragmentRefreshListener() != null) getFragmentRefreshListener().onRefresh();
     }
+
   public void  DefaultLayout(){
         nav_user.setText("Sahti fi yedi");
         nav_user_profil.setText("Ajouter votre etablissement");
@@ -292,9 +293,11 @@ public class MainActivity extends AppCompatActivity {
         if (thread != null && thread.isAlive()) {
             thread.interrupt();
         }
-        synchronizeLayout();
+       /* synchronizeLayout();
         refreshFregment();
 
+
+        */
     }
 
     @Override
