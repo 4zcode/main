@@ -36,10 +36,10 @@ public class MessageItem implements Comparable<MessageItem>{
         this.Sender = senderName;
         this.recent_message = message;
         this.imageResource = msgImage;
-        this.is_Readed = readStatus.equals("true");
+        this.is_Readed = readStatus.equals("false");
         this.full_Message = full_message;
 
-        SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
+        SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
         try {
             this.Date = format.parse(date);
         } catch (ParseException e) {
@@ -63,7 +63,9 @@ public class MessageItem implements Comparable<MessageItem>{
     public String getMessage_ID_Firebase() {
         return Message_ID_Firebase;
     }
+
     public boolean Is_Readed(){
+
         return this.is_Readed;
     }
     public void setMessage_ID_Firebase(String message_ID_Firebase) {
@@ -78,7 +80,7 @@ public class MessageItem implements Comparable<MessageItem>{
         return this.Date;
     }
     public String getDate2String() {
-        DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
+        DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
         return date.format(this.Date);
     }
 
@@ -89,7 +91,7 @@ public class MessageItem implements Comparable<MessageItem>{
 
     public void setDate(String date) {
 
-        SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
+        SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
         try {
             this.Date = format.parse(date);
         } catch (ParseException e) {

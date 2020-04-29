@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,7 +9,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,6 +38,7 @@ import com.example.myapplication.Pharmacies.pharmacyActivity;
 import com.example.myapplication.addProfile.AddDoctorProfile;
 import com.example.myapplication.doctors.DoctorActivity;
 import com.example.myapplication.location.MyLocation;
+import com.example.myapplication.message.DBManagerMessage;
 import com.example.myapplication.ui.login.Signin;
 import com.example.myapplication.message.messageBoit;
 import com.example.myapplication.utilities.PreferenceUtilities;
@@ -49,9 +53,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_IMAGE;
 import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_NAME;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_IS_LOGIN;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_NUMBER_MESSAGES_NON_READ;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_NAME;
 import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE_NAME;
+import static com.example.myapplication.utilities.PreferenceUtilities.getNbrMessageNoRead;
+import static com.example.myapplication.utilities.PreferenceUtilities.updateNbrMessagesNoRead;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -62,18 +69,16 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
 
-    private TextView nav_user,nav_user_profil;
+    private TextView nav_user, nav_user_profil;
     private ImageView nav_user_image;
     private Thread thread;
     private SharedPreferences myPef;
     private FragmentRefreshListener fragmentRefreshListener;
-    private LocationManager locationManager ;
-    private LocationListener locationListener ;
+    private LocationManager locationManager;
+    private LocationListener locationListener;
     private Menu menu;
-
-
-
-
+    private ProgressDialog progressDialog;
+    private UpdateBbrMsgNonReadTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,20 +100,25 @@ public class MainActivity extends AppCompatActivity {
 
         locationManager = (LocationManager) getSystemService(getBaseContext().LOCATION_SERVICE);
         locationListener = new MyLocation(getBaseContext());
-        tools.checkPermissions(MainActivity.this,locationManager,locationListener);
+        tools.checkPermissions(MainActivity.this, locationManager, locationListener);
 
         View hView = navigationView.getHeaderView(0);
         nav_user = (TextView) hView.findViewById(R.id.nav_user_name);
-        nav_user_profil=(TextView) hView.findViewById(R.id.nav_user_profile);
+        nav_user_profil = (TextView) hView.findViewById(R.id.nav_user_profile);
         nav_user_image = (ImageView) hView.findViewById(R.id.nav_user_image);
 
-        myPef =getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        PreferenceUtilities.saveUserInfo(this,FirebaseAuth.getInstance().getCurrentUser() != null);
+        myPef = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        PreferenceUtilities.saveUserInfo(this, FirebaseAuth.getInstance().getCurrentUser() != null);
 
 
-        synchronizeLayout();
-        refreshFregment();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Please wait ...");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar);
+        progressDialog.setIndeterminate(true);
 
+        new UpdateBbrMsgNonReadTask().execute();
 
     }
 
@@ -118,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
         return fragmentRefreshListener;
     }
 
-    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener){
+    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener) {
 
         this.fragmentRefreshListener = fragmentRefreshListener;
     }
@@ -142,18 +152,20 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, HopitalActivity.class));
 
     }
-    public void message(View view){
+
+    public void message(View view) {
 
         startActivity(new Intent(this, messageBoit.class));
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
-        if (!myPef.getBoolean(KEY_IS_LOGIN,false ) || FirebaseAuth.getInstance().getCurrentUser()==null) {
+        if (!myPef.getBoolean(KEY_IS_LOGIN, false) || FirebaseAuth.getInstance().getCurrentUser() == null) {
             menu.getItem(0).setVisible(true);
             menu.getItem(1).setVisible(false);
-        }else{
+        } else {
             menu.getItem(0).setVisible(false);
             menu.getItem(1).setVisible(true);
         }
@@ -163,28 +175,39 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_log_in){
-            startActivity(new Intent(this,Signin.class));
-        }else if(id == R.id.action_log_out)
-        { AlertDialog message = new AlertDialog.Builder(this)
+        if (id == R.id.action_log_in) {
+            Intent intent = new Intent(MainActivity.this, Signin.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.action_log_out) {
+            AlertDialog message = new AlertDialog.Builder(this)
                     .setTitle("Warning")
                     .setMessage("Are you sure you want sign out?")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            progressDialog.show();
                             FirebaseAuth.getInstance().signOut();
-                            if (thread != null && thread.isAlive()) {thread.interrupt();}
+                            if (thread != null && thread.isAlive()) {
+                                thread.interrupt();
+                            }
                             SharedPreferences.Editor editor = myPef.edit();
                             editor.putBoolean(KEY_IS_LOGIN, false);
                             editor.apply();
-                            PreferenceUtilities.saveUserInfo(getBaseContext(),false);
+                            PreferenceUtilities.saveUserInfo(getBaseContext(), false);
                             DefaultLayout();
                             menu.getItem(0).setVisible(true);
                             menu.getItem(1).setVisible(false);
+                            DBManagerMessage db = new DBManagerMessage(getBaseContext());
+                            db.open();
+                            db.deleteAll();
+                            db.close();
+                            progressDialog.dismiss();
                             Toast.makeText(getBaseContext(), "Sign out", Toast.LENGTH_SHORT).show();
                         }
                     })
-                    .setNegativeButton("Cancel",null)
+                    .setNegativeButton("Cancel", null)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .show();
         }
@@ -199,43 +222,41 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-
-
-
-
-
-    public void refreshFregment(){
-           /* thread = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        while (!thread.isInterrupted()) {
-                            Thread.sleep(10000);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    synchronizeLayout();
-                                }
-                            });
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+/*
+    public void refreshFregment() {
+        synchronizeLayout();
+        thread = new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (!thread.isInterrupted()) {
+                        Thread.sleep(10000);
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                synchronizeLayout();
+                            }
+                        });
                     }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            };
-            thread.start();
+            }
+        };
+        thread.start();
 
-            */
 
     }
 
+ */
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        switch(requestCode){
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
             case LOCATION_PERMISSION: {
-                if (grantResults.length>0 && grantResults[0]== PackageManager.PERMISSION_GRANTED){
-                    if (ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
                     }
                     return;
@@ -245,25 +266,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void synchronizeLayout(){
+    public void synchronizeLayout() {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            nav_user.setText(myPef.getString(KEY_USER_NAME,DEFAULT_USER_NAME));
-            nav_user_profil.setText("My Profile");
+            nav_user.setText(myPef.getString(KEY_USER_NAME, DEFAULT_USER_NAME));
+            nav_user_profil.setText("Mon Profile");
             nav_user_profil.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(), AddDoctorProfile.class));
-            }
-        });
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getBaseContext(), AddDoctorProfile.class));
+                }
+            });
             Glide.with(this)
                     .load(myPef.getString(KEY_USER_IMAGE, DEFAULT_USER_IMAGE))
                     .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .into(nav_user_image);
-        }else DefaultLayout();
+        } else DefaultLayout();
         if (getFragmentRefreshListener() != null) getFragmentRefreshListener().onRefresh();
     }
 
-  public void  DefaultLayout(){
+    public void DefaultLayout() {
         nav_user.setText("Sahti fi yedi");
         nav_user_profil.setText("Ajouter votre etablissement");
         nav_user_profil.setOnClickListener(new View.OnClickListener() {
@@ -275,45 +296,67 @@ public class MainActivity extends AppCompatActivity {
         nav_user_image.setImageResource(R.drawable.logo);
 
         if (getFragmentRefreshListener() != null) {
-          getFragmentRefreshListener().onRefresh();
+            getFragmentRefreshListener().onRefresh();
         }
-  }
+    }
+
     @Override
     protected void onStart() {
+        new UpdateBbrMsgNonReadTask().execute();
         super.onStart();
-        synchronizeLayout();
-        refreshFregment();
-
 
     }
 
     @Override
     protected void onResume() {
+        new UpdateBbrMsgNonReadTask().execute();
         super.onResume();
-        if (thread != null && thread.isAlive()) {
-            thread.interrupt();
-        }
-       /* synchronizeLayout();
-        refreshFregment();
+    }
 
 
-        */
+    @Override
+    protected void onPause() {
+            if (thread != null && thread.isAlive()) {
+                thread.interrupt();
+            }
+        super.onPause();
+
     }
 
     @Override
     protected void onStop() {
+            if (thread != null && thread.isAlive()) {
+                thread.interrupt();
+            }
         super.onStop();
-        if (thread != null && thread.isAlive()) {
-            thread.interrupt();
-        }
-
 
     }
 
     @Override
     protected void onDestroy() {
+            if (thread != null && thread.isAlive()) {
+                thread.interrupt();
+            }
         super.onDestroy();
-       if (thread !=null && thread.isAlive()) { thread.interrupt();}
+
     }
+
+    public class UpdateBbrMsgNonReadTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            updateNbrMessagesNoRead(getBaseContext());
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            synchronizeLayout();
+        }
+    }
+
+
+
 }
 

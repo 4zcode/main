@@ -1,7 +1,6 @@
 package com.example.myapplication.message;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -23,11 +22,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
-import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_IMAGE;
-import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
-import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE_NAME;
 import static com.example.myapplication.utilities.tools.isNetworkAvailable;
 
 public class messageBoit extends AppCompatActivity {
@@ -111,7 +106,7 @@ public class messageBoit extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    boolean is_exist = ds.child("message_envoyer").exists() && ds.child("Sender_Name").exists()&& ds.child("ID_Reciver").exists()&& ds.child("Is_Readed").exists()&& ds.child("Date").exists();
+                    boolean is_exist = ds.child("message_envoyer").exists() && ds.child("Sender_Name").exists()&& ds.child("ID_Reciver").exists()&& ds.child("Is_Readed").exists()&& ds.child("Date").exists()&& ds.child("AllMsg").exists();
                     if (is_exist) {
                   String SenderName = ds.child("Sender_Name").getValue(String.class);
                         String SenderImage;
@@ -119,10 +114,11 @@ public class messageBoit extends AppCompatActivity {
                        SenderImage = ds.child("Sender_Image").getValue(String.class);
                   }else SenderImage = "R.drawable.doctorm";
                   String message = ds.child("message_envoyer").getValue(String.class);
+                  String fullMsg = ds.child("AllMsg").getValue(String.class);
                   String ID_firebase = ds.child("ID_Reciver").getValue(String.class);
                   String Is_Readed = ds.child("Is_Readed").getValue(String.class);
                   String Date = ds.child("Date").getValue(String.class);
-                  SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
+                  SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
            try {
                 date = format.parse(Date);
            } catch (ParseException e) {
@@ -130,9 +126,9 @@ public class messageBoit extends AppCompatActivity {
            }
            if (!ID_firebase.equals(user.getUid())) {
                if(db.CheckIsDataAlreadyInDBorNot(ID_firebase)){
-                   db.update(ID_firebase,SenderName,message,"",Date,Is_Readed,SenderImage);
+                   db.update(ID_firebase,SenderName,message,fullMsg,Date,Is_Readed,SenderImage);
                }else{
-                   db.insert(ID_firebase,SenderName,message,"",Date,Is_Readed,SenderImage);
+                   db.insert(ID_firebase,SenderName,message,fullMsg,Date,Is_Readed,SenderImage);
 
                }
            }
@@ -152,6 +148,7 @@ public class messageBoit extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     protected void onStop() {

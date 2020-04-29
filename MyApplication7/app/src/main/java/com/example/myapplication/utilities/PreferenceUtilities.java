@@ -126,52 +126,7 @@ public class PreferenceUtilities {
         }
 
     }
-/*
 
-    public static String SaveImage(Context context,Bitmap image){
-        Log.d("DownloadImageFireBase","SaveImage 1 ");
-        String savedImagePath= null;
-       String imageFileName = FirebaseAuth.getInstance().getCurrentUser().getUid();
-       File storageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)+"/sahtifiyedisavedimage/");
-       boolean success =true;
-       if (!storageDir.exists()){
-           Log.d("DownloadImageFireBase","doesnt exist ");
-
-           success = storageDir.mkdir();
-           Log.d("DownloadImageFireBase","is created : "+success);
-
-       }
-       if (success){
-           Log.d("DownloadImageFireBase"," exist ");
-
-           File imageFile =new File(storageDir,imageFileName);
-           savedImagePath = imageFile.getAbsolutePath();
-           try {
-               Log.d("DownloadImageFireBase","in try ");
-               OutputStream fOut = new FileOutputStream(imageFile);
-               image.compress(Bitmap.CompressFormat.JPEG,100,fOut);
-               fOut.close();
-           }catch (Exception e){
-               e.printStackTrace();
-               Log.e("DownloadImageFireBase","SaveImage error : "+e.getMessage());
-           }
-           Log.d("DownloadImageFireBase","image path is : "+savedImagePath);
-           galleryAddPic(context,savedImagePath);
-           Toast.makeText(context,"image saved",Toast.LENGTH_SHORT).show();
-       }
-      return savedImagePath;
-    }
-
-    public static void galleryAddPic(Context context,String imagePath){
-        Intent mediaINtent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f =new File(imagePath);
-        Uri contentUri =Uri.fromFile(f);
-        mediaINtent.setData(contentUri);
-        context.sendBroadcast(mediaINtent);
-    }
-
-
- */
     public static void saveData(Context context, String userName, String userImage, String userType, boolean isLogin, boolean isProfileExist){
         SharedPreferences prefs = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();

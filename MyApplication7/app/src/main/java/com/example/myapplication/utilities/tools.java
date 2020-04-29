@@ -8,11 +8,17 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.text.Html;
+import android.text.Spanned;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 
+import com.example.myapplication.message.chatRoom;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +43,22 @@ public class tools {
                     HaveConnectMobile = true;
         }
         return HaveConnectMobile || HaveConnectWIFI;
+    }
+
+    public static Spanned getSpannedText(String text){
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+            return Html.fromHtml(text,Html.FROM_HTML_MODE_COMPACT);
+        }else{ return Html.fromHtml(text);}
+    }
+
+
+    public static void hideKeyBoard(Activity activity,View view){
+        InputMethodManager imm = (InputMethodManager) activity.getBaseContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        View view1 =activity.getCurrentFocus();
+        if(view1 == null){
+            view=new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(),0);
     }
 
     public static void checkPermissions( Activity activity, LocationManager locationManager,LocationListener locationListener){

@@ -49,7 +49,9 @@ public class DBManagerMessage {
         return false;
     }
 
-
+    public int deleteAll(){
+       return database.delete(DatabaseHelper.TABLE_NAME_MESSAGES,"1",null);
+    }
 
     public void insert(String _id,String senderName, String recentMessage, String fullMessage,String dateMessage,String is_read,String imageUrl) {
         ContentValues contentValue = new ContentValues();

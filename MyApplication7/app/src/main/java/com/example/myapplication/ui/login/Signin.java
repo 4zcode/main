@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -22,6 +23,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_IS_LOGIN;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_NAME;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_TYPE;
 
 public class Signin extends AppCompatActivity {
     private EditText username;
@@ -57,14 +61,13 @@ public class Signin extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+                        PreferenceUtilities.saveUserInfo(getBaseContext(),true);
                         SharedPreferences.Editor editor = myPef.edit();
                         editor.putBoolean(KEY_IS_LOGIN,true);
                         editor.apply();
                         progressDialog.dismiss();
                         Toast.makeText(getApplicationContext(),"sign in with sucess",Toast.LENGTH_LONG).show();
-                        PreferenceUtilities.saveUserInfo(getBaseContext(),FirebaseAuth.getInstance().getCurrentUser() != null);
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }else{
                         progressDialog.dismiss();
                          String error=task.getException().getMessage();
