@@ -58,7 +58,6 @@ import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_I
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_NAME;
 import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE_NAME;
 import static com.example.myapplication.utilities.PreferenceUtilities.getNbrMessageNoRead;
-import static com.example.myapplication.utilities.PreferenceUtilities.updateNbrMessagesNoRead;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
     private LocationListener locationListener;
     private Menu menu;
     private ProgressDialog progressDialog;
-    private UpdateBbrMsgNonReadTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar);
         progressDialog.setIndeterminate(true);
 
-        new UpdateBbrMsgNonReadTask().execute();
+        refreshFregment();
+
 
     }
 
@@ -190,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                             progressDialog.show();
                             FirebaseAuth.getInstance().signOut();
                             if (thread != null && thread.isAlive()) {
+                               Log.d("tgreadTestReasons","interepted");
                                 thread.interrupt();
                             }
                             SharedPreferences.Editor editor = myPef.edit();
@@ -222,33 +222,35 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-/*
+
     public void refreshFregment() {
-        synchronizeLayout();
-        thread = new Thread() {
-            @Override
-            public void run() {
-                try {
-                    while (!thread.isInterrupted()) {
-                        Thread.sleep(10000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                synchronizeLayout();
-                            }
-                        });
+        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
+            new UpdateBbrMsgNonReadTask().execute();
+            thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        while (!thread.isInterrupted()) {
+                            Thread.sleep(5000);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    new UpdateBbrMsgNonReadTask().execute();
+                                }
+                            });
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
                 }
-            }
-        };
-        thread.start();
+            };
+            thread.start();
+        }
 
 
     }
 
- */
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -302,14 +304,18 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        new UpdateBbrMsgNonReadTask().execute();
+        if (thread == null || !thread.isAlive()|| thread.isInterrupted()) {
+           refreshFregment();
+        }
         super.onStart();
 
     }
 
     @Override
     protected void onResume() {
-        new UpdateBbrMsgNonReadTask().execute();
+        if (thread == null || !thread.isAlive() || thread.isInterrupted()) {
+            refreshFregment();
+        }
         super.onResume();
     }
 
@@ -345,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            updateNbrMessagesNoRead(getBaseContext());
+            getNbrMessageNoRead(getBaseContext());
             return null;
         }
 

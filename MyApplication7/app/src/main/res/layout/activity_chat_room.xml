@@ -39,8 +39,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:padding="5dp"
-            android:src="@drawable/logo"
+            android:src="@drawable/send"
             android:gravity="center"
-            android:onClick="Envoyer"/>
+            android:onClick="Envoyer"
+            android:background="@drawable/send"
+            android:scaleType="centerCrop"
+            app:maxImageSize="56dp"/>
     </LinearLayout>
 </LinearLayout>

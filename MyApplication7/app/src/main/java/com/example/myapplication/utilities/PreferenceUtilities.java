@@ -75,7 +75,7 @@ public class PreferenceUtilities {
 
     private static  DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
     private  static DatabaseReference UsersRef = rootRef.child("Users");;
-    private  static DatabaseReference MessageNonReadRef = rootRef.child("Message").child("ENVOYE");
+    private  static DatabaseReference MessageNonReadRef = rootRef.child("Messages");
 
 
     private static Integer count = new Integer(0);
@@ -97,7 +97,7 @@ public class PreferenceUtilities {
                         String ImageUrl = dataSnapshot.child("UserImageUrl").getValue(String.class);
                         String Type = dataSnapshot.child("UserType").getValue(String.class);
                         saveData(context, Name, ImageUrl, Type, isLogin, true);
-                        updateNbrMessagesNoRead(context);
+                        getNbrMessageNoRead(context);
                     }else {
                         saveData(context,DEFAULT_USER_NAME,DEFAULT_USER_IMAGE,DEFAULT_USER_TYPE,true,false);
                         AlertDialog message = new AlertDialog.Builder(context)
@@ -142,38 +142,9 @@ public class PreferenceUtilities {
         editor.apply();
     }
 
-
-
-
-
-
-    public static void getNbrMessageNoRead(final Context context){
-        if (FirebaseAuth.getInstance().getCurrentUser()!= null ) {
-            MessageNonReadRef.child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())).child("Message_Non_Read").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    SharedPreferences Pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = Pref.edit();
-                    if (dataSnapshot.child("nbr_Messages").exists()) {
-                        String NbrMsg = dataSnapshot.child("nbr_Messages").getValue(String.class);
-                        editor.putString(KEY_NUMBER_MESSAGES_NON_READ, NbrMsg);
-                        editor.apply();
-                    } else {
-                        editor.putString(KEY_NUMBER_MESSAGES_NON_READ, DEFAULT_MESSAGE);
-                        editor.apply();
-                    }
-                  Log.d(TAG,Pref.getString(KEY_NUMBER_MESSAGES_NON_READ,DEFAULT_MESSAGE));
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        }
-    }
-
-    public static void updateNbrMessagesNoRead(final Context context){
+    public static void getNbrMessageNoRead(Context context){
+        SharedPreferences Pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        final SharedPreferences.Editor editor = Pref.edit();
         if (FirebaseAuth.getInstance().getCurrentUser()!= null ) {
             MessageNonReadRef.child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -187,27 +158,18 @@ public class PreferenceUtilities {
                             }
                         }
                     }
-                    Map<String, Object> user = new HashMap<String, Object>();
-                    user.put("nbr_Messages", count.toString());
-                    MessageNonReadRef.child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())).child("Message_Non_Read").setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if (task.isSuccessful()) {
-                                getNbrMessageNoRead(context);
-
-                            } else {
-                                String  error = task.getException().getMessage();
-                                Toast.makeText(context.getApplicationContext(), "error : "+error, Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+                    editor.putString(KEY_NUMBER_MESSAGES_NON_READ, String.valueOf(count));
+                    editor.apply();
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.d(TAG, databaseError.getMessage());
+                    Log.d(TAG,"eror : "+databaseError.getMessage());
                 }
             });
+        } else {
+            editor.putString(KEY_NUMBER_MESSAGES_NON_READ, DEFAULT_MESSAGE);
+            editor.apply();
         }
     }
 
