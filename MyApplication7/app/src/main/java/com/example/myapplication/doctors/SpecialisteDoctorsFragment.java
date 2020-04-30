@@ -32,11 +32,11 @@ public class SpecialisteDoctorsFragment extends Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ArrayList<DoctorsSpecialistes> mDoctorsSpecialistes = new ArrayList<DoctorsSpecialistes>();
         String[] SpecialisteNames = getResources().getStringArray(R.array.doctor_specialistes);
-        TypedArray doctorSpecialistesImages = getResources().obtainTypedArray(R.array.sports_images);
+      //  TypedArray doctorSpecialistesImages = getResources().obtainTypedArray(R.array.sports_images);
 
 
         for (int i = 0; i < SpecialisteNames.length; i++) {
-            mDoctorsSpecialistes.add(new DoctorsSpecialistes(SpecialisteNames[i],doctorSpecialistesImages.getResourceId(i,0)));
+            mDoctorsSpecialistes.add(new DoctorsSpecialistes(SpecialisteNames[i],R.drawable.doctorm));
         }
         DoctorsSpecialisteAdapter mAdapter= new DoctorsSpecialisteAdapter( getActivity(), mDoctorsSpecialistes);
         mRecyclerView.setAdapter(mAdapter);
@@ -44,34 +44,6 @@ public class SpecialisteDoctorsFragment extends Fragment {
 
         // Inflate the layout for this fragment
         return view;
-       /* ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
-        Log.d("akram","we stil alive fragment 5");
-
-        String[] NameDoctors = getResources().getStringArray(R.array.doctor_names);
-        Log.d("akram","we stil alive fragment 6");
-
-        String[] PlaceDoctors = getResources().getStringArray(R.array.doctor_place);
-        Log.d("akram","we stil alive fragment 7");
-
-        String[] SexDactors = getResources().getStringArray(R.array.doctor_sex);
-        Log.d("akram","we stil alive fragment 8");
-
-        for (int i = 0; i < NameDoctors.length; i++) {
-            mDoctorsData.Add(new Doctors(NameDoctors[i], PlaceDoctors[i], SexDactors[i]));
-        }
-        Log.d("akram","we stil alive fragment 9");
-
-        DoctorsSpecialisteAdapter mAdapter= new DoctorsSpecialisteAdapter( getActivity(), mDoctorsData);
-        Log.d("akram","we stil alive fragment 10");
-
-        mRecyclerView.setAdapter(mAdapter);
-        Log.d("akram","we stil alive fragment 11");
-
-        // Inflate the layout for this fragment
-        return view;
-
-        */
-
     }
 
 }

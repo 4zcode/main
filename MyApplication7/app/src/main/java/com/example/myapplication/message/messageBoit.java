@@ -64,7 +64,10 @@ public class messageBoit extends AppCompatActivity {
         }else {
             linkedList = db.listMessages();
             Collections.sort(linkedList);
-            ada.notifyDataSetChanged();
+            ada= new messageAdapter(this,linkedList);
+            mRecyclerView.setAdapter(ada);
+            linearLayoutManager = new LinearLayoutManager(this);
+            mRecyclerView.setLayoutManager(linearLayoutManager);
         }
 
         thread = new Thread(){

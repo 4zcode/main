@@ -35,7 +35,7 @@ class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteA
         mGradientDrawable.setColor(Color.GRAY);
         //Make the placeholder same size as the images
         Drawable drawable = ContextCompat.getDrawable
-                (mContext, R.drawable.img_badminton);
+                (mContext, R.drawable.doctorm);
         if (drawable != null) {
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }

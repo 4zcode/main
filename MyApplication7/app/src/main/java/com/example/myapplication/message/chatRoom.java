@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -71,6 +73,9 @@ public class chatRoom extends AppCompatActivity {
     private Thread thread;
     private DBManagerMessage db;
     private LinearLayoutManager linearManager;
+    private Parcelable recyclerState;
+
+
 
     private interface FireBaseCallBack {
         void onCallBack(String message);
@@ -97,11 +102,13 @@ public class chatRoom extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         linearManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearManager);
+        recyclerState = recyclerView.getLayoutManager().onSaveInstanceState();
         db = new DBManagerMessage(this);
         db.open();
         String msg = db.getFullMessage(ID_reciver);
         DecodeFullMsg(msg,arrayMsg);
         adapter.notifyDataSetChanged();
+        recyclerView.getLayoutManager().onRestoreInstanceState(recyclerState);
         if (isNetworkAvailable(getBaseContext())) {
             updateAffichage(2000);
             Afficher(getBaseContext());
@@ -134,6 +141,8 @@ public class chatRoom extends AppCompatActivity {
                             @Override
                             public void run() {
                                 Afficher(getBaseContext());
+                                recyclerState = recyclerView.getLayoutManager().onSaveInstanceState();
+
                             }
                         });
                     }
@@ -188,15 +197,16 @@ public class chatRoom extends AppCompatActivity {
                         String fullMsg = dataSnapshot.child("AllMsg").getValue(String.class);
                         String recentMsg = dataSnapshot.child("message_envoyer").getValue(String.class);
                         String date = dataSnapshot.child("Date").getValue(String.class);
+                        MessageRecever = fullMsg;
                         boolean Is_Readed = dataSnapshot.child("Is_Readed").getValue(String.class).equals("true");
-                        if ( Is_Readed) {
+                         if ( Is_Readed) {
                             if(!db.CheckIsDataAlreadyInDBorNot(ID_reciver)) db.update(ID_reciver,SenderName,recentMsg,fullMsg,date, "true",ReceiverImage);
                             else db.update(ID_reciver,SenderName,recentMsg,fullMsg,date, "true",ReceiverImage);
 
                             updateIs_ReadedStatus(recentMsg, fullMsg, SenderName, ID_reciver, date);
-                            MessageRecever = fullMsg;
                             DecodeFullMsg(fullMsg, arrayMsg);
                             adapter.notifyDataSetChanged();
+                            recyclerView.getLayoutManager().onRestoreInstanceState(recyclerState);
                         }Log.d("akramTest","msg already readed");
                     }else Log.d("akramTest","msg doesn't exist in firebase");
                 }
@@ -298,17 +308,6 @@ public class chatRoom extends AppCompatActivity {
         }
    }
 
-/*
-   public void ScrollDown(int duree){
-       handler.postDelayed(new Runnable() {
-           @Override
-           public void run() {
-               scrollView.fullScroll(View.FOCUS_DOWN);
-           }
-       },duree);
-   }
-
- */
    public void updateIs_ReadedStatus(String message,String fullMsg,String senderName,String ID_reciver,String date){
         if (!ID_reciver.equals(user1.getUid())) {
             user.put("ID_Reciver", ID_reciver);
