@@ -59,18 +59,18 @@ public class chatRoom extends AppCompatActivity {
     private RecyclerView recyclerView;
     private  ArrayList<MessageChatItem> arrayMsg;
     private ChatRoomAdapter adapter;
-    private ScrollView scrollView;
     private FloatingActionButton button;
     private EditText editText;
-    private DatabaseReference firebaseDatabase;
+    private DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("Messages");;
     private FirebaseUser user1;
     private Map<String,Object> user,senderUser;
     private String ID_reciver,MessageRecever = "",SenderName, ReceiverImage;
     private SharedPreferences myPef ;
     private ProgressDialog mProgressDialog;
     private Handler handler;
-    private final DatabaseReference DoctorsRef = FirebaseDatabase.getInstance().getReference().child("Message");
     private Thread thread;
+    private DBManagerMessage db;
+    private LinearLayoutManager linearManager;
 
     private interface FireBaseCallBack {
         void onCallBack(String message);
@@ -83,7 +83,6 @@ public class chatRoom extends AppCompatActivity {
         recyclerView =(RecyclerView) findViewById(R.id.message_chat_room_recycler);
         button =(FloatingActionButton) findViewById(R.id.envoyer_button);
         editText = (EditText) findViewById(R.id.edit_text_envoyer);
-       // scrollView = (ScrollView) findViewById(R.id.scroll_chat);
         arrayMsg = new ArrayList<MessageChatItem>();
         ID_reciver = getIntent().getStringExtra(Doctors.RECIVER);
         ReceiverImage = getIntent().getStringExtra(Doctors.RECIVER_IMAGE);
@@ -92,23 +91,37 @@ public class chatRoom extends AppCompatActivity {
         handler= new Handler();
         user= new HashMap<String,Object>();
         senderUser = new HashMap<String,Object>();
-        firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("Message");
         user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
         myPef = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        adapter= new ChatRoomAdapter(this,arrayMsg);
+        recyclerView.setAdapter(adapter);
+        linearManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearManager);
+        db = new DBManagerMessage(this);
+        db.open();
+        String msg = db.getFullMessage(ID_reciver);
+        DecodeFullMsg(msg,arrayMsg);
+        adapter.notifyDataSetChanged();
         if (isNetworkAvailable(getBaseContext())) {
-            updateAffichage(1000);
+            updateAffichage(2000);
             Afficher(getBaseContext());
-
-        }else {
-            Log.d("akramelkahba", "network not available" );
-            Collections.sort(arrayMsg);
-            adapter= new ChatRoomAdapter(this,arrayMsg);
-            recyclerView.setAdapter(adapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
         }
-        //ScrollDown(3000);
+
+
+
+        recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                if (bottom < oldBottom){
+                    recyclerView.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            recyclerView.smoothScrollToPosition(adapter.getItemCount());
+                        }
+                    },100);
+                }
+            }
+        });
     }
     public void updateAffichage(final int duree){
         thread = new Thread(){
@@ -124,7 +137,10 @@ public class chatRoom extends AppCompatActivity {
                             }
                         });
                     }
-                }catch (InterruptedException e){e.printStackTrace();
+                }catch (InterruptedException e){
+                    Log.d("akramTest", "error : "+e.getMessage() );
+
+                    e.printStackTrace();
                 }
             }
         };
@@ -134,7 +150,6 @@ public class chatRoom extends AppCompatActivity {
 
 
     public void Afficher(Context context){
-        getMessageReceiver();
         readData(context,new FireBaseCallBack() {
             @Override
             public void onCallBack(String msg) {
@@ -142,37 +157,48 @@ public class chatRoom extends AppCompatActivity {
             }
         });
     }
+
+    public void DecodeFullMsg(String msg,ArrayList<MessageChatItem> arrayMsg) {
+        String[] fullMsg = msg.split("@E1S9I!");
+        arrayMsg.clear();
+        for (String petitMsg : fullMsg) {
+            String[] detail = petitMsg.split("<br>");
+            if (detail.length == 3) {
+                String msgName = "Anonyme";
+                String msgImage = "R.drawble.doctorm";
+                if (detail[0].equals(ID_reciver)) {
+                    msgName = SenderName;
+                    msgImage = ReceiverImage;
+                } else if (detail[0].equals(user1.getUid())) {
+                    msgName = myPef.getString(KEY_USER_NAME, "Annonyme");
+                    msgImage = myPef.getString(KEY_USER_IMAGE, "R.drawable.doctorm");
+                }
+                arrayMsg.add(new MessageChatItem(detail[0], msgName, detail[1], detail[2], msgImage));
+            }
+        }
+        Collections.sort(arrayMsg);
+    }
     public void readData(final Context context , FireBaseCallBack fireBaseCallBack) {
         if (!ID_reciver.equals(user1.getUid())) {
-            DoctorsRef.child("ENVOYE").child(user1.getUid()).child(ID_reciver).addListenerForSingleValueEvent(new ValueEventListener() {
+            firebaseDatabase.child(user1.getUid()).child(ID_reciver).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if ( dataSnapshot.child("AllMsg").exists()) {
-                        String msg = dataSnapshot.child("AllMsg").getValue(String.class);
-                        MessageRecever=msg;
-                        String[] fullMsg = msg.split("@E1S9I!");
-                        arrayMsg.clear();
-                        for (String petitMsg : fullMsg) {
-                            String[] detail = petitMsg.split("<br>");
-                            if (detail.length == 3) {
-                                String msgName = "Anonyme";
-                                String msgImage = "R.drawble.doctorm";
-                                if (detail[0].equals(ID_reciver)) {
-                                    msgName = SenderName;
-                                    msgImage = ReceiverImage;
-                                } else if (detail[0].equals(user1.getUid())) {
-                                    msgName = myPef.getString(KEY_USER_NAME, "Annonyme");
-                                    msgImage = myPef.getString(KEY_USER_IMAGE, "R.drawable.doctorm");
-                                }
-                                arrayMsg.add(new MessageChatItem(detail[0], msgName, detail[1], detail[2], msgImage));
-                            } else Log.d("akramelkahba", "detail.length : " + detail.length);
+                    boolean is_exist = dataSnapshot.child("message_envoyer").exists() && dataSnapshot.child("Date").exists()&&dataSnapshot.child("AllMsg").exists();
+                    if (is_exist) {
+                        String fullMsg = dataSnapshot.child("AllMsg").getValue(String.class);
+                        String recentMsg = dataSnapshot.child("message_envoyer").getValue(String.class);
+                        String date = dataSnapshot.child("Date").getValue(String.class);
+                        boolean Is_Readed = dataSnapshot.child("Is_Readed").getValue(String.class).equals("true");
+                        if ( Is_Readed) {
+                            if(!db.CheckIsDataAlreadyInDBorNot(ID_reciver)) db.update(ID_reciver,SenderName,recentMsg,fullMsg,date, "true",ReceiverImage);
+                            else db.update(ID_reciver,SenderName,recentMsg,fullMsg,date, "true",ReceiverImage);
 
-                        }
-                        Collections.sort(arrayMsg);
-                        adapter= new ChatRoomAdapter(context,arrayMsg);
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(context));
-                    }
+                            updateIs_ReadedStatus(recentMsg, fullMsg, SenderName, ID_reciver, date);
+                            MessageRecever = fullMsg;
+                            DecodeFullMsg(fullMsg, arrayMsg);
+                            adapter.notifyDataSetChanged();
+                        }Log.d("akramTest","msg already readed");
+                    }else Log.d("akramTest","msg doesn't exist in firebase");
                 }
 
                 @Override
@@ -192,22 +218,30 @@ public class chatRoom extends AppCompatActivity {
             mProgressDialog.setMessage("Loading");
             mProgressDialog.setIndeterminate(true);
         }
-        mProgressDialog.show();
         String message = editText.getText().toString().trim();
 
 
-        if(!message.isEmpty()) {
+        if(isNetworkAvailable(getBaseContext()) && !message.isEmpty()) {
+            mProgressDialog.show();
+
             String name_current_user = myPef.getString("userName", "Annonyme");
             DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
             String dt = date.format(Calendar.getInstance().getTime());
             String allMSG = MessageRecever  + user1.getUid() + "<br>" + message + "<br>"+dt+"@E1S9I!";
-            updateUserReceiver(message,allMSG, SenderName, ID_reciver, dt);
-            updateReceiverUser(name_current_user, message,allMSG, ID_reciver, dt);
-            mProgressDialog.dismiss();
-            editText.getText().clear();
+
+
+
+                updateUserReceiver(message,allMSG, SenderName, ID_reciver, dt);
+                updateReceiverUser(name_current_user, message,allMSG, ID_reciver, dt);
+                mProgressDialog.dismiss();
+                editText.getText().clear();
+
+
             tools.hideKeyBoard(chatRoom.this,view);
             Afficher(getBaseContext());
-        }else             mProgressDialog.dismiss();
+        }else  {
+        Toast.makeText(getBaseContext(),"pas internet",Toast.LENGTH_SHORT).show();
+        }
 
     }
    public void updateUserReceiver(String message,String fullMsg,String senderName,String ID_reciver,String date){
@@ -221,7 +255,7 @@ public class chatRoom extends AppCompatActivity {
             user.put("Date", date);
             user.put("AllMsg", fullMsg);
 
-            firebaseDatabase.child("ENVOYE").child(user1.getUid()).child(ID_reciver).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            firebaseDatabase.child(user1.getUid()).child(ID_reciver).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
@@ -230,7 +264,7 @@ public class chatRoom extends AppCompatActivity {
                     } else {
                         String error;
                         error = task.getException().getMessage();
-                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_SHORT).show();
 
                     }
                 }
@@ -247,11 +281,11 @@ public class chatRoom extends AppCompatActivity {
             user.put("Date", date);
             user.put("AllMsg", fullMsg);
 
-            firebaseDatabase.child("ENVOYE").child(ID_reciver).child(user1.getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            firebaseDatabase.child(ID_reciver).child(user1.getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
-                        Toast.makeText(getApplicationContext(), "le message est envoyé", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "le message est envoyé", Toast.LENGTH_SHORT).show();
 
                     } else {
                         String error;
@@ -264,7 +298,7 @@ public class chatRoom extends AppCompatActivity {
         }
    }
 
-
+/*
    public void ScrollDown(int duree){
        handler.postDelayed(new Runnable() {
            @Override
@@ -273,6 +307,8 @@ public class chatRoom extends AppCompatActivity {
            }
        },duree);
    }
+
+ */
    public void updateIs_ReadedStatus(String message,String fullMsg,String senderName,String ID_reciver,String date){
         if (!ID_reciver.equals(user1.getUid())) {
             user.put("ID_Reciver", ID_reciver);
@@ -282,7 +318,7 @@ public class chatRoom extends AppCompatActivity {
             user.put("Is_Readed", "true");
             user.put("AllMsg", fullMsg);
             user.put("Date", date);
-            firebaseDatabase.child("ENVOYE").child(user1.getUid()).child(ID_reciver).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            firebaseDatabase.child(user1.getUid()).child(ID_reciver).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
@@ -297,38 +333,27 @@ public class chatRoom extends AppCompatActivity {
             });
         }
    }
-   public void getMessageReceiver(){
-       DoctorsRef.child("ENVOYE").child(user1.getUid()).child(ID_reciver).addListenerForSingleValueEvent(new ValueEventListener() {
-           @Override
-           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-               boolean is_exist = dataSnapshot.child("message_envoyer").exists() && dataSnapshot.child("Date").exists()&&dataSnapshot.child("AllMsg").exists();
-               if (is_exist) {
-                   String msg = dataSnapshot.child("message_envoyer").getValue(String.class);
-                   String date = dataSnapshot.child("Date").getValue(String.class);
-                   String fullMSG = dataSnapshot.child("AllMsg").getValue(String.class);
-                   updateIs_ReadedStatus(msg,fullMSG,SenderName, ID_reciver,date);
-               }
-               else  Log.d(TAG,"nothing updated!!!!!!!");
 
 
-           }
+    @Override
+    protected void onPause() {
+        if (thread !=null && thread.isAlive()) {
+            thread.interrupt();}
 
-           @Override
-           public void onCancelled(@NonNull DatabaseError databaseError) {
-               Log.d(TAG, databaseError.getMessage());
-           }
-       });
-   }
+        super.onPause();
+    }
 
     @Override
     protected void onStop() {
-        super.onStop();
         if (thread !=null && thread.isAlive()) { thread.interrupt();}
+
+        super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         if (thread !=null && thread.isAlive()) { thread.interrupt();}
+
+        super.onDestroy();
     }
 }

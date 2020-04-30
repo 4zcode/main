@@ -31,13 +31,13 @@ public class messageBoit extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ArrayList<MessageItem> linkedList;
-    private DatabaseReference firebaseDatabase;
+    private DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("Messages");
     private FirebaseUser user;
-    private final DatabaseReference DoctorsRef = FirebaseDatabase.getInstance().getReference().child("Message");
     private Thread thread;
-    java.util.Date date;
+    private  java.util.Date date;
     private messageAdapter ada;
     private DBManagerMessage db;
+    private LinearLayoutManager linearLayoutManager;
 
 
 
@@ -50,10 +50,13 @@ public class messageBoit extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_boit);
-        firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("Message");
         user= FirebaseAuth.getInstance().getInstance().getCurrentUser();
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewMessage);
         linkedList = new ArrayList<MessageItem>();
+        ada= new messageAdapter(this,linkedList);
+        mRecyclerView.setAdapter(ada);
+        linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         db = new DBManagerMessage(getBaseContext());
         db.open();
         if (isNetworkAvailable(this)) {
@@ -61,11 +64,9 @@ public class messageBoit extends AppCompatActivity {
         }else {
             linkedList = db.listMessages();
             Collections.sort(linkedList);
-            ada= new messageAdapter(this,linkedList);
-            mRecyclerView.setAdapter(ada);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            ada.notifyDataSetChanged();
         }
-        /*
+
         thread = new Thread(){
             @Override
             public void run() {
@@ -75,7 +76,7 @@ public class messageBoit extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                Afficher();
+                                Afficher(getBaseContext());
                             }
                         });
                     }
@@ -86,7 +87,7 @@ public class messageBoit extends AppCompatActivity {
 
         thread.start();
 
-         */
+
 
 
 
@@ -101,10 +102,10 @@ public class messageBoit extends AppCompatActivity {
         });
     }
     public void readData(final Context context, messageBoit.FireBaseCallBack fireBaseCallBack) {
-        DoctorsRef.child("ENVOYE").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        firebaseDatabase.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
+                 db.deleteAll();
                 for (DataSnapshot ds : dataSnapshot.getChildren()){
                     boolean is_exist = ds.child("message_envoyer").exists() && ds.child("Sender_Name").exists()&& ds.child("ID_Reciver").exists()&& ds.child("Is_Readed").exists()&& ds.child("Date").exists()&& ds.child("AllMsg").exists();
                     if (is_exist) {
@@ -138,9 +139,8 @@ public class messageBoit extends AppCompatActivity {
                 Collections.sort(linkedList);
                 ada= new messageAdapter(context,linkedList);
                 mRecyclerView.setAdapter(ada);
-                mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
-
-            }
+                linearLayoutManager = new LinearLayoutManager(context);
+                mRecyclerView.setLayoutManager(linearLayoutManager);            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -151,7 +151,16 @@ public class messageBoit extends AppCompatActivity {
 
 
     @Override
+    protected void onPause() {
+        if (thread !=null && thread.isAlive()) { thread.interrupt();}
+
+        super.onPause();
+    }
+
+    @Override
     protected void onStop() {
+        if (thread !=null && thread.isAlive()) { thread.interrupt();}
+
         Log.d("messageofflinetest","onStop");
 
         super.onStop();
@@ -160,6 +169,8 @@ public class messageBoit extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
+        if (thread !=null && thread.isAlive()) { thread.interrupt();}
+
         Log.d("messageofflinetest","onDestroy");
 
         super.onDestroy();

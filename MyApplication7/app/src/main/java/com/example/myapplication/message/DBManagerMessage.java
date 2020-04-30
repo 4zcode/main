@@ -36,6 +36,18 @@ public class DBManagerMessage {
 
         dbHelper.close();
     }
+    public String getFullMessage(String messageID){
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        String Query = "Select * from " + DatabaseHelper.TABLE_NAME_MESSAGES + " where " + DatabaseHelper._ID_MESSAGE_SENDER_FIREBASE + " = '" + messageID +"' ";
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.moveToFirst()) {
+           String msg = cursor.getString(4);
+            cursor.close();
+            return msg;
+        }
+        cursor.close();
+        return "";
+    }
 
     public boolean CheckIsDataAlreadyInDBorNot(String nameFeild) {
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
