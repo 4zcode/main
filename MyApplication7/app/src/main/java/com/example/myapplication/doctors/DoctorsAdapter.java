@@ -112,7 +112,6 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
             mCurrentDoctor = currentDoctor;
             if (isNetworkAvailable()) {
                 Picasso.with(mCont).load(mCurrentDoctor.getImageUrl()).into(mDoctorImage);
-                Log.d("imageTest", "firebase id is : " + mCurrentDoctor.getDoctor_ID_Firebase());
             }else{
                 if(mCurrentDoctor.getSexDoctor().equals("man")) Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mDoctorImage);
                 else Glide.with(mCont).load(R.drawable.doctorf).placeholder(mGradientDrawable).into(mDoctorImage);

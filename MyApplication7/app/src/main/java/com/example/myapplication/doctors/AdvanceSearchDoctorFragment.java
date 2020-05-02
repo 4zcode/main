@@ -129,13 +129,10 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
                         String Spec = ds.child("Speciality").getValue(String.class);
                         String Sex = ds.child("SexDoctor").getValue(String.class);
                         String ImageUrl = ds.child("mImageUrl").getValue(String.class);
-                        if (isNetworkAvailable()){  dbManager.deleteall();}
 
                         if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
                             dbManager.update(id_firebase, Name, Place, Phone, Spec, Sex,ImageUrl);
                         } else {
-                            Log.d("doctor_activity_test", Name + " not exist ");
-                            Log.d("doctor_activity_test", id_firebase + " not exist");
                             dbManager.insert(id_firebase, Name, Place, Phone, Spec, Sex,ImageUrl);
                         }
                     }
@@ -149,7 +146,6 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("doctor_activity_test", databaseError.getMessage());
             }
         });
     }
