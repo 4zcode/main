@@ -12,6 +12,8 @@ import com.example.myapplication.DatabaseHelper;
 
 import java.util.ArrayList;
 
+import static com.example.myapplication.DatabaseHelper.TABLE_NAME_DOCTORS;
+
 
 public class DBManagerDoctor {
      private DatabaseHelper dbHelper;
@@ -36,7 +38,7 @@ public class DBManagerDoctor {
 
     public boolean CheckIsDataAlreadyInDBorNot(String nameFeild) {
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
-        String Query = "Select * from " + DatabaseHelper.TABLE_NAME_DOCTORS + " where " + DatabaseHelper._ID_DOCTOR_FIREBASE + " = '" + nameFeild +"' ";
+        String Query = "Select * from " + TABLE_NAME_DOCTORS + " where " + DatabaseHelper._ID_DOCTOR_FIREBASE + " = '" + nameFeild +"' ";
             Cursor cursor = db.rawQuery(Query, null);
             if(cursor.moveToFirst()) {
                 cursor.close();
@@ -56,11 +58,11 @@ public class DBManagerDoctor {
         contentValue.put(DatabaseHelper.PHONE_DOCTOR, phone);
         contentValue.put(DatabaseHelper.IMAGE_DOCTOR_URL, imageUrl);
 
-        database.insert(DatabaseHelper.TABLE_NAME_DOCTORS, null, contentValue);
+        database.insert(TABLE_NAME_DOCTORS, null, contentValue);
     }
     public Cursor fetch() {
         String[] columns = new String[] { DatabaseHelper._ID_DOCTOR, DatabaseHelper.NAME_DOCTOR, DatabaseHelper.PLACE_DOCTOR, DatabaseHelper.PHONE_DOCTOR, DatabaseHelper.SPEC_DOCTOR, DatabaseHelper.SEX_DOCTOR, DatabaseHelper.IMAGE_DOCTOR_URL};
-        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_DOCTORS, columns, null, null, null, null, null);
+        Cursor cursor = database.query(TABLE_NAME_DOCTORS, columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
         }
@@ -76,14 +78,14 @@ public class DBManagerDoctor {
         contentValues.put(DatabaseHelper.PHONE_DOCTOR, phone);
         contentValues.put(DatabaseHelper.IMAGE_DOCTOR_URL, imageUrl);
 
-        int i = database.update(DatabaseHelper.TABLE_NAME_DOCTORS, contentValues, DatabaseHelper._ID_DOCTOR_FIREBASE + " = " + "'"+_id+ "'", null);
+        int i = database.update(TABLE_NAME_DOCTORS, contentValues, DatabaseHelper._ID_DOCTOR_FIREBASE + " = " + "'"+_id+ "'", null);
         return i;
     }
     public void delete(long _id) {
-        database.delete(DatabaseHelper.TABLE_NAME_DOCTORS, DatabaseHelper._ID_DOCTOR + "=" + _id, null);
+        database.delete(TABLE_NAME_DOCTORS, DatabaseHelper._ID_DOCTOR + "=" + _id, null);
     }
     public ArrayList<Doctors> listdoctors() {
-        String sql = "select * from " + DatabaseHelper.TABLE_NAME_DOCTORS;
+        String sql = "select * from " + TABLE_NAME_DOCTORS;
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         ArrayList<Doctors> storeContacts = new ArrayList<>();
         Cursor cursor = db.rawQuery(sql, null);
@@ -104,5 +106,19 @@ public class DBManagerDoctor {
         }
         cursor.close();
         return storeContacts;
+    }
+    public void deleteall(){
+        String sql = "select * from " + TABLE_NAME_DOCTORS;
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                int id = Integer.parseInt(cursor.getString(0));
+                this.delete(id);
+            }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
+
     }
 }

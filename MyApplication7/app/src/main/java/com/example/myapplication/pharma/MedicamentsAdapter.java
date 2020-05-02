@@ -1,4 +1,4 @@
-package com.example.myapplication.Medicament;
+package com.example.myapplication.pharma;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -24,7 +24,7 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.Medicam
     public GradientDrawable mGradientDrawable;
     public ArrayList<Medicament> mMedicamentData;
     public ArrayList<Medicament> mMedicamentDataArray= new ArrayList<Medicament>();
-    public static Context mContext;
+    public Context mContext;
     private  Medicament currentMedicament;
 
     MedicamentsAdapter(Context context, ArrayList<Medicament> medicamntData) {

@@ -22,18 +22,6 @@ tools:context=".Hospital.HopitalActivity">
             android:layout_height="wrap_content"
             android:layout_weight="5"
             />
-        <Spinner
-            android:background="#FFFFFF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/spinner_hopital"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Search"
-            />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

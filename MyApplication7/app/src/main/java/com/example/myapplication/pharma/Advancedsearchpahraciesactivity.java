@@ -1,9 +1,12 @@
-package com.example.myapplication.doctors;
-
+package com.example.myapplication.pharma;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,6 +24,7 @@ import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,23 +34,22 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.myapplication.DatabaseHelper.TABLE_NAME_PHARMACIE;
 
-/**
- * A simple {@link Fragment} subclass.
- */
-public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
-    private ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
-    private final DatabaseReference DoctorsRef = FirebaseDatabase.getInstance().getReference().child("Doctor");
+
+public class Advancedsearchpahraciesactivity extends Fragment implements AdapterView.OnItemSelectedListener {
+    private ArrayList<pharmacy> mpharmaciesData = new ArrayList<pharmacy>();
+    private final DatabaseReference PhREf = FirebaseDatabase.getInstance().getReference().child("pharmacies");
     private RecyclerView mRecyclerView;
-    private DBManagerDoctor dbManager;
+    private DBManagerPharmacy dbManager;
     private ProgressDialog mProgressDialog;
-    private DoctorsAdapter mAdapter;
+    private pharmacyAdapter mAdapter;
     private SearchView searchView;
     private Spinner spinner;
     private ArrayAdapter<CharSequence> spinnerAdapter;
 
 
-    public AdvanceSearchDoctorFragment() {
+    public Advancedsearchpahraciesactivity(){
     }
 
     private interface FireBaseCallBack {
@@ -59,11 +62,11 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_doctor_advance_search, container, false);
-        mRecyclerView = view.findViewById(R.id.doctor_recycler_advanced_search);
+        View view = inflater.inflate(R.layout.fragment_advancedsearchpahraciesactivity, container, false);
+        mRecyclerView = view.findViewById(R.id.pharmacies_recycler_search);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        searchView = view.findViewById(R.id.search_doctor);
-        dbManager = new DBManagerDoctor(getActivity());
+        searchView = view.findViewById(R.id.search_pharmacy);
+        dbManager = new DBManagerPharmacy(getActivity());
         dbManager.open();
         if (isNetworkAvailable()) {
             Toast.makeText(getContext(), "there is connection", Toast.LENGTH_LONG).show();
@@ -77,15 +80,15 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
             Toast.makeText(getContext(), "no connection", Toast.LENGTH_LONG).show();
         }
 
-        mDoctorsData = dbManager.listdoctors();
+        mpharmaciesData = dbManager.listpharmacy();
 
-        mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
+        mAdapter = new pharmacyAdapter(getActivity(),mpharmaciesData);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
         spinner = view.findViewById(R.id.docspinner);
         if (spinner != null) {
-            spinner.setOnItemSelectedListener(AdvanceSearchDoctorFragment.this);
+            spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) Advancedsearchpahraciesactivity.this);
         }
         spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.wilaya, android.R.layout.simple_spinner_item);
         spinnerAdapter.setDropDownViewResource
@@ -116,32 +119,31 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
         }
         mProgressDialog.show();
 
-        DoctorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        PhREf.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    boolean Is_Exist =ds.child("Doctor_ID_Firebase").exists() &&ds.child("mImageUrl").exists() && ds.child("NameDoctor").exists() && ds.child("PlaceDoctor").exists() && ds.child("phone").exists() && ds.child("Speciality").exists() &&ds.child("SexDoctor").exists();
+                    boolean Is_Exist =ds.child("pharma_ID_Firebase").exists() &&ds.child("imageUrl").exists() && ds.child("thename").exists() && ds.child("theadress").exists() && ds.child("phone").exists() && ds.child("oppen").exists() &&ds.child("close").exists();
                     if (Is_Exist) {
-                        String id_firebase = ds.child("Doctor_ID_Firebase").getValue(String.class);
-                        String Name = ds.child("NameDoctor").getValue(String.class);
-                        String Place = ds.child("PlaceDoctor").getValue(String.class);
+                        String id_firebase = ds.child("pharma_ID_Firebase").getValue(String.class);
+                        String Name = ds.child("thename").getValue(String.class);
+                        String Place = ds.child("theadress").getValue(String.class);
                         String Phone = ds.child("phone").getValue(String.class);
-                        String Spec = ds.child("Speciality").getValue(String.class);
-                        String Sex = ds.child("SexDoctor").getValue(String.class);
-                        String ImageUrl = ds.child("mImageUrl").getValue(String.class);
-                        if (isNetworkAvailable()){  dbManager.deleteall();}
-
+                        String open = ds.child("oppen").getValue(String.class);
+                        String close= ds.child("close").getValue(String.class);
+                        String ImageUrl = ds.child("imageUrl").getValue(String.class);
+                       if (isNetworkAvailable()){  dbManager.deleteall();}
                         if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
-                            dbManager.update(id_firebase, Name, Place, Phone, Spec, Sex,ImageUrl);
+                            dbManager.update(id_firebase, Name, Place, Phone, open, close,ImageUrl);
                         } else {
-                            Log.d("doctor_activity_test", Name + " not exist ");
-                            Log.d("doctor_activity_test", id_firebase + " not exist");
-                            dbManager.insert(id_firebase, Name, Place, Phone, Spec, Sex,ImageUrl);
+
+                            dbManager.insert(id_firebase, Name, Place, Phone, open, close,ImageUrl);
+
                         }
-                    }
+                    } else Log.d("pharmacy_test","is not exist");
                 }
-                mDoctorsData = dbManager.listdoctors();
-                mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
+                mpharmaciesData= dbManager.listpharmacy();
+                mAdapter = new pharmacyAdapter(getActivity(),mpharmaciesData);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressDialog.dismiss();
 
@@ -149,7 +151,6 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("doctor_activity_test", databaseError.getMessage());
             }
         });
     }

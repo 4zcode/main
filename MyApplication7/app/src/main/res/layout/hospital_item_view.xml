@@ -16,7 +16,7 @@
             android:layout_width="120dp"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            tools:src="@drawable/doctorm"
+            tools:src="@drawable/hospital"
             />
         <LinearLayout
             android:layout_width="wrap_content"
