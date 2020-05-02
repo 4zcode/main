@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#2f8bed"
-    >
+    android:background="@drawable/bb"
+    tools:context=".addProfile.AddLaboProfile">
     <androidx.cardview.widget.CardView
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -18,12 +18,12 @@
         android:layout_marginBottom="10dp"
         >
         <ImageView
-            android:id="@+id/Profile_Imagehopital"
+            android:id="@+id/Profile_Imagelabo"
             android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/hopitalogo"
+            android:src="@drawable/labologo"
             tools:ignore="CententDescription"
             />
 
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:hint="the name of your institution"
         android:textStyle="bold"
-        android:id="@+id/hopitalname"
+        android:id="@+id/laboname"
         android:typeface="serif"
         ></EditText>
 
@@ -45,7 +45,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="the adress of your institution"
-        android:id="@+id/hopitaladress"
+        android:id="@+id/laboadress"
         android:typeface="serif"
         ></EditText>
 
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="the phone number of your institution"
-        android:id="@+id/hopitalnumber"
+        android:id="@+id/labonumber"
 
         ></EditText>
 
@@ -70,13 +70,13 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="add your Hopital"
+            android:text="add your laboratoir"
             android:textStyle="bold"
-            android:onClick="create_hopital"
+            android:onClick="create_labo"
             />
 
         <ProgressBar
-            android:id="@+id/progress_barhopital"
+            android:id="@+id/progress_barlabo"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

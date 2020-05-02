@@ -1,19 +1,20 @@
 package com.example.myapplication.Pharmacies;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class pharmacyAdapter extends RecyclerView.Adapter<pharmacyAdapter.viewho
     @NonNull
     @Override
     public viewholder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.pharmaciesinit,parent,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.pharmacy_item,parent,false);
         return new viewholder(context,view,gradientDrawable);
     }
 
@@ -73,39 +74,41 @@ public class pharmacyAdapter extends RecyclerView.Adapter<pharmacyAdapter.viewho
 
 
     public class viewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView textView1,textView2,textView3,textView4;
-        private ImageView imageView;
+        private TextView NameTextView,PlaceTextView,NumberTextView,OpenTextView;
+        private ImageView PharmacyImageView;
         private Context mcontextm;
-        private pharmacy mword;
+        private pharmacy mCurrentPharmacy;
         private GradientDrawable mgd;
 
         public viewholder(@NonNull Context contextm, View itemView,GradientDrawable mgradientDrawable) {
             super(itemView);
             mcontextm = contextm;
-            imageView=( ImageView) itemView.findViewById(R.id.image);
-            textView1=(TextView) itemView.findViewById(R.id.text1);
-            textView2=(TextView) itemView.findViewById(R.id.text2);
-            textView3=(TextView) itemView.findViewById(R.id.text3);
-            textView4=(TextView) itemView.findViewById(R.id.text4);
+            PharmacyImageView=( ImageView) itemView.findViewById(R.id.pharmacy_image);
+            NameTextView=(TextView) itemView.findViewById(R.id.pharmacy_name);
+            PlaceTextView=(TextView) itemView.findViewById(R.id.pharmacy_place);
+            NumberTextView=(TextView) itemView.findViewById(R.id.pharmacy_number);
+          //  OpenTextView=(TextView) itemView.findViewById(R.id.pharmacies_open);
 
             gradientDrawable=mgradientDrawable;
             itemView.setOnClickListener(this);
         }
-        public void onbind(pharmacy ilyes){
-            textView1.setText(ilyes.getThename());
-            textView2.setText(ilyes.getTheadress());
-            textView3.setText(ilyes.getOppen());
-            textView4.setText(ilyes.getClose());
-            mword=ilyes;
+        public void onbind(pharmacy currentPharmacy){
+            NameTextView.setText(currentPharmacy.getThename());
+            PlaceTextView.setText(currentPharmacy.getTheadress());
+            NumberTextView.setText(currentPharmacy.getPhone());
+           // OpenTextView.setText(currentPharmacy.getClose());
+            mCurrentPharmacy=currentPharmacy;
+            Glide.with(mcontextm)
+                    .load(mCurrentPharmacy.ImageUrl)
+                    .placeholder(R.drawable.doctorm)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .into(PharmacyImageView);
         }
 
 
         @Override
         public void onClick(View v) {
-            String adrs =mword.getTheadress();
-            Uri addressUri = Uri.parse("geo:0,0?q=" +adrs);
-            Intent intent = new Intent(Intent.ACTION_VIEW, addressUri);
-            context.startActivity(intent);
+            Toast.makeText(mcontextm,"Clicked",Toast.LENGTH_SHORT).show();
 
         }
     }

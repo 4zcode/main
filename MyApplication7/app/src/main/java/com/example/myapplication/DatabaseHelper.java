@@ -15,22 +15,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Table pharmacies columns
     public static final String _ID_PHARMA = "_id";
+    public static final String _ID_PHARMA_FIREBASE = "_id_pharmacies_firebase";
     public static final String NAME_PHARMA = "name";
     public static final String PLACE_PHARMA = "place";
+    public static final String IMAGE_PHARMA_URL ="image" ;
+    public static final String PHONE_PHARMA = "phone";
+    public static final String OPEN_PHARMA = "open";
+    public static final String CLOSE_PHARMA = "close";
 
     // Table Hopital columns
     public static final String _ID_HOSPITAL = "_id";
+    public static final String _ID_HOSPITAL_FIREBASE = "_id_hospital_firebase";
     public static final String NAME__HOSPITAL = "name";
     public static final String PLACE__HOSPITAL = "place";
     public static final String NUMBER__HOSPITAL = "number";
+    public static final String IMAGE_HOSPITAL_URL ="image" ;
 
     // Taple labo columns
     public static final String _ID_LABORATOIR = "_id";
+    public static final String _ID_LABORATOIR_FIREBASE = "_id_laboratoir_firebase";
     public static final String NAME__LABORATOIR = "name";
     public static final String PLACE__LABORATOIR = "place";
     public static final String NUMBER__LABORATOIR = "number";
-    public static final String OPEN = "open";
-    public static final String CLOSE = "close";
+    public static final String IMAGE_LABORATOIR_URL ="image" ;
 
     // Table doctor columns
     public static final String _ID_DOCTOR = "_id";
@@ -57,15 +64,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String DB_NAME = "SahtiFiYdi.db";
 
     // database version
-    static final int DB_VERSION = 9;
+    static final int DB_VERSION = 13;
 
     // Creating table query
     private static final String CREATE_TABLE_PHARMACIE = "create table " + TABLE_NAME_PHARMACIE + "(" + _ID_PHARMA
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME_PHARMA + " TEXT NOT NULL, " + PLACE_PHARMA + " TEXT, " + OPEN + " TEXT, " + CLOSE + " TEXT);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_PHARMA_FIREBASE + " TEXT NOT NULL, "+ NAME_PHARMA + " TEXT NOT NULL, " + PLACE_PHARMA + " TEXT, " + PHONE_PHARMA+ " TEXT, "+OPEN_PHARMA + " TEXT, " + CLOSE_PHARMA + " TEXT, "+IMAGE_PHARMA_URL+" TEXT );";
     private static final String CREATE_TABLE_HOSPITAL = "create table " + TABLE_NAME_HOSPITAL + "(" + _ID_HOSPITAL
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME__HOSPITAL + " TEXT NOT NULL, " + PLACE__HOSPITAL + " TEXT, " + NUMBER__HOSPITAL + " TEXT);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_HOSPITAL_FIREBASE+" TEXT NOT NULL, "+NAME__HOSPITAL + " TEXT NOT NULL, " + PLACE__HOSPITAL + " TEXT, " + NUMBER__HOSPITAL + " TEXT, "+IMAGE_HOSPITAL_URL+" TEXT );";
     private static final String CREATE_TABLE_LABORATOIR = "create table " + TABLE_NAME_LABORATOIR + "(" + _ID_LABORATOIR
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + NAME__LABORATOIR + " TEXT NOT NULL, " + PLACE__LABORATOIR + " TEXT, " + NUMBER__LABORATOIR + " TEXT);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_LABORATOIR_FIREBASE+ " TEXT NOT NULL, "+NAME__LABORATOIR + " TEXT NOT NULL, " + PLACE__LABORATOIR + " TEXT, " + NUMBER__LABORATOIR+" TEXT, " +IMAGE_LABORATOIR_URL+" TEXT );";
     private static final String CREATE_TABLE_DOCTORS = "create table " + TABLE_NAME_DOCTORS + "(" + _ID_DOCTOR
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_DOCTOR_FIREBASE + " TEXT NOT NULL, " + NAME_DOCTOR + " TEXT NOT NULL, " + PLACE_DOCTOR + " TEXT, " + PHONE_DOCTOR+ " TEXT, "+SPEC_DOCTOR+" TEXT NOT NULL, "+SEX_DOCTOR+" TEXT, "+IMAGE_DOCTOR_URL + " TEXT );";
     private static final String CREATE_TABLE_MESSAGES ="create table "+TABLE_NAME_MESSAGES+"("+_ID_MESSAGE + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_MESSAGE_SENDER_FIREBASE+ " TEXT NOT NULL, " +SENDER_MESSAGE_NAME+ " TEXT NOT NULL, " +RECENT_MESSAGE+ " TEXT, "+FULL_MESSAGE + " TEXT ,"+MESSAGE_RECENT_DATE+ " TEXT, "+IS_READ + " TEXT ,"+IMAGE_SENDER_MESSAGE_URL+" TEXT);";

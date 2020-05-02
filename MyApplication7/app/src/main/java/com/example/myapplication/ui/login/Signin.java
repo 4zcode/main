@@ -42,6 +42,12 @@ public class Signin extends AppCompatActivity {
         pass=(EditText)findViewById(R.id.passwordin);
         firebaseAuth=FirebaseAuth.getInstance();
         myPef =getSharedPreferences("userPref", Context.MODE_PRIVATE);
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Loading");
+        progressDialog.setMessage("Please wait ...");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar);
+        progressDialog.setIndeterminate(true);
     }
 
     public void signin(View view) {
@@ -50,12 +56,6 @@ public class Signin extends AppCompatActivity {
         if (TextUtils.isEmpty(user)|TextUtils.isEmpty(pass)){
             Toast.makeText(this,"error",Toast.LENGTH_LONG).show();
         }else{
-            progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Loading");
-            progressDialog.setMessage("Please wait ...");
-            progressDialog.setCancelable(false);
-            progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar);
-            progressDialog.setIndeterminate(true);
             progressDialog.show();
             firebaseAuth.signInWithEmailAndPassword(user,pass).addOnCompleteListener(this,new OnCompleteListener<AuthResult>(){
                 @Override
@@ -84,7 +84,25 @@ public class Signin extends AppCompatActivity {
             startActivity(intent);
     }
 
-    public void returnToMainActivity(View view) {
-        startActivity(new Intent(this,MainActivity.class));
+
+    public void passwordPassword(View view) {
+        progressDialog.show();
+        String user=username.getText().toString().trim();
+        if (TextUtils.isEmpty(user)|TextUtils.isEmpty(user)){
+            Toast.makeText(this,"error",Toast.LENGTH_LONG).show();
+        }else {
+            firebaseAuth.sendPasswordResetEmail(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()){
+                        Toast.makeText(getBaseContext(),"check your email",Toast.LENGTH_LONG).show();
+
+                    }else {
+                        Toast.makeText(getBaseContext(),"echec d'envoyer le mot de passe",Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+        }
+        progressDialog.dismiss();
     }
 }

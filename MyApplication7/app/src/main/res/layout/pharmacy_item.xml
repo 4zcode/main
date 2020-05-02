@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-xmlns:tools="http://schemas.android.com/tools"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_margin="@dimen/card_margin"
-android:background="?android:selectableItemBackground">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="@dimen/card_margin"
+    android:background="?android:selectableItemBackground">
 
 <LinearLayout
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.mikhaellopez.circularimageview.CircularImageView
-        android:id="@+id/hopital_image"
+        android:id="@+id/pharmacy_image"
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:adjustViewBounds="true"
@@ -30,16 +30,16 @@ android:background="?android:selectableItemBackground">
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/hopital_name"
+            android:id="@+id/pharmacy_name"
             style="@style/TextAppearance.AppCompat.Headline"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             tools:text="Pharmacy Name"
             />
 
         <TextView
-            android:id="@+id/hopital_place"
+            android:id="@+id/pharmacy_place"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@ android:background="?android:selectableItemBackground">
             android:textColor="?android:textColorSecondary" />
 
         <TextView
-            android:id="@+id/hopital_contact"
+            android:id="@+id/pharmacy_number"
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

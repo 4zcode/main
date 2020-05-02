@@ -1,8 +1,7 @@
-package com.example.myapplication.Hospital;
+package com.example.myapplication.Laboratoir;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -22,13 +21,13 @@ import java.util.ArrayList;
 
 import static com.example.myapplication.utilities.tools.isNetworkAvailable;
 
-public class HopitalActivity extends AppCompatActivity {
-    private ArrayList<Hopital> mhopitaldata = new ArrayList<Hopital>();
-    private DBManagerHospital dbManagerHospital;
+public class LaboActivity extends AppCompatActivity {
+    private ArrayList<Labo> mlabodata = new ArrayList<Labo>();
+    private DBManagerLaboratoir dbManagerLaboratoir;
     private RecyclerView mRecyclerView;
-    private HopitalsAdapter mAdapter;
+    private LabosAdapter mAdapter;
     private SearchView searchView;
-    private final DatabaseReference hopitalRefrence = FirebaseDatabase.getInstance().getReference().child("Hopitals");
+    private final DatabaseReference PhREf = FirebaseDatabase.getInstance().getReference().child("laboratoir");
     private ProgressDialog mProgressDialog;
     private interface FireBaseCallBack {
         void onCallBack(ArrayList<String> list);
@@ -37,17 +36,14 @@ public class HopitalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("labo_acttivity_test","we are in 0");
-        setContentView(R.layout.activity_hospital);
-        Log.d("labo_acttivity_test","we are in 1");
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        setContentView(R.layout.activity_labo);
+        mRecyclerView = (RecyclerView) findViewById(R.id.labo_activity_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        searchView=(SearchView)findViewById(R.id.search_hopital) ;
+        searchView=(SearchView)findViewById(R.id.search_labo) ;
 
-        dbManagerHospital = new DBManagerHospital(HopitalActivity.this);
-        dbManagerHospital.open();
+        dbManagerLaboratoir = new DBManagerLaboratoir(LaboActivity.this);
+        dbManagerLaboratoir.open();
         if (isNetworkAvailable(this)) {
-            Toast.makeText(HopitalActivity.this, "there is connection", Toast.LENGTH_LONG).show();
             readData(new FireBaseCallBack() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
@@ -55,12 +51,11 @@ public class HopitalActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(HopitalActivity.this, "no connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(LaboActivity.this, "no connection", Toast.LENGTH_LONG).show();
         }
 
-        mhopitaldata = dbManagerHospital.listHospital();
-
-        mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
+        mlabodata = dbManagerLaboratoir.listLabo();
+        mAdapter = new LabosAdapter(LaboActivity.this,mlabodata);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
@@ -81,34 +76,34 @@ public class HopitalActivity extends AppCompatActivity {
 
     public void readData(FireBaseCallBack fireBaseCallBack) {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(HopitalActivity.this);
+            mProgressDialog = new ProgressDialog(LaboActivity.this);
             mProgressDialog.setMessage("Loading");
             mProgressDialog.setIndeterminate(true);
         }
         mProgressDialog.show();
 
-        hopitalRefrence.addListenerForSingleValueEvent(new ValueEventListener() {
+        PhREf.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    boolean Is_Exist =ds.child("hospital_ID_Firebase").exists() &&ds.child("imageResource").exists() && ds.child("hopitalName").exists() && ds.child("hopitalPlace").exists() && ds.child("hopitalContact").exists() ;
+                    boolean Is_Exist =ds.child("labo_ID_Firebase").exists() &&ds.child("imageResource").exists() && ds.child("laboName").exists() && ds.child("laboPlace").exists() && ds.child("laboContact").exists() ;
                     if (Is_Exist) {
-                        String id_firebase = ds.child("hospital_ID_Firebase").getValue(String.class);
-                        String Name = ds.child("hopitalName").getValue(String.class);
-                        String Place = ds.child("hopitalPlace").getValue(String.class);
-                        String Phone = ds.child("hopitalContact").getValue(String.class);
+                        String id_firebase = ds.child("labo_ID_Firebase").getValue(String.class);
+                        String Name = ds.child("laboName").getValue(String.class);
+                        String Place = ds.child("laboPlace").getValue(String.class);
+                        String Phone = ds.child("laboContact").getValue(String.class);
                         String ImageUrl = ds.child("imageResource").getValue(String.class);
-                        if (isNetworkAvailable(getBaseContext())){  dbManagerHospital.deleteAll();}
-                        if (dbManagerHospital.CheckIsDataAlreadyInDBorNot(id_firebase)) {
-                            dbManagerHospital.update(id_firebase, Name, Place, Phone,ImageUrl);
+                        if (isNetworkAvailable(getBaseContext())){  dbManagerLaboratoir.deleteall();}
+                        if (dbManagerLaboratoir.CheckIsDataAlreadyInDBorNot(id_firebase)) {
+                            dbManagerLaboratoir.update(id_firebase, Name, Place, Phone,ImageUrl);
                         } else {
-                            dbManagerHospital.insert(id_firebase,Name,Place,Phone,ImageUrl);
+                            dbManagerLaboratoir.insert(id_firebase,Name,Place,Phone,ImageUrl);
 
                         }
                     }
                 }
-                mhopitaldata= dbManagerHospital.listHospital();
-                mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
+                mlabodata= dbManagerLaboratoir.listLabo();
+                mAdapter = new LabosAdapter(LaboActivity.this,mlabodata);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressDialog.dismiss();
 
@@ -118,8 +113,5 @@ public class HopitalActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-
     }
-
 }

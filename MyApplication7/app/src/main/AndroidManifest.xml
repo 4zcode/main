@@ -6,10 +6,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
 
     <application
         android:allowBackup="true"
@@ -21,9 +22,19 @@
         tools:ignore="GoogleAppIndexingWarning"
         android:requestLegacyExternalStorage="true">
 
+
+
+        <activity android:name=".addProfile.AddLaboProfile"
+            android:label="Ajouter votre Labo de recherche"
+            android:parentActivityName=".addProfile.Insertion"/>
+
+        <activity android:name=".Laboratoir.LaboActivity"
+            android:label="Les laboratoires de recherches"
+            android:parentActivityName=".addProfile.Insertion"/>
         <activity
             android:name=".addProfile.AddDoctorProfile"
-            android:label="Profile" />
+            android:label="Ajouter votre cabinet"
+            android:parentActivityName=".addProfile.Insertion"/>
         <activity
             android:name=".message.messageBoit"
             android:label="Messages"
@@ -35,41 +46,43 @@
             android:configChanges="keyboard|keyboardHidden"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity android:name=".ui.login.Signin"
-            android:label="Sign In"
+            android:label="Se connecter"
             android:parentActivityName=".MainActivity">
 
         </activity>
         <activity
             android:name=".ui.login.SignupActivity"
-            android:label=" Sign Up"
+            android:label="S'inscrire"
             android:parentActivityName=".ui.login.Signin">
 
         </activity>
         <activity
             android:name=".Medicament.medicament_activity"
-            android:label="Les Médicaments"
+            android:label="Les médicaments"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Pharmacies.pharmacyActivity"
-            android:label="les Pharmacies"
+            android:label="les pharmacies"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Hospital.HopitalActivity"
-            android:label="Les Hopitaux"
+            android:label="Les hopitaux"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".doctors.DoctorActivity"
-            android:label="Les Doctors"
+            android:label="Les médcins"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".addProfile.Insertion"
-            android:label="Ajouter votre Établissement"
+            android:label="Ajouter votre établissement"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".addProfile.AddPharmacyProfil"
+            android:label="Ajouter votre pharmacy"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".addProfile.AddHospitalProfil"
+            android:label="Ajouter votre hopital"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"

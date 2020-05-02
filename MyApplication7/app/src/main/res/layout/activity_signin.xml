@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.login.Signin">
-    <LinearLayout
-        android:id="@+id/linear_layout_signin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
     <EditText
         android:id="@+id/usernamein"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="96dp"
+        android:layout_marginTop="110dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/prompt_email"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
+        android:padding="15dp"
+        android:background="@drawable/edit_corner"
          />
 
     <EditText
@@ -27,47 +25,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
-
-        android:hint="@string/prompt_password"
+        android:hint="Mot de passe"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
+        android:padding="15dp"
+        android:background="@drawable/edit_corner"
         />
-    </LinearLayout>
-
     <Button
         android:id="@+id/button_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Sign in"
-        android:onClick="signin"/>
+        android:layout_marginTop="100dp"
+        android:text="Se connecter"
+        android:onClick="signin"
+        android:padding="8dp"
+        android:textColor="@color/colorAccent"
+        android:background="@drawable/button_corner"/>
     <TextView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="30dp"
         android:id="@+id/creat_account"
         android:padding="10dp"
-        android:layout_below="@id/button_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Creat a new account"
+        android:layout_gravity="center_horizontal"
+        android:text="Créer un nouveau compte"
         android:textColor="@color/common_google_signin_btn_text_light_pressed"
-        android:clickable="true"
         android:onClick="signUp"
         />
     <TextView
         android:id="@+id/or_text_view"
         android:padding="10dp"
-        android:layout_below="@id/creat_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/or"
+        android:layout_gravity="center_horizontal"
+        android:text="Ou"
         android:textColor="@color/common_google_signin_btn_text_light_pressed"
         android:textStyle="bold"
         />
@@ -76,10 +72,9 @@
         android:layout_below="@id/or_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/return_to_mainpage"
+        android:layout_gravity="center_horizontal"
+        android:text="J'ai perdu mon mot de passe"
         android:textColor="@color/common_google_signin_btn_text_light_pressed"
-        android:clickable="true"
-        android:onClick="returnToMainActivity"
+        android:onClick="passwordPassword"
         />
-</RelativeLayout>
+</LinearLayout>

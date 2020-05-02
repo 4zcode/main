@@ -82,6 +82,11 @@ public class DBManagerDoctor {
     public void delete(long _id) {
         database.delete(DatabaseHelper.TABLE_NAME_DOCTORS, DatabaseHelper._ID_DOCTOR + "=" + _id, null);
     }
+    public int deleteAll(){
+        return database.delete(DatabaseHelper.TABLE_NAME_DOCTORS,"1",null);
+    }
+
+
     public ArrayList<Doctors> listdoctors() {
         String sql = "select * from " + DatabaseHelper.TABLE_NAME_DOCTORS;
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();

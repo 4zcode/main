@@ -11,6 +11,7 @@ tools:context=".Hospital.HopitalActivity">
     android:orientation="vertical">
 
     <LinearLayout
+        android:layout_margin="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -21,18 +22,13 @@ tools:context=".Hospital.HopitalActivity">
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:background="@drawable/searchview_rounded"
             />
         <Spinner
             android:background="#FFFFFF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/spinner_hopital"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Search"
             />
     </LinearLayout>
 

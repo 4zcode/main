@@ -12,6 +12,7 @@ tools:context=".Pharmacies.pharmacyActivity">
     android:orientation="vertical">
 
     <LinearLayout
+        android:layout_margin="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -22,25 +23,21 @@ tools:context=".Pharmacies.pharmacyActivity">
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="5"
+            android:background="@drawable/searchview_rounded"
+
             />
         <Spinner
             android:background="#FFFFFF"
-            android:layout_width="wrap_content"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:id="@+id/phspinner"
-            />
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Search"
+            android:id="@+id/pharmacy_spinner"
             />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/recycle"/>
+        android:id="@+id/pharmacy_activity_recycleview"/>
 
 </LinearLayout>
 </androidx.core.widget.NestedScrollView>

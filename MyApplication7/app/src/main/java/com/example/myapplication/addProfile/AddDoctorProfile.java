@@ -57,7 +57,7 @@ public class AddDoctorProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_add_doctor);
         ProfileImage = (ImageView) findViewById(R.id.Profile_Image);
         mProgressBar = findViewById(R.id.progress_bar);
         first_name=(EditText) findViewById(R.id.fname);

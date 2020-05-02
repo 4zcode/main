@@ -22,12 +22,7 @@ public class medicament_activity extends AppCompatActivity {
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.RecycleView1);
         searchView = findViewById(R.id.search_medicament);
         ArrayList<Medicament> mMedicamentsData = new ArrayList<Medicament>();
-        String[] medicamentName = getResources().getStringArray(R.array.doctor_names);
-        String[] medicamentClass = getResources().getStringArray(R.array.doctor_sex);
-        String[] medicamentPrix = getResources().getStringArray(R.array.doctor_place);
-        for (int i = 0; i < medicamentName.length; i++) {
-            mMedicamentsData.add(new Medicament("Medicament "+ (i+1), "Class i","Prix: 200 DA"));
-        }
+
         mAdapter = new MedicamentsAdapter(this, mMedicamentsData);
 
         mRecyclerView.setAdapter(mAdapter);

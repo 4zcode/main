@@ -32,10 +32,14 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.myapplication.Laboratoir.LaboActivity;
 import com.example.myapplication.Medicament.medicament_activity;
 import com.example.myapplication.Hospital.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacyActivity;
 import com.example.myapplication.addProfile.AddDoctorProfile;
+import com.example.myapplication.addProfile.AddHospitalProfil;
+import com.example.myapplication.addProfile.AddLaboProfile;
+import com.example.myapplication.addProfile.AddPharmacyProfil;
 import com.example.myapplication.doctors.DoctorActivity;
 import com.example.myapplication.location.MyLocation;
 import com.example.myapplication.message.DBManagerMessage;
@@ -52,10 +56,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_IMAGE;
 import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_NAME;
+import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_TYPE;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_IS_LOGIN;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_NUMBER_MESSAGES_NON_READ;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_NAME;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_TYPE;
 import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE_NAME;
 import static com.example.myapplication.utilities.PreferenceUtilities.getNbrMessageNoRead;
 
@@ -132,9 +138,9 @@ public class MainActivity extends AppCompatActivity {
         this.fragmentRefreshListener = fragmentRefreshListener;
     }
 
-    public void goToMedicament(View view) {
+    public void goToLabos(View view) {
 
-        startActivity(new Intent(this, medicament_activity.class));
+        startActivity(new Intent(this, LaboActivity.class));
     }
 
     public void goToDoctors(View view) {
@@ -275,7 +281,27 @@ public class MainActivity extends AppCompatActivity {
             nav_user_profil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getBaseContext(), AddDoctorProfile.class));
+                    switch (myPef.getString(KEY_USER_TYPE,DEFAULT_USER_TYPE)){
+                        case "Doctor":
+                            startActivity(new Intent(getBaseContext(), AddDoctorProfile.class));
+                            break;
+                        case "Pharmacy":
+                            startActivity(new Intent(getBaseContext(), AddPharmacyProfil.class));
+                            break;
+                        case "Hopital":
+                            startActivity(new Intent(getBaseContext(), AddHospitalProfil.class));
+                            break;
+                        case "Labo":
+                            startActivity(new Intent(getBaseContext(), AddLaboProfile.class));
+                            break;
+                        case "Donnateur":
+                            Toast.makeText(MainActivity.this, "Clicked", Toast.LENGTH_SHORT).show();;
+                            break;
+                        case "Normal":
+                            Toast.makeText(MainActivity.this, "Clicked", Toast.LENGTH_SHORT).show();;
+                            break;
+                    }
+
                 }
             });
             Glide.with(this)
@@ -288,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void DefaultLayout() {
         nav_user.setText("Sahti fi yedi");
-        nav_user_profil.setText("Ajouter votre etablissement");
+        nav_user_profil.setText("Ajouter votre établissement");
         nav_user_profil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

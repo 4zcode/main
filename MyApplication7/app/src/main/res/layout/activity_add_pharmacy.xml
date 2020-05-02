@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="16dp"
-    android:background="#2f8bed"
-    >
+    tools:context=".addProfile.AddPharmacyProfil"
+    android:background="#2f8bed">
     <androidx.cardview.widget.CardView
         android:layout_width="120dp"
         android:layout_height="120dp"
@@ -18,12 +17,12 @@
         android:layout_marginBottom="10dp"
         >
         <ImageView
-            android:id="@+id/Profile_Imagehopital"
+            android:id="@+id/Profile_Imageph"
             android:onClick="onClick"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/hopitalogo"
+            android:src="@drawable/phlogo"
             tools:ignore="CententDescription"
             />
 
@@ -33,9 +32,9 @@
         android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="the name of your institution"
+        android:hint="the name of your pharmacy"
         android:textStyle="bold"
-        android:id="@+id/hopitalname"
+        android:id="@+id/pfname"
         android:typeface="serif"
         ></EditText>
 
@@ -44,20 +43,38 @@
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="the adress of your institution"
-        android:id="@+id/hopitaladress"
+        android:hint="your adress"
+        android:id="@+id/phadress"
         android:typeface="serif"
         ></EditText>
-
-
+    <EditText
+        android:inputType="textEmailAddress"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="when you open"
+        android:id="@+id/pharmacies_open"
+        android:typeface="serif"
+        ></EditText>
+    <EditText
+        android:inputType="textEmailAddress"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="when you close"
+        android:id="@+id/pharmacies_close"
+        android:typeface="serif"
+        ></EditText>
     <EditText
         android:inputType="phone"
         android:textStyle="bold"
         android:layout_marginBottom="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="the phone number of your institution"
-        android:id="@+id/hopitalnumber"
+        android:hint="your phone number"
+        android:id="@+id/phnumber"
 
         ></EditText>
 
@@ -70,17 +87,16 @@
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="add your Hopital"
+            android:text="create your profile"
             android:textStyle="bold"
-            android:onClick="create_hopital"
+            android:onClick="create_profile"
             />
 
         <ProgressBar
-            android:id="@+id/progress_barhopital"
+            android:id="@+id/progress_barph"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
     </LinearLayout>
-
 </LinearLayout>

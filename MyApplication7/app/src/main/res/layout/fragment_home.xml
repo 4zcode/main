@@ -65,7 +65,7 @@
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 android:background="@null"
-                android:onClick="goToMedicament"
+                android:onClick="goToLabos"
                 />
             <Button
                 android:id="@+id/pharma"

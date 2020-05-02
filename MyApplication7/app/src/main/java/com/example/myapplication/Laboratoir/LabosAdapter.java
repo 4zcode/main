@@ -9,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
@@ -21,13 +23,15 @@ import java.util.ArrayList;
 class LabosAdapter extends RecyclerView.Adapter<LabosAdapter.LabosViewHolder> {
 
     //Member variables
-    public GradientDrawable mGradientDrawable;
-    public ArrayList<Labo> mLabodata ;
-    public static Context mContext;
+    private GradientDrawable mGradientDrawable;
+    private ArrayList<Labo> mlabo;
+    private Context mContext;
+    private ArrayList<Labo> mLaboArray = new ArrayList<>();
 
-    LabosAdapter(Context context, ArrayList<Labo> LaboData) {
-        this.mLabodata = LaboData;
+    LabosAdapter(Context context, ArrayList<Labo> laboData) {
+        this.mlabo = laboData;
         this.mContext = context;
+        this.mLaboArray.addAll(laboData);
 
         //Prepare gray placeholder
         mGradientDrawable = new GradientDrawable();
@@ -39,6 +43,24 @@ class LabosAdapter extends RecyclerView.Adapter<LabosAdapter.LabosViewHolder> {
         if (drawable != null) {
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
+    }
+    public void filter(String text) {
+        if(text.isEmpty()){
+            mlabo.clear();
+            mlabo.addAll(mLaboArray);
+        } else{
+            ArrayList<Labo> result = new ArrayList<>();
+            text = text.toLowerCase();
+            for(Labo item: mLaboArray){
+                if(item.getLaboName().toLowerCase().contains(text) ||
+                        item.getLaboPlace().toLowerCase().contains(text)){
+                    result.add(item);
+                }
+            }
+            mlabo.clear();
+            mlabo.addAll(result);
+        }
+        notifyDataSetChanged();
     }
 
 
@@ -52,7 +74,7 @@ class LabosAdapter extends RecyclerView.Adapter<LabosAdapter.LabosViewHolder> {
     public void onBindViewHolder(LabosViewHolder holder, int position) {
 
         //Get the current sport
-        Labo currentLabo = mLabodata.get(position);
+        Labo currentLabo = mlabo.get(position);
 
         //Bind the data to the views
         holder.bindTo(currentLabo);
@@ -62,7 +84,7 @@ class LabosAdapter extends RecyclerView.Adapter<LabosAdapter.LabosViewHolder> {
 
     @Override
     public int getItemCount() {
-        return mLabodata.size();
+        return mlabo.size();
     }
 
     static class LabosViewHolder extends RecyclerView.ViewHolder
@@ -102,12 +124,16 @@ class LabosAdapter extends RecyclerView.Adapter<LabosAdapter.LabosViewHolder> {
             //Get the current sport
             mCurrentLabo = currentLabo;
 
-            Glide.with(mCont).load(currentLabo.getImageResource()).placeholder(mGradientDrawable).into(mLaboImage);
+            Glide.with(mCont)
+                    .load(mCurrentLabo.getImageResource())
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .placeholder(mGradientDrawable)
+                    .into(mLaboImage);
         }
 
         @Override
         public void onClick(View view) {
-
+            Toast.makeText(mCont, "clicked", Toast.LENGTH_SHORT).show();
         }
     }
 }

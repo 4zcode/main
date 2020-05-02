@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
@@ -17,8 +18,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.Hospital.DBManagerHospital;
-import com.example.myapplication.Hospital.Hopital;
+import com.example.myapplication.Laboratoir.Labo;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,8 +39,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddHospitalProfil extends AppCompatActivity {
-
+public class AddLaboProfile extends AppCompatActivity {
     private ImageView ProfileImage;
     private Uri mImageUri;
     public static int PICK_IMAGE = 1;
@@ -55,14 +54,14 @@ public class AddHospitalProfil extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_hospital);
-        ProfileImage = (ImageView) findViewById(R.id.Profile_Imagehopital);
-        mProgressBar = findViewById(R.id.progress_barhopital);
-        first_name=(EditText) findViewById(R.id.hopitalname);
-        adress=(EditText) findViewById(R.id.hopitaladress);
-        phone=(EditText) findViewById(R.id.hopitalnumber);
-        mStorageRef = FirebaseStorage.getInstance().getReference("Hopitals");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Hopitals");
+        setContentView(R.layout.activity_add_labo_profile);
+        ProfileImage = (ImageView) findViewById(R.id.Profile_Imagelabo);
+        mProgressBar = findViewById(R.id.progress_barlabo);
+        first_name=(EditText) findViewById(R.id.laboname);
+        adress=(EditText) findViewById(R.id.laboadress);
+        phone=(EditText) findViewById(R.id.labonumber);
+        mStorageRef = FirebaseStorage.getInstance().getReference("laboratoir");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("laboratoir");
     }
 
     public void onClick(View v) {
@@ -87,8 +86,7 @@ public class AddHospitalProfil extends AppCompatActivity {
         }
     }
 
-    public void create_hopital(View view) {
-
+    public void create_labo(View view) {
         if (mImageUri != null) {
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
@@ -106,9 +104,9 @@ public class AddHospitalProfil extends AppCompatActivity {
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    String hopitalID = mDatabaseRef.push().getKey();
-                                    Hopital hopital=new Hopital(hopitalID,first_name.getText().toString().trim(),adress.getText().toString().trim(),phone.getText().toString().trim(),uri.toString());
-                                    mDatabaseRef.child(hopitalID).setValue(hopital);
+                                    String laboID = mDatabaseRef.push().getKey();
+                                    Labo labo=new Labo(laboID,first_name.getText().toString().trim(),adress.getText().toString().trim(),phone.getText().toString().trim(),uri.toString());
+                                    mDatabaseRef.child(laboID).setValue(labo);
                                     mStorageRef = FirebaseStorage.getInstance().getReference("Users");
                                     final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                                             + "." + getFileExtension(mImageUri));
@@ -117,7 +115,7 @@ public class AddHospitalProfil extends AppCompatActivity {
                                     mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
                                     Map<String, Object> UserData = new HashMap<String, Object>();
                                     UserData.put("UserName", first_name.getText().toString().trim());
-                                    UserData.put("UserType", "Hopital");
+                                    UserData.put("UserType", "Laboratoir");
                                     UserData.put("User_ID_Firebase", user.getUid());
                                     UserData.put("UserImageUrl", uri.toString());
                                     mDatabaseRef.child(user.getUid()).setValue(UserData).addOnCompleteListener(new OnCompleteListener() {
@@ -125,7 +123,7 @@ public class AddHospitalProfil extends AppCompatActivity {
                                         public void onComplete(@NonNull Task task) {
                                             if (task.isSuccessful()) {
                                                 Toast.makeText(getApplicationContext(), "your User information is update", Toast.LENGTH_LONG).show();
-                                                Intent intent = new Intent(AddHospitalProfil.this, MainActivity.class);
+                                                Intent intent = new Intent(AddLaboProfile.this, MainActivity.class);
                                                 startActivity(intent);
                                             } else {
                                                 String error;
@@ -142,7 +140,7 @@ public class AddHospitalProfil extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(AddHospitalProfil.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AddLaboProfile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

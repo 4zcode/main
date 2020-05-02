@@ -123,6 +123,7 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
         DoctorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                dbManager.deleteAll();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     boolean Is_Exist =ds.child("Doctor_ID_Firebase").exists() &&ds.child("mImageUrl").exists() && ds.child("NameDoctor").exists() && ds.child("PlaceDoctor").exists() && ds.child("phone").exists() && ds.child("Speciality").exists() &&ds.child("SexDoctor").exists();
                     if (Is_Exist) {

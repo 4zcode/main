@@ -32,5 +32,6 @@ public class Insertion extends AppCompatActivity {
     }
 
     public void addlabo(View view) {
+        startActivity(new Intent(this, AddLaboProfile.class));
     }
 }
