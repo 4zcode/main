@@ -5,13 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".message.chatRoom"
+    android:fitsSystemWindows="true"
+
     >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ScrollView
         android:id="@+id/scroll_chat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/linear_id_envoyer"
-        android:fitsSystemWindows="true"
         >
     <TextView
         android:layout_margin="20dp"
@@ -36,6 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:padding="5dp"
+        android:onClick="resize"
         />
         <Button
             android:id="@+id/envoyer_button"
@@ -47,5 +52,5 @@
             android:text="Envoyer"
             android:onClick="Envoyer"/>
     </LinearLayout>
-
+    </RelativeLayout>
 </RelativeLayout>

@@ -1,5 +1,7 @@
 package com.example.myapplication.message;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -23,7 +25,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 
+import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_IMAGE;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
+import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE_NAME;
+
 public class messageBoit extends AppCompatActivity {
+    public final static String TAG = messageBoit.class.getSimpleName();
+
+
     private RecyclerView mRecyclerView;
     private ArrayList<Message> linkedList;
     private DatabaseReference firebaseDatabase;
@@ -48,6 +57,7 @@ public class messageBoit extends AppCompatActivity {
         linkedList = new ArrayList<Message>();
         ada= new messageAdapter(this,linkedList);
         Afficher();
+        /*
         thread = new Thread(){
             @Override
             public void run() {
@@ -67,6 +77,8 @@ public class messageBoit extends AppCompatActivity {
         };
 
         thread.start();
+
+         */
         mRecyclerView.setAdapter(ada);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
@@ -77,7 +89,6 @@ public class messageBoit extends AppCompatActivity {
         readData(new messageBoit.FireBaseCallBack() {
             @Override
             public void onCallBack(String msg) {
-            ada.notifyDataSetChanged();
             }
         });
     }
@@ -90,19 +101,22 @@ public class messageBoit extends AppCompatActivity {
                     boolean is_exist = ds.child("message_envoyer").exists() && ds.child("Sender_Name").exists()&& ds.child("ID_Reciver").exists()&& ds.child("Is_Readed").exists()&& ds.child("Date").exists();
                     if (is_exist) {
                   String SenderName = ds.child("Sender_Name").getValue(String.class);
+                        String SenderImage;
+                  if (ds.child("Sender_Image").exists()) {
+                       SenderImage = ds.child("Sender_Image").getValue(String.class);
+                  }else SenderImage = "R.drawable.doctorm";
                   String message = ds.child("message_envoyer").getValue(String.class);
                   String ID_firebase = ds.child("ID_Reciver").getValue(String.class);
                   String Is_Readed = ds.child("Is_Readed").getValue(String.class);
                   String Date = ds.child("Date").getValue(String.class);
-                  Log.d("messageBoitTest", "sender name est : " + ID_firebase);
-           SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
+                  SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
            try {
                 date = format.parse(Date);
            } catch (ParseException e) {
                e.printStackTrace();
            }
            if (!ID_firebase.equals(user1.getUid())) {
-               linkedList.add(new Message(ID_firebase, SenderName, message, R.drawable.doctorm, Is_Readed, date));
+               linkedList.add(new Message(ID_firebase, SenderName, message, SenderImage, Is_Readed, date));
            }
          }
                 }
@@ -112,7 +126,7 @@ public class messageBoit extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("messageBoitTest", databaseError.getMessage());
+                Log.d(TAG, databaseError.getMessage());
             }
         });
     }

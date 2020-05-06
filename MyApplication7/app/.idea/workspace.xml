@@ -6,22 +6,40 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="imageTest2test" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8f141638-1725-487d-bafc-3ee0c64beee9" name="Default Changelist" comment="">
+    <list default="true" id="8f141638-1725-487d-bafc-3ee0c64beee9" name="Default Changelist" comment="fixing all the oproblem 2">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__com_mikhaellopez_circularimageview_4_2_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__de_hdodenhof_circleimageview_3_1_0_aar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_annotations_13_0_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_3_61_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_3_61_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/backgroundtasks/updateUserInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/utilities/PreferenceUtilities.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/utilities/tools.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/circlexml.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/res/drawable/img.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/toolsbar/sahti_fi_ydi/HomeFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/toolsbar/sahti_fi_ydi/HomeFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/addProfile/AddDoctorProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/addProfile/AddDoctorProfile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/doctors/AdvanceSearchDoctorFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/doctors/AdvanceSearchDoctorFragment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/doctors/Doctors.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/doctors/Doctors.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/doctors/DoctorsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/doctors/DoctorsAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/doctors/DoctorsSpecialisteAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/doctors/DoctorsSpecialisteAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/message/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/message/Message.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/message/chatRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/message/chatRoom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/message/messageAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/message/messageAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/message/messageBoit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/message/messageBoit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/myapplication/ui/login/Signin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/myapplication/ui/login/Signin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/activity_signin.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/activity_signin.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/layout/fragment_home.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/fragment_home.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/menu/main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/menu/main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/menu/second_main.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/strings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/doctor_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/doctor_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/message_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/message_item.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/layout/nav_header_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/layout/nav_header_main.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/colors.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/res/values/dimens.xml" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,7 +51,6 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="RZ8M73B9Y9P" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -51,8 +68,8 @@
       <list>
         <option value="layoutResourceFile_vertical" />
         <option value="Interface" />
-        <option value="Class" />
         <option value="resourceFile" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -454,7 +471,21 @@
       <option name="project" value="LOCAL" />
       <updated>1587505763188</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="fixing all the oproblem">
+      <created>1587551306462</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1587551306462</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fixing all the oproblem 2">
+      <created>1587554130405</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1587554130406</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -485,7 +516,9 @@
     <MESSAGE value="fixing GPS" />
     <MESSAGE value="with profile" />
     <MESSAGE value="- optimiser le code&#10;- fixer les problem&#10;- ajouter le module de la rechrche aux classes : pharmacy , hopital" />
-    <option name="LAST_COMMIT_MESSAGE" value="- optimiser le code&#10;- fixer les problem&#10;- ajouter le module de la rechrche aux classes : pharmacy , hopital" />
+    <MESSAGE value="fixing all the oproblem" />
+    <MESSAGE value="fixing all the oproblem 2" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixing all the oproblem 2" />
   </component>
   <component name="WindowStateProjectService">
     <state x="402" y="97" key="#app" />

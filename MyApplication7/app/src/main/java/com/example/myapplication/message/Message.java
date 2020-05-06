@@ -7,11 +7,16 @@ import java.util.Comparator;
 import java.util.Date;
 
 public class Message implements Comparable<Message>{
+    public static final String RECIVER_IMAGE = "ReciverImageUrl";
+
+
+
+
     private String Message_ID_Firebase;
     private final String Sender;
     private final String message;
     private final String is_Readed;
-    private final int imageResource;
+    private final String imageResource;
 
     public java.util.Date getDate() {
         return Date;
@@ -27,7 +32,7 @@ public class Message implements Comparable<Message>{
 
 
 
-    public Message(String id,String senderName, String message, int hopitalImage,String readStatus, Date date) {
+    public Message(String id,String senderName, String message, String hopitalImage,String readStatus, Date date) {
         this.Message_ID_Firebase=id;
         this.Sender = senderName;
         this.message = message;
@@ -45,7 +50,7 @@ public class Message implements Comparable<Message>{
         return message;
     }
 
-    public int getImageResource() {
+    public String getImageResource() {
         return imageResource;
     }
 
@@ -58,10 +63,12 @@ public class Message implements Comparable<Message>{
     public void setMessage_ID_Firebase(String message_ID_Firebase) {
         Message_ID_Firebase = message_ID_Firebase;
     }
-    static Intent starter(Context context, String reciver, String sender) {
+    static Intent starter(Context context, String reciver, String sender,String image) {
         Intent chatIntent = new Intent(context, chatRoom.class);
         chatIntent.putExtra(RECIVER, reciver);
         chatIntent.putExtra(SENDER, sender);
+        chatIntent.putExtra(RECIVER_IMAGE,image);
+
         return chatIntent;
     }
 

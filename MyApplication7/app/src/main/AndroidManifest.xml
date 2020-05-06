@@ -16,37 +16,40 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".addProfile.AddLaboProfile"></activity>
-        <activity
-            android:name=".pharma.pharmaactivty"
-            android:label="Pharmacies"
-            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".addProfile.AddDoctorProfile"
             android:label="Profile" />
         <activity
             android:name=".message.messageBoit"
             android:label="Message"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            />
         <activity
             android:name=".message.chatRoom"
             android:parentActivityName=".message.messageBoit"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".ui.login.Signin"
+        <activity android:name=".ui.login.Signin"
             android:label="Sign In"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity">
+
+        </activity>
         <activity
             android:name=".ui.login.SignupActivity"
             android:label=" Sign Up"
-            android:parentActivityName=".ui.login.Signin" />
+            android:parentActivityName=".ui.login.Signin">
+
+        </activity>
+        <activity
+            android:name=".Medicament.medicament_activity"
+            android:label="Médicament"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Pharmacies.pharmacyActivity"
+            android:label="Pharmacy"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Hospital.HopitalActivity"
             android:label="Hopital"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".Laboratoir.Labo_activity"
-            android:label="Laboratoir"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".doctors.DoctorActivity"
@@ -63,10 +66,10 @@
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,12 @@ import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_IMAGE;
+import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_NAME;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_NAME;
+import static com.example.myapplication.utilities.tools.isNetworkAvailable;
 
 class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHolder> {
 
@@ -92,7 +99,7 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
         private Doctors mCurrentDoctor;
         private GradientDrawable mGradientDrawable;
         private SharedPreferences myPef;
-
+        private LinearLayout backGroundLayout;
 
         DoctorSViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
@@ -100,6 +107,7 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
             mPlaceText = (TextView) itemView.findViewById(R.id.place_doctor) ;
             mDoctorImage = (ImageView) itemView.findViewById(R.id.doctor_image);
             mSpecialiteText =(TextView) itemView.findViewById(R.id.specialite_doctor);
+            backGroundLayout = (LinearLayout) itemView.findViewById(R.id.doctor_linear_backgroun);
             mCont = context;
             mGradientDrawable = gradientDrawable;
             itemView.setOnClickListener(this);
@@ -110,29 +118,14 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
             mPlaceText.setText(currentDoctor.getPlaceDoctor());
             mSpecialiteText.setText(currentDoctor.getSpec());
             mCurrentDoctor = currentDoctor;
-            if (isNetworkAvailable()) {
+            if (isNetworkAvailable(mCont)) {
                 Picasso.with(mCont).load(mCurrentDoctor.getImageUrl()).into(mDoctorImage);
             }else{
                 if(mCurrentDoctor.getSexDoctor().equals("man")) Glide.with(mCont).load(R.drawable.doctorm).placeholder(mGradientDrawable).into(mDoctorImage);
                 else Glide.with(mCont).load(R.drawable.doctorf).placeholder(mGradientDrawable).into(mDoctorImage);
             }
         }
-        public boolean isNetworkAvailable() {
-            boolean HaveConnectWIFI = false;
-            boolean HaveConnectMobile = false;
 
-            ConnectivityManager connectivityManager = (ConnectivityManager) mCont.getSystemService(mCont.CONNECTIVITY_SERVICE);
-            NetworkInfo[] activeNetworkInfo = connectivityManager.getAllNetworkInfo();
-            for (NetworkInfo ni : activeNetworkInfo) {
-                if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                    if (ni.isConnected())
-                        HaveConnectWIFI = true;
-                if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                    if (ni.isConnected())
-                        HaveConnectMobile = true;
-            }
-            return HaveConnectMobile || HaveConnectWIFI;
-        }
 
         @Override
         public void onClick(View view) {
@@ -140,7 +133,7 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
             if (myPef.getBoolean("IsLogIn", false) && FirebaseAuth.getInstance().getCurrentUser() != null) {
                 FirebaseUser user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
                 if (!user1.getUid().equals(mCurrentDoctor.getDoctor_ID_Firebase())) {
-                    Intent intent = Doctors.starter(mCont, mCurrentDoctor.getDoctor_ID_Firebase(), mCurrentDoctor.getNameDoctor());
+                    Intent intent = Doctors.starter(mCont, mCurrentDoctor.getDoctor_ID_Firebase(), mCurrentDoctor.getNameDoctor(),mCurrentDoctor.getImageUrl());
                     mCont.startActivity(intent);
                 } else {
                     Toast.makeText(mCont, "you cant send to your self", Toast.LENGTH_LONG).show();

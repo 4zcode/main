@@ -15,6 +15,8 @@ public class Doctors {
     private final String SexDoctor;
     private String mImageUrl;
     public static final String RECIVER = "Reciver";
+    public static final String RECIVER_IMAGE = "ReciverImageUrl";
+
     public static final String SENDER = "sender";
 
 
@@ -66,10 +68,11 @@ public class Doctors {
         mImageUrl = imageUrl;
     }
 
-    static Intent starter(Context context,String reciver,String sender) {
+    static Intent starter(Context context,String reciver,String sender,String image) {
         Intent chatIntent = new Intent(context, chatRoom.class);
         chatIntent.putExtra(RECIVER, reciver);
         chatIntent.putExtra(SENDER, sender);
+        chatIntent.putExtra(RECIVER_IMAGE,image);
         return chatIntent;
     }
 

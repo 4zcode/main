@@ -38,7 +38,16 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_IMAGE;
+import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_NAME;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_NAME;
+import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE_NAME;
+
 public class chatRoom extends AppCompatActivity {
+    public final static String TAG = chatRoom.class.getSimpleName();
+
+
     private TextView textView;
     private ScrollView scrollView;
     private Button button;
@@ -46,12 +55,17 @@ public class chatRoom extends AppCompatActivity {
     private DatabaseReference firebaseDatabase;
     private FirebaseUser user1;
     private Map<String,Object> user,senderUser;
-    private String ID_reciver,MessageRecever = "",SenderName;
+    private String ID_reciver,MessageRecever = "",SenderName, ReceiverImage;
     private SharedPreferences myPef ;
     private ProgressDialog mProgressDialog;
     private Handler handler;
     private final DatabaseReference DoctorsRef = FirebaseDatabase.getInstance().getReference().child("Message");
     private Thread thread;
+
+    public void resize(View view) {
+        ScrollDown(1000);
+
+    }
 
     private interface FireBaseCallBack {
         void onCallBack(String message);
@@ -66,12 +80,14 @@ public class chatRoom extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.edit_text_envoyer);
         scrollView = (ScrollView) findViewById(R.id.scroll_chat);
         ID_reciver = getIntent().getStringExtra(Doctors.RECIVER);
+        ReceiverImage = getIntent().getStringExtra(Doctors.RECIVER_IMAGE);
         SenderName =getIntent().getStringExtra(Doctors.SENDER);
         handler= new Handler();
         user= new HashMap<String,Object>();
         senderUser = new HashMap<String,Object>();
         firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("Message");
         user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
+        myPef = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         updateAffichage(1000);
         ScrollDown(3000);
     }
@@ -125,7 +141,7 @@ public class chatRoom extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.d("chatdd", databaseError.getMessage());
+                    Log.d(TAG, databaseError.getMessage());
                 }
             });
         }
@@ -139,8 +155,7 @@ public class chatRoom extends AppCompatActivity {
         }
         mProgressDialog.show();
         String message = editText.getText().toString();
-        myPef = getSharedPreferences("userPref", Context.MODE_PRIVATE);
-        String name_current_user = myPef.getString("userName","annonyme");
+        String name_current_user = myPef.getString("userName","Annonyme");
         DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
         String dt = date.format(Calendar.getInstance().getTime());
         updateUserReceiver(message,SenderName,ID_reciver,dt);
@@ -157,6 +172,7 @@ public class chatRoom extends AppCompatActivity {
         if (!ID_reciver.equals(user1.getUid())) {
             user.put("ID_Reciver", ID_reciver);
             user.put("Sender_Name", senderName);
+            user.put("Sender_Image", ReceiverImage);
             user.put("message_envoyer", "Moi: " + message);
             user.put("Is_Readed", "true");
             user.put("Date", date);
@@ -180,6 +196,7 @@ public class chatRoom extends AppCompatActivity {
         if (!ID_reciver.equals(user1.getUid())) {
             user.put("ID_Reciver", user1.getUid());
             user.put("Sender_Name", name_current_user);
+            user.put("Sender_Image", myPef.getString(KEY_USER_IMAGE,DEFAULT_USER_IMAGE));
             user.put("message_envoyer", message);
             user.put("Is_Readed", "false");
             user.put("Date", date);
@@ -250,6 +267,7 @@ public class chatRoom extends AppCompatActivity {
         if (!ID_reciver.equals(user1.getUid())) {
             user.put("ID_Reciver", ID_reciver);
             user.put("Sender_Name", senderName);
+            user.put("Sender_Image", ReceiverImage);
             user.put("message_envoyer", message);
             user.put("Is_Readed", "true");
             user.put("Date", date);
@@ -257,7 +275,7 @@ public class chatRoom extends AppCompatActivity {
                 @Override
                 public void onComplete(@NonNull Task task) {
                     if (task.isSuccessful()) {
-                        Log.d("here_the_problem", "update is read is the problem");
+                        Log.d(TAG, "update is read is the problem");
                     } else {
                         String error;
                         error = task.getException().getMessage();
@@ -278,14 +296,14 @@ public class chatRoom extends AppCompatActivity {
                    String date = dataSnapshot.child("Date").getValue(String.class);
                    updateIs_ReadedStatus(msg,SenderName, ID_reciver,date);
                }
-               else  Log.d("chatdd","nothing updated!!!!!!!");
+               else  Log.d(TAG,"nothing updated!!!!!!!");
 
 
            }
 
            @Override
            public void onCancelled(@NonNull DatabaseError databaseError) {
-               Log.d("chatRoom", databaseError.getMessage());
+               Log.d(TAG, databaseError.getMessage());
            }
        });
    }

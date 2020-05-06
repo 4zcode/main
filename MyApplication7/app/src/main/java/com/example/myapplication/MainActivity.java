@@ -31,13 +31,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.example.myapplication.Laboratoir.Labo_activity;
+import com.example.myapplication.Medicament.medicament_activity;
 import com.example.myapplication.Hospital.HopitalActivity;
+import com.example.myapplication.Pharmacies.pharmacyActivity;
 import com.example.myapplication.addProfile.AddDoctorProfile;
 import com.example.myapplication.addProfile.Insertion;
 import com.example.myapplication.doctors.DoctorActivity;
 import com.example.myapplication.location.MyLocation;
-import com.example.myapplication.pharma.pharmaactivty;
 import com.example.myapplication.ui.login.Signin;
 import com.example.myapplication.message.messageBoit;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void med(View view) {
-        Intent intent3 = new Intent(this, Labo_activity.class);
+        Intent intent3 = new Intent(this, medicament_activity.class);
         startActivity(intent3);
 
     }
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void pharma(View view) {
-        Intent intent = new Intent(this, pharmaactivty.class);
+        Intent intent = new Intent(this, pharmacyActivity.class);
         startActivity(intent);
 
     }
