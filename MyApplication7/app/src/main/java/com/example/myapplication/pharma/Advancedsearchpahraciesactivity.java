@@ -122,6 +122,7 @@ public class Advancedsearchpahraciesactivity extends Fragment implements Adapter
         PhREf.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (isNetworkAvailable()){  dbManager.deleteall();}
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     boolean Is_Exist =ds.child("pharma_ID_Firebase").exists() &&ds.child("imageUrl").exists() && ds.child("thename").exists() && ds.child("theadress").exists() && ds.child("phone").exists() && ds.child("oppen").exists() &&ds.child("close").exists();
                     if (Is_Exist) {
@@ -132,7 +133,7 @@ public class Advancedsearchpahraciesactivity extends Fragment implements Adapter
                         String open = ds.child("oppen").getValue(String.class);
                         String close= ds.child("close").getValue(String.class);
                         String ImageUrl = ds.child("imageUrl").getValue(String.class);
-                       if (isNetworkAvailable()){  dbManager.deleteall();}
+
                         if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
                             dbManager.update(id_firebase, Name, Place, Phone, open, close,ImageUrl);
                         } else {

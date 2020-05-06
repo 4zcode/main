@@ -92,6 +92,7 @@ public class HopitalActivity extends AppCompatActivity {
             PhREf.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if(isNetworkAvailable()){dbManagerHospital.deleteall();}
                     for (DataSnapshot ds : dataSnapshot.getChildren()) {
                         boolean Is_Exist =ds.child("hospital_ID_Firebase").exists() &&ds.child("imageResource").exists() && ds.child("hopitalName").exists() && ds.child("hopitalPlace").exists() && ds.child("hopitalContact").exists() ;
                         if (Is_Exist) {
@@ -100,10 +101,14 @@ public class HopitalActivity extends AppCompatActivity {
                             String Place = ds.child("hopitalPlace").getValue(String.class);
                             String Phone = ds.child("hopitalContact").getValue(String.class);
                             String ImageUrl = ds.child("imageResource").getValue(String.class);
-                            if (isNetworkAvailable()){  dbManagerHospital.deleteall();}
                             if (dbManagerHospital.CheckIsDataAlreadyInDBorNot(id_firebase)) {
                                 dbManagerHospital.update(id_firebase, Name, Place, Phone,ImageUrl);
                             } else {
+                                Log.d("test_hosp","id:"+id_firebase);
+                                Log.d("test_hosp","name:"+Name);
+                                Log.d("test_hosp","Place:"+Place);
+                                Log.d("test_hosp","Phone:"+Phone);
+                                Log.d("test_hosp","image:"+ImageUrl);
                                 dbManagerHospital.insert(id_firebase,Name,Place,Phone,ImageUrl);
 
                             }
@@ -111,6 +116,7 @@ public class HopitalActivity extends AppCompatActivity {
                     }
                     mhopitaldata= dbManagerHospital.listHospital();
                     mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
+                    Log.d("size_hosp", String.valueOf(mhopitaldata.size()));
                     mRecyclerView.setAdapter(mAdapter);
                     mProgressDialog.dismiss();
 

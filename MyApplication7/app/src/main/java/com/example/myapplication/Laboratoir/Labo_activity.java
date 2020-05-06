@@ -91,6 +91,7 @@ public class Labo_activity extends AppCompatActivity {
         PhREf.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (isNetworkAvailable()){  dbManagerLaboratoir.deleteall();}
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     boolean Is_Exist =ds.child("labo_ID_Firebase").exists() &&ds.child("imageResource").exists() && ds.child("laboName").exists() && ds.child("laboPlace").exists() && ds.child("laboContact").exists() ;
                     if (Is_Exist) {
@@ -99,7 +100,6 @@ public class Labo_activity extends AppCompatActivity {
                         String Place = ds.child("laboPlace").getValue(String.class);
                         String Phone = ds.child("laboContact").getValue(String.class);
                         String ImageUrl = ds.child("imageResource").getValue(String.class);
-                        if (isNetworkAvailable()){  dbManagerLaboratoir.deleteall();}
                         if (dbManagerLaboratoir.CheckIsDataAlreadyInDBorNot(id_firebase)) {
                             dbManagerLaboratoir.update(id_firebase, Name, Place, Phone,ImageUrl);
                         } else {

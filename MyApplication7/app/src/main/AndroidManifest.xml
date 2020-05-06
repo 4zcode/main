@@ -40,12 +40,12 @@
 
         </activity>
         <activity
-            android:name=".Medicament.medicament_activity"
-            android:label="Médicament"
+            android:name=".pharma.pharmaactivty"
+            android:label="Pharmacy and Medicament"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".Pharmacies.pharmacyActivity"
-            android:label="Pharmacy"
+            android:name=".Laboratoir.Labo_activity"
+            android:label="Laboraoir"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Hospital.HopitalActivity"
