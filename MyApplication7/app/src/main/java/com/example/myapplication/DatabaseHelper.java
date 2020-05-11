@@ -11,10 +11,18 @@ public class DatabaseHelper<IMAGE_PHARMA_URL> extends SQLiteOpenHelper {
     public static final String TABLE_NAME_HOSPITAL = "hospital";
     public static final String TABLE_NAME_DOCTORS = "doctors";
     public static final String TABLE_NAME_LABORATOIR = "laboratoir";
+    public static final String TABLE_NAME_DONATEUR = "donateurs";
 
 
 
     // Table columns
+    public static final String _ID_DONATEUR = "_id";
+    public static final String _ID_DONATEUR_FIREBASE = "_id_donateurs_firebase";
+    public static final String NAME_DONATEUR = "name";
+    public static final String PLACE_DONATEUR = "place";
+    public static final String PHONE_DONATEUR = "phone";
+    public static final String IMAGE_DONATEUR_URL ="image" ;
+    public static final String GRSANGUIN_DONATEUR = "groupsanguin";
     public static final String _ID_PHARMA = "_id";
     public static final String _ID_PHARMA_FIREBASE = "_id_pharmacies_firebase";
     public static final String NAME_PHARMA = "name";
@@ -48,9 +56,11 @@ public class DatabaseHelper<IMAGE_PHARMA_URL> extends SQLiteOpenHelper {
     static final String DB_NAME = "SahtiFiYdi.db";
 
     // database version
-    static final int DB_VERSION = 13;
+    static final int DB_VERSION = 14;
 
     // Creating table query
+    private static final String CREATE_TABLE_DONATEUR = "create table " + TABLE_NAME_DONATEUR + "(" + _ID_DONATEUR
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_DONATEUR_FIREBASE + " TEXT NOT NULL, "+ NAME_DONATEUR + " TEXT NOT NULL, " + PLACE_DONATEUR + " TEXT, " + PHONE_DONATEUR+ " TEXT, "+GRSANGUIN_DONATEUR + " TEXT, " +IMAGE_DONATEUR_URL+" TEXT );";
     private static final String CREATE_TABLE_PHARMACIE = "create table " + TABLE_NAME_PHARMACIE + "(" + _ID_PHARMA
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_PHARMA_FIREBASE + " TEXT NOT NULL, "+ NAME_PHARMA + " TEXT NOT NULL, " + PLACE_PHARMA + " TEXT, " + PHONE_PHARMA+ " TEXT, "+OPEN + " TEXT, " + CLOSE + " TEXT, "+IMAGE_PHARMA_URL+" TEXT );";
     private static final String CREATE_TABLE_HOSPITAL = "create table " + TABLE_NAME_HOSPITAL + "(" + _ID_HOSPITAL
@@ -65,6 +75,7 @@ public class DatabaseHelper<IMAGE_PHARMA_URL> extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        db.execSQL(CREATE_TABLE_DONATEUR);
         db.execSQL(CREATE_TABLE_PHARMACIE);
         db.execSQL(CREATE_TABLE_HOSPITAL);
         db.execSQL(CREATE_TABLE_DOCTORS);
@@ -75,6 +86,7 @@ public class DatabaseHelper<IMAGE_PHARMA_URL> extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DONATEUR);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PHARMACIE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_HOSPITAL);
         db.execSQL("DROP TABLE IF EXISTS " +TABLE_NAME_DOCTORS);
