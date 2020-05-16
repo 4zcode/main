@@ -36,9 +36,10 @@ public class SpecialisteDoctorsFragment extends Fragment {
 
 
         for (int i = 0; i < SpecialisteNames.length; i++) {
-            mDoctorsSpecialistes.add(new DoctorsSpecialistes(SpecialisteNames[i],R.drawable.doctorm));
+            mDoctorsSpecialistes.add(new DoctorsSpecialistes(SpecialisteNames[i],R.drawable.profile));
         }
-        DoctorsSpecialisteAdapter mAdapter= new DoctorsSpecialisteAdapter( getActivity(), mDoctorsSpecialistes);
+        mDoctorsSpecialistes.add(new DoctorsSpecialistes("Médecin généraliste",R.drawable.profile));
+        DoctorsSpecialisteAdapter mAdapter= new DoctorsSpecialisteAdapter( getActivity(),getActivity(), mDoctorsSpecialistes);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 

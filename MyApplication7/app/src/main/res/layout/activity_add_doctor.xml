@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -54,7 +57,12 @@
         android:hint="your adress"
         android:id="@+id/padress"
         android:typeface="serif"
-        ></EditText>
+        />
+    <fragment
+        android:id="@+id/map_fragment2"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:name="com.example.myapplication.Profiles.MapsFragment"/>
      <EditText
         android:inputType="textEmailAddress"
         android:textStyle="bold"
@@ -64,7 +72,7 @@
         android:hint="your speciality"
         android:id="@+id/doctor_speciality"
         android:typeface="serif"
-        ></EditText>
+        />
     <EditText
         android:inputType="phone"
         android:textStyle="bold"
@@ -74,7 +82,7 @@
         android:hint="your phone number"
         android:id="@+id/pnumber"
 
-        ></EditText>
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -131,3 +139,4 @@
             android:layout_gravity="center" />
     </LinearLayout>
 </LinearLayout>
+</ScrollView>

@@ -18,6 +18,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
+
 import java.util.ArrayList;
 
 import static com.example.myapplication.utilities.tools.isNetworkAvailable;
@@ -30,6 +32,7 @@ public class HopitalActivity extends AppCompatActivity {
     private SearchView searchView;
     private final DatabaseReference hopitalRefrence = FirebaseDatabase.getInstance().getReference().child("Hopitals");
     private ProgressDialog mProgressDialog;
+
     private interface FireBaseCallBack {
         void onCallBack(ArrayList<String> list);
 
@@ -122,4 +125,13 @@ public class HopitalActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

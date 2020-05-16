@@ -27,6 +27,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.util.ArrayList;
 
 import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_IMAGE;
@@ -115,16 +117,14 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
         }
 
         void bindTo(Doctors currentDoctor) {
-            mNameText.setText(currentDoctor.getNameDoctor());
-            mPlaceText.setText(currentDoctor.getPlaceDoctor());
+            mNameText.setText(WordUtils.capitalizeFully(currentDoctor.getNameDoctor()));
+            mPlaceText.setText(WordUtils.capitalizeFully(currentDoctor.getPlaceDoctor()));
             mSpecialiteText.setText(currentDoctor.getSpec());
             mCurrentDoctor = currentDoctor;
-                int placeHolder;
-                if(mCurrentDoctor.getSexDoctor().equals("man")) placeHolder =R.drawable.doctorm  ;
-                else placeHolder=R.drawable.doctorf;
-                Glide.with(mCont).load(mCurrentDoctor.getImageUrl())
+
+                Glide.with(mCont).load(R.drawable.profile)
                         .diskCacheStrategy(DiskCacheStrategy.DATA)
-                        .placeholder(placeHolder)
+                        .placeholder(R.drawable.profile)
                         .into(mDoctorImage);
 
         }

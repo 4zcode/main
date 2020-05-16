@@ -24,7 +24,7 @@ public class DoctorActivity extends AppCompatActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor);
         tabLayout = (TabLayout) findViewById(R.id.tablayout1);
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.dviewpager);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         DoctorTablayoutAdapter myAdapter = new DoctorTablayoutAdapter(this, getSupportFragmentManager(),2);
         viewPager.setAdapter(myAdapter);

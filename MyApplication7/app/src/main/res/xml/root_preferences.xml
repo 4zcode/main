@@ -1,0 +1,47 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        app:title="@string/compte_sahti_fi_yedi">
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="saveUser"
+            app:title="@string/sauvgarder"
+            app:summaryOff="@string/sauvgarder_off"
+            app:summaryOn="@string/sauvgarder_on"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/gestion_globale">
+        <ListPreference
+            app:defaultValue="@string/french"
+            app:entries="@array/langues_values"
+            app:entryValues="@array/langues_entries"
+            app:key="french"
+            app:title="@string/langue"
+            app:useSimpleSummaryProvider="true" />
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="localisation"
+            app:summaryOff="@string/localisation_gps_autoriser"
+            app:summaryOn="@string/localisation_gps_non_autoriser"
+            app:title="@string/localisation" />
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/sync_header">
+
+        <SwitchPreferenceCompat
+            app:defaultValue="true"
+            app:key="sync"
+            app:title="@string/sync_title" />
+
+        <SwitchPreferenceCompat
+            app:dependency="sync"
+            app:key="attachment"
+            app:summaryOff="@string/attachment_summary_on"
+            app:summaryOn="@string/attachment_summary_off"
+            app:title="@string/attachment_title" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

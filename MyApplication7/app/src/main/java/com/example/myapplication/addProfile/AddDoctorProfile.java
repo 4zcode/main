@@ -24,6 +24,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.myapplication.MainActivity;
+import com.example.myapplication.Profiles.MapDialogFragment;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -208,4 +209,5 @@ public class AddDoctorProfile extends AppCompatActivity {
             }
         });
     }
+
 }

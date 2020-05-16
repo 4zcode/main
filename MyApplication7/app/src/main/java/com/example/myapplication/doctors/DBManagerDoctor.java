@@ -46,6 +46,7 @@ public class DBManagerDoctor {
         return false;
     }
 
+
     public void insert(String _id,String name, String place,String phone, String spec,String sex,String imageUrl) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper._ID_DOCTOR_FIREBASE, _id);
@@ -87,25 +88,27 @@ public class DBManagerDoctor {
     }
 
 
-    public ArrayList<Doctors> listdoctors() {
+    public ArrayList<Doctors> listdoctors(int k, String adresse, String speciality) {
         String sql = "select * from " + DatabaseHelper.TABLE_NAME_DOCTORS;
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         ArrayList<Doctors> storeContacts = new ArrayList<>();
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToFirst()) {
             do {
-                int id = Integer.parseInt(cursor.getString(0));
-                String Id_firebase = cursor.getString(1);
-                String name = cursor.getString(2);
                 String place = cursor.getString(3);
-                String phone = cursor.getString(4);
-                String spec = cursor.getString(5);
-                String sex = cursor.getString(6);
-                String imageUrl = cursor.getString(7);
+                if (place.toLowerCase().contains(adresse.toLowerCase())) {
+                    int id = Integer.parseInt(cursor.getString(0));
+                    String Id_firebase = cursor.getString(1);
+                    String name = cursor.getString(2);
+                    String phone = cursor.getString(4);
+                    String spec = cursor.getString(5);
+                    String sex = cursor.getString(6);
+                    String imageUrl = cursor.getString(7);
 
-                storeContacts.add(new Doctors(Id_firebase,name, place, phone, spec, sex,imageUrl));
+                    storeContacts.add(new Doctors(Id_firebase, name, place, phone, spec, sex, imageUrl));
+                }
             }
-            while (cursor.moveToNext());
+            while (cursor.moveToNext() && storeContacts.size() < (25 + 5*k));
         }
         cursor.close();
         return storeContacts;

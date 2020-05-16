@@ -95,13 +95,15 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
             FirebaseUser user= FirebaseAuth.getInstance().getInstance().getCurrentUser();
             try {
                if (!user.getUid().equals(mCurrentMessage.getMessage_ID_Firebase()) ) {
-                   Intent intent = MessageItem.starter(mContext, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender(), mCurrentMessage.getImageResource());
-                   mCont.startActivity(intent);
+                   Intent intent = MessageItem.starter(mCont, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender(), mCurrentMessage.getImageResource());
+                  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                  mCont.startActivity(intent);
                }
            }catch (Exception e){
                Log.d(TAG,"error : "+e.getMessage());
                e.printStackTrace();
                Toast.makeText(mCont,"clicked",Toast.LENGTH_SHORT).show();
+
            }
 
 

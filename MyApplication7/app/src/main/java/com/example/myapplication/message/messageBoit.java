@@ -1,15 +1,21 @@
 package com.example.myapplication.message;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.services.UpdateMsgDB;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -22,6 +28,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.example.myapplication.utilities.tools.isNetworkAvailable;
 
@@ -38,7 +46,20 @@ public class messageBoit extends AppCompatActivity {
     private messageAdapter ada;
     private DBManagerMessage db;
     private LinearLayoutManager linearLayoutManager;
+    public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean refresh = intent.getBooleanExtra("refresh",true);
+            Log.d("ServiceAkramTestt","refresh: "+refresh);
+            if (linkedList != null && db != null && ada != null&& refresh ){
+                Log.d("ServiceAkramTestt","refreshed yes ");
 
+                linkedList = db.listMessages();
+                Collections.sort(linkedList);
+                ada.notifyDataSetChanged();
+            }
+        }
+    };
 
 
     private interface FireBaseCallBack {
@@ -59,39 +80,37 @@ public class messageBoit extends AppCompatActivity {
         mRecyclerView.setLayoutManager(linearLayoutManager);
         db = new DBManagerMessage(getBaseContext());
         db.open();
-        if (isNetworkAvailable(this)) {
-            Afficher(this);
-        }else {
-            linkedList = db.listMessages();
-            Collections.sort(linkedList);
-            ada= new messageAdapter(this,linkedList);
-            mRecyclerView.setAdapter(ada);
-            linearLayoutManager = new LinearLayoutManager(this);
-            mRecyclerView.setLayoutManager(linearLayoutManager);
-        }
+        linkedList = db.listMessages();
+        Collections.sort(linkedList);
+        ada= new messageAdapter(this,linkedList);
+        mRecyclerView.setAdapter(ada);
+        linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        thread = new Thread(){
+        final Handler handler = new Handler();
+        TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
-                try {
-                    while (!thread.isInterrupted()) {
-                        Thread.sleep(5000);
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Afficher(getBaseContext());
-                            }
-                        });
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("ServiceAkramTestt","on creat new service");
+
+                        startService(new Intent(messageBoit.this, UpdateMsgDB.class));
                     }
-                }catch (InterruptedException e){e.printStackTrace();
-                }
+                });
             }
         };
+        Timer timer = new Timer();
+        timer.schedule(timerTask,0,5000);
 
-        thread.start();
 
 
+        /*if (isNetworkAvailable(getBaseContext())) {
+            Afficher(getBaseContext());
+        }
 
+         */
 
 
     }
@@ -154,25 +173,36 @@ public class messageBoit extends AppCompatActivity {
 
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.example.myapplication.message");
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,intentFilter);
+    }
+
+
+    @Override
     protected void onPause() {
-        if (thread !=null && thread.isAlive()) { thread.interrupt();}
+       // if (thread !=null && thread.isAlive()) { thread.interrupt();}
 
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-        if (thread !=null && thread.isAlive()) { thread.interrupt();}
+      //  if (thread !=null && thread.isAlive()) { thread.interrupt();}
 
         Log.d("messageofflinetest","onStop");
 
         super.onStop();
        // db.close();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
+
     }
 
     @Override
     protected void onDestroy() {
-        if (thread !=null && thread.isAlive()) { thread.interrupt();}
+    //    if (thread !=null && thread.isAlive()) { thread.interrupt();}
 
         Log.d("messageofflinetest","onDestroy");
 

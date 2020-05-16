@@ -2,9 +2,7 @@
     <string name="app_name">Sahti fi ydi</string>
 
 
-
     <!-- c'est pour les mdcins-->
-
 
 
     <string-array name="doctor_specialistes">
@@ -31,7 +29,6 @@
     <string name="a_prpos_de_nous">A propos de nous</string>
     <string name="don_de_sang">Don de Sang</string>
     <string name="sahti_fi_yedi">Sahti fi yedi</string>
-
 
 
     <string-array name="wilaya">
@@ -94,6 +91,9 @@
         <item>Djanet56</item>
         <item>In Salah57</item>
         <item>In Guezzan58</item>
+
+
+
     </string-array>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
@@ -105,4 +105,43 @@
     <string name="messages">Messages</string>
     <string name="or">Or</string>
     <string name="return_to_mainpage">Return to MainPage</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Preference Titles -->
+    <string name="compte_sahti_fi_yedi">Compte Sahti Fi Yedi</string>
+    <string name="sync_header">Sync</string>
+
+    <!-- compte Preferences -->
+    <string name="sauvgarder">Sauvgarder mes données</string>
+    <string name="sauvgarder_on">Vous donnés sont sauvgarder en mode offline</string>
+    <string name="sauvgarder_off">Vous risquez de perdre tout les informations sur vous en cas de coupure internet </string>
+
+
+    <!-- Gestion Preferences -->
+    <string name="gestion_globale">Gestion globale</string>
+    <string name="langue">Langue</string>
+    <string name="localisation">Localisation</string>
+
+    <string name="localisation_gps_autoriser">Vous autorisez la détection de votre emplacement via le GPS</string>
+    <string name="localisation_gps_non_autoriser">Vous n\'autorisez pas la détection de votre emplacement via le GPS</string>
+
+
+    <!-- langues Preferences -->
+    <string name="arabe">Arabe</string>
+    <string name="french">Français</string>
+    <string name="english">English</string>
+
+
+    <!-- GPS Preferences -->
+    <string name="non_autoriser">Activer</string>
+    <string name="autoriser">Désactiver</string>
+
+    <!-- Sync Preferences -->
+    <string name="sync_title">Mise à jour du données</string>
+    <string name="attachment_title">Mode de téléchargement</string>
+    <string name="attachment_summary_on">Téléchargez uniquement par Wifi</string>
+    <string name="attachment_summary_off">Téléchargez automatiquement les mises à jour lorsque vous etes connecté à un réseau Wi-Fi ou bien les réseaux mobiles</string>
 </resources>

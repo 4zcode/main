@@ -18,4 +18,5 @@ public class DoctorsSpecialistes {
     }
 
      public int getImageSpecialiste() {return this.SpecialisteImage;}
+
 }

@@ -2,15 +2,18 @@ package com.example.myapplication;
 
 import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.AssetManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -33,37 +37,37 @@ import androidx.navigation.ui.NavigationUI;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.Laboratoir.LaboActivity;
-import com.example.myapplication.Medicament.medicament_activity;
 import com.example.myapplication.Hospital.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacyActivity;
-import com.example.myapplication.addProfile.AddDoctorProfile;
-import com.example.myapplication.addProfile.AddHospitalProfil;
-import com.example.myapplication.addProfile.AddLaboProfile;
-import com.example.myapplication.addProfile.AddPharmacyProfil;
+import com.example.myapplication.Profiles.UserProfile;
 import com.example.myapplication.doctors.DoctorActivity;
 import com.example.myapplication.location.MyLocation;
 import com.example.myapplication.message.DBManagerMessage;
+import com.example.myapplication.services.NbrMSGnonRead;
 import com.example.myapplication.ui.login.Signin;
 import com.example.myapplication.message.messageBoit;
+import com.example.myapplication.ui.login.SignupActivity;
 import com.example.myapplication.utilities.PreferenceUtilities;
 import com.example.myapplication.utilities.tools;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_IMAGE;
 import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_NAME;
-import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_TYPE;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_IS_LOGIN;
-import static com.example.myapplication.utilities.PreferenceUtilities.KEY_NUMBER_MESSAGES_NON_READ;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_NAME;
-import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_TYPE;
 import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE_NAME;
-import static com.example.myapplication.utilities.PreferenceUtilities.getNbrMessageNoRead;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -76,13 +80,20 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView nav_user, nav_user_profil;
     private ImageView nav_user_image;
-    private Thread thread;
     private SharedPreferences myPef;
     private FragmentRefreshListener fragmentRefreshListener;
     private LocationManager locationManager;
     private LocationListener locationListener;
     private Menu menu;
     private ProgressDialog progressDialog;
+    public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String NbrMsgNoRead = intent.getStringExtra("NbrMsgs");
+            Log.d("ServiceAkramTest","Nbr msg: "+NbrMsgNoRead);
+            synchronizeLayout();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,11 +133,26 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar);
         progressDialog.setIndeterminate(true);
 
-        refreshFregment();
+         final Handler handler = new Handler();
+        TimerTask timerTask = new TimerTask() {
+            @Override
+            public void run() {
+               handler.post(new Runnable() {
+                   @Override
+                   public void run() {
+                       Log.d("ServiceAkramTest","on creat new service");
+
+                       startService(new Intent(MainActivity.this, NbrMSGnonRead.class));
+                   }
+               });
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(timerTask,0,2000);
 
 
+        //readAllData();
     }
-
 
     public FragmentRefreshListener getFragmentRefreshListener() {
 
@@ -194,10 +220,6 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             progressDialog.show();
                             FirebaseAuth.getInstance().signOut();
-                            if (thread != null && thread.isAlive()) {
-                               Log.d("tgreadTestReasons","interepted");
-                                thread.interrupt();
-                            }
                             SharedPreferences.Editor editor = myPef.edit();
                             editor.putBoolean(KEY_IS_LOGIN, false);
                             editor.apply();
@@ -229,33 +251,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void refreshFregment() {
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null) {
-            new UpdateBbrMsgNonReadTask().execute();
-            thread = new Thread() {
-                @Override
-                public void run() {
-                    try {
-                        while (!thread.isInterrupted()) {
-                            Thread.sleep(5000);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    new UpdateBbrMsgNonReadTask().execute();
-                                }
-                            });
-                        }
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            };
-            thread.start();
-        }
-
-
-    }
-
 
 
     @Override
@@ -281,7 +276,11 @@ public class MainActivity extends AppCompatActivity {
             nav_user_profil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    switch (myPef.getString(KEY_USER_TYPE,DEFAULT_USER_TYPE)){
+                    startActivity(new Intent(getBaseContext(), UserProfile.class));
+
+                }
+                    /*
+                   switch (myPef.getString(KEY_USER_TYPE,DEFAULT_USER_TYPE)){
                         case "Doctor":
                             startActivity(new Intent(getBaseContext(), AddDoctorProfile.class));
                             break;
@@ -303,6 +302,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 }
+                */
             });
             Glide.with(this)
                     .load(myPef.getString(KEY_USER_IMAGE, DEFAULT_USER_IMAGE))
@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity {
         nav_user_profil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getBaseContext(), AddDoctorProfile.class));
+                startActivity(new Intent(getBaseContext(), SignupActivity.class));
             }
         });
         nav_user_image.setImageResource(R.drawable.logo);
@@ -330,50 +330,41 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        if (thread == null || !thread.isAlive()|| thread.isInterrupted()) {
-           refreshFregment();
-        }
         super.onStart();
-
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("com.example.myapplication");
+        LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,intentFilter);
     }
 
     @Override
     protected void onResume() {
-        if (thread == null || !thread.isAlive() || thread.isInterrupted()) {
-            refreshFregment();
-        }
         super.onResume();
     }
 
 
     @Override
     protected void onPause() {
-            if (thread != null && thread.isAlive()) {
-                thread.interrupt();
-            }
+
         super.onPause();
 
     }
 
     @Override
     protected void onStop() {
-            if (thread != null && thread.isAlive()) {
-                thread.interrupt();
-            }
+
         super.onStop();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
 
     }
 
     @Override
     protected void onDestroy() {
-            if (thread != null && thread.isAlive()) {
-                thread.interrupt();
-            }
+
         super.onDestroy();
 
     }
 
-    public class UpdateBbrMsgNonReadTask extends AsyncTask<Void, Void, Void> {
+ /*   public class UpdateBbrMsgNonReadTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
@@ -387,6 +378,8 @@ public class MainActivity extends AppCompatActivity {
             synchronizeLayout();
         }
     }
+
+  */
 
 
 

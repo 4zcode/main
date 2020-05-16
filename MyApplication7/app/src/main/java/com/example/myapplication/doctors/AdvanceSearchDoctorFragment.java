@@ -2,11 +2,11 @@ package com.example.myapplication.doctors;
 
 
 import android.app.ProgressDialog;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,40 +19,54 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.Wilaya;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import static com.example.myapplication.utilities.tools.getCommuns;
+import static com.example.myapplication.utilities.tools.getWilayasList;
 import static com.example.myapplication.utilities.tools.isNetworkAvailable;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class AdvanceSearchDoctorFragment extends Fragment  {
 
     public static final String TAG = AdvanceSearchDoctorFragment.class.getSimpleName();
 
-    private ArrayList<Doctors> mDoctorsData = new ArrayList<Doctors>();
+    private ArrayList<Doctors> mDoctorsData, mAllDoctorData = new ArrayList<Doctors>();
     private final DatabaseReference DoctorsRef = FirebaseDatabase.getInstance().getReference().child("Doctor");
     private RecyclerView mRecyclerView;
     private DBManagerDoctor dbManager;
     private ProgressDialog mProgressDialog;
     private DoctorsAdapter mAdapter;
     private SearchView searchView;
-    private Spinner spinner;
-    private ArrayAdapter<CharSequence> spinnerAdapter;
-
+    private Spinner spinnerWilaya, spinnerCommuns;
+    private TextView nbrItem;
+    private ArrayAdapter<CharSequence> spinnerAdapter, willayaCodeAdapter,commmunsCodeAdapter;
+    private List<Wilaya> wilayaList;
+    private LinearLayoutManager layoutManager;
+    private NestedScrollView nestedScrollView;
+    private Integer count = 0;
+    private String wilaya="Blida", commune;
 
     public AdvanceSearchDoctorFragment() {
     }
+
 
     private interface FireBaseCallBack {
         void onCallBack(ArrayList<String> list);
@@ -66,37 +80,78 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
 
         View view = inflater.inflate(R.layout.fragment_doctor_advance_search, container, false);
         mRecyclerView = view.findViewById(R.id.doctor_recycler_advanced_search);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         searchView = view.findViewById(R.id.search_doctor);
+        spinnerWilaya = view.findViewById(R.id.spinner_doctor_wilaya);
+        spinnerCommuns = view.findViewById(R.id.spinner_doctor_communs);
+        nestedScrollView = view.findViewById(R.id.doctor_nestedscroll);
+        layoutManager = new LinearLayoutManager(getActivity());
         dbManager = new DBManagerDoctor(getActivity());
         dbManager.open();
-        if (isNetworkAvailable(getContext())) {
+        layoutManager.setAutoMeasureEnabled(false);
+        mRecyclerView.setLayoutManager(layoutManager);
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if(scrollY > oldScrollY){
+                // Log.d("FileAkramTest","scrollDown");
+             }
+             if (scrollY < oldScrollY){
+               //  Log.d("FileAkramTest","scrollup");
+             }
+             if (scrollY == 0){
+              //   Log.d("FileAkramTest","top scroll");
+             }
+             if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())){
+                 count++;
+                 mDoctorsData = dbManager.listdoctors(count,wilaya,"");
+                 mAdapter.notifyDataSetChanged();
+
+             }
+            }
+        });
+
+      /*  if (isNetworkAvailable(getContext())) {
             readData(new FireBaseCallBack() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
 
                 }
             });
-        } else {
-            Toast.makeText(getContext(), "no connection", Toast.LENGTH_LONG).show();
         }
 
-        mDoctorsData = dbManager.listdoctors();
+     */
 
-        mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
 
-        spinner = view.findViewById(R.id.docspinner);
-        if (spinner != null) {
-            spinner.setOnItemSelectedListener(AdvanceSearchDoctorFragment.this);
-        }
-        spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.wilaya, android.R.layout.simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource
-                (android.R.layout.simple_spinner_dropdown_item);
-        if (spinner != null) {
-            spinner.setAdapter(spinnerAdapter);
-        }
+
+
+
+       willayaCodeAdapter = new ArrayAdapter<CharSequence>(getActivity(),android.R.layout.simple_spinner_item,getWilayasList());
+
+        willayaCodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerWilaya.setAdapter(willayaCodeAdapter);
+        spinnerWilaya.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerCommuns.setVisibility(View.VISIBLE);
+                wilaya = String.valueOf(spinnerWilaya.getSelectedItem());
+                commmunsCodeAdapter = new ArrayAdapter<CharSequence>(getActivity(),android.R.layout.simple_spinner_item,getCommuns(wilaya));
+                commmunsCodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerCommuns.setAdapter(commmunsCodeAdapter);
+                if (position == 0) {
+                    spinnerWilaya.setSelection(0);
+                }
+                //
+                mDoctorsData = dbManager.listdoctors(count,wilaya,"");
+                mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
+                mRecyclerView.setAdapter(mAdapter);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -113,17 +168,10 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
     }
 
     public void readData(FireBaseCallBack fireBaseCallBack) {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(getContext());
-            mProgressDialog.setMessage("Loading");
-            mProgressDialog.setIndeterminate(true);
-        }
-        mProgressDialog.show();
-
         DoctorsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                dbManager.deleteAll();
+               // dbManager.deleteAll();
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     boolean Is_Exist =ds.child("Doctor_ID_Firebase").exists() &&ds.child("mImageUrl").exists() && ds.child("NameDoctor").exists() && ds.child("PlaceDoctor").exists() && ds.child("phone").exists() && ds.child("Speciality").exists() &&ds.child("SexDoctor").exists();
                     if (Is_Exist) {
@@ -142,11 +190,6 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
                         }
                     }
                 }
-                mDoctorsData = dbManager.listdoctors();
-                mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
-                mRecyclerView.setAdapter(mAdapter);
-                mProgressDialog.dismiss();
-
             }
 
             @Override
@@ -157,13 +200,4 @@ public class AdvanceSearchDoctorFragment extends Fragment implements AdapterView
     }
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
 }

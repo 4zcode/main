@@ -1,23 +1,15 @@
 package com.example.myapplication.message;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.Html;
-import android.text.Spanned;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -38,17 +30,19 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+
+
+
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
 import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_IMAGE;
-import static com.example.myapplication.utilities.PreferenceUtilities.DEFAULT_USER_NAME;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_NAME;
 import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE_NAME;
@@ -74,6 +68,7 @@ public class chatRoom extends AppCompatActivity {
     private DBManagerMessage db;
     private LinearLayoutManager linearManager;
     private Parcelable recyclerState;
+
 
 
 
@@ -199,10 +194,14 @@ public class chatRoom extends AppCompatActivity {
                         String date = dataSnapshot.child("Date").getValue(String.class);
                         MessageRecever = fullMsg;
                         boolean Is_Readed = dataSnapshot.child("Is_Readed").getValue(String.class).equals("true");
-                         if ( Is_Readed) {
+                        boolean falsy = dataSnapshot.child("Is_Readed").getValue(String.class).equals("false");
+                        Log.d("akramTest","IS readed : "+Is_Readed);
+                        Log.d("akramTest","falsy : "+falsy);
+
+                        if ( !Is_Readed) {
+                             Log.d("akramTest","msg not readed");
                             if(!db.CheckIsDataAlreadyInDBorNot(ID_reciver)) db.update(ID_reciver,SenderName,recentMsg,fullMsg,date, "true",ReceiverImage);
                             else db.update(ID_reciver,SenderName,recentMsg,fullMsg,date, "true",ReceiverImage);
-
                             updateIs_ReadedStatus(recentMsg, fullMsg, SenderName, ID_reciver, date);
                             DecodeFullMsg(fullMsg, arrayMsg);
                             adapter.notifyDataSetChanged();
@@ -238,16 +237,11 @@ public class chatRoom extends AppCompatActivity {
             DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
             String dt = date.format(Calendar.getInstance().getTime());
             String allMSG = MessageRecever  + user1.getUid() + "<br>" + message + "<br>"+dt+"@E1S9I!";
-
-
-
-                updateUserReceiver(message,allMSG, SenderName, ID_reciver, dt);
-                updateReceiverUser(name_current_user, message,allMSG, ID_reciver, dt);
-                mProgressDialog.dismiss();
-                editText.getText().clear();
-
-
+             updateUserReceiver(message,allMSG, SenderName, ID_reciver, dt);
+             updateReceiverUser(name_current_user, message,allMSG, ID_reciver, dt);
+             editText.getText().clear();
             tools.hideKeyBoard(chatRoom.this,view);
+            mProgressDialog.dismiss();
             Afficher(getBaseContext());
         }else  {
         Toast.makeText(getBaseContext(),"pas internet",Toast.LENGTH_SHORT).show();
@@ -261,7 +255,7 @@ public class chatRoom extends AppCompatActivity {
             user.put("Sender_Name", senderName);
             user.put("Sender_Image", ReceiverImage);
             user.put("message_envoyer", "Moi: " + message);
-            user.put("Is_Readed", "true");
+            user.put("Is_Readed", "false");
             user.put("Date", date);
             user.put("AllMsg", fullMsg);
 
@@ -335,10 +329,35 @@ public class chatRoom extends AppCompatActivity {
 
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.chatmenu, menu);
+            return true;
+    }
+
+
+
+    @Override
+    protected void onStart() {
+        if (thread == null || !thread.isAlive()|| thread.isInterrupted()) {
+            updateAffichage(2000);
+        }
+        super.onStart();
+
+    }
+
+    @Override
+    protected void onResume() {
+        if (thread == null || !thread.isAlive()|| thread.isInterrupted()) {
+            updateAffichage(2000);
+        }
+        super.onResume();
+
+    }
+
+    @Override
     protected void onPause() {
         if (thread !=null && thread.isAlive()) {
             thread.interrupt();}
-
         super.onPause();
     }
 
@@ -352,7 +371,7 @@ public class chatRoom extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (thread !=null && thread.isAlive()) { thread.interrupt();}
+      super.onDestroy();
 
-        super.onDestroy();
     }
 }

@@ -98,6 +98,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Messag
                Toast.makeText(mCont,"clicked",Toast.LENGTH_SHORT).show();
 
         }
+        
 
         public void bindTo(MessageChatItem currentMessage) {
 

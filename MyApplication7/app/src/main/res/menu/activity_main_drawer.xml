@@ -13,9 +13,9 @@
             android:icon="@drawable/ic_opacity"
             android:title="@string/don_de_sang" />
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_action_info"
-            android:title="@string/a_prpos_de_nous" />
+            android:id="@+id/nav_medicament"
+            android:icon="@drawable/medicament"
+            android:title="Medicaments" />
         <item
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_menu_manage"
@@ -24,6 +24,10 @@
 
     <item android:title="Communication">
         <menu>
+            <item
+                android:id="@+id/nav_slideshow"
+                android:icon="@drawable/ic_action_info"
+                android:title="@string/a_prpos_de_nous" />
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"

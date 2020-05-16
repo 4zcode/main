@@ -12,6 +12,9 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+        String[] communes = new String[]{"akram","bensalem"};
+        Wilaya medea = new Wilaya("26","MEDEA",communes);
+        assertEquals(medea.getWilayaName(),"Medea");
+      //  assertEquals(4, 2 + 2);
     }
 }

@@ -1,40 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/doctor_nestedscroll"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_margin="3dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                >
-                <SearchView
-                    android:id="@+id/search_doctor"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="5"
-                    android:background="@drawable/searchview_rounded"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="7dp"
+        android:orientation="vertical">
 
-                    />
-                <Spinner
-                    android:background="#FFFFFF"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/docspinner"
-                    />
-            </LinearLayout>
+        <SearchView
+            android:id="@+id/search_doctor"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:background="@drawable/searchview_rounded"
+            android:queryHint="Search"
+
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spinner_doctor_wilaya"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@drawable/button_corner"
+                android:spinnerMode="dropdown" />
+
+            <Spinner
+                android:id="@+id/spinner_doctor_communs"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="1dp"
+                android:background="@drawable/button_corner"
+                android:spinnerMode="dropdown"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/doctor_recycler_advanced_search"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        />
+        android:layout_height="wrap_content" />
 </LinearLayout>
 </androidx.core.widget.NestedScrollView>

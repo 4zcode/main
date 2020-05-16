@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.provider.DocumentsContract;
 import android.util.Log;
 
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.myapplication.R;
 import com.example.myapplication.addProfile.Insertion;
+import com.example.myapplication.services.UpdateMsgDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -74,7 +76,7 @@ public class PreferenceUtilities {
 
 
     private static  DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-    private  static DatabaseReference UsersRef = rootRef.child("Users");;
+    private  static DatabaseReference UsersRef = rootRef.child("Users");
     private  static DatabaseReference MessageNonReadRef = rootRef.child("Messages");
 
 
@@ -96,7 +98,7 @@ public class PreferenceUtilities {
                         String Name = dataSnapshot.child("UserName").getValue(String.class);
                         String ImageUrl = dataSnapshot.child("UserImageUrl").getValue(String.class);
                         String Type = dataSnapshot.child("UserType").getValue(String.class);
-                        saveData(context, Name, ImageUrl, Type, isLogin, true);
+                        CheckIfUserProfileComplete(context,Name,Type, ImageUrl);
                         getNbrMessageNoRead(context);
                     }else {
                         saveData(context,DEFAULT_USER_NAME,DEFAULT_USER_IMAGE,DEFAULT_USER_TYPE,true,false);
@@ -126,6 +128,38 @@ public class PreferenceUtilities {
         }
 
     }
+           public static void CheckIfUserProfileComplete(Context context,String UserName,String UserType, String UserImage){
+
+                      String childRef ="";
+                       switch (UserType){
+                           case "Doctor":
+                               childRef ="Doctor";
+                               break;
+                           case "Pharmacie" :
+                               childRef ="pharmacies";
+                               break;
+                           case "Hospital" :
+                               childRef ="Hopital";
+                               break;
+                           case "Laboratoir" :
+                               childRef ="laboratoir";
+                               break;
+                           case "Normal":
+                               childRef ="Normal";
+                               break;
+                       }
+              if (rootRef.child(childRef).child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())) != null) {
+                  saveData(context, UserName, UserImage, UserType, true, true);
+                  Toast.makeText(context,"Profile Exist",Toast.LENGTH_LONG).show();
+
+              }else{
+                  saveData(context, UserName, UserImage, UserType, true, false);
+                  Toast.makeText(context,"Profile not exist",Toast.LENGTH_LONG).show();
+                   context.startActivity(new Intent(context, Insertion.class));
+              }
+
+                 }
+
 
     public static void saveData(Context context, String userName, String userImage, String userType, boolean isLogin, boolean isProfileExist){
         SharedPreferences prefs = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
@@ -142,7 +176,7 @@ public class PreferenceUtilities {
         editor.apply();
     }
 
-    public static void getNbrMessageNoRead(Context context){
+    public static void getNbrMessageNoRead(final Context context){
         SharedPreferences Pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = Pref.edit();
         if (FirebaseAuth.getInstance().getCurrentUser()!= null ) {
@@ -158,13 +192,22 @@ public class PreferenceUtilities {
                             }
                         }
                     }
-                    editor.putString(KEY_NUMBER_MESSAGES_NON_READ, String.valueOf(count));
-                    editor.apply();
+                    Log.d("ServiceAkramTest","nbr de msg selon count: "+count);
+
+                    if ( !getNbrMsgs(context).equals(String.valueOf(count))){
+                        Log.d("ServiceAkramTestt","!getNbrMsgs(context).equals(String.valueOf(count)) : "+!getNbrMsgs(context).equals(String.valueOf(count)));
+                        editor.putString(KEY_NUMBER_MESSAGES_NON_READ, String.valueOf(count));
+                        editor.apply();
+                    }else{
+                        Log.d("ServiceAkramTestt","they are equal ");
+
+                    }
+
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.d(TAG,"eror : "+databaseError.getMessage());
+                    Log.d(TAG,"erorr : "+databaseError.getMessage());
                 }
             });
         } else {
@@ -172,5 +215,8 @@ public class PreferenceUtilities {
             editor.apply();
         }
     }
-
+  public static String getNbrMsgs(Context context){
+      SharedPreferences Pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+      return Pref.getString(KEY_NUMBER_MESSAGES_NON_READ,DEFAULT_MESSAGE);
+  }
 }

@@ -1,4 +1,4 @@
-package com.example.myapplication.Medicament;
+package com.example.myapplication.toolsbar.medicaments;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -18,7 +18,7 @@ import com.example.myapplication.R;
 
 import java.util.ArrayList;
 
-class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.MedicamentViewHolder>  {
+public class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.MedicamentViewHolder>  {
 
     //Member variables
     public GradientDrawable mGradientDrawable;

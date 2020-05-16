@@ -15,20 +15,23 @@
         android:id="@+id/nav_gallery"
         android:name="com.example.myapplication.toolsbar.don_de_sang.don_de_sangFragment"
         android:label="@string/don_de_sang"
-        tools:layout="@layout/fragment_A_proos_de_nous" />
-
-    <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.myapplication.toolsbar.a_propos_de_nous.A_propos_de_nousFragment"
-        android:label="@string/a_prpos_de_nous"
         tools:layout="@layout/fragment_don_de_sang" />
-
+    <fragment
+        android:id="@+id/nav_medicament"
+        android:name="com.example.myapplication.toolsbar.medicaments.MedicamentFragment"
+        android:label="Médécaments"
+        tools:layout="@layout/fragment_medicament" />
     <fragment
         android:id="@+id/nav_tools"
         android:name="com.example.myapplication.toolsbar.tools.ToolsFragment"
         android:label="@string/action_settings"
         tools:layout="@layout/fragment_tools" />
 
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.myapplication.toolsbar.a_propos_de_nous.A_propos_de_nousFragment"
+        android:label="@string/a_prpos_de_nous"
+        tools:layout="@layout/fragment_a_proos_de_nous" />
     <fragment
         android:id="@+id/nav_share"
         android:name="com.example.myapplication.toolsbar.share.ShareFragment"
