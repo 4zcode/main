@@ -5,36 +5,75 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".addProfile.Insertion"
+    android:background="@drawable/singupf"
     android:orientation="vertical"
-    android:layout_marginTop="100dp"
     >
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ajouter une pharmacie"
-        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        >
+    <Button
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
         android:onClick="insererpharma"
+        android:background="@null"
+        android:padding="60dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="60dp"
+
         />
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Ajouter un hopital"
-        android:layout_gravity="center"
+        android:background="@null"
         android:onClick="insererhopital"
+        android:padding="60dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="30dp"
+
         />
-    <Button
-        android:layout_width="wrap_content"
+        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Ajouter un medecin"
-        android:layout_gravity="center"
+        android:layout_marginTop="20dp">
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:background="@null"
         android:onClick="addc"
+        android:padding="60dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="70dp"
+
+
         />
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Ajouter un labo de recherche"
-        android:layout_gravity="center"
+        android:background="@null"
         android:onClick="addlabo"
+        android:padding="60dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="30dp"
+
+        />
+</LinearLayout>
+    <Button
+        android:layout_width="145dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@null"
+        android:onClick="addlabo"
+        android:padding="60dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginLeft="10dp"
         />
 
 </LinearLayout>
