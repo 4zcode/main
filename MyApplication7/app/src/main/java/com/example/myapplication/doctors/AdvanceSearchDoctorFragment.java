@@ -3,6 +3,7 @@ package com.example.myapplication.doctors;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.Wilaya;
@@ -48,17 +50,15 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
 
     public static final String TAG = AdvanceSearchDoctorFragment.class.getSimpleName();
 
-    private ArrayList<Doctors> mDoctorsData, mAllDoctorData = new ArrayList<Doctors>();
+    private ArrayList<Doctors> mDoctorsData;
     private final DatabaseReference DoctorsRef = FirebaseDatabase.getInstance().getReference().child("Doctor");
     private RecyclerView mRecyclerView;
     private DBManagerDoctor dbManager;
-    private ProgressDialog mProgressDialog;
     private DoctorsAdapter mAdapter;
     private SearchView searchView;
     private Spinner spinnerWilaya, spinnerCommuns;
     private TextView nbrItem;
-    private ArrayAdapter<CharSequence> spinnerAdapter, willayaCodeAdapter,commmunsCodeAdapter;
-    private List<Wilaya> wilayaList;
+    private ArrayAdapter<CharSequence>  willayaCodeAdapter,commmunsCodeAdapter;
     private LinearLayoutManager layoutManager;
     private NestedScrollView nestedScrollView;
     private Integer count = 0;
@@ -89,6 +89,7 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
         dbManager.open();
         layoutManager.setAutoMeasureEnabled(false);
         mRecyclerView.setLayoutManager(layoutManager);
+        new UpdateDoctorListTask().execute();
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -109,22 +110,6 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
              }
             }
         });
-
-      /*  if (isNetworkAvailable(getContext())) {
-            readData(new FireBaseCallBack() {
-                @Override
-                public void onCallBack(ArrayList<String> list) {
-
-                }
-            });
-        }
-
-     */
-
-
-
-
-
        willayaCodeAdapter = new ArrayAdapter<CharSequence>(getActivity(),android.R.layout.simple_spinner_item,getWilayasList());
 
         willayaCodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -197,6 +182,28 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
                 Log.d(TAG, databaseError.getMessage());
             }
         });
+    }
+
+   public class UpdateDoctorListTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+           if (isNetworkAvailable(getContext())) {
+                readData(new FireBaseCallBack() {
+                @Override
+                public void onCallBack(ArrayList<String> list) {
+
+                }
+            });
+        }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(getActivity(),"Updated",Toast.LENGTH_LONG).show();
+        }
     }
 
 

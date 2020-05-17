@@ -39,10 +39,6 @@ public class messageBoit extends AppCompatActivity {
 
     private RecyclerView mRecyclerView;
     private ArrayList<MessageItem> linkedList;
-    private DatabaseReference firebaseDatabase= FirebaseDatabase.getInstance().getReference().child("Messages");
-    private FirebaseUser user;
-    private Thread thread;
-    private  java.util.Date date;
     private messageAdapter ada;
     private DBManagerMessage db;
     private LinearLayoutManager linearLayoutManager;
@@ -53,7 +49,6 @@ public class messageBoit extends AppCompatActivity {
             Log.d("ServiceAkramTestt","refresh: "+refresh);
             if (linkedList != null && db != null && ada != null&& refresh ){
                 Log.d("ServiceAkramTestt","refreshed yes ");
-
                 linkedList = db.listMessages();
                 Collections.sort(linkedList);
                 ada.notifyDataSetChanged();
@@ -62,16 +57,10 @@ public class messageBoit extends AppCompatActivity {
     };
 
 
-    private interface FireBaseCallBack {
-        void onCallBack(String message);
-
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_boit);
-        user= FirebaseAuth.getInstance().getInstance().getCurrentUser();
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewMessage);
         linkedList = new ArrayList<MessageItem>();
         ada= new messageAdapter(this,linkedList);
@@ -87,7 +76,7 @@ public class messageBoit extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
 
-        final Handler handler = new Handler();
+   /*     final Handler handler = new Handler();
         TimerTask timerTask = new TimerTask() {
             @Override
             public void run() {
@@ -104,110 +93,52 @@ public class messageBoit extends AppCompatActivity {
         Timer timer = new Timer();
         timer.schedule(timerTask,0,5000);
 
+    */
 
 
-        /*if (isNetworkAvailable(getBaseContext())) {
+
             Afficher(getBaseContext());
-        }
 
-         */
 
 
     }
     public void Afficher(Context context){
-        linkedList.clear();
-        readData(context,new messageBoit.FireBaseCallBack() {
-            @Override
-            public void onCallBack(String msg) {
+        Log.d("AFicherAkram","inside afficher");
+        linkedList = db.listMessages();
+        Collections.sort(linkedList);
+        ada= new messageAdapter(this,linkedList);
+        mRecyclerView.setAdapter(ada);
+        linearLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        Log.d("AFicherAkram","finish afficher");
 
-            }
-        });
-    }
-    public void readData(final Context context, messageBoit.FireBaseCallBack fireBaseCallBack) {
-        firebaseDatabase.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                 db.deleteAll();
-                for (DataSnapshot ds : dataSnapshot.getChildren()){
-                    boolean is_exist = ds.child("message_envoyer").exists() && ds.child("Sender_Name").exists()&& ds.child("ID_Reciver").exists()&& ds.child("Is_Readed").exists()&& ds.child("Date").exists()&& ds.child("AllMsg").exists();
-                    if (is_exist) {
-                  String SenderName = ds.child("Sender_Name").getValue(String.class);
-                        String SenderImage;
-                  if (ds.child("Sender_Image").exists()) {
-                       SenderImage = ds.child("Sender_Image").getValue(String.class);
-                  }else SenderImage = "R.drawable.doctorm";
-                  String message = ds.child("message_envoyer").getValue(String.class);
-                  String fullMsg = ds.child("AllMsg").getValue(String.class);
-                  String ID_firebase = ds.child("ID_Reciver").getValue(String.class);
-                  String Is_Readed = ds.child("Is_Readed").getValue(String.class);
-                  String Date = ds.child("Date").getValue(String.class);
-                  SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
-           try {
-                date = format.parse(Date);
-           } catch (ParseException e) {
-               e.printStackTrace();
-           }
-           if (!ID_firebase.equals(user.getUid())) {
-               if(db.CheckIsDataAlreadyInDBorNot(ID_firebase)){
-                   db.update(ID_firebase,SenderName,message,fullMsg,Date,Is_Readed,SenderImage);
-               }else{
-                   db.insert(ID_firebase,SenderName,message,fullMsg,Date,Is_Readed,SenderImage);
-
-               }
-           }
-         }
-                }
-                linkedList = db.listMessages();
-                Collections.sort(linkedList);
-                ada= new messageAdapter(context,linkedList);
-                mRecyclerView.setAdapter(ada);
-                linearLayoutManager = new LinearLayoutManager(context);
-                mRecyclerView.setLayoutManager(linearLayoutManager);            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d(TAG, databaseError.getMessage());
-            }
-        });
     }
 
 
     @Override
     protected void onStart() {
         super.onStart();
+        Afficher(getBaseContext());
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.example.myapplication.message");
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,intentFilter);
     }
 
 
+
     @Override
     protected void onPause() {
-       // if (thread !=null && thread.isAlive()) { thread.interrupt();}
-
         super.onPause();
     }
 
     @Override
     protected void onStop() {
-      //  if (thread !=null && thread.isAlive()) { thread.interrupt();}
-
-        Log.d("messageofflinetest","onStop");
-
         super.onStop();
-       // db.close();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
-
     }
 
     @Override
     protected void onDestroy() {
-    //    if (thread !=null && thread.isAlive()) { thread.interrupt();}
-
-        Log.d("messageofflinetest","onDestroy");
-
         super.onDestroy();
-      //  db.close();
-
     }
 }

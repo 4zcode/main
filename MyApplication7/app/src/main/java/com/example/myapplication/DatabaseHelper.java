@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME_LABORATOIR = "laboratoir";
     public static final String TABLE_NAME_MESSAGES = "messages";
 
+
     // Table pharmacies columns
     public static final String _ID_PHARMA = "_id";
     public static final String _ID_PHARMA_FIREBASE = "_id_pharmacies_firebase";

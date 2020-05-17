@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
@@ -24,6 +25,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.myapplication.R;
 import com.example.myapplication.addProfile.Insertion;
+import com.example.myapplication.message.DBManagerMessage;
+import com.example.myapplication.message.messageAdapter;
 import com.example.myapplication.services.UpdateMsgDB;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,6 +43,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -81,6 +87,7 @@ public class PreferenceUtilities {
 
 
     private static Integer count = new Integer(0);
+
 
 
 
@@ -177,32 +184,48 @@ public class PreferenceUtilities {
     }
 
     public static void getNbrMessageNoRead(final Context context){
+        final DBManagerMessage db;
+        db = new DBManagerMessage(context);
+
+
         SharedPreferences Pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         final SharedPreferences.Editor editor = Pref.edit();
         if (FirebaseAuth.getInstance().getCurrentUser()!= null ) {
             MessageNonReadRef.child(String.valueOf(FirebaseAuth.getInstance().getCurrentUser().getUid())).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    db.open();
+                    db.deleteAll();
                     count = 0;
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        if (ds.child("Is_Readed").exists()) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()){
+                        boolean is_exist = ds.child("message_envoyer").exists() && ds.child("Sender_Name").exists()&& ds.child("ID_Reciver").exists()&& ds.child("Is_Readed").exists()&& ds.child("Date").exists()&& ds.child("AllMsg").exists();
+                        if (is_exist) {
+                            String SenderName = ds.child("Sender_Name").getValue(String.class);
+                            String SenderImage;
+                            if (ds.child("Sender_Image").exists()) {
+                                SenderImage = ds.child("Sender_Image").getValue(String.class);
+                            }else SenderImage = "R.drawable.doctorm";
+                            String message = ds.child("message_envoyer").getValue(String.class);
+                            String fullMsg = ds.child("AllMsg").getValue(String.class);
+                            String ID_firebase = ds.child("ID_Reciver").getValue(String.class);
                             String Is_Readed = ds.child("Is_Readed").getValue(String.class);
                             if (Is_Readed.equals("false")) {
                                 count += 1;
                             }
+                            String Date = ds.child("Date").getValue(String.class);
+                            if (!ID_firebase.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                if(db.CheckIsDataAlreadyInDBorNot(ID_firebase)){
+                                    db.update(ID_firebase,SenderName,message,fullMsg,Date,Is_Readed,SenderImage);
+                                }else{
+                                    db.insert(ID_firebase,SenderName,message,fullMsg,Date,Is_Readed,SenderImage);
+                                }
+                            }
                         }
                     }
-                    Log.d("ServiceAkramTest","nbr de msg selon count: "+count);
-
                     if ( !getNbrMsgs(context).equals(String.valueOf(count))){
-                        Log.d("ServiceAkramTestt","!getNbrMsgs(context).equals(String.valueOf(count)) : "+!getNbrMsgs(context).equals(String.valueOf(count)));
                         editor.putString(KEY_NUMBER_MESSAGES_NON_READ, String.valueOf(count));
                         editor.apply();
-                    }else{
-                        Log.d("ServiceAkramTestt","they are equal ");
-
                     }
-
                 }
 
                 @Override
