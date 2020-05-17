@@ -1,6 +1,7 @@
 package com.example.myapplication.pharma;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -121,6 +122,7 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.Medicam
             mClassMedicamentTextView.setText(currentMedicament.getMedicamentClass());
             mPrixMedicamentTextView.setText(currentMedicament.getMedicamenPrix());
 
+
             //Get the current sport
             mCurrentMedicament = currentMedicament;
 
@@ -129,6 +131,27 @@ class MedicamentsAdapter extends RecyclerView.Adapter<MedicamentsAdapter.Medicam
 
         @Override
         public void onClick(View view) {
+            Intent intent = new Intent(mCont, medicament_information.class);
+            intent.putExtra("name",mCurrentMedicament.getMedicamenName());
+            intent.putExtra("Id",mCurrentMedicament.getId());
+            intent.putExtra("num_eng",mCurrentMedicament.getNum_eng());
+            intent.putExtra("code",mCurrentMedicament.getCode());
+            intent.putExtra("dcin",mCurrentMedicament.getDomination_c_in());
+            intent.putExtra("forme",mCurrentMedicament.getForme());
+            intent.putExtra("Dosage",mCurrentMedicament.getDosage());
+            intent.putExtra("cond",mCurrentMedicament.getCond());
+            intent.putExtra("liste",mCurrentMedicament.getListe());
+            intent.putExtra("pays",mCurrentMedicament.getPays_du_lab());
+            intent.putExtra("date_ini",mCurrentMedicament.getDate_deng_ini());
+            intent.putExtra("date_final",mCurrentMedicament.getDate_deng_final());
+            intent.putExtra("classe",mCurrentMedicament.getMedicamentClass());
+            intent.putExtra("prix",mCurrentMedicament.getMedicamenPrix());
+            intent.putExtra("statut",mCurrentMedicament.getStatut());
+            intent.putExtra("remboursement",mCurrentMedicament.getRemboursement());
+            intent.putExtra("duree_destsb",mCurrentMedicament.getDuree_de_stab());
+            mCont.startActivity(intent);
+
+
 
         }
     }

@@ -16,7 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name=".pharma.medicament_information"></activity>
         <activity
             android:name=".addProfile.AddDoctorProfile"
             android:label="Profile" />
