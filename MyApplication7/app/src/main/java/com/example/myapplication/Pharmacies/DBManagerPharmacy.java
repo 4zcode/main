@@ -101,7 +101,7 @@ public class DBManagerPharmacy {
                 storeContacts.add(new pharmacy(Id_firebase,name, place, phone,open,close,imageUrl));
                 count ++;
             }
-            while (cursor.moveToNext() && count < 50);
+            while (cursor.moveToNext() && count < 15);
         }
         cursor.close();
         return storeContacts;
