@@ -57,21 +57,16 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
         searchView = findViewById(R.id.search_pharmacy);
         dbManager = new DBManagerPharmacy(this);
         dbManager.open();
+        mpharmaciesData = dbManager.listPharmacies();
+        mAdapter = new pharmacyAdapter(getBaseContext(),mpharmaciesData);
+        mRecyclerView.setAdapter(mAdapter);
         if (isNetworkAvailable(this)) {
             readData(new FireBaseCallBack() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
-                    Log.d("pharmacyTest","pharma finish oncallback ");
                 }
             });
-        } else {
-            Toast.makeText(getBaseContext(), "no connection", Toast.LENGTH_LONG).show();
         }
-
-        mpharmaciesData = dbManager.listPharmacies();
-        mAdapter = new pharmacyAdapter(getBaseContext(),mpharmaciesData);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
         spinner = findViewById(R.id.pharmacy_spinner);
         if (spinner != null) {
             spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) pharmacyActivity.this);
@@ -97,12 +92,7 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
     }
 
     public void readData(final FireBaseCallBack fireBaseCallBack) {
-       if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(pharmacyActivity.this);
-            mProgressDialog.setMessage("Loading");
-            mProgressDialog.setIndeterminate(true);
-        }
-        mProgressDialog.show();
+
         PhREf.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -116,7 +106,6 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
                         String open = ds.child("oppen").getValue(String.class);
                         String close= ds.child("close").getValue(String.class);
                         String ImageUrl = ds.child("imageUrl").getValue(String.class);
-                        if (isNetworkAvailable(getBaseContext())){  dbManager.deleteall();}
                         if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
                             dbManager.update(id_firebase, Name, Place, Phone, open, close,ImageUrl);
                         } else {
@@ -127,9 +116,7 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
                     } else Log.d("pharmacy_test","is not exist");
                 }
                 mpharmaciesData= dbManager.listPharmacies();
-                mAdapter = new pharmacyAdapter(getBaseContext(),mpharmaciesData);
-                mRecyclerView.setAdapter(mAdapter);
-               mProgressDialog.dismiss();
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override

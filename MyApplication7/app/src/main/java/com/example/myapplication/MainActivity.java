@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -68,6 +69,8 @@ import static com.example.myapplication.utilities.PreferenceUtilities.KEY_IS_LOG
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_NAME;
 import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE_NAME;
+import static com.example.myapplication.utilities.PreferenceUtilities.firstTime;
+import static com.example.myapplication.utilities.tools.readAllData;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -150,6 +153,10 @@ public class MainActivity extends AppCompatActivity {
         Timer timer = new Timer();
         timer.schedule(timerTask,0,2000);
 
+        if (firstTime(this)) {
+            Log.d("AkramTestdatabase","first Time");
+            new UpdateDataBaseTask().execute();
+        } else  Log.d("AkramTestdatabase","no first time");
 
         //readAllData();
     }
@@ -364,22 +371,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
- /*   public class UpdateBbrMsgNonReadTask extends AsyncTask<Void, Void, Void> {
+    public class UpdateDataBaseTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            getNbrMessageNoRead(getBaseContext());
+            Log.d("AkramTestdatabase","inside data");
+            readAllData(getBaseContext());
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            synchronizeLayout();
+            Log.d("AkramTestdatabase","finish data");
         }
     }
 
-  */
+
 
 
 

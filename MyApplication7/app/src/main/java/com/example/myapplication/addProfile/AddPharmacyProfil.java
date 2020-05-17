@@ -45,8 +45,6 @@ public class AddPharmacyProfil extends AppCompatActivity {
     public static int PICK_IMAGE = 1;
     private EditText first_name;
     private EditText adress;
-    private EditText open;
-    private EditText close;
     private EditText phone;
     private ProgressBar mProgressBar;
     private StorageReference mStorageRef;
@@ -62,8 +60,8 @@ public class AddPharmacyProfil extends AppCompatActivity {
         first_name=(EditText) findViewById(R.id.pfname);
         adress=(EditText) findViewById(R.id.phadress);
         phone=(EditText) findViewById(R.id.phnumber);
-        open=(EditText) findViewById(R.id.pharmacies_open);
-        close = (EditText) findViewById(R.id.pharmacies_close);
+      //  open=(EditText) findViewById(R.id.pharmacies_open);
+      //  close = (EditText) findViewById(R.id.pharmacies_close);
         mStorageRef = FirebaseStorage.getInstance().getReference("pharmacies");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("pharmacies");
     }
@@ -109,7 +107,8 @@ public class AddPharmacyProfil extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String pharmacyID = mDatabaseRef.push().getKey();
-                                    pharmacy pharmacy = new pharmacy(pharmacyID, first_name.getText().toString().trim(), adress.getText().toString().trim(), phone.getText().toString().trim(),open.getText().toString().trim(), close.getText().toString().trim(),  uri.toString());
+                                    // pharmacy pharmacy = new pharmacy(pharmacyID, first_name.getText().toString().trim(), adress.getText().toString().trim(), phone.getText().toString().trim(),open.getText().toString().trim(), close.getText().toString().trim(),  uri.toString());
+                                    pharmacy pharmacy = new pharmacy(pharmacyID, first_name.getText().toString().trim(), adress.getText().toString().trim(), phone.getText().toString().trim(),"8:00", "10:00",  uri.toString());
                                     mDatabaseRef.child(pharmacyID).setValue(pharmacy);
                                     mStorageRef = FirebaseStorage.getInstance().getReference("Users");
                                     final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()

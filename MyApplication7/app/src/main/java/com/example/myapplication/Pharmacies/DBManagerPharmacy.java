@@ -82,6 +82,7 @@ public class DBManagerPharmacy {
         database.delete(TABLE_NAME_PHARMACIE, DatabaseHelper._ID_PHARMA + "=" + _id, null);
     }
     public ArrayList<pharmacy> listPharmacies() {
+        Integer count = 0;
         String sql = "select * from " + TABLE_NAME_PHARMACIE;
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         ArrayList<pharmacy> storeContacts = new ArrayList<>();
@@ -98,8 +99,9 @@ public class DBManagerPharmacy {
                 String imageUrl = cursor.getString(7);
 
                 storeContacts.add(new pharmacy(Id_firebase,name, place, phone,open,close,imageUrl));
+                count ++;
             }
-            while (cursor.moveToNext());
+            while (cursor.moveToNext() && count < 50);
         }
         cursor.close();
         return storeContacts;

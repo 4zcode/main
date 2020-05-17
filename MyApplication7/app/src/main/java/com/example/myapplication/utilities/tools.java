@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -20,7 +21,12 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 
+import com.example.myapplication.Hospital.DBManagerHospital;
+import com.example.myapplication.Laboratoir.DBManagerLaboratoir;
+import com.example.myapplication.Pharmacies.DBManagerPharmacy;
 import com.example.myapplication.Wilaya;
+import com.example.myapplication.doctors.DBManagerDoctor;
+import com.example.myapplication.doctors.Doctors;
 import com.example.myapplication.message.chatRoom;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -369,6 +375,91 @@ public class tools {
             }
         }
        return null;
+    }
+
+
+
+    public static int readAllData(Context context){
+        DBManagerDoctor dbDoctor = new DBManagerDoctor(context);
+        DBManagerLaboratoir dblabo = new DBManagerLaboratoir(context);
+        DBManagerPharmacy dbPharmacy = new DBManagerPharmacy(context);
+        dbDoctor.open();
+        dblabo.open();
+        dbPharmacy.open();
+        Integer count = 0;
+        Integer bad_count =0;
+        AssetManager assetManager = context.getResources().getAssets();
+        InputStream inputStream = null;
+        try {
+            inputStream = assetManager.open("allData.txt");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            if(inputStream != null) {
+                String Name= "";
+                String Speciality= "";
+                String Type= "" ;
+                String  Phone= "";
+                String Adresse = "";
+                String FireBaseID= "";
+                String Line = reader.readLine();
+                while (Line != null ){
+                    Name= "";
+                    Speciality= "";
+                    Type= "" ;
+                    Phone= "";
+                    Adresse = "";
+                    FireBaseID= String.valueOf(count);
+                    if(Line.contains("Name :")) {
+                        Name = Line.replaceAll("Name : ","").trim();
+                        boolean mContinue = true;
+                        String  subLine = reader.readLine();
+                        while (subLine != null && mContinue){
+                            if (subLine.contains("Name :")) {
+                                mContinue = false;
+                            }else {
+                                if (subLine.contains("Spécialiste :")) { Speciality = subLine.replaceAll("Spécialiste : ","").trim();
+                                }else if (subLine.contains("Adresse :")) { Adresse = subLine.replaceAll("Adresse : ","").trim();
+                                }else if (subLine.contains("Téléphone :")) { Phone = subLine.replaceAll("Téléphone : ","").trim();
+                                }else if (subLine.contains("Type :")) { Type = subLine.replaceAll("Type : ","").trim();
+                                }
+                            }
+                            subLine = reader.readLine();
+                        }
+                        if( Name.equals("") || Speciality.equals("") || Adresse.equals("") || Phone.equals("") || Type.equals("") ){
+                            Log.d("FileAkramTest","Name is : "+Name);
+                            Log.d("FileAkramTest","Speciality is : "+Speciality);
+                            Log.d("FileAkramTest","Adress is : "+Adresse);
+                            Log.d("FileAkramTest","Téléphone is : "+Phone);
+                            Log.d("FileAkramTest","Type is : "+Type);
+                            bad_count++;
+                            Log.d("FileAkramTest", "rejected "+String.valueOf(bad_count));
+                        }else {
+                            try {
+                                if (Speciality.contains("Pharmacien")) {
+                                    dbPharmacy.insert(Phone+Name.toLowerCase(),Name.toLowerCase(),Adresse.toLowerCase(),Phone,"08:00","16:00","R.drawable.profile");
+                                }else if (Speciality.contains("Biologie Clinique")){
+                                    dblabo.insert(Phone+Name.toLowerCase(),Name.toLowerCase(),Adresse.toLowerCase(),Phone,"R.drawable.profile");
+                                }else {
+                                    dbDoctor.insert(Phone+Name.toLowerCase(),Name.toLowerCase(),Adresse.toLowerCase(),Phone,Speciality,"m","R.drawable.profile");
+                                }
+                               // db.execSQL("INSERT INTO "+TABLE_NAME_DOCTORS+"("+_ID_DOCTOR_FIREBASE+", "+NAME_DOCTOR+", "+PLACE_DOCTOR+", "+PHONE_DOCTOR+", "+SPEC_DOCTOR+", "+SEX_DOCTOR+", "+IMAGE_DOCTOR_URL+") VALUES ("+"'"+count+"', "+"'"+Name.toLowerCase()+"', "+"'"+Adresse.toLowerCase()+"', "+"',"+Phone+"', "+"'"+Speciality.toLowerCase()+"', "+"'m','R.drawable.profile')");
+                            }catch (Exception e){
+                                e.printStackTrace();
+                                Log.d("FileAkramTest","error : "+e.getMessage());
+                            }
+                        }
+
+                    }
+                    Line = reader.readLine();
+                }
+                count ++;
+            }
+            Log.d("FileAkramTest","Inserted" + String.valueOf(count));
+            return count;
+        }catch (IOException e){
+            e.printStackTrace();
+            Log.d("FileAkramTest","Error: "+e.getMessage());
+        }
+        return 0;
     }
 
 }
