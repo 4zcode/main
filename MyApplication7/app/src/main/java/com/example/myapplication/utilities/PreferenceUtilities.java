@@ -75,10 +75,7 @@ public class PreferenceUtilities {
     public static final String DEFAULT_USER_NAME = "Sahti fi yedi";
     public static final String DEFAULT_USER_TYPE = "NormalUser";
     public static final String DEFAULT_USER_IMAGE = String.valueOf(R.drawable.logo);
-
-
-
-
+    public static final String FIRST_TIME = "firstTime";
 
 
     private static  DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
@@ -181,6 +178,16 @@ public class PreferenceUtilities {
             editor.putString(KEY_NUMBER_MESSAGES_NON_READ, nbrDeMSG);
         }
         editor.apply();
+    }
+
+    public static boolean firstTime(Context context){
+        SharedPreferences Pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        if(Pref.getBoolean(FIRST_TIME,true)){
+            SharedPreferences.Editor editor = Pref.edit();
+            editor.putBoolean(FIRST_TIME,false);
+            editor.apply();
+            return true;
+        } else return false;
     }
 
     public static void getNbrMessageNoRead(final Context context){

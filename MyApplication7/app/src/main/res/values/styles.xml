@@ -6,6 +6,8 @@
         <item name="colorPrimary">#6399d5</item>
         <item name="colorPrimaryDark">#6399C0</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorHint">#bdbaba</item>
+
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
@@ -14,5 +16,8 @@
         <item name="colorControlNormal">#FFFFFF</item>
         <item name="colorControlActivated">#FFD700</item>
     </style>
+
+
+
 
 </resources>
