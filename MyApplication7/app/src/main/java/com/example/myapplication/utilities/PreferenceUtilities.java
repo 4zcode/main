@@ -76,6 +76,7 @@ public class PreferenceUtilities {
     public static final String DEFAULT_USER_TYPE = "NormalUser";
     public static final String DEFAULT_USER_IMAGE = String.valueOf(R.drawable.logo);
     public static final String FIRST_TIME = "firstTime";
+    public static final String SPECIALITY = "Speciality";
 
 
     private static  DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
@@ -188,6 +189,17 @@ public class PreferenceUtilities {
             editor.apply();
             return true;
         } else return false;
+    }
+    public static void saveSpeciality(Context context,String speciality){
+        SharedPreferences Pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = Pref.edit();
+        editor.putString(SPECIALITY,speciality);
+        editor.apply();
+    }
+    public static String getLastSpeciality(Context context){
+        SharedPreferences Pref = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
+        return Pref.getString(SPECIALITY,"Médecin généraliste");
+
     }
 
     public static void getNbrMessageNoRead(final Context context){

@@ -4,15 +4,15 @@
     <item
         android:id="@+id/action_delete_message"
         android:orderInCategory="100"
-        android:title="@string/title_activity_login"
-        android:icon="@drawable/send"
+        android:icon="@drawable/pubelleicon"
+        android:title="Supprimer le message"
         app:showAsAction="never"
         />
     <item
         android:id="@+id/action_block"
         android:orderInCategory="100"
-        android:title="@string/title_activity_login"
-        android:icon="@drawable/send"
+        android:title="Bloquer"
+        android:icon="@drawable/sign1"
         app:showAsAction="never"
         />
 

@@ -38,6 +38,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.myapplication.utilities.PreferenceUtilities.getLastSpeciality;
 import static com.example.myapplication.utilities.tools.getCommuns;
 import static com.example.myapplication.utilities.tools.getWilayasList;
 import static com.example.myapplication.utilities.tools.isNetworkAvailable;
@@ -63,6 +64,7 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
     private NestedScrollView nestedScrollView;
     private Integer count = 0;
     private String wilaya="Blida", commune;
+    private String mSpeciality;
 
     public AdvanceSearchDoctorFragment() {
     }
@@ -85,6 +87,8 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
         spinnerCommuns = view.findViewById(R.id.spinner_doctor_communs);
         nestedScrollView = view.findViewById(R.id.doctor_nestedscroll);
         layoutManager = new LinearLayoutManager(getActivity());
+        mSpeciality = getLastSpeciality(getContext());
+        Log.d("SpecialityTest","speciality is : "+mSpeciality);
         dbManager = new DBManagerDoctor(getActivity());
         dbManager.open();
         layoutManager.setAutoMeasureEnabled(false);
@@ -104,7 +108,7 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
              }
              if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())){
                  count++;
-                 mDoctorsData = dbManager.listdoctors(count,wilaya,"");
+                 mDoctorsData = dbManager.listdoctors(count,"",wilaya,getLastSpeciality(getContext()));
                  mAdapter.notifyDataSetChanged();
 
              }
@@ -126,7 +130,7 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
                     spinnerWilaya.setSelection(0);
                 }
                 //
-                mDoctorsData = dbManager.listdoctors(count,wilaya,"");
+                mDoctorsData = dbManager.listdoctors(count,"",wilaya,getLastSpeciality(getContext()));
                 mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
                 mRecyclerView.setAdapter(mAdapter);
             }
@@ -140,12 +144,12 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mAdapter.filter(query);
+                mAdapter.filter(query,wilaya,getLastSpeciality(getContext()));
                 return true;
             }
             @Override
             public boolean onQueryTextChange(String newText) {
-                mAdapter.filter(newText);
+                mAdapter.filter(newText,wilaya,getLastSpeciality(getContext()));
                 return true;
             }
         });
@@ -206,5 +210,13 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
         }
     }
 
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser){
+            mSpeciality = getLastSpeciality(getContext());
+            mDoctorsData = dbManager.listdoctors(count,"",wilaya,mSpeciality);
+            mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
+            mRecyclerView.setAdapter(mAdapter);        }
+    }
 }

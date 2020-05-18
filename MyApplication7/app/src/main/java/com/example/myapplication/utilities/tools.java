@@ -150,6 +150,12 @@ public class tools {
 
     public static List<Wilaya> getAllWilayasData(){
         String WilayaString = "[\n" +
+                "    \n" +
+                "{\n" +
+                "        \"id\": 0,\n" +
+                "        \"name\": \"Wilaya\",\n" +
+                "        \"communes\": [ \"Commune\"]\n" +
+                "    },\n" +
                 "\n" +
                 "    {\n" +
                 "        \"id\": 1,\n" +

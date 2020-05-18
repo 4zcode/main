@@ -13,4 +13,59 @@
         <item>English</item>
     </string-array>
 
+
+    <string-array name="speciality">
+        <item>Acupuncture</item>
+        <item>Allergologue</item>
+        <item>Anatomie et cytologie pathologique</item>
+        <item>Cardiologue</item>
+        <item>Chirurgien Cardiaque</item>
+        <item>Chirurgien dentiste</item>
+        <item>Chirurgien général</item>
+        <item>Chirurgien Maxillo-facial</item>
+        <item>Chirurgien Plastique</item>
+        <item>Chirurgien Urologue</item>
+        <item>Chirurgien vasculaire</item>
+        <item>Chirurgie pédiatrique</item>
+        <item>Dermatologue</item>
+        <item>Diabétologue</item>
+        <item>Endocrinologue</item>
+        <item>Endodontiste</item>
+        <item>Epidemiologiste</item>
+        <item>Gastrologue</item>
+        <item>Gynécologue</item>
+        <item>Hématologue</item>
+        <item>Histologiste</item>
+        <item>Implantologiste</item>
+        <item>Médecin biologiste</item>
+        <item>Médecin du sport</item>
+        <item>Médecin du travail</item>
+        <item>Médecin esthétique</item>
+        <item>Médecin généraliste</item>
+        <item>Médecin Infectiologue</item>
+        <item>Médecin interniste</item>
+        <item>Médecin légiste</item>
+        <item>Médecin Radiologue</item>
+        <item>Médecin réanimateur</item>
+        <item>Médecin rééducateur</item>
+        <item>Microbiologiste</item>
+        <item>Nephrologue</item>
+        <item>Neurochirurgien</item>
+        <item>Neurologue</item>
+        <item>Occlusodontiste</item>
+        <item>Oncologue</item>
+        <item>Ophtalmologue</item>
+        <item>ORL</item>
+        <item>Orthodontiste</item>
+        <item>Orthopédiste</item>
+        <item>Parodontologiste</item>
+        <item>Pediatre</item>
+        <item>Pneumo-Phtisiologue</item>
+        <item>Psychiatre</item>
+        <item>Radiologue</item>
+        <item>Rhumatologue</item>
+        <item>Toxicologue</item>
+        <item>Urologue</item>
+    </string-array>
+
 </resources>

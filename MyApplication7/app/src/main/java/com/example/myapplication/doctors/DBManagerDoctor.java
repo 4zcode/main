@@ -88,24 +88,30 @@ public class DBManagerDoctor {
     }
 
 
-    public ArrayList<Doctors> listdoctors(int k, String adresse, String speciality) {
+    public ArrayList<Doctors> listdoctors(int k,String name, String adresse, String speciality) {
         String sql = "select * from " + DatabaseHelper.TABLE_NAME_DOCTORS;
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         ArrayList<Doctors> storeContacts = new ArrayList<>();
         Cursor cursor = db.rawQuery(sql, null);
+        Boolean all = false;
+        if (adresse.toLowerCase().contains("wilaya")) all = true;
+        boolean nameVide = false;
+        if (name.isEmpty()) nameVide = true;
+
         if (cursor.moveToFirst()) {
             do {
                 String place = cursor.getString(3);
-                if (place.toLowerCase().contains(adresse.toLowerCase())) {
+                String spec = cursor.getString(5);
+                String Name = cursor.getString(2);
+
+                if ((nameVide ||Name.toLowerCase().contains(name)) &&(all || place.toLowerCase().contains(adresse.toLowerCase()) )&& spec.toLowerCase().contains(speciality.toLowerCase())) {
                     int id = Integer.parseInt(cursor.getString(0));
                     String Id_firebase = cursor.getString(1);
-                    String name = cursor.getString(2);
                     String phone = cursor.getString(4);
-                    String spec = cursor.getString(5);
                     String sex = cursor.getString(6);
                     String imageUrl = cursor.getString(7);
 
-                    storeContacts.add(new Doctors(Id_firebase, name, place, phone, spec, sex, imageUrl));
+                    storeContacts.add(new Doctors(Id_firebase, Name, place, phone, spec, sex, imageUrl));
                 }
             }
             while (cursor.moveToNext() && storeContacts.size() < (25 + 5*k));

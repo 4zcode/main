@@ -2,6 +2,7 @@ package com.example.myapplication.Pharmacies;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,12 +62,8 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
         mAdapter = new pharmacyAdapter(getBaseContext(),mpharmaciesData);
         mRecyclerView.setAdapter(mAdapter);
         if (isNetworkAvailable(this)) {
-            readData(new FireBaseCallBack() {
-                @Override
-                public void onCallBack(ArrayList<String> list) {
-                }
-            });
-        }
+                 new UpdatepharmacyListTask().execute();
+                    }
         spinner = findViewById(R.id.pharmacy_spinner);
         if (spinner != null) {
             spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) pharmacyActivity.this);
@@ -136,4 +133,26 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+    public class UpdatepharmacyListTask extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (isNetworkAvailable(getBaseContext())) {
+                readData(new FireBaseCallBack() {
+                    @Override
+                    public void onCallBack(ArrayList<String> list) {
+
+                    }
+                });
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(getBaseContext(),"Updated",Toast.LENGTH_LONG).show();
+        }
+    }
+
 }

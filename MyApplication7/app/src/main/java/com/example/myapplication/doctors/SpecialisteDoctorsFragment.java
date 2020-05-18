@@ -7,12 +7,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterViewAnimator;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.FragmentCommunications;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
@@ -31,14 +35,12 @@ public class SpecialisteDoctorsFragment extends Fragment {
         RecyclerView mRecyclerView =  view.findViewById(R.id.doctor_recycler);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ArrayList<DoctorsSpecialistes> mDoctorsSpecialistes = new ArrayList<DoctorsSpecialistes>();
-        String[] SpecialisteNames = getResources().getStringArray(R.array.doctor_specialistes);
+        String[] SpecialisteNames = getResources().getStringArray(R.array.speciality);
       //  TypedArray doctorSpecialistesImages = getResources().obtainTypedArray(R.array.sports_images);
 
-
         for (int i = 0; i < SpecialisteNames.length; i++) {
-            mDoctorsSpecialistes.add(new DoctorsSpecialistes(SpecialisteNames[i],R.drawable.profile));
+            mDoctorsSpecialistes.add(new DoctorsSpecialistes(SpecialisteNames[i],R.drawable.neuro));
         }
-        mDoctorsSpecialistes.add(new DoctorsSpecialistes("Médecin généraliste",R.drawable.profile));
         DoctorsSpecialisteAdapter mAdapter= new DoctorsSpecialisteAdapter( getActivity(),getActivity(), mDoctorsSpecialistes);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());

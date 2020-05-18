@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,16 +21,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.example.myapplication.FragmentCommunications;
 import com.example.myapplication.R;
 
 import java.util.ArrayList;
 
+import static com.example.myapplication.utilities.PreferenceUtilities.saveSpeciality;
+
 class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteAdapter.DoctorSViewHolder> {
 
     //Member variables
-    public GradientDrawable mGradientDrawable;
-    public ArrayList<DoctorsSpecialistes> mDoctorsspecialistes;
-    public Context mContext;
+    private GradientDrawable mGradientDrawable;
+    private ArrayList<DoctorsSpecialistes> mDoctorsspecialistes;
+    private Context mContext;
     private Activity activity;
 
     DoctorsSpecialisteAdapter(Activity activity,Context context, ArrayList<DoctorsSpecialistes> doctorData) {
@@ -41,7 +45,7 @@ class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteA
         mGradientDrawable.setColor(Color.GRAY);
         //Make the placeholder same size as the images
         Drawable drawable = ContextCompat.getDrawable
-                (mContext, R.drawable.doctorm);
+                (mContext, R.drawable.profile);
         if (drawable != null) {
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
@@ -98,7 +102,7 @@ class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteA
             mNameText.setText(currentDoctor.getSpecialiste());
             String NBR = "0";
             switch (currentDoctor.getSpecialiste().toLowerCase()){
-                case "médecin général" :
+                case "médecin généraliste" :
                     NBR= "+3k";
                     break;
                 case "cardiologue" :
@@ -114,13 +118,15 @@ class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteA
             //Get the current sport
             mCurrentDoctor = currentDoctor;
             Glide.with(mCont).load(R.drawable.profile).placeholder(mGradientDrawable).into(mDoctorImage);
+
         }
 
         @Override
         public void onClick(View view) {
+            saveSpeciality(mCont,mNameText.getText().toString());
             Toast.makeText(mCont,"clicked",Toast.LENGTH_LONG).show();
             ViewPager tabHost = (ViewPager) activity.findViewById(R.id.dviewpager);
-            tabHost.setCurrentItem(tabHost.getCurrentItem()-1);
+            tabHost.setCurrentItem(tabHost.getCurrentItem()+1);
         }
     }
 }

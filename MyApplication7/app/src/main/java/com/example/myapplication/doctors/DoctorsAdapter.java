@@ -56,19 +56,16 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
     }
-    public void filter(String text) {
+    public void filter(String text, String adresse, String speciality) {
+        DBManagerDoctor db= new DBManagerDoctor(mContext);
+        db.open();
         if(text.isEmpty()){
             mDoctors.clear();
             mDoctors.addAll(mDoctorArray);
         } else{
             ArrayList<Doctors> result = new ArrayList<>();
             text = text.toLowerCase();
-            for(Doctors item: mDoctorArray){
-                if(item.getNameDoctor().toLowerCase().contains(text) ||
-                        item.getSpec().toLowerCase().contains(text)){
-                    result.add(item);
-                }
-            }
+            result= db.listdoctors(1,text,adresse,speciality);
             mDoctors.clear();
             mDoctors.addAll(result);
         }
@@ -122,10 +119,16 @@ class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSViewHold
             mSpecialiteText.setText(currentDoctor.getSpec());
             mCurrentDoctor = currentDoctor;
 
-                Glide.with(mCont).load(R.drawable.profile)
+             /*   Glide.with(mCont).load(R.drawable.profile)
                         .diskCacheStrategy(DiskCacheStrategy.DATA)
                         .placeholder(R.drawable.profile)
                         .into(mDoctorImage);
+
+              */
+            Glide.with(mCont).load(R.drawable.socmedia)
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .placeholder(R.drawable.socmedia)
+                    .into(mDoctorImage);
 
         }
 

@@ -40,18 +40,30 @@ public class don_de_sangFragment extends Fragment {
     }
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_a_proos_de_nous, container, false);
+
+        Log.d("dondesansfragment","view 1");
+        View root = inflater.inflate(R.layout.fragment_don_de_sang, container, false);
+        Log.d("dondesansfragment","view 2");
+
         mRecyclerView = (RecyclerView) root.findViewById(R.id.recyclerViewd);
+        Log.d("dondesansfragment","view 3");
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        Log.d("dondesansfragment","view 4");
+
         searchView = (SearchView) root.findViewById(R.id.search_donateur);
+        Log.d("dondesansfragment","view 5");
 
         dbManagerDonateur = new DBManagerDonateur(getActivity());
         dbManagerDonateur.open();
+        Log.d("dondesansfragment","view 6");
+
         mdonateurdata = dbManagerDonateur.listdonateur();
+        Log.d("dondesansfragment","view 7");
 
         mAdapter = new DonateurAdapter(getContext(), mdonateurdata);
         mRecyclerView.setAdapter(mAdapter);
-        if (isNetworkAvailable(getContext())) {
+       if (isNetworkAvailable(getContext())) {
             readData(new FireBaseCallBack() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
@@ -76,6 +88,8 @@ public class don_de_sangFragment extends Fragment {
                 return true;
             }
         });
+
+
         return root;
     }
 

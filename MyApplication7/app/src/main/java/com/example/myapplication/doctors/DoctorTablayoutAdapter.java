@@ -23,9 +23,9 @@ public class DoctorTablayoutAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 1:
-                return new SpecialisteDoctorsFragment();
             case 0:
+                return new SpecialisteDoctorsFragment();
+            case 1:
                 return new AdvanceSearchDoctorFragment();
             default:
                 return null;}

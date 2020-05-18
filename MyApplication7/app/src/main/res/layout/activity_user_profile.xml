@@ -4,15 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
+
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Profiles.UserProfile"
+    android:layout_marginBottom="30dp"
     android:orientation="vertical">
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
+        android:padding="40dp"
         android:orientation="horizontal"
         android:background="@drawable/profile_layout">
         <com.mikhaellopez.circularimageview.CircularImageView
@@ -25,14 +34,17 @@
             app:civ_shadow="true"
             app:civ_shadow_radius="2dp"
             app:civ_shadow_color="#3f51b5"
-            android:src="@drawable/doctorm"
-            android:layout_marginLeft="10dp"
+            android:src="@drawable/socmedia"
+            android:layout_marginLeft="0dp"
             android:layout_gravity="center"/>
         <LinearLayout
+            android:layout_margin="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <TextView
+                android:id="@+id/user_name"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Akram Bensalem"
@@ -41,9 +53,11 @@
                 android:textSize="25sp"
                 android:layout_margin="5dp"/>
             <TextView
+                android:id="@+id/user_speciality"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Généralist"
+                android:text="Cardiologue"
                 android:padding="1dp"
                 android:textStyle="bold"
                 android:textSize="15sp"
@@ -62,82 +76,129 @@
                 android:theme="@style/RatingBar" />
         </LinearLayout>
     </LinearLayout>
+
+
+
+
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="5dp"
+        android:layout_margin="15dp">
+
+        <ImageView
+            android:id="@+id/floatingActionButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/iconmessage"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+             />
+
+        <ImageView
+            android:id="@+id/floatingActionButton2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/interfadoor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton4"
+            app:layout_constraintStart_toEndOf="@+id/floatingActionButton"
+            app:layout_constraintTop_toTopOf="parent"
+             />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingActionButton6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/interface1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:maxImageSize="40dp" />
+
+        <ImageView
+            android:id="@+id/floatingActionButton4"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="188dp"
+            android:layout_marginLeft="188dp"
+            android:layout_weight="1"
+            android:scaleType="centerCrop"
+            android:src="@drawable/socialmedia"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/floatingActionButton6"
+            app:layout_constraintHorizontal_bias="0.548"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:maxImageSize="56dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="5dp">
-    <TextView
-        android:layout_margin="10dp"
-        android:layout_width="0dp"
-        android:layout_weight="10"
-        android:layout_height="wrap_content"
-        android:text="Mes Contacts"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"/>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2" />
+        android:layout_margin="10dp">
+        <TextView
+            android:layout_margin="10dp"
+            android:layout_width="0dp"
+            android:layout_weight="10"
+            android:layout_height="wrap_content"
+            android:text="Mes Informations"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"/>
+        <ImageView
+            android:padding="5dp"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:src="@drawable/moreinfoiconn"
+            android:scaleType="centerCrop"
+            />
     </LinearLayout>
     <LinearLayout
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/iconphone"
-            android:scaleType="centerCrop"
-            />
-        <LinearLayout
-            android:layout_margin="5dp"
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-        <TextView
-            android:text="Phone"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@android:color/black"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            />
-            <TextView
-                android:layout_margin="3dp"
-                android:text="0799434259"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-        </LinearLayout>
-    </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:orientation="horizontal">
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/iconmessage"
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/note"
                 android:scaleType="centerCrop"
                 />
             <LinearLayout
-                android:layout_margin="5dp"
+                android:layout_marginLeft="20dp"
                 android:layout_width="0dp"
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
                 <TextView
-                    android:text="Messages"
+                    android:text="Email"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     android:textColor="@android:color/black"
@@ -146,25 +207,28 @@
                     />
                 <TextView
                     android:layout_margin="3dp"
-                    android:text="0799434259"
+                    android:text="ak.bensalem@esi-sba.dz"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="5dp"
             android:orientation="horizontal">
-            <Button
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@drawable/rendezvous"
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/iconphone"
                 android:scaleType="centerCrop"
                 />
             <LinearLayout
-                android:layout_margin="5dp"
+                android:layout_marginLeft="20dp"
                 android:layout_width="0dp"
+
                 android:layout_weight="3"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -184,16 +248,55 @@
                     />
             </LinearLayout>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_margin="5dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/moreinfoicon"
+                android:scaleType="centerCrop"
+                />
+            <LinearLayout
+                android:layout_marginLeft="20dp"
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:text="Type"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/black"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+                <TextView
+                    android:layout_margin="3dp"
+                    android:text="Privé"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout
-        android:layout_margin="15dp"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+    <LinearLayout
+        android:layout_margin="15dp"
+        android:layout_width="0dp"
+        android:layout_weight="10"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mon Adrresse"
+            android:text="Mon Adresse"
             android:textSize="20dp"
             android:textStyle="bold"
             android:textColor="@android:color/black"/>
@@ -201,23 +304,39 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
-            android:text="Médéa"/>
+            android:text="Ain Ben Sultan, Médéa, Médéa"/>
+    </LinearLayout>
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:src="@drawable/streetmap"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:scaleType="centerCrop"
+            android:layout_gravity="center"/>
     </LinearLayout>
     <androidx.cardview.widget.CardView
-        android:layout_width="310dp"
-        android:layout_height="310dp"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        app:cardCornerRadius="20dp"
-        app:cardElevation="12dp">
+        app:cardCornerRadius="40dp"
+        app:cardElevation="12dp"
+        android:layout_marginBottom="20dp">
     <fragment
         android:layout_gravity="center"
         android:id="@+id/map_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="com.example.myapplication.Profiles.MapsFragment"/>
+        android:name="com.example.myapplication.Profiles.MapsFragment"
+        />
     </androidx.cardview.widget.CardView>
+
+
+
 </LinearLayout>
+
+
+
+
+
+
 </androidx.core.widget.NestedScrollView>

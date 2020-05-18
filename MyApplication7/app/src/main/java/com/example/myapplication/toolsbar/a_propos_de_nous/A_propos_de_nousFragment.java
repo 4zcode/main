@@ -19,7 +19,7 @@ public class A_propos_de_nousFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_don_de_sang, container, false);
+        View root = inflater.inflate(R.layout.fragment_a_proos_de_nous, container, false);
         return root;
     }
 }
