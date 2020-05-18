@@ -1,5 +1,9 @@
 package com.example.myapplication.addProfile;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -7,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.EditText;
@@ -14,13 +19,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.myapplication.Hospital.DBManagerHospital;
-import com.example.myapplication.Hospital.Hopital;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.don_sang.don_de_song;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,33 +40,36 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddHospitalProfil extends AppCompatActivity {
+public class addDonation extends AppCompatActivity {
+
     private ImageView ProfileImage;
     private Uri mImageUri;
     public static int PICK_IMAGE = 1;
     private EditText first_name;
     private EditText adress;
     private EditText phone;
+    private EditText groupsanguin;
     private ProgressBar mProgressBar;
     private StorageReference mStorageRef;
     private DatabaseReference mDatabaseRef;
     private StorageTask mUploadTask;
 
-
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_hospital);
-        ProfileImage = (ImageView) findViewById(R.id.Profile_Imagehopital);
-        mProgressBar = findViewById(R.id.progress_barhopital);
-        first_name=(EditText) findViewById(R.id.hopitalname);
-        adress=(EditText) findViewById(R.id.hopitaladress);
-        phone=(EditText) findViewById(R.id.hopitalnumber);
-        mStorageRef = FirebaseStorage.getInstance().getReference("Hopitals");
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Hopitals");
+        setContentView(R.layout.activity_add_donation);
+        ProfileImage = (ImageView) findViewById(R.id.Profile_Imaged);
+        mProgressBar = findViewById(R.id.progress_bard);
+        first_name=(EditText) findViewById(R.id.dfname);
+        adress=(EditText) findViewById(R.id.dadress);
+        phone=(EditText) findViewById(R.id.dnumber);
+        groupsanguin=(EditText) findViewById(R.id.groupsanguin);
+        mStorageRef = FirebaseStorage.getInstance().getReference("Donateur");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("Donateur");
     }
 
-    public void onClick(View v) {
+    public void onClicks(View v) {
         Intent gallery = new Intent();
         gallery.setType("image/*");
         gallery.setAction(Intent.ACTION_GET_CONTENT);
@@ -87,9 +91,10 @@ public class AddHospitalProfil extends AppCompatActivity {
         }
     }
 
-    public void create_hopital(View view) {
+    public void adddonations(View view) {
 
         if (mImageUri != null) {
+
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                     + "." + getFileExtension(mImageUri));
             mUploadTask = fileReference.putFile(mImageUri)
@@ -106,31 +111,48 @@ public class AddHospitalProfil extends AppCompatActivity {
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    String hopitalID = mDatabaseRef.push().getKey();
-                                    Hopital hopital=new Hopital(hopitalID,first_name.getText().toString().trim(),adress.getText().toString().trim(),phone.getText().toString().trim(),uri.toString());
-                                    mDatabaseRef.child(hopitalID).setValue(hopital);
+                                    String donateurID = mDatabaseRef.push().getKey();
+                                    Log.d("donateur","we still alive 1");
+                                    don_de_song donateur=new don_de_song (donateurID,first_name.getText().toString().trim(),adress.getText().toString().trim(),phone.getText().toString().trim(),groupsanguin.getText().toString().trim(),uri.toString());
+                                    Log.d("donateur","we still alive 2");
+                                    mDatabaseRef.child(donateurID).setValue(donateur);
+                                    Log.d("donateur","we still alive 3");
                                     mStorageRef = FirebaseStorage.getInstance().getReference("Users");
+                                    Log.d("donateur","we still alive 4");
                                     final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                                             + "." + getFileExtension(mImageUri));
+                                    Log.d("donateur","we still alive 5");
                                     mUploadTask = fileReference.putFile(mImageUri);
+                                    Log.d("donateur","we still alive 6");
                                     FirebaseUser user = FirebaseAuth.getInstance().getInstance().getCurrentUser();
+                                    Log.d("donateur","we still alive 7");
                                     mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("Users");
+                                    Log.d("donateur","we still alive 8");
                                     Map<String, Object> UserData = new HashMap<String, Object>();
+                                    Log.d("donateur","we still alive 9");
                                     UserData.put("UserName", first_name.getText().toString().trim());
-                                    UserData.put("UserType", "Hopital");
+                                    Log.d("donateur","we still alive 10");
+                                    UserData.put("UserType", "Donateur");
+                                    Log.d("donateur","we still alive 11");
                                     UserData.put("User_ID_Firebase", user.getUid());
+                                    Log.d("donateur","we still alive 12");
                                     UserData.put("UserImageUrl", uri.toString());
+                                    Log.d("donateur","we still alive 13");
                                     mDatabaseRef.child(user.getUid()).setValue(UserData).addOnCompleteListener(new OnCompleteListener() {
                                         @Override
                                         public void onComplete(@NonNull Task task) {
                                             if (task.isSuccessful()) {
-                                                Toast.makeText(getApplicationContext(), "your User information is update", Toast.LENGTH_LONG).show();
-                                                Intent intent = new Intent(AddHospitalProfil.this, MainActivity.class);
+                                                Log.d("donateur","we still alive 14");
+                                                Toast.makeText(addDonation.this, "your User information is update", Toast.LENGTH_LONG).show();
+                                                Log.d("donateur","we still alive 15");
+                                                Intent intent = new Intent(addDonation.this, MainActivity.class);
+                                                Log.d("donateur","we still alive 17");
                                                 startActivity(intent);
                                             } else {
                                                 String error;
                                                 error = task.getException().getMessage();
-                                                Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+                                                Toast.makeText(addDonation.this, error, Toast.LENGTH_LONG).show();
+                                                Log.d("donateur","we still alive 18");
 
                                             }
                                         }
@@ -142,7 +164,7 @@ public class AddHospitalProfil extends AppCompatActivity {
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(AddHospitalProfil.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(addDonation.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     })
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {

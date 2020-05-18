@@ -7,10 +7,10 @@ import com.example.myapplication.message.chatRoom;
 
 public class Hopital {
     private String hospital_ID_Firebase;
-    public String hopitalName;
-    public String hopitalPlace;
-    public String hopitalContact;
-    public String imageResource;
+     public String hopitalName;
+     public String hopitalPlace;
+     public String hopitalContact;
+  public String imageResource;
     public static final String RECIVER = "Reciver";
     public static final String SENDER = "sender";
 
@@ -29,14 +29,14 @@ public class Hopital {
         return hopitalName;
     }
 
-    public String getHopitalPlace() {
+   public String getHopitalPlace() {
         return hopitalPlace;
     }
-    public String getHopitalContact(){
+   public String getHopitalContact(){
         return hopitalContact;
     }
 
-    public  String getImageResource() {
+  public  String getImageResource() {
         return imageResource;
     }
     static Intent starter(Context context, String reciver, String sender) {
@@ -53,5 +53,4 @@ public class Hopital {
     public void setHospital_ID_Firebase(String hospital_ID_Firebase) {
         this.hospital_ID_Firebase = hospital_ID_Firebase;
     }
-
 }

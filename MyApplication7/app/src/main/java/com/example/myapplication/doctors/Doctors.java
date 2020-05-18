@@ -11,9 +11,9 @@ public class Doctors {
     private final String NameDoctor;
     private final String PlaceDoctor;
     private final String phone;
-    private final String spec;
+    private final String Speciality;
     private final String SexDoctor;
-    private String ImageUrl;
+    private String mImageUrl;
     public static final String RECIVER = "Reciver";
     public static final String RECIVER_IMAGE = "ReciverImageUrl";
 
@@ -25,9 +25,9 @@ public class Doctors {
         this.NameDoctor = name;
         this.PlaceDoctor = place;
         this.phone = phone;
-        this.spec = spec;
+        this.Speciality = spec;
         this.SexDoctor = sex;
-        this.ImageUrl = image;
+        this.mImageUrl = image;
     }
 
 
@@ -48,7 +48,7 @@ public class Doctors {
     }
 
     public String getSpec() {
-        return spec;
+        return Speciality;
     }
 
 
@@ -61,11 +61,11 @@ public class Doctors {
     }
 
     public String getImageUrl() {
-        return ImageUrl;
+        return mImageUrl;
     }
 
     public void setImageUrl(String imageUrl) {
-        ImageUrl = imageUrl;
+        mImageUrl = imageUrl;
     }
 
     static Intent starter(Context context,String reciver,String sender,String image) {

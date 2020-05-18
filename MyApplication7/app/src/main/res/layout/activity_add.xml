@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
     <EditText
-        android:id="@+id/namelabo"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter the name of the labo"
+        android:hint="Enter the name of the pharmacy"
         />
     <EditText
-        android:id="@+id/placelabo"
+        android:id="@+id/adrs"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter the place of the labo"
+        android:hint="Enter the adresse of the pharmacy"
         />
     <EditText
-        android:id="@+id/numberlabo"
+        android:id="@+id/open"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Enter the number of the labo"
+        android:hint="Enter the opening time"
+        />
+    <EditText
+        android:id="@+id/close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter the cloasing time"
         />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="ADD"
-        android:onClick="addlabo"
+        android:onClick="addph"
         />
 </LinearLayout>

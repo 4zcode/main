@@ -13,10 +13,6 @@
             android:icon="@drawable/ic_opacity"
             android:title="@string/don_de_sang" />
         <item
-            android:id="@+id/nav_medicament"
-            android:icon="@drawable/medicament"
-            android:title="Medicaments" />
-        <item
             android:id="@+id/nav_tools"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/action_settings" />

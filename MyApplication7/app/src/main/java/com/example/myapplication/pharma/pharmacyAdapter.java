@@ -1,4 +1,4 @@
-package com.example.myapplication.Hospital;
+package com.example.myapplication.pharma;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,11 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -27,94 +27,97 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewHolder> {
-
+public class pharmacyAdapter extends RecyclerView.Adapter<pharmacyAdapter.pharmaciesViewHolder> {
     private GradientDrawable mGradientDrawable;
-    private ArrayList<Hopital> mhospital;
+    private ArrayList<pharmacy> mpharmacy;
     private Context mContext;
-    private ArrayList<Hopital> mhospitalArray = new ArrayList<>();
+    private ArrayList<pharmacy> mpharmacyArray = new ArrayList<>();
 
-    HopitalsAdapter(Context context, ArrayList<Hopital> laboData) {
-        this.mhospital = laboData;
+    pharmacyAdapter(Context context, ArrayList<pharmacy> pharmacyData) {
+        this.mpharmacy = pharmacyData;
         this.mContext = context;
-        this.mhospitalArray.addAll(laboData);
+        this.mpharmacyArray.addAll(pharmacyData);
         mGradientDrawable = new GradientDrawable();
         mGradientDrawable.setColor(Color.GRAY);
         Drawable drawable = ContextCompat.getDrawable
-                (mContext, R.drawable.labologo);
+                (mContext, R.drawable.phlogo);
         if (drawable != null) {
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
     }
     public void filter(String text) {
         if(text.isEmpty()){
-            mhospital.clear();
-            mhospital.addAll(mhospitalArray);
+            mpharmacy.clear();
+            mpharmacy.addAll(mpharmacyArray);
         } else{
-            ArrayList<Hopital> result = new ArrayList<>();
+            ArrayList<pharmacy> result = new ArrayList<>();
             text = text.toLowerCase();
-            for(Hopital item: mhospitalArray){
-                if(item.getHopitalName().toLowerCase().contains(text) ||
-                        item.getHopitalPlace().toLowerCase().contains(text)){
+            for(pharmacy item: mpharmacyArray){
+                if(item.getThename().toLowerCase().contains(text) ||
+                        item.theadress.toLowerCase().contains(text)){
                     result.add(item);
                 }
             }
-            mhospital.clear();
-            mhospital.addAll(result);
+            mpharmacy.clear();
+            mpharmacy.addAll(result);
         }
         notifyDataSetChanged();
     }
 
 
     @Override
-    public HopitalsAdapter.HopitalsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.hospital_item_view, parent, false);
-        return new HopitalsAdapter.HopitalsViewHolder(mContext, view, mGradientDrawable);
+    public pharmacyAdapter.pharmaciesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.pharmaciesinit, parent, false);
+        return new pharmacyAdapter.pharmaciesViewHolder(mContext, view, mGradientDrawable);
     }
 
 
     @Override
-    public void onBindViewHolder(HopitalsViewHolder holder, int position) {
-        Hopital currenthopital = mhospital.get(position);
-        holder.bindTo(currenthopital);
+    public void onBindViewHolder(pharmaciesViewHolder holder, int position) {
+        pharmacy currentpharmacy = mpharmacy.get(position);
+        holder.bindTo(currentpharmacy);
     }
 
 
     @Override
     public int getItemCount() {
-        return mhospital.size();
+        return mpharmacy.size();
     }
 
-    static class HopitalsViewHolder extends RecyclerView.ViewHolder
+    static class pharmaciesViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        private TextView mNameText, mPlaceText,mphone;
-        private ImageView mhopitalImage;
+        private TextView mNameText, mPlaceText,mphone,mopen,mclose;
+        private ImageView mpharmciesImage;
         private Context mCont;
-        private Hopital mCurrenthopital;
+        private pharmacy mCurrentpharmacies;
         private GradientDrawable mGradientDrawable;
         private SharedPreferences myPef;
 
 
-        HopitalsViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
+        pharmaciesViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
-            mNameText = (TextView) itemView.findViewById(R.id.hopital_name);
-            mPlaceText = (TextView) itemView.findViewById(R.id.hopital_place) ;
-            mhopitalImage = (ImageView) itemView.findViewById(R.id.hopital_image);
-            mphone =(TextView) itemView.findViewById(R.id.hopital_contact);
+            mNameText = (TextView) itemView.findViewById(R.id.name_pharma);
+            mPlaceText = (TextView) itemView.findViewById(R.id.place_pharma) ;
+            mpharmciesImage = (ImageView) itemView.findViewById(R.id.pharma_image);
+            mphone =(TextView) itemView.findViewById(R.id.phone_pharma);
+            mopen =(TextView) itemView.findViewById(R.id.open_pharma);
+            mclose =(TextView) itemView.findViewById(R.id.close_pharma);
             mCont = context;
             mGradientDrawable = gradientDrawable;
             itemView.setOnClickListener(this);
         }
 
-        void bindTo(Hopital Currenthopital) {
-            mNameText.setText(Currenthopital.hopitalName);
-            mPlaceText.setText(Currenthopital.hopitalPlace);
-            mphone.setText(Currenthopital.hopitalContact);
-            mCurrenthopital = Currenthopital;
+        void bindTo(pharmacy Currentpharmacies) {
+            mNameText.setText(Currentpharmacies.thename);
+            mPlaceText.setText(Currentpharmacies.theadress);
+            mphone.setText(Currentpharmacies.phone);
+            mclose.setText(Currentpharmacies.close);
+            mopen.setText(Currentpharmacies.oppen);
+            mCurrentpharmacies = Currentpharmacies;
             if (isNetworkAvailable()) {
-                Picasso.with(mCont).load(mCurrenthopital.getImageResource()).into(mhopitalImage);
+                Picasso.with(mCont).load(mCurrentpharmacies.getImageUrl()).into(mpharmciesImage);
             }else{
-                Glide.with(mCont).load(R.drawable.hospital).placeholder(mGradientDrawable).into(mhopitalImage);
+                Glide.with(mCont).load(R.drawable.phlogo).placeholder(mGradientDrawable).into(mpharmciesImage);
             }
         }
 
@@ -140,8 +143,8 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewH
             myPef =mCont.getSharedPreferences("userPref", Context.MODE_PRIVATE);
             if (myPef.getBoolean("IsLogIn", false) && FirebaseAuth.getInstance().getCurrentUser() != null) {
                 FirebaseUser user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
-                if (!user1.getUid().equals(mCurrenthopital.getHospital_ID_Firebase())) {
-                    Intent intent = Hopital.starter(mCont,mCurrenthopital.getHospital_ID_Firebase(), mCurrenthopital.hopitalName);
+                if (!user1.getUid().equals(mCurrentpharmacies.getPHARMA_ID_Firebase())) {
+                    Intent intent = pharmacy.starter(mCont,mCurrentpharmacies.getPHARMA_ID_Firebase(), mCurrentpharmacies.getThename());
                     mCont.startActivity(intent);
                 } else {
                     Toast.makeText(mCont, "you cant send to your self", Toast.LENGTH_LONG).show();

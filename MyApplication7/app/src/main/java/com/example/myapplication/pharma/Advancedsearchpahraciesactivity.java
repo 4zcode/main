@@ -1,8 +1,19 @@
-package com.example.myapplication.Pharmacies;
+package com.example.myapplication.pharma;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +23,6 @@ import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
@@ -28,9 +34,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import static com.example.myapplication.utilities.tools.isNetworkAvailable;
+import static com.example.myapplication.DatabaseHelper.TABLE_NAME_PHARMACIE;
 
-public class pharmacyActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+public class Advancedsearchpahraciesactivity extends Fragment implements AdapterView.OnItemSelectedListener {
     private ArrayList<pharmacy> mpharmaciesData = new ArrayList<pharmacy>();
     private final DatabaseReference PhREf = FirebaseDatabase.getInstance().getReference().child("pharmacies");
     private RecyclerView mRecyclerView;
@@ -42,6 +49,9 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
     private ArrayAdapter<CharSequence> spinnerAdapter;
 
 
+    public Advancedsearchpahraciesactivity(){
+    }
+
     private interface FireBaseCallBack {
         void onCallBack(ArrayList<String> list);
 
@@ -49,36 +59,40 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
 
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pharmacies);
-        mRecyclerView = findViewById(R.id.pharmacy_activity_recycleview);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        searchView = findViewById(R.id.search_pharmacy);
-        dbManager = new DBManagerPharmacy(this);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_advancedsearchpahraciesactivity, container, false);
+        mRecyclerView = view.findViewById(R.id.pharmacies_recycler_search);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        searchView = view.findViewById(R.id.search_pharmacy);
+        dbManager = new DBManagerPharmacy(getActivity());
         dbManager.open();
-        if (isNetworkAvailable(this)) {
+        if (isNetworkAvailable()) {
+            Toast.makeText(getContext(), "there is connection", Toast.LENGTH_LONG).show();
             readData(new FireBaseCallBack() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
-                    Log.d("pharmacyTest","pharma finish oncallback ");
+
                 }
             });
         } else {
-            Toast.makeText(getBaseContext(), "no connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "no connection", Toast.LENGTH_LONG).show();
         }
 
-        mpharmaciesData = dbManager.listPharmacies();
-        mAdapter = new pharmacyAdapter(getBaseContext(),mpharmaciesData);
+        mpharmaciesData = dbManager.listpharmacy();
+
+        mAdapter = new pharmacyAdapter(getActivity(),mpharmaciesData);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
-        spinner = findViewById(R.id.pharmacy_spinner);
-        if (spinner != null) {
-            spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) pharmacyActivity.this);
-        }
-        spinnerAdapter = ArrayAdapter.createFromResource(getBaseContext(), R.array.wilaya, android.R.layout.simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        spinner = view.findViewById(R.id.docspinner);
+        if (spinner != null) {
+            spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) Advancedsearchpahraciesactivity.this);
+        }
+        spinnerAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.wilaya, android.R.layout.simple_spinner_item);
+        spinnerAdapter.setDropDownViewResource
+                (android.R.layout.simple_spinner_dropdown_item);
         if (spinner != null) {
             spinner.setAdapter(spinnerAdapter);
         }
@@ -94,18 +108,21 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
                 return true;
             }
         });
+        return view;
     }
 
-    public void readData(final FireBaseCallBack fireBaseCallBack) {
-       if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(pharmacyActivity.this);
+    public void readData(FireBaseCallBack fireBaseCallBack) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getContext());
             mProgressDialog.setMessage("Loading");
             mProgressDialog.setIndeterminate(true);
         }
         mProgressDialog.show();
+
         PhREf.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (isNetworkAvailable()){  dbManager.deleteall();}
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     boolean Is_Exist =ds.child("pharma_ID_Firebase").exists() &&ds.child("imageUrl").exists() && ds.child("thename").exists() && ds.child("theadress").exists() && ds.child("phone").exists() && ds.child("oppen").exists() &&ds.child("close").exists();
                     if (Is_Exist) {
@@ -116,7 +133,7 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
                         String open = ds.child("oppen").getValue(String.class);
                         String close= ds.child("close").getValue(String.class);
                         String ImageUrl = ds.child("imageUrl").getValue(String.class);
-                        if (isNetworkAvailable(getBaseContext())){  dbManager.deleteall();}
+
                         if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
                             dbManager.update(id_firebase, Name, Place, Phone, open, close,ImageUrl);
                         } else {
@@ -126,15 +143,15 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
                         }
                     } else Log.d("pharmacy_test","is not exist");
                 }
-                mpharmaciesData= dbManager.listPharmacies();
-                mAdapter = new pharmacyAdapter(getBaseContext(),mpharmaciesData);
+                mpharmaciesData= dbManager.listpharmacy();
+                mAdapter = new pharmacyAdapter(getActivity(),mpharmaciesData);
                 mRecyclerView.setAdapter(mAdapter);
-               mProgressDialog.dismiss();
+                mProgressDialog.dismiss();
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.d("pharmacyTest","error : "+databaseError.getMessage());
             }
         });
     }
@@ -149,4 +166,23 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+    public boolean isNetworkAvailable() {
+        boolean HaveConnectWIFI = false;
+        boolean HaveConnectMobile = false;
+
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(getContext().CONNECTIVITY_SERVICE);
+        NetworkInfo[] activeNetworkInfo = connectivityManager.getAllNetworkInfo();
+        for (NetworkInfo ni : activeNetworkInfo) {
+            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
+                if (ni.isConnected())
+                    HaveConnectWIFI = true;
+            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
+                if (ni.isConnected())
+                    HaveConnectMobile = true;
+        }
+        return HaveConnectMobile || HaveConnectWIFI;
+    }
+
+
 }

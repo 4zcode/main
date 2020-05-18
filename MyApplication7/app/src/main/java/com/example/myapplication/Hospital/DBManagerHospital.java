@@ -74,17 +74,9 @@ public class DBManagerHospital {
         int i = database.update(TABLE_NAME_HOSPITAL, contentValues, DatabaseHelper._ID_HOSPITAL_FIREBASE + " = " + "'"+_id+ "'", null);
         return i;
     }
-
-
     public void delete(long _id) {
         database.delete(TABLE_NAME_HOSPITAL, DatabaseHelper._ID_HOSPITAL+ "=" + _id, null);
     }
-
-    public int deleteAll(){
-        return database.delete(TABLE_NAME_HOSPITAL,"1",null);
-    }
-
-
     public ArrayList<Hopital> listHospital() {
         String sql = "select * from " + TABLE_NAME_HOSPITAL;
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
@@ -106,5 +98,18 @@ public class DBManagerHospital {
         cursor.close();
         return storeContacts;
     }
+    public void deleteall(){
+        String sql = "select * from " + TABLE_NAME_HOSPITAL;
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToFirst()) {
+            do {
+                int id = Integer.parseInt(cursor.getString(0));
+                this.delete(id);
+            }
+            while (cursor.moveToNext());
+        }
+        cursor.close();
 
+    }
 }

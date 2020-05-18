@@ -1,4 +1,4 @@
-package com.example.myapplication.Pharmacies;
+package com.example.myapplication.pharma;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.myapplication.DatabaseHelper;
+import com.example.myapplication.doctors.DBManagerDoctor;
+import com.example.myapplication.doctors.Doctors;
 
 import java.util.ArrayList;
 
@@ -51,14 +53,14 @@ public class DBManagerPharmacy {
         contentValue.put(DatabaseHelper.NAME_PHARMA, name);
         contentValue.put(DatabaseHelper.PLACE_PHARMA, place);
         contentValue.put(DatabaseHelper.PHONE_PHARMA, phone);
-        contentValue.put(DatabaseHelper.OPEN_PHARMA, open);
-        contentValue.put(DatabaseHelper.CLOSE_PHARMA, close);
+        contentValue.put(DatabaseHelper.OPEN, open);
+        contentValue.put(DatabaseHelper.CLOSE, close);
         contentValue.put(DatabaseHelper.IMAGE_PHARMA_URL, imageUrl);
 
         database.insert(TABLE_NAME_PHARMACIE, null, contentValue);
     }
     public Cursor fetch() {
-        String[] columns = new String[] { DatabaseHelper._ID_PHARMA, DatabaseHelper.NAME_PHARMA, DatabaseHelper.PLACE_PHARMA, DatabaseHelper.PHONE_PHARMA, DatabaseHelper.OPEN_PHARMA,DatabaseHelper.CLOSE_PHARMA,DatabaseHelper.IMAGE_PHARMA_URL};
+        String[] columns = new String[] { DatabaseHelper._ID_PHARMA, DatabaseHelper.NAME_PHARMA, DatabaseHelper.PLACE_PHARMA, DatabaseHelper.PHONE_PHARMA, DatabaseHelper.OPEN,DatabaseHelper.CLOSE,DatabaseHelper.IMAGE_PHARMA_URL};
         Cursor cursor = database.query(TABLE_NAME_PHARMACIE, columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -71,8 +73,8 @@ public class DBManagerPharmacy {
         contentValues.put(DatabaseHelper.NAME_PHARMA, name);
         contentValues.put(DatabaseHelper.PLACE_PHARMA, place);
         contentValues.put(DatabaseHelper.PHONE_PHARMA, phone);
-        contentValues.put(DatabaseHelper.OPEN_PHARMA, open);
-        contentValues.put(DatabaseHelper.CLOSE_PHARMA, close);
+        contentValues.put(DatabaseHelper.OPEN, open);
+        contentValues.put(DatabaseHelper.CLOSE, close);
         contentValues.put(DatabaseHelper.IMAGE_PHARMA_URL, imageUrl);
 
         int i = database.update(TABLE_NAME_PHARMACIE, contentValues, DatabaseHelper._ID_PHARMA_FIREBASE + " = " + "'"+_id+ "'", null);
@@ -81,7 +83,7 @@ public class DBManagerPharmacy {
     public void delete(long _id) {
         database.delete(TABLE_NAME_PHARMACIE, DatabaseHelper._ID_PHARMA + "=" + _id, null);
     }
-    public ArrayList<pharmacy> listPharmacies() {
+    public ArrayList<pharmacy> listpharmacy() {
         String sql = "select * from " + TABLE_NAME_PHARMACIE;
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         ArrayList<pharmacy> storeContacts = new ArrayList<>();

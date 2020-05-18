@@ -1,18 +1,17 @@
-package com.example.myapplication.Hospital;
+package com.example.myapplication.don_sang;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.SearchView;
 import android.widget.Toast;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.google.firebase.database.DataSnapshot;
@@ -23,14 +22,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class HopitalActivity extends AppCompatActivity {
+public class donateuractivity extends AppCompatActivity {
 
-    private ArrayList<Hopital> mhopitaldata = new ArrayList<Hopital>();
-    private DBManagerHospital dbManagerHospital;
+    private ArrayList<don_de_song> mdonateurdata = new ArrayList<don_de_song>();
+    private DBManagerDonateur dbManagerDonateur;
     private RecyclerView mRecyclerView;
-    private HopitalsAdapter mAdapter;
+    private DonateurAdapter mAdapter;
     private SearchView searchView;
-    private final DatabaseReference PhREf = FirebaseDatabase.getInstance().getReference().child("Hopitals");
+    private final DatabaseReference PhREf = FirebaseDatabase.getInstance().getReference().child("Donateur");
     private ProgressDialog mProgressDialog;
     private interface FireBaseCallBack {
         void onCallBack(ArrayList<String> list);
@@ -39,17 +38,15 @@ public class HopitalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("labo_acttivity_test","we are in 0");
-        setContentView(R.layout.activity_hospital);
-        Log.d("labo_acttivity_test","we are in 1");
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        setContentView(R.layout.activity_donateuractivity);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewd);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        searchView=(SearchView)findViewById(R.id.search_hopital) ;
+        searchView=(SearchView)findViewById(R.id.search_donateur) ;
 
-        dbManagerHospital = new DBManagerHospital(HopitalActivity.this);
-        dbManagerHospital.open();
+        dbManagerDonateur = new DBManagerDonateur(donateuractivity.this);
+        dbManagerDonateur.open();
         if (isNetworkAvailable()) {
-            Toast.makeText(HopitalActivity.this, "there is connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(donateuractivity.this, "there is connection", Toast.LENGTH_LONG).show();
             readData(new FireBaseCallBack() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
@@ -57,12 +54,12 @@ public class HopitalActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(HopitalActivity.this, "no connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(donateuractivity.this, "no connection", Toast.LENGTH_LONG).show();
         }
 
-        mhopitaldata = dbManagerHospital.listHospital();
+        mdonateurdata = dbManagerDonateur.listdonateur();
 
-        mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
+        mAdapter = new DonateurAdapter(donateuractivity.this,mdonateurdata);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
@@ -83,7 +80,7 @@ public class HopitalActivity extends AppCompatActivity {
 
     public void readData(FireBaseCallBack fireBaseCallBack) {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(HopitalActivity.this);
+            mProgressDialog = new ProgressDialog(donateuractivity.this);
             mProgressDialog.setMessage("Loading");
             mProgressDialog.setIndeterminate(true);
         }
@@ -92,31 +89,26 @@ public class HopitalActivity extends AppCompatActivity {
         PhREf.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(isNetworkAvailable()){dbManagerHospital.deleteall();}
+                if(isNetworkAvailable()){dbManagerDonateur.deleteall();}
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    boolean Is_Exist =ds.child("hospital_ID_Firebase").exists() &&ds.child("imageResource").exists() && ds.child("hopitalName").exists() && ds.child("hopitalPlace").exists() && ds.child("hopitalContact").exists() ;
+                    boolean Is_Exist =ds.child("_ID_firebase").exists() &&ds.child("imaged").exists() && ds.child("fullname").exists() && ds.child("adressd").exists() && ds.child("contact").exists()&& ds.child("grsanguin").exists() ;
                     if (Is_Exist) {
-                        String id_firebase = ds.child("hospital_ID_Firebase").getValue(String.class);
-                        String Name = ds.child("hopitalName").getValue(String.class);
-                        String Place = ds.child("hopitalPlace").getValue(String.class);
-                        String Phone = ds.child("hopitalContact").getValue(String.class);
-                        String ImageUrl = ds.child("imageResource").getValue(String.class);
-                        if (dbManagerHospital.CheckIsDataAlreadyInDBorNot(id_firebase)) {
-                            dbManagerHospital.update(id_firebase, Name, Place, Phone,ImageUrl);
+                        String id_firebase = ds.child("_ID_firebase").getValue(String.class);
+                        String Name = ds.child("fullname").getValue(String.class);
+                        String Place = ds.child("adressd").getValue(String.class);
+                        String Grsanguin = ds.child("grsanguin").getValue(String.class);
+                        String Phone = ds.child("contact").getValue(String.class);
+                        String ImageUrl = ds.child("imaged").getValue(String.class);
+                        if (dbManagerDonateur.CheckIsDataAlreadyInDBorNot(id_firebase)) {
+                            dbManagerDonateur.update(id_firebase, Name, Place, Phone,Grsanguin,ImageUrl);
                         } else {
-                            Log.d("test_hosp","id:"+id_firebase);
-                            Log.d("test_hosp","name:"+Name);
-                            Log.d("test_hosp","Place:"+Place);
-                            Log.d("test_hosp","Phone:"+Phone);
-                            Log.d("test_hosp","image:"+ImageUrl);
-                            dbManagerHospital.insert(id_firebase,Name,Place,Phone,ImageUrl);
+                            dbManagerDonateur.insert(id_firebase,Name,Place,Phone,Grsanguin,ImageUrl);
 
                         }
                     }
                 }
-                mhopitaldata= dbManagerHospital.listHospital();
-                mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
-                Log.d("size_hosp", String.valueOf(mhopitaldata.size()));
+                mdonateurdata= dbManagerDonateur.listdonateur();
+                mAdapter = new DonateurAdapter(donateuractivity.this,mdonateurdata);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressDialog.dismiss();
 

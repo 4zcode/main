@@ -77,10 +77,6 @@ public class DBManagerLaboratoir {
     public void delete(long _id) {
         database.delete(TABLE_NAME_LABORATOIR, DatabaseHelper._ID_LABORATOIR + "=" + _id, null);
     }
-    public int deleteAll(){
-        return database.delete(TABLE_NAME_LABORATOIR,"1",null);
-    }
-
     public ArrayList<Labo> listLabo() {
         String sql = "select * from " + TABLE_NAME_LABORATOIR;
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();

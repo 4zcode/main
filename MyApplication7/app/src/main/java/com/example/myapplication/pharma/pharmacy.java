@@ -1,4 +1,4 @@
-package com.example.myapplication.Pharmacies;
+package com.example.myapplication.pharma;
 
 import android.content.Context;
 import android.content.Intent;
@@ -65,6 +65,5 @@ public class pharmacy {
         chatIntent.putExtra(SENDER, sender);
         return chatIntent;
     }
-
 
 }

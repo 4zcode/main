@@ -4,28 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Hospital.HopitalActivity">
+    tools:context=".don_sang.donateuractivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_gravity="center"
-            >
             <SearchView
-                android:id="@+id/search_hopital"
-                android:layout_width="0dp"
+                android:id="@+id/search_donateur"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="5"
-                />
-        </LinearLayout>
+                ></SearchView>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/recyclerViewd"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 

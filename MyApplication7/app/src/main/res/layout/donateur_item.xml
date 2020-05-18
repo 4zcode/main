@@ -12,11 +12,11 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/hopital_image"
+            android:id="@+id/donateur_image"
             android:layout_width="120dp"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            tools:src="@drawable/hospital"
+            tools:src="@drawable/blood"
             />
         <LinearLayout
             android:layout_width="wrap_content"
@@ -24,31 +24,38 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/hopital_name"
+                android:id="@+id/donateur_name"
                 style="@style/TextAppearance.AppCompat.Headline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                tools:text="Medicament Name"
+                tools:text="Donateur Name"
                 />
 
             <TextView
-                android:id="@+id/hopital_place"
+                android:id="@+id/donateur_place"
                 style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
-                android:textStyle="italic"
-                tools:text="Class : I"
+                android:textStyle="bold"
+                tools:text="elbayadh"
                 android:textColor="?android:textColorSecondary" />
 
             <TextView
-                android:id="@+id/hopital_contact"
+                android:id="@+id/donateur_contact"
                 style="@style/TextAppearance.AppCompat.Subhead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="20dp"
-                tools:text="200 DA" />
+                tools:text="0674573498" />
+            <TextView
+                android:id="@+id/donateur_grsanguin"
+                style="@style/TextAppearance.AppCompat.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="20dp"
+                tools:text="A+" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

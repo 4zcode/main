@@ -1,4 +1,4 @@
-package com.example.myapplication.Hospital;
+package com.example.myapplication.don_sang;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,94 +26,95 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewHolder> {
-
+public class DonateurAdapter extends RecyclerView.Adapter<DonateurAdapter.DonateursViewHolder> {
     private GradientDrawable mGradientDrawable;
-    private ArrayList<Hopital> mhospital;
+    private ArrayList<don_de_song> mdonateur;
     private Context mContext;
-    private ArrayList<Hopital> mhospitalArray = new ArrayList<>();
+    private ArrayList<don_de_song> mdonateurArray = new ArrayList<>();
 
-    HopitalsAdapter(Context context, ArrayList<Hopital> laboData) {
-        this.mhospital = laboData;
+    DonateurAdapter(Context context, ArrayList<don_de_song> laboData) {
+        this.mdonateur = laboData;
         this.mContext = context;
-        this.mhospitalArray.addAll(laboData);
+        this.mdonateurArray.addAll(laboData);
         mGradientDrawable = new GradientDrawable();
         mGradientDrawable.setColor(Color.GRAY);
         Drawable drawable = ContextCompat.getDrawable
-                (mContext, R.drawable.labologo);
+                (mContext, R.drawable.blood);
         if (drawable != null) {
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
     }
     public void filter(String text) {
         if(text.isEmpty()){
-            mhospital.clear();
-            mhospital.addAll(mhospitalArray);
+            mdonateur.clear();
+            mdonateur.addAll(mdonateurArray);
         } else{
-            ArrayList<Hopital> result = new ArrayList<>();
+            ArrayList<don_de_song> result = new ArrayList<>();
             text = text.toLowerCase();
-            for(Hopital item: mhospitalArray){
-                if(item.getHopitalName().toLowerCase().contains(text) ||
-                        item.getHopitalPlace().toLowerCase().contains(text)){
+            for(don_de_song item: mdonateurArray){
+                if(item.getGrsanguin().contains(text) ||
+                        item.getAdressd().toLowerCase().contains(text)){
                     result.add(item);
                 }
             }
-            mhospital.clear();
-            mhospital.addAll(result);
+            mdonateur.clear();
+            mdonateur.addAll(result);
         }
         notifyDataSetChanged();
     }
 
 
     @Override
-    public HopitalsAdapter.HopitalsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.hospital_item_view, parent, false);
-        return new HopitalsAdapter.HopitalsViewHolder(mContext, view, mGradientDrawable);
+    public DonateurAdapter.DonateursViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(mContext).inflate(R.layout.donateur_item, parent, false);
+        return new DonateurAdapter.DonateursViewHolder(mContext, view, mGradientDrawable);
     }
 
 
     @Override
-    public void onBindViewHolder(HopitalsViewHolder holder, int position) {
-        Hopital currenthopital = mhospital.get(position);
-        holder.bindTo(currenthopital);
+    public void onBindViewHolder(DonateursViewHolder holder, int position) {
+        don_de_song currentdonateur = mdonateur.get(position);
+        holder.bindTo(currentdonateur);
     }
 
 
     @Override
     public int getItemCount() {
-        return mhospital.size();
+        return mdonateur.size();
     }
 
-    static class HopitalsViewHolder extends RecyclerView.ViewHolder
+    static class DonateursViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        private TextView mNameText, mPlaceText,mphone;
-        private ImageView mhopitalImage;
+        private TextView mNameText, mPlaceText,mphone,grsnaguin;
+        private ImageView mDonateurImage;
         private Context mCont;
-        private Hopital mCurrenthopital;
+        private don_de_song mCurrentdonateur;
         private GradientDrawable mGradientDrawable;
         private SharedPreferences myPef;
 
 
-        HopitalsViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
+        DonateursViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
-            mNameText = (TextView) itemView.findViewById(R.id.hopital_name);
-            mPlaceText = (TextView) itemView.findViewById(R.id.hopital_place) ;
-            mhopitalImage = (ImageView) itemView.findViewById(R.id.hopital_image);
-            mphone =(TextView) itemView.findViewById(R.id.hopital_contact);
+            mNameText = (TextView) itemView.findViewById(R.id.donateur_name);
+            mPlaceText = (TextView) itemView.findViewById(R.id.donateur_place) ;
+            mDonateurImage = (ImageView) itemView.findViewById(R.id.donateur_image);
+            mphone =(TextView) itemView.findViewById(R.id.donateur_contact);
+            grsnaguin =(TextView) itemView.findViewById(R.id.donateur_grsanguin);
             mCont = context;
             mGradientDrawable = gradientDrawable;
             itemView.setOnClickListener(this);
         }
 
-        void bindTo(Hopital Currenthopital) {
-            mNameText.setText(Currenthopital.hopitalName);
-            mPlaceText.setText(Currenthopital.hopitalPlace);
-            mphone.setText(Currenthopital.hopitalContact);
-            mCurrenthopital = Currenthopital;
+        void bindTo(don_de_song Currentdonateur) {
+            mNameText.setText(Currentdonateur.getFullname());
+            mPlaceText.setText(Currentdonateur.getAdressd());
+            mphone.setText(Currentdonateur.getContact());
+            grsnaguin.setText((Currentdonateur.getGrsanguin()));
+            mCurrentdonateur = Currentdonateur;
             if (isNetworkAvailable()) {
-                Picasso.with(mCont).load(mCurrenthopital.getImageResource()).into(mhopitalImage);
+                Picasso.with(mCont).load(mCurrentdonateur.getImaged()).into(mDonateurImage);
             }else{
-                Glide.with(mCont).load(R.drawable.hospital).placeholder(mGradientDrawable).into(mhopitalImage);
+                Glide.with(mCont).load(R.drawable.blood).placeholder(mGradientDrawable).into(mDonateurImage);
             }
         }
 
@@ -140,8 +140,8 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewH
             myPef =mCont.getSharedPreferences("userPref", Context.MODE_PRIVATE);
             if (myPef.getBoolean("IsLogIn", false) && FirebaseAuth.getInstance().getCurrentUser() != null) {
                 FirebaseUser user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
-                if (!user1.getUid().equals(mCurrenthopital.getHospital_ID_Firebase())) {
-                    Intent intent = Hopital.starter(mCont,mCurrenthopital.getHospital_ID_Firebase(), mCurrenthopital.hopitalName);
+                if (!user1.getUid().equals(mCurrentdonateur.get_ID_firebase())) {
+                    Intent intent = don_de_song.starter(mCont,mCurrentdonateur.get_ID_firebase(), mCurrentdonateur.getFullname(),mCurrentdonateur.getImaged());
                     mCont.startActivity(intent);
                 } else {
                     Toast.makeText(mCont, "you cant send to your self", Toast.LENGTH_LONG).show();

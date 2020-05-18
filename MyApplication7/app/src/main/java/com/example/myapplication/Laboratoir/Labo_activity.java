@@ -1,4 +1,4 @@
-package com.example.myapplication.Hospital;
+package com.example.myapplication.Laboratoir;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,14 +23,15 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class HopitalActivity extends AppCompatActivity {
+import static java.security.AccessController.getContext;
 
-    private ArrayList<Hopital> mhopitaldata = new ArrayList<Hopital>();
-    private DBManagerHospital dbManagerHospital;
+public class Labo_activity extends AppCompatActivity {
+    private ArrayList<Labo> mlabodata = new ArrayList<Labo>();
+    private DBManagerLaboratoir dbManagerLaboratoir;
     private RecyclerView mRecyclerView;
-    private HopitalsAdapter mAdapter;
+    private LabosAdapter mAdapter;
     private SearchView searchView;
-    private final DatabaseReference PhREf = FirebaseDatabase.getInstance().getReference().child("Hopitals");
+    private final DatabaseReference PhREf = FirebaseDatabase.getInstance().getReference().child("laboratoir");
     private ProgressDialog mProgressDialog;
     private interface FireBaseCallBack {
         void onCallBack(ArrayList<String> list);
@@ -39,17 +40,15 @@ public class HopitalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("labo_acttivity_test","we are in 0");
-        setContentView(R.layout.activity_hospital);
-        Log.d("labo_acttivity_test","we are in 1");
-        mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        setContentView(R.layout.activity_labo_activity);
+        mRecyclerView = (RecyclerView) findViewById(R.id.RECYCLERView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        searchView=(SearchView)findViewById(R.id.search_hopital) ;
+        searchView=(SearchView)findViewById(R.id.search_labo) ;
 
-        dbManagerHospital = new DBManagerHospital(HopitalActivity.this);
-        dbManagerHospital.open();
+        dbManagerLaboratoir = new DBManagerLaboratoir(Labo_activity.this);
+        dbManagerLaboratoir.open();
         if (isNetworkAvailable()) {
-            Toast.makeText(HopitalActivity.this, "there is connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(Labo_activity.this, "there is connection", Toast.LENGTH_LONG).show();
             readData(new FireBaseCallBack() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
@@ -57,12 +56,12 @@ public class HopitalActivity extends AppCompatActivity {
                 }
             });
         } else {
-            Toast.makeText(HopitalActivity.this, "no connection", Toast.LENGTH_LONG).show();
+            Toast.makeText(Labo_activity.this, "no connection", Toast.LENGTH_LONG).show();
         }
 
-        mhopitaldata = dbManagerHospital.listHospital();
+        mlabodata = dbManagerLaboratoir.listLabo();
 
-        mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
+        mAdapter = new LabosAdapter(Labo_activity.this,mlabodata);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
 
@@ -83,7 +82,7 @@ public class HopitalActivity extends AppCompatActivity {
 
     public void readData(FireBaseCallBack fireBaseCallBack) {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(HopitalActivity.this);
+            mProgressDialog = new ProgressDialog(Labo_activity.this);
             mProgressDialog.setMessage("Loading");
             mProgressDialog.setIndeterminate(true);
         }
@@ -92,31 +91,25 @@ public class HopitalActivity extends AppCompatActivity {
         PhREf.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(isNetworkAvailable()){dbManagerHospital.deleteall();}
+                if (isNetworkAvailable()){  dbManagerLaboratoir.deleteall();}
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    boolean Is_Exist =ds.child("hospital_ID_Firebase").exists() &&ds.child("imageResource").exists() && ds.child("hopitalName").exists() && ds.child("hopitalPlace").exists() && ds.child("hopitalContact").exists() ;
+                    boolean Is_Exist =ds.child("labo_ID_Firebase").exists() &&ds.child("imageResource").exists() && ds.child("laboName").exists() && ds.child("laboPlace").exists() && ds.child("laboContact").exists() ;
                     if (Is_Exist) {
-                        String id_firebase = ds.child("hospital_ID_Firebase").getValue(String.class);
-                        String Name = ds.child("hopitalName").getValue(String.class);
-                        String Place = ds.child("hopitalPlace").getValue(String.class);
-                        String Phone = ds.child("hopitalContact").getValue(String.class);
+                        String id_firebase = ds.child("labo_ID_Firebase").getValue(String.class);
+                        String Name = ds.child("laboName").getValue(String.class);
+                        String Place = ds.child("laboPlace").getValue(String.class);
+                        String Phone = ds.child("laboContact").getValue(String.class);
                         String ImageUrl = ds.child("imageResource").getValue(String.class);
-                        if (dbManagerHospital.CheckIsDataAlreadyInDBorNot(id_firebase)) {
-                            dbManagerHospital.update(id_firebase, Name, Place, Phone,ImageUrl);
+                        if (dbManagerLaboratoir.CheckIsDataAlreadyInDBorNot(id_firebase)) {
+                            dbManagerLaboratoir.update(id_firebase, Name, Place, Phone,ImageUrl);
                         } else {
-                            Log.d("test_hosp","id:"+id_firebase);
-                            Log.d("test_hosp","name:"+Name);
-                            Log.d("test_hosp","Place:"+Place);
-                            Log.d("test_hosp","Phone:"+Phone);
-                            Log.d("test_hosp","image:"+ImageUrl);
-                            dbManagerHospital.insert(id_firebase,Name,Place,Phone,ImageUrl);
+                            dbManagerLaboratoir.insert(id_firebase,Name,Place,Phone,ImageUrl);
 
                         }
                     }
                 }
-                mhopitaldata= dbManagerHospital.listHospital();
-                mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
-                Log.d("size_hosp", String.valueOf(mhopitaldata.size()));
+                mlabodata= dbManagerLaboratoir.listLabo();
+                mAdapter = new LabosAdapter(Labo_activity.this,mlabodata);
                 mRecyclerView.setAdapter(mAdapter);
                 mProgressDialog.dismiss();
 
@@ -144,4 +137,5 @@ public class HopitalActivity extends AppCompatActivity {
         }
         return HaveConnectMobile || HaveConnectWIFI;
     }
+
 }

@@ -44,17 +44,29 @@
             android:label="Mon Profile"
             android:parentActivityName=".MainActivity" />
         <activity
+            android:name=".pharma.medicament_information"
+            android:label="medicament inaformation"
+            android:parentActivityName=".pharma.pharmaactivty" />
+        <activity
             android:name=".addProfile.AddLaboProfile"
             android:label="Ajouter votre Labo de recherche"
             android:parentActivityName=".addProfile.Insertion" />
         <activity
-            android:name=".Laboratoir.LaboActivity"
+            android:name=".Laboratoir.Labo_activity"
             android:label="Les laboratoires de recherches"
             android:parentActivityName=".addProfile.Insertion" />
         <activity
             android:name=".addProfile.AddDoctorProfile"
             android:label="Ajouter votre cabinet"
             android:parentActivityName=".addProfile.Insertion" />
+        <activity
+            android:name=".addProfile.addDonation"
+            android:label="Ajouter vous comme donateur"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".don_sang.donateuractivity"
+            android:label="donateur"
+            android:parentActivityName=".MainActivity" />
         <activity
             android:name=".message.messageBoit"
             android:label="Messages"
@@ -73,8 +85,8 @@
             android:label="S&apos;inscrire"
             android:parentActivityName=".ui.login.Signin" />
         <activity
-            android:name=".Pharmacies.pharmacyActivity"
-            android:label="les pharmacies"
+            android:name=".pharma.pharmaactivty"
+            android:label=" pharmacies and medicamentes "
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".Hospital.HopitalActivity"
