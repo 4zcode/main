@@ -31,7 +31,6 @@ public class HopitalActivity extends AppCompatActivity {
     private HopitalsAdapter mAdapter;
     private SearchView searchView;
     private final DatabaseReference hopitalRefrence = FirebaseDatabase.getInstance().getReference().child("Hopitals");
-    private ProgressDialog mProgressDialog;
 
     private interface FireBaseCallBack {
         void onCallBack(ArrayList<String> list);
@@ -83,13 +82,6 @@ public class HopitalActivity extends AppCompatActivity {
     }
 
     public void readData(FireBaseCallBack fireBaseCallBack) {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(HopitalActivity.this);
-            mProgressDialog.setMessage("Loading");
-            mProgressDialog.setIndeterminate(true);
-        }
-        mProgressDialog.show();
-
         hopitalRefrence.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -101,7 +93,6 @@ public class HopitalActivity extends AppCompatActivity {
                         String Place = ds.child("hopitalPlace").getValue(String.class);
                         String Phone = ds.child("hopitalContact").getValue(String.class);
                         String ImageUrl = ds.child("imageResource").getValue(String.class);
-                        if (isNetworkAvailable(getBaseContext())){  dbManagerHospital.deleteAll();}
                         if (dbManagerHospital.CheckIsDataAlreadyInDBorNot(id_firebase)) {
                             dbManagerHospital.update(id_firebase, Name, Place, Phone,ImageUrl);
                         } else {
@@ -111,10 +102,7 @@ public class HopitalActivity extends AppCompatActivity {
                     }
                 }
                 mhopitaldata= dbManagerHospital.listHospital();
-                mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
-                mRecyclerView.setAdapter(mAdapter);
-                mProgressDialog.dismiss();
-
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override

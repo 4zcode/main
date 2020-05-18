@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.res.AssetManager;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
@@ -54,12 +53,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Scanner;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -158,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
             new UpdateDataBaseTask().execute();
         } else  Log.d("AkramTestdatabase","no first time");
 
-        //readAllData();
     }
 
     public FragmentRefreshListener getFragmentRefreshListener() {
@@ -381,8 +374,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progressDialog.show();
+        }
+
+        @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            progressDialog.dismiss();
             Log.d("AkramTestdatabase","finish data");
         }
     }

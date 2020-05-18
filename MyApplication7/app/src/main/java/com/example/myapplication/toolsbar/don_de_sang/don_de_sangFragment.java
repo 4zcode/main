@@ -2,6 +2,7 @@ package com.example.myapplication.toolsbar.don_de_sang;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,23 +47,20 @@ public class don_de_sangFragment extends Fragment {
 
         dbManagerDonateur = new DBManagerDonateur(getActivity());
         dbManagerDonateur.open();
+        mdonateurdata = dbManagerDonateur.listdonateur();
+
+        mAdapter = new DonateurAdapter(getContext(), mdonateurdata);
+        mRecyclerView.setAdapter(mAdapter);
         if (isNetworkAvailable(getContext())) {
-            Toast.makeText(getContext(), "there is connection", Toast.LENGTH_LONG).show();
             readData(new FireBaseCallBack() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
 
                 }
             });
-        } else {
-            Toast.makeText(getContext(), "no connection", Toast.LENGTH_LONG).show();
         }
 
-        mdonateurdata = dbManagerDonateur.listdonateur();
 
-        mAdapter = new DonateurAdapter(getContext(), mdonateurdata);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -111,8 +109,7 @@ public class don_de_sangFragment extends Fragment {
                         }
                     }
                     mdonateurdata= dbManagerDonateur.listdonateur();
-                    mAdapter = new DonateurAdapter(getActivity(),mdonateurdata);
-                    mRecyclerView.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
                     mProgressDialog.dismiss();
 
                 }
