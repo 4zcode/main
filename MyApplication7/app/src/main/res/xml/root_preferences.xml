@@ -3,7 +3,6 @@
 
     <PreferenceCategory
         app:title="@string/compte_sahti_fi_yedi">
-
         <SwitchPreferenceCompat
             app:defaultValue="true"
             app:key="saveUser"

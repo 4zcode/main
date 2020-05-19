@@ -39,9 +39,7 @@ public class HopitalActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("labo_acttivity_test","we are in 0");
         setContentView(R.layout.activity_hospital);
-        Log.d("labo_acttivity_test","we are in 1");
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         searchView=(SearchView)findViewById(R.id.search_hopital) ;
@@ -49,22 +47,18 @@ public class HopitalActivity extends AppCompatActivity {
         dbManagerHospital = new DBManagerHospital(HopitalActivity.this);
         dbManagerHospital.open();
         if (isNetworkAvailable(this)) {
-            Toast.makeText(HopitalActivity.this, "there is connection", Toast.LENGTH_LONG).show();
             readData(new FireBaseCallBack() {
                 @Override
                 public void onCallBack(ArrayList<String> list) {
 
                 }
             });
-        } else {
-            Toast.makeText(HopitalActivity.this, "no connection", Toast.LENGTH_LONG).show();
         }
 
         mhopitaldata = dbManagerHospital.listHospital();
 
         mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
         mRecyclerView.setAdapter(mAdapter);
-        mAdapter.notifyDataSetChanged();
 
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -102,7 +96,8 @@ public class HopitalActivity extends AppCompatActivity {
                     }
                 }
                 mhopitaldata= dbManagerHospital.listHospital();
-                mAdapter.notifyDataSetChanged();
+                mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
+                mRecyclerView.setAdapter(mAdapter);
             }
 
             @Override

@@ -8,7 +8,10 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    android:layout_margin="15dp">
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="50dp">
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -19,14 +22,17 @@
     android:layout_gravity="center_horizontal"
     android:textStyle="bold"/>
     <TextView
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sahti fi yadi est une application spécialisée dans le domaine de santé en Algérie crée par un groupe d’étudiants à l’ési."/>
     <TextView
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sahti fi yadi est une application spécialisée dans le domaine de santé en Algérie crée par un groupe d’étudiants à l’ési."/>
 <TextView
+    android:layout_marginBottom="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="De l’application on peut consulter les différents établissements de santé médecin, pharmacie, hôpital, clinique, laboratoire. On peut même consulter la liste des médicaments disponibles en Algérie, et on peut également faire le don du sang ou même avoir du sang si on a besoin."
@@ -116,7 +122,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mehadji Anes" />
+            android:text="- Mehadji Anes" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -146,10 +152,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_action_facebook"
+            />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorAccent"
         android:textStyle="bold"
         android:text="Facebook :"/>
         <TextView
@@ -162,10 +173,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_action_linkedin"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorAccent"
             android:textStyle="bold"
             android:text="Instagram :"/>
         <TextView
@@ -178,10 +194,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/ic_action_gmail"
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
+            android:textColor="@color/colorAccent"
             android:textStyle="bold"
             android:text="Email :"/>
         <TextView
