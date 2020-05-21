@@ -1,17 +1,22 @@
 package com.example.myapplication.message;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -24,6 +29,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.doctors.Doctors;
 import com.example.myapplication.utilities.tools;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,11 +39,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 
-
-
-
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,6 +81,11 @@ public class chatRoom extends AppCompatActivity {
     private LinearLayoutManager linearManager;
     private Parcelable recyclerState;
 
+    //
+    public static int PICK_IMAGE = 1;
+    private StorageTask mUploadTask;
+    private Uri mImageUri;
+    private StorageReference mStorageRef= FirebaseStorage.getInstance().getReference("Messages");
 
 
 
@@ -428,5 +441,74 @@ public class chatRoom extends AppCompatActivity {
                     .show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+
+
+    public void downlowd_image(View view) {
+        Intent gallery = new Intent();
+        gallery.setType("image/*");
+        gallery.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(gallery, "Select Picture"), PICK_IMAGE);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            mImageUri = data.getData();
+
+            try {
+                if (mImageUri != null) {
+                    final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
+                            + "." + getFileExtension(mImageUri));
+                    mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    EnvoyerImage(uri.toString());
+                                }
+                            });
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
+    }
+
+    public void EnvoyerImage(String imageUri) {
+        Log.d("sendImageTest","inside EnvoyerImage ");
+
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage("Loading");
+            mProgressDialog.setIndeterminate(true);
+        }
+        if (isNetworkAvailable(getBaseContext()) && !imageUri.isEmpty()) {
+            mProgressDialog.show();
+            String name_current_user = myPef.getString("userName", "Annonyme");
+            DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
+            String dt = date.format(Calendar.getInstance().getTime());
+            String allMSG = MessageRecever + user1.getUid() + "<br>" + "!?*#*?!" + imageUri + "<br>" + dt + "@E1S9I!";
+            updateUserReceiver("image", allMSG, SenderName, ID_reciver, dt);
+            updateReceiverUser(name_current_user, "image", allMSG, ID_reciver, dt);
+            mProgressDialog.dismiss();
+            Toast.makeText(getBaseContext(),"l'image a été envoyer",Toast.LENGTH_LONG).show();
+            Afficher(getBaseContext());
+        } else {
+            Toast.makeText(getBaseContext(), "pas internet", Toast.LENGTH_SHORT).show();
+        }
     }
 }

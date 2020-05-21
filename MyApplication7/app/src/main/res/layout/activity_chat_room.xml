@@ -24,6 +24,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
+            android:onClick="downlowd_image"
             android:src="@drawable/photocamera"
             android:scaleType="centerCrop"/>
 
