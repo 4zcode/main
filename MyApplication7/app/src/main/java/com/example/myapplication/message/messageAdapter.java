@@ -22,6 +22,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -67,7 +68,7 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
 
         class MessageViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-
+        public ImageView imagemessage;
         public TextView mSenderNameTextView;
         public TextView mMessageTextView, mDateTest;
         public ImageView mSenderImage;
@@ -78,6 +79,7 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
             super(itemView);
 
             //Initialize the views
+            imagemessage=itemView.findViewById(id.imagemessage);
             mSenderNameTextView = (TextView) itemView.findViewById(id.name_message_sender);
             mMessageTextView = (TextView) itemView.findViewById(id.messageText);
             mSenderImage = (ImageView) itemView.findViewById(id.sender_image);
@@ -119,6 +121,10 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
             mMessageTextView.setText(currentMessage.getRecent_message());
             String mydate = DateFormat.getDateTimeInstance().format(currentMessage.getDate());
             mDateTest.setText(mydate);
+            if(currentMessage.getImagemessage()!="null"){
+                Picasso.with(mCont).load(mCurrentMessage.getImagemessage()).into(imagemessage);
+                imagemessage.setVisibility(View.VISIBLE);
+            }else imagemessage.setVisibility(View.GONE);
             if (!mCurrentMessage.getImageResource().equals("R.drawable.doctorm")) {
                 Glide.with(mCont).load(mCurrentMessage.getImageResource())
                         .diskCacheStrategy(DiskCacheStrategy.DATA)

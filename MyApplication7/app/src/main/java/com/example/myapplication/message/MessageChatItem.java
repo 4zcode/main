@@ -13,6 +13,7 @@ public class MessageChatItem implements Comparable<MessageChatItem>{
     private String Message_ID_Firebase;
     private final String msgName;
     private final String message;
+    private final String Image_message;
     private final String imageResource;
     private Date Date;
 
@@ -20,11 +21,12 @@ public class MessageChatItem implements Comparable<MessageChatItem>{
 
 
 
-    public MessageChatItem(String id, String senderName, String message, String date, String msgImage) {
+    public MessageChatItem(String id, String senderName, String message, String image_message, String date, String msgImage) {
 
         this.Message_ID_Firebase=id;
         this.msgName = senderName;
         this.message = message;
+        Image_message = image_message;
         this.imageResource = msgImage;
 
         SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
@@ -35,7 +37,9 @@ public class MessageChatItem implements Comparable<MessageChatItem>{
         }
     }
 
-
+    public String getImage_message() {
+        return Image_message;
+    }
     public String getMsgName() {
         return msgName;
     }

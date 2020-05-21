@@ -61,6 +61,10 @@ public class UpdateMsgDB extends IntentService {
                         if (is_exist) {
                             String SenderName = ds.child("Sender_Name").getValue(String.class);
                             String SenderImage;
+                            String image="null";
+                            if (ds.child("Image_envoyer").exists()) {
+                                SenderImage = ds.child("Image_envoyer").getValue(String.class);
+                            }
                             if (ds.child("Sender_Image").exists()) {
                                 SenderImage = ds.child("Sender_Image").getValue(String.class);
                             }else SenderImage = "R.drawable.doctorm";
@@ -79,11 +83,11 @@ public class UpdateMsgDB extends IntentService {
                                 if(db.CheckIsDataAlreadyInDBorNot(ID_firebase)){
                                     Log.d("ServiceAkramTestt","update ");
 
-                                    db.update(ID_firebase,SenderName,message,fullMsg,Date,Is_Readed,SenderImage);
+                                    db.update(ID_firebase,SenderName,message,fullMsg,image,Date,Is_Readed,SenderImage);
                                 }else{
                                     Log.d("ServiceAkramTestt","inserted ");
 
-                                    db.insert(ID_firebase,SenderName,message,fullMsg,Date,Is_Readed,SenderImage);
+                                    db.insert(ID_firebase,SenderName,message,fullMsg,image,Date,Is_Readed,SenderImage);
 
                                 }
                             }

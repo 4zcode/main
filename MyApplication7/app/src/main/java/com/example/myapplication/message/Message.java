@@ -17,6 +17,21 @@ public class Message implements Comparable<Message>{
     private final String message;
     private final String is_Readed;
     private final String imageResource;
+    private String Imagemessage;
+    private Date Date;
+    public static final String RECIVER = "Reciver";
+    public static final String SENDER = "sender";
+
+    public Message(String id,String senderName, String message,String image, String hopitalImage,String readStatus, Date date) {
+        this.Message_ID_Firebase=id;
+        this.Sender = senderName;
+        this.message = message;
+        this.imageResource = hopitalImage;
+        is_Readed = readStatus;
+        this.Date =date;
+        this.Imagemessage=image;
+    }
+
 
     public java.util.Date getDate() {
         return Date;
@@ -26,22 +41,13 @@ public class Message implements Comparable<Message>{
         Date = date;
     }
 
-    private Date Date;
-    public static final String RECIVER = "Reciver";
-    public static final String SENDER = "sender";
-
-
-
-    public Message(String id,String senderName, String message, String hopitalImage,String readStatus, Date date) {
-        this.Message_ID_Firebase=id;
-        this.Sender = senderName;
-        this.message = message;
-        this.imageResource = hopitalImage;
-        is_Readed = readStatus;
-        this.Date =date;
+    public String getImagemessage() {
+        return Imagemessage;
     }
 
-
+    public void setImagemessage(String imagemessage) {
+        Imagemessage = imagemessage;
+    }
     public String getSender() {
         return Sender;
     }

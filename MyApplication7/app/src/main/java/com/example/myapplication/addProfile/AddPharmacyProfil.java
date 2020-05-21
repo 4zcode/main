@@ -63,8 +63,8 @@ public class AddPharmacyProfil extends AppCompatActivity {
             first_name=(EditText) findViewById(R.id.pfname);
             adress=(EditText) findViewById(R.id.phadress);
             phone=(EditText) findViewById(R.id.phnumber);
-            open=(EditText) findViewById(R.id.pharmacies_open);
-            close = (EditText) findViewById(R.id.pharmacies_close);
+            open=(EditText) findViewById(R.id.open);
+            close = (EditText) findViewById(R.id.close);
             mStorageRef = FirebaseStorage.getInstance().getReference("pharmacies");
             mDatabaseRef = FirebaseDatabase.getInstance().getReference("pharmacies");
         }

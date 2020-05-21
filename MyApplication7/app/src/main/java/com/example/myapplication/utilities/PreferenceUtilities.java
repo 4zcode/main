@@ -207,6 +207,10 @@ public class PreferenceUtilities {
                     for (DataSnapshot ds : dataSnapshot.getChildren()){
                         boolean is_exist = ds.child("message_envoyer").exists() && ds.child("Sender_Name").exists()&& ds.child("ID_Reciver").exists()&& ds.child("Is_Readed").exists()&& ds.child("Date").exists()&& ds.child("AllMsg").exists();
                         if (is_exist) {
+                            String image="null";
+                            if (ds.child("Image_envoyer").exists()) {
+                                image = ds.child("Image_envoyer").getValue(String.class);
+                            }
                             String SenderName = ds.child("Sender_Name").getValue(String.class);
                             String SenderImage;
                             if (ds.child("Sender_Image").exists()) {
@@ -222,9 +226,9 @@ public class PreferenceUtilities {
                             String Date = ds.child("Date").getValue(String.class);
                             if (!ID_firebase.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                                 if(db.CheckIsDataAlreadyInDBorNot(ID_firebase)){
-                                    db.update(ID_firebase,SenderName,message,fullMsg,Date,Is_Readed,SenderImage);
+                                    db.update(ID_firebase,SenderName,message,fullMsg,image,Date,Is_Readed,SenderImage);
                                 }else{
-                                    db.insert(ID_firebase,SenderName,message,fullMsg,Date,Is_Readed,SenderImage);
+                                    db.insert(ID_firebase,SenderName,message,fullMsg,image,Date,Is_Readed,SenderImage);
                                 }
                             }
                         }

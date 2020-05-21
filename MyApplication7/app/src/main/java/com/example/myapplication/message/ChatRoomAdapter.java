@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.R;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import static com.example.myapplication.R.*;
 
@@ -70,7 +70,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Messag
 
         class MessageViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-
+       public ImageView image_message;
         public TextView mSenderNameTextView;
         public TextView mMessageTextView, mDateTest;
         public ImageView mSenderImage;
@@ -81,6 +81,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Messag
             super(itemView);
 
             //Initialize the views
+            image_message=(ImageView) itemView.findViewById(id.imagemessage);
             mSenderNameTextView = (TextView) itemView.findViewById(id.name_message_chat_sender);
             mMessageTextView = (TextView) itemView.findViewById(id.message_chat_text);
             mSenderImage = (ImageView) itemView.findViewById(id.message_chat_image);
@@ -104,6 +105,10 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Messag
 
             mCurrentMessage = currentMessage;
             mSenderNameTextView.setText(currentMessage.getMsgName());
+            if(currentMessage.getImage_message()!="null") {
+                Picasso.with(mCont).load(mCurrentMessage.getImage_message()).into(image_message);
+                image_message.setVisibility(View.VISIBLE);
+            }
 
             mMessageTextView.setText(currentMessage.getMessage());
             String mydate = DateFormat.getDateTimeInstance().format(currentMessage.getDate());

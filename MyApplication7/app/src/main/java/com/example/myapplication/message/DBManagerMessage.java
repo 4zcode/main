@@ -48,6 +48,19 @@ public class DBManagerMessage {
         cursor.close();
         return "";
     }
+    public String getImage_message(String messageID){
+        String image;
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        String Query = "Select * from " + DatabaseHelper.TABLE_NAME_MESSAGES + " where " + DatabaseHelper._ID_MESSAGE_SENDER_FIREBASE + " = '" + messageID +"' ";
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.moveToFirst()) {
+            image=cursor.getString(5);
+            cursor.close();
+            return image;
+        }
+        cursor.close();
+        return "";
+    }
 
     public boolean CheckIsDataAlreadyInDBorNot(String nameFeild) {
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
@@ -65,8 +78,9 @@ public class DBManagerMessage {
        return database.delete(DatabaseHelper.TABLE_NAME_MESSAGES,"1",null);
     }
 
-    public void insert(String _id,String senderName, String recentMessage, String fullMessage,String dateMessage,String is_read,String imageUrl) {
+    public void insert(String _id,String senderName, String recentMessage, String fullMessage,String image_message,String dateMessage,String is_read,String imageUrl) {
         ContentValues contentValue = new ContentValues();
+        contentValue.put(DatabaseHelper.IMAGE_MESSAGE,image_message);
         contentValue.put(DatabaseHelper._ID_MESSAGE_SENDER_FIREBASE, _id);
         contentValue.put(DatabaseHelper.SENDER_MESSAGE_NAME, senderName);
         contentValue.put(DatabaseHelper.RECENT_MESSAGE, recentMessage);
@@ -77,7 +91,7 @@ public class DBManagerMessage {
         database.insert(DatabaseHelper.TABLE_NAME_MESSAGES, null, contentValue);
     }
     public Cursor fetch() {
-        String[] columns = new String[] { DatabaseHelper._ID_MESSAGE, DatabaseHelper.SENDER_MESSAGE_NAME, DatabaseHelper.RECENT_MESSAGE, DatabaseHelper.FULL_MESSAGE, DatabaseHelper.MESSAGE_RECENT_DATE,DatabaseHelper.IS_READ, DatabaseHelper.IMAGE_DOCTOR_URL};
+        String[] columns = new String[] { DatabaseHelper._ID_MESSAGE, DatabaseHelper.SENDER_MESSAGE_NAME, DatabaseHelper.RECENT_MESSAGE, DatabaseHelper.FULL_MESSAGE,DatabaseHelper.IMAGE_MESSAGE ,DatabaseHelper.MESSAGE_RECENT_DATE,DatabaseHelper.IS_READ, DatabaseHelper.IMAGE_DOCTOR_URL};
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_MESSAGES, columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -85,8 +99,9 @@ public class DBManagerMessage {
         return cursor;
     }
 
-    public int update(String _id,String senderName, String recentMessage, String fullMessage,String dateMessage,String is_read,String imageUrl) {
+    public int update(String _id,String senderName, String recentMessage, String fullMessage,String image_message,String dateMessage,String is_read,String imageUrl) {
         ContentValues contentValues = new ContentValues();
+        contentValues.put(DatabaseHelper.IMAGE_MESSAGE,image_message);
         contentValues.put(DatabaseHelper.SENDER_MESSAGE_NAME, senderName);
         contentValues.put(DatabaseHelper.RECENT_MESSAGE, recentMessage);
         contentValues.put(DatabaseHelper.FULL_MESSAGE, fullMessage);
@@ -114,11 +129,12 @@ public class DBManagerMessage {
                 String senderName = cursor.getString(2);
                 String recentMessage = cursor.getString(3);
                 String fullMessage = cursor.getString(4);
-                String dateMessage = cursor.getString(5);
-                String is_read = cursor.getString(6);
-                String imageUrl = cursor.getString(7);
+                String image_message=cursor.getString(5);
+                String dateMessage = cursor.getString(6);
+                String is_read = cursor.getString(7);
+                String imageUrl = cursor.getString(8);
 
-                storeContacts.add(new MessageItem(Id_firebase,senderName, recentMessage, fullMessage, dateMessage,is_read,imageUrl));
+                storeContacts.add(new MessageItem(Id_firebase,senderName, recentMessage, fullMessage,image_message,dateMessage,is_read,imageUrl));
             }
             while (cursor.moveToNext());
         }

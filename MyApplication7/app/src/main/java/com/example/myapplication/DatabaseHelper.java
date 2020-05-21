@@ -60,12 +60,14 @@ public class DatabaseHelper<IMAGE_PHARMA_URL> extends SQLiteOpenHelper {
     public static final String FULL_MESSAGE ="full_message";
     public static final String IS_READ ="is_read";
     public static final String IMAGE_SENDER_MESSAGE_URL ="image_sender_message_url";
+    public static final String IMAGE_MESSAGE ="image_message";
+
 
     // Database Information
     static final String DB_NAME = "SahtiFiYdi.db";
 
     // database version
-    static final int DB_VERSION = 17;
+    static final int DB_VERSION = 20;
 
     // Creating table query
     private static final String CREATE_TABLE_DONATEUR = "create table " + TABLE_NAME_DONATEUR + "(" + _ID_DONATEUR
@@ -78,7 +80,7 @@ public class DatabaseHelper<IMAGE_PHARMA_URL> extends SQLiteOpenHelper {
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_LABORATOIR_FIREBASE+ " TEXT NOT NULL, "+NAME__LABORATOIR + " TEXT NOT NULL, " + PLACE__LABORATOIR + " TEXT, " + NUMBER__LABORATOIR+" TEXT, " +IMAGE_LABORATOIR_URL+" TEXT );";
     private static final String CREATE_TABLE_DOCTORS = "create table " + TABLE_NAME_DOCTORS + "(" + _ID_DOCTOR
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_DOCTOR_FIREBASE + " TEXT NOT NULL, " + NAME_DOCTOR + " TEXT NOT NULL, " + PLACE_DOCTOR + " TEXT, " + PHONE_DOCTOR+ " TEXT, "+SPEC_DOCTOR+" TEXT NOT NULL, "+SEX_DOCTOR+" TEXT, "+IMAGE_DOCTOR_URL + " TEXT );";
-    private static final String CREATE_TABLE_MESSAGES ="create table "+TABLE_NAME_MESSAGES+"("+_ID_MESSAGE + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_MESSAGE_SENDER_FIREBASE+ " TEXT NOT NULL, " +SENDER_MESSAGE_NAME+ " TEXT NOT NULL, " +RECENT_MESSAGE+ " TEXT, "+FULL_MESSAGE + " TEXT ,"+MESSAGE_RECENT_DATE+ " TEXT, "+IS_READ + " TEXT ,"+IMAGE_SENDER_MESSAGE_URL+" TEXT);";
+    private static final String CREATE_TABLE_MESSAGES ="create table "+TABLE_NAME_MESSAGES+"("+_ID_MESSAGE + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_MESSAGE_SENDER_FIREBASE+ " TEXT NOT NULL, " +SENDER_MESSAGE_NAME+ " TEXT NOT NULL, " +RECENT_MESSAGE+ " TEXT, "+FULL_MESSAGE + " TEXT ,"+IMAGE_MESSAGE + " TEXT ,"+MESSAGE_RECENT_DATE+ " TEXT, "+IS_READ + " TEXT ,"+IMAGE_SENDER_MESSAGE_URL+" TEXT);";
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }

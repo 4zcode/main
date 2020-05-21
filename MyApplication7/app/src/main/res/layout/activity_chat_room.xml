@@ -23,6 +23,7 @@
         <ImageButton
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:onClick="downlowd_image"
             android:layout_gravity="center_vertical"
             android:src="@drawable/send"
             android:scaleType="fitXY"/>

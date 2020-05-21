@@ -23,6 +23,7 @@ public class MessageItem implements Comparable<MessageItem>{
     private final String recent_message;
     private final boolean is_Readed;
     private final String imageResource;
+    private String Imagemessage;
     private final String full_Message;
     private Date Date;
 
@@ -30,13 +31,14 @@ public class MessageItem implements Comparable<MessageItem>{
 
 
 
-    public MessageItem(String id, String senderName, String message,  String full_message, String date,String readStatus, String msgImage) {
+    public MessageItem(String id, String senderName, String message, String imagemessage ,String full_message, String date,String readStatus, String msgImage) {
 
         this.Message_ID_Firebase=id;
         this.Sender = senderName;
         this.recent_message = message;
         this.imageResource = msgImage;
         this.is_Readed = readStatus.equals("false");
+        this.Imagemessage=imagemessage;
         this.full_Message = full_message;
 
         SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
@@ -46,7 +48,13 @@ public class MessageItem implements Comparable<MessageItem>{
             e.printStackTrace();
         }
     }
+    public String getImagemessage() {
+        return Imagemessage;
+    }
 
+    public void setImagemessage(String imagemessage) {
+        Imagemessage = imagemessage;
+    }
 
     public String getSender() {
         return Sender;

@@ -49,22 +49,22 @@ public class medicament_information extends AppCompatActivity {
         duree_de_stab=(TextView)findViewById(R.id.duree_de_stabilite);
         remboursement=(TextView)findViewById(R.id.remboursement);
         Intent intent=getIntent();
-        MedicamenName.setText(intent.getStringExtra("name"));
-        MedicamenPrix.setText(intent.getStringExtra("prix"));
-        MedicamentClass.setText(intent.getStringExtra("classe"));
-        num_eng.setText(intent.getStringExtra("num_eng"));
-        code.setText(intent.getStringExtra("code"));
-        domination_c_in.setText(intent.getStringExtra("dcin"));
-        dosage.setText(intent.getStringExtra("dosage"));
-        cond.setText(intent.getStringExtra("cond"));
-        liste.setText(intent.getStringExtra("liste"));
-        pays_du_lab.setText(intent.getStringExtra("pays"));
-        date_deng_ini.setText(intent.getStringExtra("date_ini"));
-        date_deng_final.setText(intent.getStringExtra("date_final"));
-        forme.setText(intent.getStringExtra("forme"));
-        duree_de_stab.setText(intent.getStringExtra("duree_destsb"));
-        statut.setText(intent.getStringExtra("statut"));
-        remboursement.setText(intent.getStringExtra("remboursement"));
+        MedicamenName.setText("NOM_DE_MARQUE: "+intent.getStringExtra("name"));
+        MedicamenPrix.setText( "PRIX_PORTE_SUR_LA_DECISION_DENREGISTREMENT: "+intent.getStringExtra("prix"));
+        MedicamentClass.setText("TYPE: "+intent.getStringExtra("classe"));
+        num_eng.setText("NUM_ENREGISTREMENT: "+intent.getStringExtra("num_eng"));
+        code.setText("CODE: "+intent.getStringExtra("code"));
+        domination_c_in.setText( "DENOMINATION_COMMUNE_INTERNATIONALE: "+intent.getStringExtra("dcin"));
+        dosage.setText("DOSAGE: "+intent.getStringExtra("dosage"));
+        cond.setText("COND: "+intent.getStringExtra("cond"));
+        liste.setText("LISTE: "+intent.getStringExtra("liste"));
+        pays_du_lab.setText( "PAYS_DU_LABORATOIRE_DETENTEUR_DE_LA_DECISION_DENREGISTREMENT: "+intent.getStringExtra("pays"));
+        date_deng_ini.setText("DATE_DENREGISTREMENT_INITIAL: "+intent.getStringExtra("date_ini"));
+        date_deng_final.setText( "DATE_DENREGISTREMENT_FINAL: "+intent.getStringExtra("date_final"));
+        forme.setText("FORME: "+intent.getStringExtra("forme"));
+        duree_de_stab.setText("DUREE_DE_STABILITE: "+intent.getStringExtra("duree_destsb"));
+        statut.setText("STATUT: "+intent.getStringExtra("statut"));
+        remboursement.setText( "REMBOURSEMENT: "+intent.getStringExtra("remboursement"));
 
     }
 }

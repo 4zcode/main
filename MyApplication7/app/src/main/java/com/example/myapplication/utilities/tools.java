@@ -23,11 +23,11 @@ import androidx.core.content.ContextCompat;
 
 import com.example.myapplication.Hospital.DBManagerHospital;
 import com.example.myapplication.Laboratoir.DBManagerLaboratoir;
-import com.example.myapplication.Pharmacies.DBManagerPharmacy;
 import com.example.myapplication.Wilaya;
 import com.example.myapplication.doctors.DBManagerDoctor;
 import com.example.myapplication.doctors.Doctors;
 import com.example.myapplication.message.chatRoom;
+import com.example.myapplication.pharma.DBManagerPharmacy;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

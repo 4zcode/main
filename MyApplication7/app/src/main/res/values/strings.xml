@@ -95,6 +95,18 @@
 
 
     </string-array>
+    <string-array name="horraire">
+        <item>08:00</item>
+        <item>09:00</item>
+        <item>10:00</item>
+        <item>11:00</item>
+        <item>12:00</item>
+        <item>13:00</item>
+        <item>14:00</item>
+        <item>15:00</item>
+        <item>16:00</item>
+
+    </string-array>
     <string name="title_activity_login">Sign in</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
@@ -144,7 +156,6 @@
     <string name="attachment_title">Mode de téléchargement</string>
     <string name="attachment_summary_on">Téléchargez uniquement par Wifi</string>
     <string name="attachment_summary_off">Téléchargez automatiquement les mises à jour lorsque vous etes connecté à un réseau Wi-Fi ou bien les réseaux mobiles</string>
-    <string name="tab1">TAB1</string>
-    <string name="tab2">TAB2</string>
+    <string name="pr_prenom">Prénom</string>
+    <string name="nom">Nom</string>
 </resources>
-

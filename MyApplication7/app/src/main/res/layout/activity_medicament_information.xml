@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_margin="@dimen/card_margin"
-    android:background="?android:selectableItemBackground"
-    tools:context=".pharma.medicament_information">
-
-
-
+    android:layout_height="match_parent"
+    >
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="10dp"
+                >
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/nom_de_marque"
                     android:textSize="20dp"
@@ -22,7 +19,7 @@
                     />
                 />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/prix"
                     android:textSize="20dp"
@@ -37,21 +34,21 @@
                     />
 
               <TextView
-                  android:layout_width="wrap_content"
+                  android:layout_width="match_parent"
                   android:layout_height="wrap_content"
                   android:id="@+id/nun_eng"
                   android:textSize="20dp"
                   android:textStyle="bold"
                   />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/code"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/domination_c_i"
                     android:textSize="20dp"
@@ -59,70 +56,70 @@
                     />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/Forme"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/Dosage"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/cond"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/Liste"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/pays_du_laboratoir"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/date_deng_initail"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/date_deng_final"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/type"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/statut"
                     android:textSize="20dp"
                     android:textStyle="bold"
                     />
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/duree_de_stabilite"
                     android:textSize="20dp"
@@ -130,4 +127,4 @@
                     />
 
             </LinearLayout>
-    </androidx.cardview.widget.CardView>
+</androidx.core.widget.NestedScrollView>
