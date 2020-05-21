@@ -79,7 +79,7 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
             super(itemView);
 
             //Initialize the views
-            imagemessage=itemView.findViewById(id.imagemessage);
+            imagemessage=itemView.findViewById(id.imagemessage2);
             mSenderNameTextView = (TextView) itemView.findViewById(id.name_message_sender);
             mMessageTextView = (TextView) itemView.findViewById(id.messageText);
             mSenderImage = (ImageView) itemView.findViewById(id.sender_image);

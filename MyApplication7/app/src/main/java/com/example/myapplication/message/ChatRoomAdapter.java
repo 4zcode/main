@@ -110,7 +110,7 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Messag
                 image_message.setVisibility(View.VISIBLE);
             }
 
-            mMessageTextView.setText(currentMessage.getMessage());
+           if(currentMessage.getMessage()!="null") {mMessageTextView.setText(currentMessage.getMessage());}else{mMessageTextView.setVisibility(View.GONE);}
             String mydate = DateFormat.getDateTimeInstance().format(currentMessage.getDate());
             mDateTest.setText(mydate);
 

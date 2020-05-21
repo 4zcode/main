@@ -61,6 +61,14 @@
             tools:text="message"
             android:textColor="?android:textColorSecondary" />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/imagemessage"
+            android:visibility="invisible"
+            android:scaleType="centerCrop"
+            />
+
     </LinearLayout>
 </LinearLayout>
     <TextView

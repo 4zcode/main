@@ -22,10 +22,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.Hospital.Hopital;
 import com.example.myapplication.R;
 import com.example.myapplication.doctors.Doctors;
 import com.example.myapplication.utilities.tools;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 
 import java.io.IOException;
@@ -56,6 +59,7 @@ import static com.example.myapplication.utilities.PreferenceUtilities.PREFERENCE
 import static com.example.myapplication.utilities.tools.isNetworkAvailable;
 
 public class chatRoom extends AppCompatActivity {
+    public  Uri uri_Image;
     public final static String TAG = chatRoom.class.getSimpleName();
     private StorageTask mUploadTask;
     private Uri mImageUri;
@@ -92,15 +96,27 @@ public class chatRoom extends AppCompatActivity {
             mImageUri = data.getData();
 
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
-                final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
-                        + "." + getFileExtension(mImageUri));
-                mUploadTask = fileReference.putFile(mImageUri);
-            } catch (IOException e) {
+                if (mImageUri != null) {
+                    final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
+                            + "." + getFileExtension(mImageUri));
+                    mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    uri_Image=uri;
+                                }
+                            });
+                        }
+                    });
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
+
 
 
     private interface FireBaseCallBack {
@@ -111,38 +127,36 @@ public class chatRoom extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_room);
-        recyclerView =(RecyclerView) findViewById(R.id.message_chat_room_recycler);
-        button =(FloatingActionButton) findViewById(R.id.envoyer_button);
+        recyclerView = (RecyclerView) findViewById(R.id.message_chat_room_recycler);
+        uri_Image=null;
+        button = (FloatingActionButton) findViewById(R.id.envoyer_button);
         editText = (EditText) findViewById(R.id.edit_text_envoyer);
         arrayMsg = new ArrayList<MessageChatItem>();
         ID_reciver = getIntent().getStringExtra(Doctors.RECIVER);
         ReceiverImage = getIntent().getStringExtra(Doctors.RECIVER_IMAGE);
-        SenderName =getIntent().getStringExtra(Doctors.SENDER);
+        SenderName = getIntent().getStringExtra(Doctors.SENDER);
         this.setTitle(SenderName);
-        handler= new Handler();
-        user= new HashMap<String,Object>();
-        senderUser = new HashMap<String,Object>();
-        user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
+        handler = new Handler();
+        user = new HashMap<String, Object>();
+        senderUser = new HashMap<String, Object>();
+        user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
         myPef = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        db = new DBManagerMessage(this);
-        db.open();
-        String image=db.getImage_message(ID_reciver);
-        String msg = db.getFullMessage(ID_reciver);
-        DecodeFullMsg(msg,arrayMsg,image);
-        Log.d("akramTest", String.valueOf(arrayMsg.size()));
-        adapter= new ChatRoomAdapter( this,arrayMsg);
+        adapter = new ChatRoomAdapter(this, arrayMsg);
         recyclerView.setAdapter(adapter);
         linearManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearManager);
         recyclerState = recyclerView.getLayoutManager().onSaveInstanceState();
+        db = new DBManagerMessage(this);
+        db.open();
+        String msg = db.getFullMessage(ID_reciver);
+        String image = db.getImage_message(ID_reciver);
+        DecodeFullMsg(msg, arrayMsg, image);
+        adapter.notifyDataSetChanged();
         recyclerView.getLayoutManager().onRestoreInstanceState(recyclerState);
         if (isNetworkAvailable(getBaseContext())) {
             updateAffichage(2000);
             Afficher(getBaseContext());
         }
-
-
-
         recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
@@ -220,7 +234,7 @@ public class chatRoom extends AppCompatActivity {
             firebaseDatabase.child(user1.getUid()).child(ID_reciver).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    boolean is_exist = dataSnapshot.child("message_envoyer").exists() && dataSnapshot.child("Date").exists()&&dataSnapshot.child("AllMsg").exists()&&dataSnapshot.child("Image_message").exists();
+                    boolean is_exist = dataSnapshot.child("message_envoyer").exists() && dataSnapshot.child("Date").exists()&&dataSnapshot.child("AllMsg").exists();
                     if (is_exist) {
                         String image =dataSnapshot.child("Image_envoyer").getValue(String.class);
                         String fullMsg = dataSnapshot.child("AllMsg").getValue(String.class);
@@ -233,7 +247,7 @@ public class chatRoom extends AppCompatActivity {
                         Log.d("akramTest","falsy : "+falsy);
 
                         if ( !Is_Readed) {
-                             Log.d("akramTest","msg not readed");
+                            Log.d("akramTest","msg not readed");
                             if(!db.CheckIsDataAlreadyInDBorNot(ID_reciver)) db.update(ID_reciver,SenderName,recentMsg,fullMsg,image,date, "true",ReceiverImage);
                             else db.update(ID_reciver,SenderName,recentMsg,fullMsg,image,date, "true",ReceiverImage);
                             updateIs_ReadedStatus(recentMsg, fullMsg,image ,SenderName, ID_reciver, date);
@@ -262,30 +276,33 @@ public class chatRoom extends AppCompatActivity {
             mProgressDialog.setIndeterminate(true);
         }
         String message = editText.getText().toString().trim();
+        String image_message="null";
+        if (uri_Image!=null) {  image_message=uri_Image.toString();}
+        Log.d("akramTestImage",image_message);
 
-
-        if(isNetworkAvailable(getBaseContext()) && !message.isEmpty()) {
+        if((isNetworkAvailable(getBaseContext())) && ((!message.isEmpty())||(image_message!="null"))) {
             mProgressDialog.show();
 
             String name_current_user = myPef.getString("userName", "Annonyme");
             DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
             String dt = date.format(Calendar.getInstance().getTime());
             String allMSG = MessageRecever  + user1.getUid() + "<br>" + message + "<br>"+dt+"@E1S9I!";
-             updateUserReceiver(message,mImageUri.toString(),allMSG, SenderName, ID_reciver, dt);
-             updateReceiverUser(name_current_user, message,mImageUri.toString(),allMSG, ID_reciver, dt);
-             editText.getText().clear();
+            updateUserReceiver(message,image_message,allMSG, SenderName, ID_reciver, dt);
+            if (message.isEmpty()){allMSG="null";message=null;}
+            updateReceiverUser(name_current_user, message,image_message,allMSG, ID_reciver, dt);
+            editText.getText().clear();
             tools.hideKeyBoard(chatRoom.this,view);
             mProgressDialog.dismiss();
             Afficher(getBaseContext());
         }else  {
-        Toast.makeText(getBaseContext(),"pas internet",Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(),"pas internet",Toast.LENGTH_SHORT).show();
         }
 
     }
-   public void updateUserReceiver(String message,String image,String fullMsg,String senderName,String ID_reciver,String date){
+    public void updateUserReceiver(String message,String image,String fullMsg,String senderName,String ID_reciver,String date){
 
         if (!ID_reciver.equals(user1.getUid())) {
-            if(mImageUri!=null) user.put("Image_envoyer",image) ;else user.put("Image_envoyer","null");
+            if(uri_Image!=null) user.put("Image_envoyer",image) ;else user.put("Image_envoyer","null");
             user.put("ID_Reciver", ID_reciver);
             user.put("Sender_Name", senderName);
             user.put("Sender_Image", ReceiverImage);
@@ -309,10 +326,10 @@ public class chatRoom extends AppCompatActivity {
                 }
             });
         }
-   }
-   public void updateReceiverUser(String name_current_user,String message,String image,String fullMsg,String ID_reciver,String date){
+    }
+    public void updateReceiverUser(String name_current_user,String message,String image,String fullMsg,String ID_reciver,String date){
         if (!ID_reciver.equals(user1.getUid())) {
-            if(mImageUri!=null) user.put("Image_envoyer",image) ;else user.put("Image_envoyer","null");
+            if(uri_Image!=null) user.put("Image_envoyer",image) ;else user.put("Image_envoyer","null");
             user.put("ID_Reciver", user1.getUid());
             user.put("Sender_Name", name_current_user);
             user.put("Sender_Image", myPef.getString(KEY_USER_IMAGE,DEFAULT_USER_IMAGE));
@@ -336,9 +353,9 @@ public class chatRoom extends AppCompatActivity {
                 }
             });
         }
-   }
+    }
 
-   public void updateIs_ReadedStatus(String message,String fullMsg,String image,String senderName,String ID_reciver,String date){
+    public void updateIs_ReadedStatus(String message,String fullMsg,String image,String senderName,String ID_reciver,String date){
         if (!ID_reciver.equals(user1.getUid())) {
             if(mImageUri!=null) user.put("Image_envoyer",image) ;else user.put("Image_envoyer","null");
             user.put("ID_Reciver", ID_reciver);
@@ -362,13 +379,13 @@ public class chatRoom extends AppCompatActivity {
                 }
             });
         }
-   }
+    }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.chatmenu, menu);
-            return true;
+        return true;
     }
 
 
@@ -408,7 +425,7 @@ public class chatRoom extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         if (thread !=null && thread.isAlive()) { thread.interrupt();}
-      super.onDestroy();
+        super.onDestroy();
 
     }
     private String getFileExtension(Uri uri) {
@@ -416,4 +433,5 @@ public class chatRoom extends AppCompatActivity {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
+
 }
