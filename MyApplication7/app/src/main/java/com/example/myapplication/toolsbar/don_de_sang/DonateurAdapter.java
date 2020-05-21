@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -111,29 +112,13 @@ public class DonateurAdapter extends RecyclerView.Adapter<DonateurAdapter.Donate
             mphone.setText(Currentdonateur.getContact());
             grsnaguin.setText((Currentdonateur.getGrsanguin()));
             mCurrentdonateur = Currentdonateur;
-            if (isNetworkAvailable()) {
-                Picasso.with(mCont).load(mCurrentdonateur.getImaged()).into(mDonateurImage);
-            }else{
-                Glide.with(mCont).load(R.drawable.blood).placeholder(mGradientDrawable).into(mDonateurImage);
-            }
+
+                Glide.with(mCont).load(mCurrentdonateur.getImaged())
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .into(mDonateurImage);
+
         }
 
-        public boolean isNetworkAvailable() {
-            boolean HaveConnectWIFI = false;
-            boolean HaveConnectMobile = false;
-
-            ConnectivityManager connectivityManager = (ConnectivityManager) mCont.getSystemService(mCont.CONNECTIVITY_SERVICE);
-            NetworkInfo[] activeNetworkInfo = connectivityManager.getAllNetworkInfo();
-            for (NetworkInfo ni : activeNetworkInfo) {
-                if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-                    if (ni.isConnected())
-                        HaveConnectWIFI = true;
-                if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-                    if (ni.isConnected())
-                        HaveConnectMobile = true;
-            }
-            return HaveConnectMobile || HaveConnectWIFI;
-        }
 
         @Override
         public void onClick(View view) {

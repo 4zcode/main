@@ -2,16 +2,20 @@ package com.example.myapplication.message;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -175,7 +179,7 @@ public class chatRoom extends AppCompatActivity {
                     msgImage = ReceiverImage;
                 } else if (detail[0].equals(user1.getUid())) {
                     msgName = myPef.getString(KEY_USER_NAME, "Annonyme");
-                    msgImage = myPef.getString(KEY_USER_IMAGE, "R.drawable.doctorm");
+                    msgImage = myPef.getString(KEY_USER_IMAGE, "R.drawable.profile");
                 }
                 arrayMsg.add(new MessageChatItem(detail[0], msgName, detail[1], detail[2], msgImage));
             }
@@ -258,7 +262,6 @@ public class chatRoom extends AppCompatActivity {
             user.put("Is_Readed", "false");
             user.put("Date", date);
             user.put("AllMsg", fullMsg);
-
             firebaseDatabase.child(user1.getUid()).child(ID_reciver).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task task) {
@@ -364,14 +367,66 @@ public class chatRoom extends AppCompatActivity {
     @Override
     protected void onStop() {
         if (thread !=null && thread.isAlive()) { thread.interrupt();}
-
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
+        db.close();
         if (thread !=null && thread.isAlive()) { thread.interrupt();}
       super.onDestroy();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_delete_message) {
+            AlertDialog message = new AlertDialog.Builder(this)
+                    .setTitle("Avertissement")
+                    .setMessage("Voullez vous vraiment supprimer ce message?")
+                    .setPositiveButton("OUI", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            firebaseDatabase.child(user1.getUid()).child(ID_reciver).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if (task.isSuccessful()){
+                                       try {
+                                           db.deleteF(ID_reciver);
+                                       }catch (Exception e){
+                                           e.printStackTrace();
+                                           Log.d("deletetestunit","error : "+ e.getMessage());
+                                       }
+                                        Toast.makeText(getBaseContext(), "Le message a été supprimer", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(getBaseContext(),messageBoit.class));
+
+                                    }else {
+                                        Toast.makeText(getBaseContext(), "error", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .setIcon(R.drawable.pubelleicon)
+                    .show();
+        }else if (id == R.id.action_block){
+            AlertDialog message = new AlertDialog.Builder(this)
+                    .setTitle("Attention")
+                    .setMessage("Voullez vous vraiment blouquer cette person?")
+                    .setPositiveButton("OUI", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //    code
+                            Toast.makeText(getBaseContext(), "Vous ne recevez plus des messages de cette person", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .setNegativeButton("No", null)
+                    .setIcon(R.drawable.sign1s)
+                    .show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

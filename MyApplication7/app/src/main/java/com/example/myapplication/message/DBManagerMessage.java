@@ -101,6 +101,9 @@ public class DBManagerMessage {
     public void delete(long _id) {
         database.delete(DatabaseHelper.TABLE_NAME_MESSAGES, DatabaseHelper._ID_MESSAGE + "=" + _id, null);
     }
+    public void deleteF(String _id) {
+        database.delete(DatabaseHelper.TABLE_NAME_MESSAGES, DatabaseHelper._ID_MESSAGE_SENDER_FIREBASE + "='" + _id+"'", null);
+    }
 
     public ArrayList<MessageItem> listMessages() {
         String sql = "select * from " + DatabaseHelper.TABLE_NAME_MESSAGES;

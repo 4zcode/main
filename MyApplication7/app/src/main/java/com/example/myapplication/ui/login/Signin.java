@@ -1,10 +1,12 @@
 package com.example.myapplication.ui.login;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.message.DBManagerMessage;
 import com.example.myapplication.utilities.PreferenceUtilities;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -53,7 +56,7 @@ public class Signin extends AppCompatActivity {
     public void signin(View view) {
         String user=username.getText().toString().trim();
         String pass=this.pass.getText().toString();
-        if (TextUtils.isEmpty(user)|TextUtils.isEmpty(pass)){
+        if (TextUtils.isEmpty(user)|| TextUtils.isEmpty(pass)){
             Toast.makeText(this,"error",Toast.LENGTH_LONG).show();
         }else{
             progressDialog.show();
@@ -66,7 +69,7 @@ public class Signin extends AppCompatActivity {
                         editor.putBoolean(KEY_IS_LOGIN,true);
                         editor.apply();
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),"sign in with sucess",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"Connectez-vous avec succès",Toast.LENGTH_LONG).show();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     }else{
                         progressDialog.dismiss();
@@ -86,23 +89,39 @@ public class Signin extends AppCompatActivity {
 
 
     public void passwordPassword(View view) {
-        progressDialog.show();
-        String user=username.getText().toString().trim();
-        if (TextUtils.isEmpty(user)|TextUtils.isEmpty(user)){
-            Toast.makeText(this,"error",Toast.LENGTH_LONG).show();
+        final String user=username.getText().toString().trim();
+        if (TextUtils.isEmpty(user)){
+            Toast.makeText(this,"remplir votre mail",Toast.LENGTH_LONG).show();
         }else {
-            firebaseAuth.sendPasswordResetEmail(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()){
-                        Toast.makeText(getBaseContext(),"check your email",Toast.LENGTH_LONG).show();
+            AlertDialog message = new AlertDialog.Builder(this)
+                    .setTitle("Avertissement")
+                    .setMessage("Voullez vous vraiment changer votre mot de pass?")
+                    .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            progressDialog.show();
+                            firebaseAuth.sendPasswordResetEmail(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()){
+                                        Toast.makeText(getBaseContext(),"vréfier votre mail",Toast.LENGTH_LONG).show();
+                                        progressDialog.dismiss();
 
-                    }else {
-                        Toast.makeText(getBaseContext(),"echec d'envoyer le mot de passe",Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+                                    }else {
+                                        Toast.makeText(getBaseContext(),"echec d'envoyer le mot de passe",Toast.LENGTH_LONG).show();
+                                        progressDialog.dismiss();
+
+                                    }
+                                }
+                            });
+
+                        }
+                    })
+                    .setNegativeButton("Non", null)
+                    .setIcon(R.drawable.sign1)
+                    .show();
+
+
         }
-        progressDialog.dismiss();
     }
 }
