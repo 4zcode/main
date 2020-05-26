@@ -106,6 +106,7 @@ public class chatRoom extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     uri_Image=uri;
+                                    Toast.makeText(getBaseContext(),"you have selected an image",Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -141,7 +142,6 @@ public class chatRoom extends AppCompatActivity {
         senderUser = new HashMap<String, Object>();
         user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
         myPef = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        adapter = new ChatRoomAdapter(this, arrayMsg);
         recyclerView.setAdapter(adapter);
         linearManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearManager);
@@ -150,7 +150,9 @@ public class chatRoom extends AppCompatActivity {
         db.open();
         String msg = db.getFullMessage(ID_reciver);
         String image = db.getImage_message(ID_reciver);
-        DecodeFullMsg(msg, arrayMsg, image);
+        Log.d("aymanetest","imagemessagedb="+image+"fullMessage="+msg);
+        DecodeFullMsg(msg, arrayMsg);
+        adapter = new ChatRoomAdapter(this, arrayMsg);
         adapter.notifyDataSetChanged();
         recyclerView.getLayoutManager().onRestoreInstanceState(recyclerState);
         if (isNetworkAvailable(getBaseContext())) {
@@ -170,7 +172,9 @@ public class chatRoom extends AppCompatActivity {
                 }
             }
         });
-    }
+        for (int i=0 ;i<arrayMsg.size();i++){
+        Log.d("aymanetest","full message="+arrayMsg.get(i).getMessage()+",,Imagemessage="+arrayMsg.get(i).getImage_message()+arrayMsg.get(i).getDate()+",,,dateString2="+arrayMsg.get(i).getDate2String());
+    }}
     public void updateAffichage(final int duree){
         thread = new Thread(){
             @Override
@@ -208,15 +212,14 @@ public class chatRoom extends AppCompatActivity {
         });
     }
 
-    public void DecodeFullMsg(String msg,ArrayList<MessageChatItem> arrayMsg,String image_message) {
+    public void DecodeFullMsg(String msg,ArrayList<MessageChatItem> arrayMsg) {
         String[] fullMsg = msg.split("@E1S9I!");
         arrayMsg.clear();
         for (String petitMsg : fullMsg) {
             String[] detail = petitMsg.split("<br>");
-            if (detail.length == 3) {
+            if (detail.length == 4) {
                 String msgName = "Anonyme";
                 String msgImage = "R.drawble.doctorm";
-                if(mImageUri!=null){image_message=mImageUri.toString();}
                 if (detail[0].equals(ID_reciver)) {
                     msgName = SenderName;
                     msgImage = ReceiverImage;
@@ -224,7 +227,7 @@ public class chatRoom extends AppCompatActivity {
                     msgName = myPef.getString(KEY_USER_NAME, "Annonyme");
                     msgImage = myPef.getString(KEY_USER_IMAGE, "R.drawable.doctorm");
                 }
-                arrayMsg.add(new MessageChatItem(detail[0], msgName, detail[1], image_message, detail[2], msgImage));
+                arrayMsg.add(new MessageChatItem(detail[0], msgName, detail[1], detail[2], detail[3], msgImage));
             }
         }
         Collections.sort(arrayMsg);
@@ -234,7 +237,7 @@ public class chatRoom extends AppCompatActivity {
             firebaseDatabase.child(user1.getUid()).child(ID_reciver).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    boolean is_exist = dataSnapshot.child("message_envoyer").exists() && dataSnapshot.child("Date").exists()&&dataSnapshot.child("AllMsg").exists();
+                    boolean is_exist = dataSnapshot.child("message_envoyer").exists() && dataSnapshot.child("Date").exists()&&dataSnapshot.child("AllMsg").exists()&&dataSnapshot.child("Image_envoyer").exists();
                     if (is_exist) {
                         String image =dataSnapshot.child("Image_envoyer").getValue(String.class);
                         String fullMsg = dataSnapshot.child("AllMsg").getValue(String.class);
@@ -243,17 +246,14 @@ public class chatRoom extends AppCompatActivity {
                         MessageRecever = fullMsg;
                         boolean Is_Readed = dataSnapshot.child("Is_Readed").getValue(String.class).equals("true");
                         boolean falsy = dataSnapshot.child("Is_Readed").getValue(String.class).equals("false");
-                        Log.d("akramTest","IS readed : "+Is_Readed);
-                        Log.d("akramTest","falsy : "+falsy);
-
+                        Log.d("aymanetest","image="+image);
                         if ( !Is_Readed) {
-                            Log.d("akramTest","msg not readed");
                             if(!db.CheckIsDataAlreadyInDBorNot(ID_reciver)) db.update(ID_reciver,SenderName,recentMsg,fullMsg,image,date, "true",ReceiverImage);
                             else db.update(ID_reciver,SenderName,recentMsg,fullMsg,image,date, "true",ReceiverImage);
                             updateIs_ReadedStatus(recentMsg, fullMsg,image ,SenderName, ID_reciver, date);
-                            DecodeFullMsg(fullMsg, arrayMsg,image);
-                            ChatRoomAdapter alpha= new ChatRoomAdapter(context,arrayMsg);
-                            recyclerView.setAdapter(alpha);
+                            DecodeFullMsg(fullMsg, arrayMsg);
+                            adapter.notifyDataSetChanged();
+                            recyclerView.setAdapter(adapter);
                         }Log.d("akramTest","msg already readed");
                     }else Log.d("akramTest","msg doesn't exist in firebase");
                 }
@@ -278,31 +278,29 @@ public class chatRoom extends AppCompatActivity {
         String message = editText.getText().toString().trim();
         String image_message="null";
         if (uri_Image!=null) {  image_message=uri_Image.toString();}
-        Log.d("akramTestImage",image_message);
-
-        if((isNetworkAvailable(getBaseContext())) && ((!message.isEmpty())||(image_message!="null"))) {
+        if((isNetworkAvailable(getBaseContext())) && ((!message.isEmpty())||(!image_message.equals("null")))) {
             mProgressDialog.show();
-
             String name_current_user = myPef.getString("userName", "Annonyme");
             DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
             String dt = date.format(Calendar.getInstance().getTime());
-            String allMSG = MessageRecever  + user1.getUid() + "<br>" + message + "<br>"+dt+"@E1S9I!";
+            if (message.isEmpty()){message="messageImagenull";}
+            String allMSG = MessageRecever  + user1.getUid() + "<br>" + message + "<br>"+image_message+"<br>"+dt+"@E1S9I!";
             updateUserReceiver(message,image_message,allMSG, SenderName, ID_reciver, dt);
-            if (message.isEmpty()){allMSG="null";message=null;}
             updateReceiverUser(name_current_user, message,image_message,allMSG, ID_reciver, dt);
             editText.getText().clear();
             tools.hideKeyBoard(chatRoom.this,view);
             mProgressDialog.dismiss();
             Afficher(getBaseContext());
-        }else  {
-            Toast.makeText(getBaseContext(),"pas internet",Toast.LENGTH_SHORT).show();
-        }
 
+        }else  {
+           if(!isNetworkAvailable(getBaseContext())) Toast.makeText(getBaseContext(),"pas internet",Toast.LENGTH_SHORT).show();else Toast.makeText(getBaseContext(),"tu n'a pas ecrire ou select an image",Toast.LENGTH_SHORT).show();
+        }
+      uri_Image=null;
     }
     public void updateUserReceiver(String message,String image,String fullMsg,String senderName,String ID_reciver,String date){
 
         if (!ID_reciver.equals(user1.getUid())) {
-            if(uri_Image!=null) user.put("Image_envoyer",image) ;else user.put("Image_envoyer","null");
+             user.put("Image_envoyer",image);
             user.put("ID_Reciver", ID_reciver);
             user.put("Sender_Name", senderName);
             user.put("Sender_Image", ReceiverImage);
@@ -329,7 +327,7 @@ public class chatRoom extends AppCompatActivity {
     }
     public void updateReceiverUser(String name_current_user,String message,String image,String fullMsg,String ID_reciver,String date){
         if (!ID_reciver.equals(user1.getUid())) {
-            if(uri_Image!=null) user.put("Image_envoyer",image) ;else user.put("Image_envoyer","null");
+             user.put("Image_envoyer",image) ;
             user.put("ID_Reciver", user1.getUid());
             user.put("Sender_Name", name_current_user);
             user.put("Sender_Image", myPef.getString(KEY_USER_IMAGE,DEFAULT_USER_IMAGE));
@@ -357,7 +355,7 @@ public class chatRoom extends AppCompatActivity {
 
     public void updateIs_ReadedStatus(String message,String fullMsg,String image,String senderName,String ID_reciver,String date){
         if (!ID_reciver.equals(user1.getUid())) {
-            if(mImageUri!=null) user.put("Image_envoyer",image) ;else user.put("Image_envoyer","null");
+            user.put("Image_envoyer",image) ;
             user.put("ID_Reciver", ID_reciver);
             user.put("Sender_Name", senderName);
             user.put("Sender_Image", ReceiverImage);
@@ -413,18 +411,19 @@ public class chatRoom extends AppCompatActivity {
         if (thread !=null && thread.isAlive()) {
             thread.interrupt();}
         super.onPause();
+
     }
 
     @Override
     protected void onStop() {
         if (thread !=null && thread.isAlive()) { thread.interrupt();}
-
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
         if (thread !=null && thread.isAlive()) { thread.interrupt();}
+        uri_Image=null;
         super.onDestroy();
 
     }

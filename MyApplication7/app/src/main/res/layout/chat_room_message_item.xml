@@ -24,7 +24,7 @@
         app:civ_shadow_radius="2dp"
         app:civ_shadow_color="#3f51b5"
         tools:src="@drawable/doctor"
-        android:layout_gravity="bottom"/>
+        />
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="90dp"
             android:id="@+id/imagemessage"
             android:visibility="invisible"
             android:scaleType="centerCrop"

@@ -118,12 +118,16 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
                 mMessageTextView.setTextColor(Color.GRAY);
                 mMessageTextView.setTypeface(Typeface.DEFAULT_BOLD);
             }
+            if(!currentMessage.getRecent_message().equals("messageImagenull")) {mMessageTextView.setText(currentMessage.getRecent_message());}else{mMessageTextView.setVisibility(View.GONE);}
             mMessageTextView.setText(currentMessage.getRecent_message());
             String mydate = DateFormat.getDateTimeInstance().format(currentMessage.getDate());
             mDateTest.setText(mydate);
-            if(currentMessage.getImagemessage()!="null"){
-                Picasso.with(mCont).load(mCurrentMessage.getImagemessage()).into(imagemessage);
+            if(!currentMessage.getImagemessage().equals("null")){
                 imagemessage.setVisibility(View.VISIBLE);
+                Glide.with(mCont).load(mCurrentMessage.getImagemessage())
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(mGradientDrawable)
+                        .into(imagemessage);
             }else imagemessage.setVisibility(View.GONE);
             if (!mCurrentMessage.getImageResource().equals("R.drawable.doctorm")) {
                 Glide.with(mCont).load(mCurrentMessage.getImageResource())

@@ -50,9 +50,10 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="90dp"
                 android:id="@+id/imagemessage2"
                 android:visibility="invisible"
+                android:scaleType="centerCrop"
                 />
             <TextView
                 android:id="@+id/dateTest"

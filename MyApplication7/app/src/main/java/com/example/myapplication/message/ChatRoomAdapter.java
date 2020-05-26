@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,12 +106,16 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Messag
 
             mCurrentMessage = currentMessage;
             mSenderNameTextView.setText(currentMessage.getMsgName());
-            if(currentMessage.getImage_message()!="null") {
-                Picasso.with(mCont).load(mCurrentMessage.getImage_message()).into(image_message);
+            Log.d("aymanetest","imageadapter="+currentMessage.getImage_message());
+            if(!currentMessage.getImage_message().equals("null")) {
                 image_message.setVisibility(View.VISIBLE);
-            }
+                Glide.with(mCont).load(mCurrentMessage.getImage_message())
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(mGradientDrawable)
+                        .into(image_message);
+            }else{image_message.setVisibility(View.GONE);}
 
-           if(currentMessage.getMessage()!="null") {mMessageTextView.setText(currentMessage.getMessage());}else{mMessageTextView.setVisibility(View.GONE);}
+           if(!currentMessage.getMessage().equals("messageImagenull")) {mMessageTextView.setText(currentMessage.getMessage());}else{mMessageTextView.setVisibility(View.GONE);}
             String mydate = DateFormat.getDateTimeInstance().format(currentMessage.getDate());
             mDateTest.setText(mydate);
 

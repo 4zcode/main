@@ -26,7 +26,7 @@ public class MessageChatItem implements Comparable<MessageChatItem>{
         this.Message_ID_Firebase=id;
         this.msgName = senderName;
         this.message = message;
-        Image_message = image_message;
+        this.Image_message = image_message;
         this.imageResource = msgImage;
 
         SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
