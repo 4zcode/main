@@ -140,16 +140,19 @@ public class pharmacyAdapter extends RecyclerView.Adapter<pharmacyAdapter.pharma
 
         @Override
         public void onClick(View view) {
-            myPef =mCont.getSharedPreferences("userPref", Context.MODE_PRIVATE);
-            if (myPef.getBoolean("IsLogIn", false) && FirebaseAuth.getInstance().getCurrentUser() != null) {
-                FirebaseUser user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
-                if (!user1.getUid().equals(mCurrentpharmacies.getPHARMA_ID_Firebase())) {
-                    Intent intent = pharmacy.starter(mCont,mCurrentpharmacies.getPHARMA_ID_Firebase(), mCurrentpharmacies.getThename());
-                    mCont.startActivity(intent);
-                } else {
-                    Toast.makeText(mCont, "you cant send to your self", Toast.LENGTH_LONG).show();
-                }
-            }
+            Intent intent=new Intent(mCont,pharmacies_info.class);
+            intent.putExtra("idfirebase",mCurrentpharmacies.getPHARMA_ID_Firebase());
+            intent.putExtra("name_ph",mCurrentpharmacies.getThename());
+            intent.putExtra("adress_ph",mCurrentpharmacies.getTheadress());
+            intent.putExtra("contact_ph",mCurrentpharmacies.getPhone());
+            intent.putExtra("open_ph",mCurrentpharmacies.getOppen());
+            intent.putExtra("close_ph",mCurrentpharmacies.getClose());
+            intent.putExtra("imageUri",mCurrentpharmacies.getImageUrl());
+            Log.d("test_ph","1");
+            mCont.startActivity(intent);
+
+
+
         }
     }
 }
