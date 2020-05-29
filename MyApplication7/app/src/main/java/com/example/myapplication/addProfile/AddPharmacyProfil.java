@@ -7,12 +7,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,18 +42,25 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddPharmacyProfil extends AppCompatActivity {
+public class AddPharmacyProfil extends AppCompatActivity  {
         private ImageView ProfileImage;
+        private String openclose;
         private Uri mImageUri;
         public static int PICK_IMAGE = 1;
         private EditText first_name;
         private EditText adress;
-        private EditText open;
-        private EditText close;
         private EditText phone;
+        private String tim;
+        private EditText description;
+        private CheckBox checkBox1;
+        private CheckBox checkBox2;
+        public String mSpinnerLabel;
+        private Spinner spiner1;
+        private Spinner spiner2;
         private ProgressBar mProgressBar;
         private StorageReference mStorageRef;
         private DatabaseReference mDatabaseRef;
@@ -57,14 +69,13 @@ public class AddPharmacyProfil extends AppCompatActivity {
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_add);
+            setContentView(R.layout.activity_add_pharmacy);
             ProfileImage = (ImageView) findViewById(R.id.Profile_Imageph);
             mProgressBar = findViewById(R.id.progress_barph);
             first_name=(EditText) findViewById(R.id.pfname);
             adress=(EditText) findViewById(R.id.phadress);
             phone=(EditText) findViewById(R.id.phnumber);
-            open=(EditText) findViewById(R.id.open);
-            close = (EditText) findViewById(R.id.close);
+            description=(EditText) findViewById(R.id.phdescription);
             mStorageRef = FirebaseStorage.getInstance().getReference("pharmacies");
             mDatabaseRef = FirebaseDatabase.getInstance().getReference("pharmacies");
         }
@@ -91,7 +102,8 @@ public class AddPharmacyProfil extends AppCompatActivity {
         }
 
         public void create_profile(View view) {
-
+           final String time1=tim;
+           Log.d("profiletest","time:"+time1);
             if (mImageUri != null) {
                 final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
                         + "." + getFileExtension(mImageUri));
@@ -110,7 +122,8 @@ public class AddPharmacyProfil extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         String pharmacyID = mDatabaseRef.push().getKey();
-                                        pharmacy pharmacy = new pharmacy(pharmacyID, first_name.getText().toString().trim(), adress.getText().toString().trim(), phone.getText().toString().trim(),open.getText().toString().trim(), close.getText().toString().trim(),  uri.toString());
+                                        Log.d("profiletest",first_name.getText().toString().trim()+ adress.getText().toString().trim()+ phone.getText().toString()+time1.trim()+  uri.toString()+description.getText().toString().trim());
+                                        pharmacy pharmacy = new pharmacy(pharmacyID, first_name.getText().toString().trim(), adress.getText().toString().trim(), phone.getText().toString(),time1.trim(),  uri.toString(),description.getText().toString().trim());
                                         mDatabaseRef.child(pharmacyID).setValue(pharmacy);
                                         mStorageRef = FirebaseStorage.getInstance().getReference("Users");
                                         final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
@@ -167,4 +180,147 @@ public class AddPharmacyProfil extends AppCompatActivity {
             MimeTypeMap mime = MimeTypeMap.getSingleton();
             return mime.getExtensionFromMimeType(cR.getType(uri));
         }
+        public String timing() {
+            String time = "";
+            Spinner spin1, spin2;
+            CheckBox checkBox3 = (CheckBox) findViewById(R.id.checkbox_24_dimanche);
+            checkBox1 = (CheckBox) findViewById(R.id.checkbox_24);
+            if (checkBox1.isChecked()) {
+                time = "it's open 24h/24h and 7days/7days@123brtest";
+                Log.d("profiletest",time);
+            } else {
+                for (int i = 0; i <= 6; i++) {
+                    switch (i) {
+                        case 0:
+                            checkBox3 = (CheckBox) findViewById(R.id.checkbox_24_dimanche);
+                            checkBox2 = (CheckBox) findViewById(R.id.notify_me_checkbox_dimanche);
+                            break;
+                        case 1:
+                            checkBox3 = (CheckBox) findViewById(R.id.checkbox_24_lundi);
+                            checkBox2 = (CheckBox) findViewById(R.id.notify_me_checkbox_lundi);
+                            break;
+                        case 2:
+                            checkBox3 = (CheckBox) findViewById(R.id.checkbox_24_mardi);
+                            checkBox2 = (CheckBox) findViewById(R.id.notify_me_checkbox_mardi);
+                            break;
+                        case 3:
+                            checkBox3 = (CheckBox) findViewById(R.id.checkbox_24_mercredi);
+                            checkBox2 = (CheckBox) findViewById(R.id.notify_me_checkbox_mercredi);
+                            break;
+                        case 4:
+                            checkBox3 = (CheckBox) findViewById(R.id.checkbox_24_jeudi);
+                            checkBox2 = (CheckBox) findViewById(R.id.notify_me_checkbox_jeudi);
+                            break;
+                        case 5:
+                            checkBox3 = (CheckBox) findViewById(R.id.checkbox_24_vendredi);
+                            checkBox2 = (CheckBox) findViewById(R.id.notify_me_checkbox_vendredi);
+                            break;
+                        case 6:
+                            checkBox3 = (CheckBox) findViewById(R.id.checkbox_24_samedi);
+                            checkBox2 = (CheckBox) findViewById(R.id.notify_me_checkbox_samedi);
+                            break;
+                    }
+                    if (checkBox2.isChecked()) {
+                        spin1 = (Spinner) findViewById(R.id.dimanche_temp1);
+                        spin2 = (Spinner) findViewById(R.id.dimanche_temp2);
+                        switch (i) {
+                            case 0:
+                                spin1 = (Spinner) findViewById(R.id.dimanche_temp1);
+                                spin2 = (Spinner) findViewById(R.id.dimanche_temp2);
+                                time = time+"dimanche<br>";
+                                break;
+                            case 1:
+                                spin1 = (Spinner) findViewById(R.id.lundi_temp1);
+                                spin2 = (Spinner) findViewById(R.id.lundi_temp2);
+                                time = time+"lundi<br>";
+                                break;
+                            case 2:
+                                spin1 = (Spinner) findViewById(R.id.mardi_temp1);
+                                spin2 = (Spinner) findViewById(R.id.mardi_temp2);
+                                time = time+"mardi<br>";
+                                break;
+                            case 3:
+                                spin1 = (Spinner) findViewById(R.id.mercredi_temp1);
+                                spin2 = (Spinner) findViewById(R.id.mercredi_temp2);
+                                time = time+"mercredi<br>";
+                                break;
+                            case 4:
+                                spin1 = (Spinner) findViewById(R.id.jeudi_temp1);
+                                spin2 = (Spinner) findViewById(R.id.jeudi_temp2);
+                                time = time+"jeudi<br>";
+                                break;
+                            case 5:
+                                spin1 = (Spinner) findViewById(R.id.vendredi_temp1);
+                                spin2 = (Spinner) findViewById(R.id.vendredi_temp2);
+                                time = time+"vendredi<br>";
+                                break;
+                            case 6:
+                                spin1 = (Spinner) findViewById(R.id.samedi_temp1);
+                                spin2 = (Spinner) findViewById(R.id.samedi_temp2);
+                                time = time+"samedi<br>";
+                                break;
+                        }
+                        spin1.setVisibility(View.VISIBLE);
+                        spin2.setVisibility(View.VISIBLE);
+                        checkBox3.setVisibility(View.VISIBLE);
+                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                                R.array.horraire, android.R.layout.simple_spinner_item);
+
+                        adapter.setDropDownViewResource
+                                (android.R.layout.simple_spinner_dropdown_item);
+                        if (spin1 != null) {
+                            spin1.setAdapter(adapter);
+                        }
+                        if (spin2 != null) {
+                            spin2.setAdapter(adapter);
+                        }
+                        if(checkBox3.isChecked()){
+                            time = time +"24h/24h@123brtest";
+
+                        }else{
+                            spin1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                                    openclose=parent.getItemAtPosition(position).toString();
+                                    Log.d("profiletest","spin1"+openclose);
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+                            time=time+openclose+"<br>";
+                            Log.d("profiletest",time);
+                            spin2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                @Override
+                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                    openclose=parent.getItemAtPosition(position).toString();
+                                    Log.d("profiletest","spin2"+openclose);
+                                }
+
+                                @Override
+                                public void onNothingSelected(AdapterView<?> parent) {
+
+                                }
+                            });
+                            time=time+openclose+"@123brtest";
+                            Log.d("profiletest",time);
+
+                        }
+
+
+                    }
+                    Log.d("profiletest",time);
+                }
+
+            }
+            return time;
+        }
+
+
+    public void check_h(View view) {
+          tim=timing();
+    }
 }

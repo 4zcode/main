@@ -79,9 +79,9 @@ public class Advancedsearchpahraciesactivity extends Fragment implements Adapter
         } else {
             Toast.makeText(getContext(), "no connection", Toast.LENGTH_LONG).show();
         }
-
+        Log.d("pharmacy_test","1");
         mpharmaciesData = dbManager.listpharmacy();
-
+        Log.d("pharmacy_test","2"+mpharmaciesData.size());
         mAdapter = new pharmacyAdapter(getActivity(),mpharmaciesData);
         mRecyclerView.setAdapter(mAdapter);
         mAdapter.notifyDataSetChanged();
@@ -124,21 +124,21 @@ public class Advancedsearchpahraciesactivity extends Fragment implements Adapter
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (isNetworkAvailable()){  dbManager.deleteall();}
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    boolean Is_Exist =ds.child("pharma_ID_Firebase").exists() &&ds.child("imageUrl").exists() && ds.child("thename").exists() && ds.child("theadress").exists() && ds.child("phone").exists() && ds.child("oppen").exists() &&ds.child("close").exists();
+                    boolean Is_Exist =ds.child("pharma_ID_Firebase").exists() &&ds.child("imageUrl").exists() && ds.child("thename").exists() && ds.child("theadress").exists() && ds.child("phone").exists() && ds.child("time").exists()&& ds.exists()&&ds.child("description").exists();
                     if (Is_Exist) {
                         String id_firebase = ds.child("pharma_ID_Firebase").getValue(String.class);
                         String Name = ds.child("thename").getValue(String.class);
                         String Place = ds.child("theadress").getValue(String.class);
                         String Phone = ds.child("phone").getValue(String.class);
-                        String open = ds.child("oppen").getValue(String.class);
-                        String close= ds.child("close").getValue(String.class);
+                        String time = ds.child("time").getValue(String.class);
                         String ImageUrl = ds.child("imageUrl").getValue(String.class);
+                        String description =ds.child("description").getValue(String.class);
 
                         if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
-                            dbManager.update(id_firebase, Name, Place, Phone, open, close,ImageUrl);
+                            dbManager.update(id_firebase, Name, Place, Phone, time,ImageUrl,description);
                         } else {
-
-                            dbManager.insert(id_firebase, Name, Place, Phone, open, close,ImageUrl);
+                            Log.d("pharmacy_test","3"+id_firebase+ Name+ Place+ Phone+ time +ImageUrl+description);
+                            dbManager.insert(id_firebase, Name, Place, Phone, time ,ImageUrl,description);
 
                         }
                     } else Log.d("pharmacy_test","is not exist");

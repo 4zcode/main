@@ -86,22 +86,16 @@ public class pharmacyAdapter extends RecyclerView.Adapter<pharmacyAdapter.pharma
 
     static class pharmaciesViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        private TextView mNameText, mPlaceText,mphone,mopen,mclose;
+        private TextView mNameText;
         private ImageView mpharmciesImage;
         private Context mCont;
         private pharmacy mCurrentpharmacies;
         private GradientDrawable mGradientDrawable;
-        private SharedPreferences myPef;
-
 
         pharmaciesViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
             mNameText = (TextView) itemView.findViewById(R.id.name_pharma);
-            mPlaceText = (TextView) itemView.findViewById(R.id.place_pharma) ;
             mpharmciesImage = (ImageView) itemView.findViewById(R.id.pharma_image);
-            mphone =(TextView) itemView.findViewById(R.id.phone_pharma);
-            mopen =(TextView) itemView.findViewById(R.id.open_pharma);
-            mclose =(TextView) itemView.findViewById(R.id.close_pharma);
             mCont = context;
             mGradientDrawable = gradientDrawable;
             itemView.setOnClickListener(this);
@@ -109,10 +103,6 @@ public class pharmacyAdapter extends RecyclerView.Adapter<pharmacyAdapter.pharma
 
         void bindTo(pharmacy Currentpharmacies) {
             mNameText.setText(Currentpharmacies.thename);
-            mPlaceText.setText(Currentpharmacies.theadress);
-            mphone.setText(Currentpharmacies.phone);
-            mclose.setText(Currentpharmacies.close);
-            mopen.setText(Currentpharmacies.oppen);
             mCurrentpharmacies = Currentpharmacies;
             if (isNetworkAvailable()) {
                 Picasso.with(mCont).load(mCurrentpharmacies.getImageUrl()).into(mpharmciesImage);
@@ -145,10 +135,10 @@ public class pharmacyAdapter extends RecyclerView.Adapter<pharmacyAdapter.pharma
             intent.putExtra("name_ph",mCurrentpharmacies.getThename());
             intent.putExtra("adress_ph",mCurrentpharmacies.getTheadress());
             intent.putExtra("contact_ph",mCurrentpharmacies.getPhone());
-            intent.putExtra("open_ph",mCurrentpharmacies.getOppen());
-            intent.putExtra("close_ph",mCurrentpharmacies.getClose());
+            intent.putExtra("time_ph",mCurrentpharmacies.getTime());
             intent.putExtra("imageUri",mCurrentpharmacies.getImageUrl());
-            Log.d("test_ph","1");
+            intent.putExtra("description",mCurrentpharmacies.getDescription());
+            Log.d("test_ph","1"+mCurrentpharmacies.getThename()+mCurrentpharmacies.getTheadress()+mCurrentpharmacies.getPhone()+mCurrentpharmacies.getTime()+mCurrentpharmacies.getDescription()+mCurrentpharmacies.getImageUrl());
             mCont.startActivity(intent);
 
 

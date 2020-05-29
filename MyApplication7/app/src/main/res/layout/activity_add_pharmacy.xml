@@ -70,6 +70,17 @@
                 android:inputType="phone"
                 android:padding="10dp"
                 android:textStyle="bold" />
+            <EditText
+                android:id="@+id/phdescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="110dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/edit_corner"
+                android:hint="descrip your institution"
+                android:inputType="text"
+                android:padding="10dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <ImageView
@@ -99,7 +110,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/notify_me_checkbox"
+                        android:id="@+id/notify_me_checkbox_dimanche"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -110,7 +121,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="08:00-16:00"
+                        android:text="08:00-20:00"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
 
@@ -140,6 +151,7 @@
                 </LinearLayout>
 
                 <CheckBox
+                    android:id="@+id/checkbox_24_dimanche"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -158,7 +170,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/notify_me_checkbox2"
+                        android:id="@+id/notify_me_checkbox_lundi"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -169,7 +181,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="08:00-16:00"
+                        android:text="08:00-20:00"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
 
@@ -199,6 +211,7 @@
                 </LinearLayout>
 
                 <CheckBox
+                    android:id="@+id/checkbox_24_lundi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -216,7 +229,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/notify_me_checkbox3"
+                        android:id="@+id/notify_me_checkbox_mardi"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -227,7 +240,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="08:00-16:00"
+                        android:text="08:00-20:00"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
 
@@ -258,6 +271,7 @@
                         />
                 </LinearLayout>
                 <CheckBox
+                    android:id="@+id/checkbox_24_mardi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ouvert 24h/24"
@@ -276,7 +290,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/notify_me_checkbox4"
+                        android:id="@+id/notify_me_checkbox_mercredi"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -287,7 +301,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="08:00-16:00"
+                        android:text="08:00-20:00"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
 
@@ -318,6 +332,7 @@
                         />
                 </LinearLayout>
                 <CheckBox
+                    android:id="@+id/checkbox_24_mercredi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ouvert 24h/24"
@@ -336,7 +351,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/notify_me_checkbox5"
+                        android:id="@+id/notify_me_checkbox_jeudi"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -347,7 +362,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="08:00-16:00"
+                        android:text="08:00-20:00"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
 
@@ -378,6 +393,7 @@
                         />
                 </LinearLayout>
                 <CheckBox
+                    android:id="@+id/checkbox_24_jeudi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ouvert 24h/24"
@@ -396,7 +412,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/notify_me_checkbox6"
+                        android:id="@+id/notify_me_checkbox_vendredi"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -407,7 +423,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="08:00-16:00"
+                        android:text="08:00-20:00"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
 
@@ -438,6 +454,7 @@
                         />
                 </LinearLayout>
                 <CheckBox
+                    android:id="@+id/checkbox_24_vendredi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ouvert 24h/24"
@@ -456,7 +473,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/notify_me_checkbox7"
+                        android:id="@+id/notify_me_checkbox_samedi"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -467,7 +484,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="08:00-16:00"
+                        android:text="08:00-20:00"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
 
@@ -498,6 +515,7 @@
                         />
                 </LinearLayout>
                 <CheckBox
+                    android:id="@+id/checkbox_24_samedi"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Ouvert 24h/24"
@@ -509,6 +527,7 @@
 
         </LinearLayout>
         <CheckBox
+            android:id="@+id/checkbox_24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -518,6 +537,15 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:orientation="vertical">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:onClick="check_h"
+                android:text="finish with time"
+                android:textStyle="bold"
+
+                />
 
             <Button
                 android:layout_width="wrap_content"

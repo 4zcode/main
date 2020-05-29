@@ -47,20 +47,19 @@ public class DBManagerPharmacy {
         return false;
     }
 
-    public void insert(String _id,String name, String place,String phone, String open,String close,String imageUrl) {
+    public void insert(String _id,String name, String place,String phone, String time,String imageUrl,String description) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper._ID_PHARMA_FIREBASE, _id);
         contentValue.put(DatabaseHelper.NAME_PHARMA, name);
         contentValue.put(DatabaseHelper.PLACE_PHARMA, place);
         contentValue.put(DatabaseHelper.PHONE_PHARMA, phone);
-        contentValue.put(DatabaseHelper.OPEN, open);
-        contentValue.put(DatabaseHelper.CLOSE, close);
+        contentValue.put(DatabaseHelper.TIME, time);
         contentValue.put(DatabaseHelper.IMAGE_PHARMA_URL, imageUrl);
-
+        contentValue.put(DatabaseHelper.DESCRIPTION,description);
         database.insert(TABLE_NAME_PHARMACIE, null, contentValue);
     }
     public Cursor fetch() {
-        String[] columns = new String[] { DatabaseHelper._ID_PHARMA, DatabaseHelper.NAME_PHARMA, DatabaseHelper.PLACE_PHARMA, DatabaseHelper.PHONE_PHARMA, DatabaseHelper.OPEN,DatabaseHelper.CLOSE,DatabaseHelper.IMAGE_PHARMA_URL};
+        String[] columns = new String[] { DatabaseHelper._ID_PHARMA, DatabaseHelper.NAME_PHARMA, DatabaseHelper.PLACE_PHARMA, DatabaseHelper.PHONE_PHARMA, DatabaseHelper.TIME,DatabaseHelper.DESCRIPTION,DatabaseHelper.IMAGE_PHARMA_URL};
         Cursor cursor = database.query(TABLE_NAME_PHARMACIE, columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -68,15 +67,14 @@ public class DBManagerPharmacy {
         return cursor;
     }
 
-    public int update(String _id, String name, String place,String phone,String open,String close,String imageUrl) {
+    public int update(String _id, String name, String place,String phone,String time,String imageUrl,String description) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME_PHARMA, name);
         contentValues.put(DatabaseHelper.PLACE_PHARMA, place);
         contentValues.put(DatabaseHelper.PHONE_PHARMA, phone);
-        contentValues.put(DatabaseHelper.OPEN, open);
-        contentValues.put(DatabaseHelper.CLOSE, close);
+        contentValues.put(DatabaseHelper.TIME, time);
         contentValues.put(DatabaseHelper.IMAGE_PHARMA_URL, imageUrl);
-
+        contentValues.put(DatabaseHelper.DESCRIPTION,description);
         int i = database.update(TABLE_NAME_PHARMACIE, contentValues, DatabaseHelper._ID_PHARMA_FIREBASE + " = " + "'"+_id+ "'", null);
         return i;
     }
@@ -95,11 +93,11 @@ public class DBManagerPharmacy {
                 String name = cursor.getString(2);
                 String place = cursor.getString(3);
                 String phone = cursor.getString(4);
-                String open = cursor.getString(5);
-                String close = cursor.getString(6);
+                String time = cursor.getString(5);
+                String description = cursor.getString(6);
                 String imageUrl = cursor.getString(7);
 
-                storeContacts.add(new pharmacy(Id_firebase,name, place, phone,open,close,imageUrl));
+                storeContacts.add(new pharmacy(Id_firebase,name, place, phone,time,imageUrl,description));
             }
             while (cursor.moveToNext());
         }
