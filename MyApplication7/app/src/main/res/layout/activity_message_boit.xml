@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".message.messageBoit">
+    tools:context=".message.messageBoit.messageBoit">
     <androidx.recyclerview.widget.RecyclerView
+        android:layout_marginTop="16dp"
         android:id="@+id/recyclerViewMessage"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible"
+       />
+    <LinearLayout
+        android:id="@+id/message_boit_empty_linear"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_marginTop="100dp">
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/message_boit_empty_image"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:visibility="gone"
+            android:src="@drawable/ic_speaker_notes_off_black_24dp"
+            />
+        <TextView
+            android:layout_marginTop="32dp"
+            android:id="@+id/message_boit_empty_text"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Il n'exist aucun message"
+            android:textAlignment="center"
+            android:textStyle="italic"
+            android:fontFamily="sans-serif-black"
+            android:textColor="@color/colorAccent"
+            android:textSize="20sp"
+            android:gravity="center_horizontal"
+            />
+    </LinearLayout>
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-</RelativeLayout>
+</FrameLayout>

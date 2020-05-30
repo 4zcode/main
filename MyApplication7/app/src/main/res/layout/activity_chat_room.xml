@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".message.chatRoom"
+    tools:context=".message.chatRoom.chatRoom"
     android:orientation="vertical"
     android:fitsSystemWindows="true"
     >
@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        />
+        tools:listitem="@layout/chat_room_message_item" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

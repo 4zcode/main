@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
-import android.database.sqlite.SQLiteDatabase;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -17,31 +16,35 @@ import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 
-import com.example.myapplication.Hospital.DBManagerHospital;
 import com.example.myapplication.Laboratoir.DBManagerLaboratoir;
 import com.example.myapplication.Pharmacies.DBManagerPharmacy;
 import com.example.myapplication.Wilaya;
-import com.example.myapplication.doctors.DBManagerDoctor;
-import com.example.myapplication.doctors.Doctors;
-import com.example.myapplication.message.chatRoom;
+import com.example.myapplication.doctors.advanceSearch.DBManagerDoctor;
+import com.example.myapplication.doctors.speciality.DBManagerSpeciality;
+import com.example.myapplication.doctors.speciality.Speciality;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class tools {
     public static final int LOCATION_PERMISSION = 99;
@@ -95,57 +98,6 @@ public class tools {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, locationListener);
         }
     }
-
-   /* private static String loadJsonWilayaFromAssest(Context context){
-        String WilayaString = null;
-        try {
-            InputStream is = context.getAssets().open("WilayaDZ");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            WilayaString = new String(buffer,"UTF-8");
-        }catch (IOException e){
-            Log.d("WilayaTestAkram","Error : "+e.getMessage());
-            e.printStackTrace();
-            return null;
-        }
-
-        return WilayaString;
-    }
-    private static String loadJsonWilayaFromAssest2(Context context){
-        String WilayaString = "";
-        AssetManager assetManager = context.getResources().getAssets();
-        InputStream inputStream = null;
-        try {
-            inputStream = assetManager.open("WilayaDZ.txt");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            if (inputStream != null) {
-                String Line = reader.readLine();
-                while (Line != null) {
-                    WilayaString += Line;
-                }
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-            Log.d("WilayaTestAkram","Error IO: "+e.getMessage());
-        }
-        return WilayaString;
-    }
-    public static void getJsonFileFromLocally(Context context){
-        try{
-          /*  JSONObject jsonObject = new JSONObject(loadJsonWilayaFromAssest(context));
-            JSONArray jsonArray = jsonObject.getJSONArray("communes");
-            Log.d("WilayaTestAkram"," json array length : "+jsonArray.length());
-
-
-         Log.d("AkramtestNo1",loadJsonWilayaFromAssest2(context));
-        }catch (Exception e){
-            e.printStackTrace();
-            Log.d("WilayaTestAkram","Error json: "+e.getMessage());
-        }
-    }
-    */
 
 
     public static List<Wilaya> getAllWilayasData(){
@@ -386,6 +338,7 @@ public class tools {
 
 
     public static int readAllData(Context context){
+        ArrayList<Speciality> specialitiesArray = new ArrayList<>();
         DBManagerDoctor dbDoctor = new DBManagerDoctor(context);
         DBManagerLaboratoir dblabo = new DBManagerLaboratoir(context);
         DBManagerPharmacy dbPharmacy = new DBManagerPharmacy(context);
@@ -468,4 +421,54 @@ public class tools {
         return 0;
     }
 
+
+    public static void initialSpec(String[] array){
+        final Integer[] count = {0};
+         DatabaseReference mDatabaseRef = FirebaseDatabase.getInstance().getReference("Specialities");
+        Map<String, Object> SpecialityData = new HashMap<String, Object>();
+        for (String ds: array) {
+            SpecialityData.put(ds, "0");
+            mDatabaseRef.setValue(SpecialityData).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        count[0]++;
+                        Log.d("specialityTest","added with susecful "+ count[0]);
+                    }else {
+                        Log.d("specialityTest","failed " +count[0]);
+                    }
+                }
+            });
+        }
+    }
+    public static String DiffrenceDate(Date startDate, Date endDate) {
+        //milliseconds
+        long different = endDate.getTime() - startDate.getTime();
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        if (elapsedDays > 7  ) {
+            return DateFormat.getDateTimeInstance().format(endDate);
+        }else if (elapsedDays > 0 ){
+            return "Depuis "+elapsedDays+" jours";
+        }else {
+            different = different % daysInMilli;
+            long elapsedHours = different / hoursInMilli;
+            if (elapsedHours > 0){
+                return "Depuis "+elapsedHours +" heurs";
+            }else {
+                different = different % hoursInMilli;
+                long elapsedMinutes = different / minutesInMilli;
+                if (elapsedMinutes > 0) {
+                    return "Depuis "+elapsedMinutes +" minutes";
+                }else {
+                    return  "Depuis l'instant";
+                }
+            }
+        }
+    }
 }

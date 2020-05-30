@@ -20,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME_PHARMACIE = "Pharmacies";
     public static final String TABLE_NAME_HOSPITAL = "hospital";
     public static final String TABLE_NAME_DOCTORS = "doctors";
+    public static final String TABLE_NAME_SPECIALITY = "speciality";
     public static final String TABLE_NAME_LABORATOIR = "laboratoir";
     public static final String TABLE_NAME_MESSAGES = "messages";
     public static final String TABLE_NAME_DONATEUR = "donateurs";
@@ -62,6 +63,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String IMAGE_DOCTOR_URL ="image" ;
 
 
+    // Table doctor columns
+    public static final String _ID_SPECIALITY = "_id";
+    public static final String SPECIALITY_NAME = "name";
+    public static final String SPECIALITY_NUMBER = "number";
+
+
+
     //Table message columns
     public static final String _ID_MESSAGE = "_id";
     public static final String _ID_MESSAGE_SENDER_FIREBASE="_id_message_sender_firebase";
@@ -85,7 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String DB_NAME = "SahtiFiYdi.db";
 
     // database version
-    static final int DB_VERSION = 22;
+    static final int DB_VERSION = 24;
 
     // Creating table query
     private static final String CREATE_TABLE_PHARMACIE = "create table " + TABLE_NAME_PHARMACIE + "(" + _ID_PHARMA
@@ -99,6 +107,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String CREATE_TABLE_MESSAGES ="create table "+TABLE_NAME_MESSAGES+"("+_ID_MESSAGE + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_MESSAGE_SENDER_FIREBASE+ " TEXT NOT NULL, " +SENDER_MESSAGE_NAME+ " TEXT NOT NULL, " +RECENT_MESSAGE+ " TEXT, "+FULL_MESSAGE + " TEXT ,"+MESSAGE_RECENT_DATE+ " TEXT, "+IS_READ + " TEXT ,"+IMAGE_SENDER_MESSAGE_URL+" TEXT);";
     private static final String CREATE_TABLE_DONATEUR = "create table " + TABLE_NAME_DONATEUR + "(" + _ID_DONATEUR
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_DONATEUR_FIREBASE + " TEXT NOT NULL, "+ NAME_DONATEUR + " TEXT NOT NULL, " + PLACE_DONATEUR + " TEXT, " + PHONE_DONATEUR+ " TEXT, "+GRSANGUIN_DONATEUR + " TEXT, " +IMAGE_DONATEUR_URL+" TEXT );";
+    private static final String CREATE_TABLE_SPECIALITY = "create table " + TABLE_NAME_SPECIALITY + "(" + _ID_SPECIALITY
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +SPECIALITY_NAME + " TEXT NOT NULL, "+  SPECIALITY_NUMBER+" TEXT );";
 
 
 
@@ -117,6 +127,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_TABLE_PHARMACIE);
         db.execSQL(CREATE_TABLE_HOSPITAL);
         db.execSQL(CREATE_TABLE_DOCTORS);
+        db.execSQL(CREATE_TABLE_SPECIALITY);
         db.execSQL(CREATE_TABLE_LABORATOIR);
         db.execSQL(CREATE_TABLE_MESSAGES);
         db.execSQL(CREATE_TABLE_DONATEUR);
@@ -129,6 +140,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_PHARMACIE);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_HOSPITAL);
         db.execSQL("DROP TABLE IF EXISTS " +TABLE_NAME_DOCTORS);
+        db.execSQL("DROP TABLE IF EXISTS " +TABLE_NAME_SPECIALITY);
         db.execSQL("DROP TABLE IF EXISTS " +TABLE_NAME_LABORATOIR);
         db.execSQL("DROP TABLE IF EXISTS " +TABLE_NAME_MESSAGES);
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME_DONATEUR);

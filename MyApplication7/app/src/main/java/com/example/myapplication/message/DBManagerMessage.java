@@ -7,10 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.myapplication.DatabaseHelper;
-import com.example.myapplication.doctors.Doctors;
+import com.example.myapplication.message.messageBoit.MessageItem;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 

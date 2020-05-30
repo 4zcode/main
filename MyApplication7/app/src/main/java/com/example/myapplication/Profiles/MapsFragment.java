@@ -40,25 +40,25 @@ public class MapsFragment extends Fragment {
         @Override
         public void onMapReady(final GoogleMap googleMap) {
             myPef = getActivity().getSharedPreferences("userPref", Context.MODE_PRIVATE);
-            double lat = Double.parseDouble(myPef.getString("Latitude","-34"));
-           double Longitude = Double.parseDouble(myPef.getString("Longitude","151"));
+            double lat = Double.parseDouble(myPef.getString("Latitude","28.0290"));
+            double Longitude = Double.parseDouble(myPef.getString("Longitude","1.6667"));
 
-            String cityName = myPef.getString("city","Sydney");
+            String cityName = myPef.getString("city","algérie");
 
 
 
             LatLng sydney = new LatLng(lat, Longitude);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in "+cityName));
+            googleMap.addMarker(new MarkerOptions().position(sydney).title("Adress "+cityName));
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15));
 
             googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
                 public void onInfoWindowClick(Marker marker) {
-                    Toast.makeText(getActivity(),"votre établissement est créee",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"l'établissement de",Toast.LENGTH_LONG).show();
                 }
             });
 
-            googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+     /*       googleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(LatLng latLng) {
                     double lat = latLng.latitude;
@@ -71,6 +71,8 @@ public class MapsFragment extends Fragment {
                 }
             });
 
+      */
+
         }
 
     };
@@ -80,8 +82,6 @@ public class MapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        myPef = getActivity().getSharedPreferences("userPref", Context.MODE_PRIVATE);
-
         return inflater.inflate(R.layout.fragment_maps, container, false);
     }
 

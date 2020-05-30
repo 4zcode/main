@@ -8,6 +8,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
+import com.example.myapplication.doctors.advanceSearch.AdvanceSearchDoctorFragment;
+import com.example.myapplication.doctors.speciality.SpecialisteDoctorsFragment;
+
 public class DoctorTablayoutAdapter extends FragmentPagerAdapter {
 
     int mNumberOfFragment;
@@ -32,17 +35,7 @@ public class DoctorTablayoutAdapter extends FragmentPagerAdapter {
     }
 
     @Nullable
-    @Override
-    public CharSequence getPageTitle(int position) {
-        switch (position) {
-            case 1:
-                return "Les Spécialités";
-            case 0:
-                return "Recherche Avancé";
-            default:
-                return null;
-        }
-    }
+
 
     @Override
     public int getCount() {

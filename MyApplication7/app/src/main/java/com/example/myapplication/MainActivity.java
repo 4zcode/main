@@ -20,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -45,7 +44,7 @@ import com.example.myapplication.location.MyLocation;
 import com.example.myapplication.message.DBManagerMessage;
 import com.example.myapplication.services.NbrMSGnonRead;
 import com.example.myapplication.ui.login.Signin;
-import com.example.myapplication.message.messageBoit;
+import com.example.myapplication.message.messageBoit.messageBoit;
 import com.example.myapplication.ui.login.SignupActivity;
 import com.example.myapplication.utilities.PreferenceUtilities;
 import com.example.myapplication.utilities.tools;
@@ -193,28 +192,30 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         getMenuInflater().inflate(R.menu.main, menu);
-        if (!myPef.getBoolean(KEY_IS_LOGIN, false) || FirebaseAuth.getInstance().getCurrentUser() == null) {
-            menu.getItem(0).setVisible(true);
-            menu.getItem(1).setVisible(false);
-        } else {
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (FirebaseAuth.getInstance().getCurrentUser()!= null){
             menu.getItem(0).setVisible(false);
             menu.getItem(1).setVisible(true);
+        }else {
+            menu.getItem(0).setVisible(true);
+            menu.getItem(1).setVisible(false);
         }
-        return true;
+        return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_log_in) {
-            Intent intent = new Intent(MainActivity.this, Signin.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+            startActivity(new Intent(MainActivity.this, Signin.class));
         } else if (id == R.id.action_log_out) {
             AlertDialog message = new AlertDialog.Builder(this)
-                    .setTitle("Warning")
-                    .setMessage("Are you sure you want sign out?")
+                    .setTitle("Avertissement")
+                    .setMessage("Voullez-vous vraiment Sign out?")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -225,14 +226,12 @@ public class MainActivity extends AppCompatActivity {
                             editor.apply();
                             PreferenceUtilities.saveUserInfo(getBaseContext(), false);
                             DefaultLayout();
-                            menu.getItem(0).setVisible(true);
-                            menu.getItem(1).setVisible(false);
+                            invalidateOptionsMenu();
                             DBManagerMessage db = new DBManagerMessage(getBaseContext());
                             db.open();
                             db.deleteAll();
                             db.close();
                             progressDialog.dismiss();
-                            Toast.makeText(getBaseContext(), "Sign out", Toast.LENGTH_SHORT).show();
                         }
                     })
                     .setNegativeButton("Cancel", null)
@@ -331,6 +330,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        invalidateOptionsMenu();
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("com.example.myapplication");
         LocalBroadcastManager.getInstance(this).registerReceiver(broadcastReceiver,intentFilter);
@@ -368,7 +368,6 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Log.d("AkramTestdatabase","inside data");
             readAllData(getBaseContext());
             return null;
         }
@@ -383,7 +382,6 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             progressDialog.dismiss();
-            Log.d("AkramTestdatabase","finish data");
         }
     }
 

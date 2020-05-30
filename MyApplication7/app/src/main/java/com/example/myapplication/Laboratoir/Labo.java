@@ -3,7 +3,7 @@ package com.example.myapplication.Laboratoir;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.myapplication.message.chatRoom;
+import com.example.myapplication.message.chatRoom.chatRoom;
 
 public class Labo {
         public String labo_ID_Firebase;

@@ -2,8 +2,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        app:title="@string/compte_sahti_fi_yedi">
+        app:title="@string/compte_sahti_fi_yedi"
+        app:iconSpaceReserved="false"
+        app:singleLineTitle="true">
         <SwitchPreferenceCompat
+            app:icon="@drawable/ic_save_black_24dp"
             app:defaultValue="true"
             app:key="saveUser"
             app:title="@string/sauvgarder"
@@ -12,8 +15,15 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/gestion_globale">
+    <PreferenceCategory
+
+        app:iconSpaceReserved="false"
+        app:title="@string/gestion_globale"
+        app:singleLineTitle="true">
         <ListPreference
+            android:defaultValue="@string/french"
+            app:iconSpaceReserved="true"
+            app:icon="@drawable/ic_language_black_24dp"
             app:defaultValue="@string/french"
             app:entries="@array/langues_values"
             app:entryValues="@array/langues_entries"
@@ -21,6 +31,7 @@
             app:title="@string/langue"
             app:useSimpleSummaryProvider="true" />
         <SwitchPreferenceCompat
+            app:icon="@drawable/ic_gps_fixed_black_24dp"
             app:defaultValue="true"
             app:key="localisation"
             app:summaryOff="@string/localisation_gps_autoriser"
@@ -28,14 +39,17 @@
             app:title="@string/localisation" />
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/sync_header">
+    <PreferenceCategory app:title="@string/sync_header"
+        app:iconSpaceReserved="false">
 
         <SwitchPreferenceCompat
+            app:icon="@drawable/ic_sync_black_24dp"
             app:defaultValue="true"
             app:key="sync"
             app:title="@string/sync_title" />
 
         <SwitchPreferenceCompat
+            app:icon="@drawable/ic_file_download_black_24dp"
             app:dependency="sync"
             app:key="attachment"
             app:summaryOff="@string/attachment_summary_on"
