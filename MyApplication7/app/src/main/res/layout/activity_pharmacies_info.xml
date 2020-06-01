@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".pharma.pharmacies_info">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="178dp"
+        android:src="@drawable/hospital"
+        android:id="@+id/image_ph_info"
+        android:scaleType="centerCrop"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/file"/>
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/description_ph_info"
+                android:layout_height="wrap_content"
+                android:text="0663052883"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_margin="8dp"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/mapph"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp">
+
+        <ImageView
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/call"/>
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Contactez-nous"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/contact_ph_info"
+                android:layout_height="30dp"
+                android:text="0663052883"
+                android:textColor="#07BDE4"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_margin="8dp"/>
+
+
+        </LinearLayout>
+        <Button
+            android:onClick="txt_ph_info"
+            android:layout_width="60dp"
+            android:layout_height="40dp"
+            android:text="textUs"
+            android:background="@drawable/custom_but" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="10dp"
+        >
+
+        <ImageView
+            android:layout_width="46dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/location" />
+
+        <LinearLayout
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Location"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/location_ph_info"
+                android:layout_height="30dp"
+                android:text="elbayad"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:layout_margin="8dp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:onClick="map_ph_info"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:text="map"
+            android:background="@drawable/custom_but" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"
+        >
+
+        <ImageView
+            android:layout_width="46dp"
+            android:layout_height="70dp"
+            android:src="@drawable/time" />
+
+        <LinearLayout
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Timing"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="8dp"
+                >
+
+            <TextView
+                android:id="@+id/dimanche_ph"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="dimanche: "
+                android:textSize="15dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/open_ph_info_dimanche"
+                android:layout_height="30dp"
+                android:text="open at:"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:id="@+id/close_ph_info_dimanche"
+                android:layout_height="30dp"
+                android:text="close at:"
+                android:textSize="15dp"
+                android:textStyle="bold"
+               />
+            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/lundi_ph"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="lundi: "
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        />
+                    <TextView
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/open_ph_info_lundi"
+                        android:layout_height="30dp"
+                        android:text="open at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/close_ph_info_lundi"
+                        android:layout_height="30dp"
+                        android:text="close at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/mardi_ph"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="mardi: "
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/open_ph_info_mardi"
+                        android:layout_height="30dp"
+                        android:text="open at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:layout_margin="8dp"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/close_ph_info_mardi"
+                        android:layout_height="30dp"
+                        android:text="close at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/mercredi_ph"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="mercredi: "
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/open_ph_info_mercredi"
+                        android:layout_height="30dp"
+                        android:text="open at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:layout_margin="8dp"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/close_ph_info_mercredi"
+                        android:layout_height="30dp"
+                        android:text="close at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/jeudi_ph"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="jeudi: "
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/open_ph_info_jeudi"
+                        android:layout_height="30dp"
+                        android:text="open at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/close_ph_info_jeudi"
+                        android:layout_height="30dp"
+                        android:text="close at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/vendredi_ph"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="vendredi: "
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/open_ph_info_vendredi"
+                        android:layout_height="30dp"
+                        android:text="open at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:layout_margin="8dp"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/close_ph_info_venderdi"
+                        android:layout_height="30dp"
+                        android:text="close at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="8dp"
+                    >
+
+                    <TextView
+                        android:id="@+id/samedi_ph"
+                        android:layout_width="wrap_content"
+                        android:layout_height="30dp"
+                        android:text="samedi: "
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/open_ph_info_samedi"
+                        android:layout_height="30dp"
+                        android:text="open at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:layout_margin="8dp"
+                        android:visibility="gone"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:id="@+id/close_ph_info_samedi"
+                        android:layout_height="30dp"
+                        android:text="close at:"
+                        android:textSize="15dp"
+                        android:textStyle="bold"
+                        android:visibility="gone"/>
+                </LinearLayout>
+        </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</LinearLayout>
+</ScrollView>
