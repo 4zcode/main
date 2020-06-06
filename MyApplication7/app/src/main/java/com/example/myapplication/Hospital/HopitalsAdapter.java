@@ -1,6 +1,7 @@
 package com.example.myapplication.Hospital;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -116,6 +117,9 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewH
         @Override
         public void onClick(View view) {
             Toast.makeText(mCont,"Clicked",Toast.LENGTH_SHORT).show();
+            Intent detailIntent = Hopital.starter1(mCont, mCurrentHopital.getHopitalName(),mCurrentHopital.getHopitalPlace(),mCurrentHopital.getHopitalContact(),mCurrentHopital.getHopitalservice());
+            mContext.startActivity(detailIntent);
+
         }
     }
 }

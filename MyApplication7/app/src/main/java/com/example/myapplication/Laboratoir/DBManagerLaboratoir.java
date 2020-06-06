@@ -30,9 +30,7 @@ public class DBManagerLaboratoir {
         return this;
     }
 
-    public void close() {
-        dbHelper.close();
-    }
+
 
     public boolean CheckIsDataAlreadyInDBorNot(String nameFeild) {
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();

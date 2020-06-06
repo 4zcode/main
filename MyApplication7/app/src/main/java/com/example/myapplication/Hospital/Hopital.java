@@ -9,6 +9,7 @@ public class Hopital {
     private String hospital_ID_Firebase;
     public String hopitalName;
     public String hopitalPlace;
+    public String hopitalservice;
     public String hopitalContact;
     public String imageResource;
     public static final String RECIVER = "Reciver";
@@ -16,19 +17,24 @@ public class Hopital {
 
 
 
-    public Hopital( String hospital_ID_Firebase,String name, String place, String contact, String hopitalImage) {
+    public Hopital( String hospital_ID_Firebase,String name, String place, String contact,String service, String hopitalImage) {
         this.hopitalName = name;
         this.hopitalPlace = place;
         this.hopitalContact=contact;
+        this.hopitalservice = service;
         this.imageResource = hopitalImage;
         this.setHospital_ID_Firebase(hospital_ID_Firebase);
     }
 
 
+
+
     public String getHopitalName() {
         return hopitalName;
     }
-
+    public String getHopitalservice() {
+        return hopitalservice;
+    }
     public String getHopitalPlace() {
         return hopitalPlace;
     }
@@ -44,6 +50,14 @@ public class Hopital {
         chatIntent.putExtra(RECIVER, reciver);
         chatIntent.putExtra(SENDER, sender);
         return chatIntent;
+    }
+    public static Intent starter1(Context context, String name,String serv, String loca, String phone) {
+        Intent detailIntent = new Intent(context,HopitalActivity.class);
+        detailIntent.putExtra("NAME_KEY",name);
+        detailIntent.putExtra("SERV_KEY",serv);
+        detailIntent.putExtra("LOCA_KEY",loca);
+        detailIntent.putExtra("PHON_KEY",phone);
+        return detailIntent;
     }
 
     public String getHospital_ID_Firebase() {

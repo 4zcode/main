@@ -9,37 +9,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4b359aa2-42a9-4c81-b95d-b743f32fb7e5" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/libraries/Gradle__com_mikhaellopez_circularimageview_4_2_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/libraries/Gradle__de_hdodenhof_circleimageview_3_1_0_aar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/libraries/Gradle__org_jetbrains_annotations_13_0_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_1_3_61_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_stdlib_common_1_3_61_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/backgroundtasks/updateUserInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/utilities/PreferenceUtilities.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/utilities/tools.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/drawable/circlexml.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/drawable/img.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/caches/build_file_checksums.ser" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/addProfile/AddDoctorProfile.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/addProfile/AddDoctorProfile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/AdvanceSearchDoctorFragment.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/AdvanceSearchDoctorFragment.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/Doctors.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/Doctors.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/DoctorsAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/DoctorsAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/DoctorsSpecialisteAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/doctors/DoctorsSpecialisteAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/Message.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/Message.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/chatRoom.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/chatRoom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/messageAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/messageAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/messageBoit.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/message/messageBoit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/ui/login/Signin.java" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/java/com/example/myapplication/ui/login/Signin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/doctor_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/doctor_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/message_item.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/message_item.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/nav_header_main.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/layout/nav_header_main.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MyApplication7/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/MyApplication7/app/src/main/res/values/dimens.xml" afterDir="false" />
-    </list>
+    <list default="true" id="4b359aa2-42a9-4c81-b95d-b743f32fb7e5" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,13 +21,13 @@
     <option name="delegatedBuild" value="true" />
   </component>
   <component name="Git.Settings">
+    <option name="UPDATE_TYPE" value="REBASE" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
         <entry key="$PROJECT_DIR$" value="master" />
       </map>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="10" />
@@ -66,6 +36,17 @@
     <option name="height" value="688" />
   </component>
   <component name="ProjectId" id="1aoHFGnO3c3ax36SlLKh2NQqQu1" />
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane" />
+      <pane id="Scope" />
+      <pane id="AndroidView" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
   <component name="PropertiesComponent">
     <property name="android.project.structure.last.selected" value="SDK Location" />
     <property name="android.project.structure.proportion" value="0.15" />
@@ -110,14 +91,61 @@
       <is-autoscroll-to-source value="true" />
     </todo-panel>
   </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1382" height="784" extended-state="6" />
+    <layout>
+      <window_info id="Capture Tool" />
+      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.32980332" />
+      <window_info id="Structure" side_tool="true" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Build Variants" side_tool="true" />
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="Resources Explorer" />
+      <window_info id="DB Browser" />
+      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Logcat" />
+      <window_info anchor="bottom" id="DB Execution Console" />
+      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="SQL Android" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Android Profiler" show_stripe_button="false" />
+      <window_info anchor="right" id="Device File Explorer" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Palette&#9;" />
+    </layout>
+  </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
           <value>
             <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
               <option name="COLUMN_ORDER" />
             </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list />
+          </value>
+        </entry>
+        <entry key="User">
+          <value>
+            <list />
           </value>
         </entry>
       </map>

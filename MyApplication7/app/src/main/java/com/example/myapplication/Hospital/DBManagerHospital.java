@@ -46,12 +46,13 @@ public class DBManagerHospital {
         return false;
     }
 
-    public void insert(String _id,String name, String place,String phone,String imageUrl) {
+    public void insert(String _id,String name, String place,String phone,String service,String imageUrl) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper._ID_HOSPITAL_FIREBASE, _id);
         contentValue.put(DatabaseHelper.NAME__HOSPITAL, name);
         contentValue.put(DatabaseHelper.PLACE__HOSPITAL, place);
         contentValue.put(DatabaseHelper.NUMBER__HOSPITAL, phone);
+        contentValue.put(DatabaseHelper.SERVICE__HOSPITAL, service);
         contentValue.put(DatabaseHelper.IMAGE_HOSPITAL_URL, imageUrl);
         database.insert(TABLE_NAME_HOSPITAL, null, contentValue);
     }
@@ -64,11 +65,12 @@ public class DBManagerHospital {
         return cursor;
     }
 
-    public int update(String _id, String name, String place,String phone,String imageUrl) {
+    public int update(String _id, String name, String place,String phone,String service,String imageUrl) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME__HOSPITAL, name);
         contentValues.put(DatabaseHelper.PLACE__HOSPITAL, place);
         contentValues.put(DatabaseHelper.NUMBER__HOSPITAL, phone);
+        contentValues.put(DatabaseHelper.SERVICE__HOSPITAL, service);
         contentValues.put(DatabaseHelper.IMAGE_HOSPITAL_URL, imageUrl);
 
         int i = database.update(TABLE_NAME_HOSPITAL, contentValues, DatabaseHelper._ID_HOSPITAL_FIREBASE + " = " + "'"+_id+ "'", null);
@@ -97,9 +99,10 @@ public class DBManagerHospital {
                 String name = cursor.getString(2);
                 String place = cursor.getString(3);
                 String phone = cursor.getString(4);
-                String imageUrl = cursor.getString(5);
+                String service = cursor.getString(5);
+                String imageUrl = cursor.getString(6);
 
-                storeContacts.add(new Hopital(Id_firebase,name, place, phone,imageUrl));
+                storeContacts.add(new Hopital(Id_firebase,name, place, phone,service,imageUrl));
             }
             while (cursor.moveToNext());
         }

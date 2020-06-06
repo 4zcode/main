@@ -109,7 +109,6 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@drawable/interfadoor"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/floatingActionButton4"
             app:layout_constraintStart_toEndOf="@+id/floatingActionButton"
@@ -136,7 +135,6 @@
             android:layout_marginLeft="188dp"
             android:layout_weight="1"
             android:scaleType="centerCrop"
-            android:src="@drawable/socialmedia"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/floatingActionButton6"
             app:layout_constraintHorizontal_bias="0.548"
@@ -308,7 +306,6 @@
     </LinearLayout>
         <ImageView
             android:layout_marginRight="10dp"
-            android:src="@drawable/streetmap"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
