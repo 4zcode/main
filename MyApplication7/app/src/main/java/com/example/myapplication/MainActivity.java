@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import android.Manifest;
+import android.animation.LayoutTransition;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -171,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
     public void goToDoctors(View view) {
 
         startActivity(new Intent(this, DoctorActivity.class));
+        overridePendingTransition(R.anim.nav_default_pop_enter_anim,R.anim.nav_default_pop_exit_anim);
     }
 
     public void goToPharmacies(View view) {

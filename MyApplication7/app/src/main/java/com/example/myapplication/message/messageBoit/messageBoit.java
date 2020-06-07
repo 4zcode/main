@@ -155,4 +155,9 @@ public class messageBoit extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
     }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.open_enter,R.anim.nav_default_exit_anim);
+    }
 }

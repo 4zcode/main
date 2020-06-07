@@ -1,12 +1,16 @@
 package com.example.myapplication.doctors.advanceSearch;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.provider.ContactsContract;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,11 +21,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.myapplication.DetailsDoctorActivity;
 import com.example.myapplication.Profiles.UserProfile;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,7 +45,6 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSV
     private ArrayList<Doctors> mDoctors;
     private Context mContext;
     private ArrayList<Doctors> mDoctorArray = new ArrayList<>();
-    private int lastPosition = -1;
 
     public DoctorsAdapter(Context context, ArrayList<Doctors> doctorData) {
         this.mDoctors = doctorData;
@@ -78,15 +85,9 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSV
     public void onBindViewHolder(DoctorSViewHolder  holder, int position) {
         Doctors currentDoctor = mDoctors.get(position);
         holder.bindTo(currentDoctor);
-    //    setAnimation(holder.itemView,position);
+        Animation animation = AnimationUtils.loadAnimation(mContext,android.R.anim.fade_in);
+        holder.itemView.startAnimation(animation);
     }
-   /* public void setAnimation(View viewToanimate, int position){
-
-            Animation animation = AnimationUtils.loadAnimation(mContext,android.R.anim.slide_in_left);
-            viewToanimate.startAnimation(animation);
-    }
-
-    */
 
     @Override
     public int getItemCount() {
@@ -101,7 +102,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSV
         private Doctors mCurrentDoctor;
         private GradientDrawable mGradientDrawable;
         private SharedPreferences myPef;
-        private LinearLayout backGroundLayout;
+        private CardView backGroundLayout;
 
         DoctorSViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
@@ -109,7 +110,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSV
             mPlaceText = (TextView) itemView.findViewById(R.id.place_doctor) ;
             mDoctorImage = (ImageView) itemView.findViewById(R.id.doctor_image);
             mSpecialiteText =(TextView) itemView.findViewById(R.id.specialite_doctor);
-            backGroundLayout = (LinearLayout) itemView.findViewById(R.id.doctor_linear_backgroun);
+            backGroundLayout = (CardView) itemView.findViewById(R.id.doctor_cordinator_background);
             mCont = context;
             mGradientDrawable = gradientDrawable;
             itemView.setOnClickListener(this);
@@ -120,34 +121,33 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSV
             mPlaceText.setText(WordUtils.capitalizeFully(currentDoctor.getPlaceDoctor()));
             mSpecialiteText.setText(currentDoctor.getSpec());
             mCurrentDoctor = currentDoctor;
-
-             /*   Glide.with(mCont).load(R.drawable.profile)
-                        .diskCacheStrategy(DiskCacheStrategy.DATA)
-                        .placeholder(R.drawable.profile)
-                        .into(mDoctorImage);
-
-              */
             Glide.with(mCont).load(R.drawable.profile)
                     .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .placeholder(R.drawable.profile)
                     .into(mDoctorImage);
+            backGroundLayout.setAnimation(AnimationUtils.loadAnimation(mCont,R.anim.fall_down));
+            mDoctorImage.setAnimation(AnimationUtils.loadAnimation(mCont,R.anim.fall_down_retard));
 
         }
 
 
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void onClick(View view) {
-            myPef =mCont.getSharedPreferences("userPref", Context.MODE_PRIVATE);
-            if (myPef.getBoolean("IsLogIn", false) && FirebaseAuth.getInstance().getCurrentUser() != null) {
-                FirebaseUser user = FirebaseAuth.getInstance().getInstance().getCurrentUser();
-                if (!user.getUid().equals(mCurrentDoctor.getDoctor_ID_Firebase())) {
-                  //  Intent intent = Doctors.starter(mCont, mCurrentDoctor.getDoctor_ID_Firebase(), mCurrentDoctor.getNameDoctor(),mCurrentDoctor.getImageUrl());
-                  //  mCont.startActivity(intent);
-                    mCont.startActivity(new Intent(mCont, UserProfile.class));
+            myPef = mCont.getSharedPreferences("userPref", Context.MODE_PRIVATE);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (FirebaseAuth.getInstance().getCurrentUser() == null || !user.getUid().equals(mCurrentDoctor.getDoctor_ID_Firebase())) {
+                    Intent intent = Doctors.starter(mCont, mCurrentDoctor.getDoctor_ID_Firebase(),mCurrentDoctor.getNameDoctor(),mCurrentDoctor.getImageUrl() ,mCurrentDoctor.getPlaceDoctor(),mCurrentDoctor.getService(),mCurrentDoctor.getSpec(),mCurrentDoctor.getPhone(),mCurrentDoctor.getTime());
+                    Pair<View, String> p1 = Pair.create((View)mDoctorImage,"DOCTORIMAGE");
+                    Pair<View, String> p2 = Pair.create((View)mNameText,"DOCTORNAME");
+                    ActivityOptions options = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        options = ActivityOptions.makeSceneTransitionAnimation((Activity) mCont, p1 ,p2);
+                    }
+                    mCont.startActivity(intent, options.toBundle());
                 } else {
                     mCont.startActivity(new Intent(mCont, UserProfile.class));
                 }
             }
         }
-    }
 }

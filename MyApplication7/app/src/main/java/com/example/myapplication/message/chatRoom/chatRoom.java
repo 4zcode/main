@@ -7,9 +7,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Parcelable;
+import android.transition.Explode;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +20,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -61,7 +64,9 @@ import static com.example.myapplication.utilities.tools.isNetworkAvailable;
 
 public class chatRoom extends AppCompatActivity {
     public final static String TAG = chatRoom.class.getSimpleName();
-
+    public static final String RECIVER = "Reciver";
+    public static final String SENDER = "sender";
+    public static final String RECIVER_IMAGE = "ReciverImageUrl";
 
     private RecyclerView recyclerView;
     private  ArrayList<MessageChatItem> arrayMsg;
@@ -95,14 +100,15 @@ public class chatRoom extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    //    startAnimation();
         setContentView(R.layout.activity_chat_room);
         recyclerView =(RecyclerView) findViewById(R.id.message_chat_room_recycler);
         button =(FloatingActionButton) findViewById(R.id.envoyer_button);
         editText = (EditText) findViewById(R.id.edit_text_envoyer);
         arrayMsg = new ArrayList<MessageChatItem>();
-        ID_reciver = getIntent().getStringExtra(Doctors.RECIVER);
-        ReceiverImage = getIntent().getStringExtra(Doctors.RECIVER_IMAGE);
-        SenderName =getIntent().getStringExtra(Doctors.SENDER);
+        ID_reciver = getIntent().getStringExtra(RECIVER);
+        ReceiverImage = getIntent().getStringExtra(RECIVER_IMAGE);
+        SenderName =getIntent().getStringExtra(SENDER);
         this.setTitle(SenderName);
         handler= new Handler();
         user= new HashMap<String,Object>();
@@ -141,6 +147,20 @@ public class chatRoom extends AppCompatActivity {
             }
         });
     }
+
+/* @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void startAnimation(){
+        Explode explode = new Explode();
+        explode.setDuration(1000);
+        getWindow().setEnterTransition(explode);
+    }
+
+ */
+
+
+
+
+
     public void updateAffichage(final int duree){
         thread = new Thread(){
             @Override
@@ -510,4 +530,10 @@ public class chatRoom extends AppCompatActivity {
             Toast.makeText(getBaseContext(), "pas internet", Toast.LENGTH_SHORT).show();
         }
     }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.open_enter,R.anim.nav_default_exit_anim);
+    }
+
 }

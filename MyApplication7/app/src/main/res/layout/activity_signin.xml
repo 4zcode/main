@@ -1,80 +1,199 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorAccent"
     android:orientation="vertical"
-    tools:context=".ui.login.Signin">
-    <EditText
-        android:id="@+id/usernamein"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="110dp"
-        android:layout_marginEnd="24dp"
-        android:hint="@string/prompt_email"
-        android:inputType="textEmailAddress"
-        android:selectAllOnFocus="true"
-        android:padding="15dp"
-        android:background="@drawable/edit_corner"
-         />
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <EditText
-        android:id="@+id/passwordin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="24dp"
-        android:hint="Mot de passe"
-        android:imeActionLabel="@string/action_sign_in_short"
-        android:imeOptions="actionDone"
-        android:inputType="textPassword"
-        android:selectAllOnFocus="true"
-        android:padding="15dp"
-        android:background="@drawable/edit_corner"
-        />
-    <Button
-        android:id="@+id/button_signin"
+    <ImageView
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/care" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
-        android:text="Se connecter"
-        android:onClick="signin"
-        android:padding="8dp"
-        android:textColor="@color/colorAccent"
-        android:background="@drawable/button_corner"/>
-    <TextView
-        android:layout_marginTop="30dp"
-        android:id="@+id/creat_account"
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Créer un nouveau compte"
-        android:textColor="@color/common_google_signin_btn_text_light_pressed"
-        android:onClick="signUp"
-        />
-    <TextView
-        android:id="@+id/or_text_view"
-        android:padding="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Ou"
-        android:textColor="@color/common_google_signin_btn_text_light_pressed"
-        android:textStyle="bold"
-        />
-    <TextView
-        android:padding="10dp"
-        android:layout_below="@id/or_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="J'ai perdu mon mot de passe"
-        android:textColor="@color/common_google_signin_btn_text_light_pressed"
-        android:onClick="passwordPassword"
-        />
+        android:layout_margin="25dp"
+        android:background="@drawable/cornershaped"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Connexion"
+            android:textColor="@color/colorAccent"
+            android:textSize="50dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/AddressEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:drawableStart="@drawable/ic_mail_outline_black_24dp"
+            android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
+            android:drawableTint="@color/colorAccent"
+            android:drawablePadding="5dp"
+            android:hint="Address E-mail"
+            android:inputType="textEmailAddress"
+            android:textColorHint="@color/colorAccent" />
+
+        <EditText
+            android:id="@+id/Motdepasse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:drawableStart="@drawable/ic_lock_outline_black_24dp"
+            android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
+            android:drawableTint="@color/colorAccent"
+            android:drawablePadding="10dp"
+            android:hint="Mot de passe"
+            android:inputType="textPassword"
+            android:textColorHint="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/Motdepasse_oublie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="160dp"
+            android:text="Mot de passe oublié?"
+            android:textSize="15dp"
+            android:onClick="passwordOublie"/>
+        <Button
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_corner_two"
+            android:onClick="signin"
+            android:padding="10dp"
+            android:text="Se connecter"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Vous n'avez pas encore de compte,"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                />
+
+            <TextView
+                android:id="@+id/signup_sinscrire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" S'inscrire"
+                android:textColor="@color/colorAccent"
+                android:textSize="15dp"
+                android:textStyle="bold"
+                android:onClick="signUp"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
 </LinearLayout>
+
+
+
+
+<!--
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="40dp"
+            android:text="Se connecter comme :"
+            android:textColor="#349fb1"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+ <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/seconnecter_medcin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:button="@drawable/circle_shape"
+                android:padding="8dp"
+                android:text="Médcin"
+                android:textColor="#69a3ba"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/Seconnecter_hopital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/circle_shape"
+                android:padding="8dp"
+                android:text="Hôpital"
+                android:textColor="#69a3ba"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/Seconnecter_pharmacie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/circle_shape"
+                android:padding="8dp"
+                android:text="Pharmacie"
+                android:textColor="#69a3ba"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/Seconnecter_labo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:button="@drawable/circle_shape"
+                android:padding="8dp"
+                android:text="Laboratoire"
+                android:textColor="#69a3ba"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+            <CheckBox
+                android:id="@+id/Seconnecter_utilisateur"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/circle_shape"
+                android:padding="8dp"
+                android:text="Utilisateur"
+                android:textColor="#69a3ba"
+                android:textSize="18dp"
+                android:textStyle="bold" />
+
+
+        </LinearLayout>
+
+-->

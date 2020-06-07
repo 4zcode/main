@@ -62,12 +62,9 @@ class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteA
         DoctorsSpecialistes currentDoctor = mDoctorsspecialistes.get(position);
         //Bind the data to the views
         holder.bindTo(currentDoctor);
-        setAnimation(holder.itemView,position);
-    }
-    public void setAnimation(View viewToanimate, int position){
-            Animation animation = AnimationUtils.loadAnimation(mContext,android.R.anim.slide_in_left);
-            viewToanimate.startAnimation(animation);
 
+        Animation animation = AnimationUtils.loadAnimation(mContext,android.R.anim.slide_in_left);
+        holder.itemView.startAnimation(animation);
     }
 
     @Override

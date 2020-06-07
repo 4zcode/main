@@ -44,13 +44,16 @@ public class DBManagerDoctor {
         return false;
     }
 
+// DOCTOR_TYPE +DOCTOR_SERVICE +DOCTOR_TIME
 
-    public void insert(String _id,String name, String place,String phone, String spec,String sex,String imageUrl) {
+    public void insert(String _id,String name, String place,String phone, String spec,String type,String service,String time,String imageUrl) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper._ID_DOCTOR_FIREBASE, _id);
         contentValue.put(DatabaseHelper.NAME_DOCTOR, name);
         contentValue.put(DatabaseHelper.PLACE_DOCTOR, place);
-        contentValue.put(DatabaseHelper.SEX_DOCTOR, sex);
+        contentValue.put(DatabaseHelper.DOCTOR_TYPE, type);
+        contentValue.put(DatabaseHelper.DOCTOR_SERVICE, service);
+        contentValue.put(DatabaseHelper.DOCTOR_TIME, time);
         contentValue.put(DatabaseHelper.SPEC_DOCTOR, spec);
         contentValue.put(DatabaseHelper.PHONE_DOCTOR, phone);
         contentValue.put(DatabaseHelper.IMAGE_DOCTOR_URL, imageUrl);
@@ -58,7 +61,7 @@ public class DBManagerDoctor {
         database.insert(DatabaseHelper.TABLE_NAME_DOCTORS, null, contentValue);
     }
     public Cursor fetch() {
-        String[] columns = new String[] { DatabaseHelper._ID_DOCTOR, DatabaseHelper.NAME_DOCTOR, DatabaseHelper.PLACE_DOCTOR, DatabaseHelper.PHONE_DOCTOR, DatabaseHelper.SPEC_DOCTOR, DatabaseHelper.SEX_DOCTOR, DatabaseHelper.IMAGE_DOCTOR_URL};
+        String[] columns = new String[] { DatabaseHelper._ID_DOCTOR, DatabaseHelper.NAME_DOCTOR, DatabaseHelper.PLACE_DOCTOR, DatabaseHelper.PHONE_DOCTOR, DatabaseHelper.SPEC_DOCTOR, DatabaseHelper.DOCTOR_TYPE,DatabaseHelper.DOCTOR_SERVICE,DatabaseHelper.DOCTOR_TIME, DatabaseHelper.IMAGE_DOCTOR_URL};
         Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_DOCTORS, columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -66,11 +69,13 @@ public class DBManagerDoctor {
         return cursor;
     }
 
-    public int update(String _id, String name, String place,String phone, String spec,String sex,String imageUrl) {
+    public int update(String _id,String name, String place,String phone, String spec,String type,String service,String time,String imageUrl) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME_DOCTOR, name);
         contentValues.put(DatabaseHelper.PLACE_DOCTOR, place);
-        contentValues.put(DatabaseHelper.SEX_DOCTOR, sex);
+        contentValues.put(DatabaseHelper.DOCTOR_TYPE, type);
+        contentValues.put(DatabaseHelper.DOCTOR_SERVICE, service);
+        contentValues.put(DatabaseHelper.DOCTOR_TIME, time);
         contentValues.put(DatabaseHelper.SPEC_DOCTOR, spec);
         contentValues.put(DatabaseHelper.PHONE_DOCTOR, phone);
         contentValues.put(DatabaseHelper.IMAGE_DOCTOR_URL, imageUrl);
@@ -106,10 +111,11 @@ public class DBManagerDoctor {
                     int id = Integer.parseInt(cursor.getString(0));
                     String Id_firebase = cursor.getString(1);
                     String phone = cursor.getString(4);
-                    String sex = cursor.getString(6);
-                    String imageUrl = cursor.getString(7);
-
-                    storeContacts.add(new Doctors(Id_firebase, Name, place, phone, spec, sex, imageUrl));
+                    String type = cursor.getString(6);
+                    String service = cursor.getString(7);
+                    String time = cursor.getString(8);
+                    String imageUrl = cursor.getString(9);
+                    storeContacts.add(new Doctors(Id_firebase, Name, place, phone, spec, type,service,time, imageUrl));
                 }
             }
             while (cursor.moveToNext() && storeContacts.size() < (25 + 5*k));

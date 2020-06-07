@@ -85,7 +85,6 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
         mSpeciality = getLastSpeciality(getContext());
         dbManager = new DBManagerDoctor(getActivity());
         dbManager.open();
-        layoutManager.setAutoMeasureEnabled(false);
         mRecyclerView.setLayoutManager(layoutManager);
         new UpdateDoctorListTask().execute();
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -126,7 +125,7 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
                 mDoctorsData = dbManager.listdoctors(count,"",wilaya,getLastSpeciality(getContext()));
                 mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
                 mRecyclerView.setAdapter(mAdapter);
-                mRecyclerView.scheduleLayoutAnimation();
+              //  mRecyclerView.scheduleLayoutAnimation();
 
             }
 
@@ -155,9 +154,9 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
                         String ImageUrl = ds.child("mImageUrl").getValue(String.class);
 
                         if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
-                            dbManager.update(id_firebase, Name, Place, Phone, Spec, Sex,ImageUrl);
+                            dbManager.update(id_firebase, Name, Place, Phone, Spec,"Privé","Il n'y a aucun service","08:00 - 16:00",ImageUrl);
                         } else {
-                            dbManager.insert(id_firebase, Name, Place, Phone, Spec, Sex,ImageUrl);
+                            dbManager.insert(id_firebase, Name, Place, Phone, Spec, "Privé","Il n'y a aucun service","08:00 - 16:00",ImageUrl);
                         }
                     }
                 }
@@ -188,7 +187,6 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            Toast.makeText(getActivity(),"Updated",Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -200,7 +198,6 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
             mDoctorsData = dbManager.listdoctors(count,"",wilaya,mSpeciality);
             mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
             mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.scheduleLayoutAnimation();
         }
     }
 
@@ -217,7 +214,7 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
 
         if (searchView != null){
             searchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-            searchView.setQueryHint("Search");
+            searchView.setQueryHint("Chercher");
            searchView.setIconified(false);
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                 @Override

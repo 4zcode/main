@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -98,6 +99,7 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
                    Intent intent = MessageItem.starter(mCont, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender(), mCurrentMessage.getImageResource());
                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                   mCont.startActivity(intent);
+
                }
            }catch (Exception e){
                Log.d(TAG,"error : "+e.getMessage());

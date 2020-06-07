@@ -69,4 +69,19 @@ public class DoctorActivity extends AppCompatActivity{
        else tabHost.setCurrentItem(tabHost.getCurrentItem()-1);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.open_enter,R.anim.nav_default_exit_anim);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+       int id = item.getItemId();
+       if (id == R.id.nav_home){
+           onBackPressed();
+       }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

@@ -44,7 +44,6 @@
     </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layoutAnimation="@anim/layoutanimation"
             android:id="@+id/doctor_recycler_advanced_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

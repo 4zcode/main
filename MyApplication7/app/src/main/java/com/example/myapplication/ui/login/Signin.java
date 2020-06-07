@@ -41,8 +41,8 @@ public class Signin extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
-        username=(EditText) findViewById(R.id.usernamein);
-        pass=(EditText)findViewById(R.id.passwordin);
+        username=(EditText) findViewById(R.id.AddressEmail);
+        pass=(EditText)findViewById(R.id.Motdepasse);
         firebaseAuth=FirebaseAuth.getInstance();
         myPef =getSharedPreferences("userPref", Context.MODE_PRIVATE);
         progressDialog = new ProgressDialog(this);
@@ -88,7 +88,7 @@ public class Signin extends AppCompatActivity {
     }
 
 
-    public void passwordPassword(View view) {
+    public void passwordOublie(View view) {
         final String user=username.getText().toString().trim();
         if (TextUtils.isEmpty(user)){
             Toast.makeText(this,"remplir votre mail",Toast.LENGTH_LONG).show();

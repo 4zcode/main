@@ -21,25 +21,30 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class SignupActivity extends AppCompatActivity {
-    public EditText username;
-    public EditText pass, repeatPass;
+    public EditText mail;
+    public EditText pass, repeatPass, mobile, fullname;
    public FirebaseAuth firebaseAuth;
    private ProgressDialog progressDialog;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        username=(EditText) findViewById(R.id.username);
-        pass=(EditText)findViewById(R.id.password);
-        repeatPass = (EditText)findViewById(R.id.repeat_password);
+        fullname=(EditText) findViewById(R.id.full_name);
+        pass=(EditText)findViewById(R.id.write_password);
+        repeatPass = (EditText)findViewById(R.id.confrim_password);
+        mobile = (EditText)findViewById(R.id.phone_number);
+        mail = (EditText)findViewById(R.id.AddressEmail_deux);
         firebaseAuth=FirebaseAuth.getInstance();
     }
 
     public void login(View view) {
-        final String user=username.getText().toString().trim();
-        String pass=this.pass.getText().toString();
+        final String email=this.mail.getText().toString().trim();
+        String password=this.pass.getText().toString();
+        final String name=this.fullname.getText().toString();
+        final String phone=this.mobile.getText().toString();
+
         String passRepeat = this.repeatPass.getText().toString();
-        if (TextUtils.isEmpty(user)|| TextUtils.isEmpty(pass) || TextUtils.isEmpty(passRepeat)){
+        if (TextUtils.isEmpty(email)|| TextUtils.isEmpty(password) || TextUtils.isEmpty(passRepeat) || TextUtils.isEmpty(name) || TextUtils.isEmpty(phone)){
             Toast.makeText(this,"un champ est vide",Toast.LENGTH_LONG).show();
         }else if (! pass.equals(passRepeat)){
             Toast.makeText(this,"Vous devrez revérifier votre mot de pass",Toast.LENGTH_LONG).show();
@@ -51,17 +56,19 @@ public class SignupActivity extends AppCompatActivity {
             progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar);
             progressDialog.setIndeterminate(true);
             progressDialog.show();
-            firebaseAuth.createUserWithEmailAndPassword(user,pass).addOnCompleteListener(this,new OnCompleteListener<AuthResult>(){
+            firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this,new OnCompleteListener<AuthResult>(){
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
                         progressDialog.dismiss();
-                        Toast.makeText(getApplicationContext(),"sign in with sucess",Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(),"s'incrire avec sucessé",Toast.LENGTH_LONG).show();
                         FirebaseUser user1=firebaseAuth.getCurrentUser();
                         user1.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>(){
                             public void onComplete( Task<Void> task){
                                 if(task.isSuccessful()){Toast.makeText(getApplicationContext(),"Vérifiez votre boit mail",Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(getApplicationContext(), Insertion.class);
+                                    intent.putExtra("NAME",name);
+                                    intent.putExtra("PHONE",phone);
                                     startActivity(intent);
                                 }else{
                                     String error=task.getException().getMessage();
