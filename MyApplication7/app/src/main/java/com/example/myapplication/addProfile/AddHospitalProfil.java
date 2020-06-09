@@ -107,7 +107,7 @@ public class AddHospitalProfil extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     String hopitalID = mDatabaseRef.push().getKey();
-                                    Hopital hopital=new Hopital(hopitalID,first_name.getText().toString().trim(),adress.getText().toString().trim(),phone.getText().toString().trim(),uri.toString());
+                                Hopital hopital=new Hopital(hopitalID,first_name.getText().toString().trim(),"il n'y a aucun description",adress.getText().toString().trim(),phone.getText().toString().trim(),"Il n'y a aucun service",uri.toString());
                                     mDatabaseRef.child(hopitalID).setValue(hopital);
                                     mStorageRef = FirebaseStorage.getInstance().getReference("Users");
                                     final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()

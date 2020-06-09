@@ -90,7 +90,7 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if(scrollY > oldScrollY){
+            /*    if(scrollY > oldScrollY){
                 // Log.d("FileAkramTest","scrollDown");
              }
              if (scrollY < oldScrollY){
@@ -99,6 +99,8 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
              if (scrollY == 0){
               //   Log.d("FileAkramTest","top scroll");
              }
+
+             */
              if (scrollY == (v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight())){
                  count++;
                  mDoctorsData = dbManager.listdoctors(count,"",wilaya,getLastSpeciality(getContext()));
@@ -125,8 +127,6 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
                 mDoctorsData = dbManager.listdoctors(count,"",wilaya,getLastSpeciality(getContext()));
                 mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
                 mRecyclerView.setAdapter(mAdapter);
-              //  mRecyclerView.scheduleLayoutAnimation();
-
             }
 
             @Override

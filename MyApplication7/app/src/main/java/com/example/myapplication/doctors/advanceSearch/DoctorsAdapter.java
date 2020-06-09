@@ -121,7 +121,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSV
             mPlaceText.setText(WordUtils.capitalizeFully(currentDoctor.getPlaceDoctor()));
             mSpecialiteText.setText(currentDoctor.getSpec());
             mCurrentDoctor = currentDoctor;
-            Glide.with(mCont).load(R.drawable.profile)
+            Glide.with(mCont).load(mCurrentDoctor.getImageUrl())
                     .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .placeholder(R.drawable.profile)
                     .into(mDoctorImage);

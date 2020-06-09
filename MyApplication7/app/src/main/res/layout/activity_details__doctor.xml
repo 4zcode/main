@@ -31,14 +31,14 @@
             !-->
         <RatingBar
             android:id="@+id/details_doctor_star"
-            android:layout_margin="2dp"
+            android:layout_margin="4dp"
             style="?android:attr/ratingBarStyleIndicator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
             android:max="1"
             android:numStars="1"
-            android:rating="0"
+            android:rating="1"
             android:stepSize="1"
             android:clickable="true"
             android:theme="@style/RatingBar"

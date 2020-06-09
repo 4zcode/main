@@ -401,6 +401,7 @@ public class tools {
                                     dbDoctor.insert(Phone+Name.toLowerCase(),Name.toLowerCase(),Adresse.toLowerCase(),Phone,Speciality,Type,"Il n'y a aucun service","08:00 - 16:00","R.drawable.profile");
                                 }
                                // db.execSQL("INSERT INTO "+TABLE_NAME_DOCTORS+"("+_ID_DOCTOR_FIREBASE+", "+NAME_DOCTOR+", "+PLACE_DOCTOR+", "+PHONE_DOCTOR+", "+SPEC_DOCTOR+", "+SEX_DOCTOR+", "+IMAGE_DOCTOR_URL+") VALUES ("+"'"+count+"', "+"'"+Name.toLowerCase()+"', "+"'"+Adresse.toLowerCase()+"', "+"',"+Phone+"', "+"'"+Speciality.toLowerCase()+"', "+"'m','R.drawable.profile')");
+                                count ++;
                             }catch (Exception e){
                                 e.printStackTrace();
                                 Log.d("FileAkramTest","error : "+e.getMessage());
@@ -410,7 +411,7 @@ public class tools {
                     }
                     Line = reader.readLine();
                 }
-                count ++;
+
             }
             Log.d("FileAkramTest","Inserted" + String.valueOf(count));
             return count;

@@ -46,17 +46,39 @@ public class DBManagerHospital {
         return false;
     }
 
-    public void insert(String _id,String name, String place,String phone,String imageUrl) {
+    public Hopital getHopitalFromID(String id_Firebase) {
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        String Query = "Select * from " + TABLE_NAME_HOSPITAL + " where " + DatabaseHelper._ID_HOSPITAL_FIREBASE + " = '" + id_Firebase +"' ";
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.moveToFirst()) {
+            int id = Integer.parseInt(cursor.getString(0));
+            String Id_firebase = cursor.getString(1);
+            String name = cursor.getString(2);
+            String description = cursor.getString(3);
+            String place = cursor.getString(4);
+            String phone = cursor.getString(5);
+            String service = cursor.getString(6);
+            String imageUrl = cursor.getString(7);
+            cursor.close();
+            return new Hopital(Id_firebase,name, description,place, phone,service,imageUrl);
+        }
+        cursor.close();
+        return null;
+    }
+
+    public void insert(String _id,String name,String description, String place,String phone,String service,String imageUrl) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper._ID_HOSPITAL_FIREBASE, _id);
         contentValue.put(DatabaseHelper.NAME__HOSPITAL, name);
+        contentValue.put(DatabaseHelper.DESCRIPTION__HOSPITAL, description);
         contentValue.put(DatabaseHelper.PLACE__HOSPITAL, place);
         contentValue.put(DatabaseHelper.NUMBER__HOSPITAL, phone);
+        contentValue.put(DatabaseHelper.SERVICE__HOSPITAL, service);
         contentValue.put(DatabaseHelper.IMAGE_HOSPITAL_URL, imageUrl);
         database.insert(TABLE_NAME_HOSPITAL, null, contentValue);
     }
     public Cursor fetch() {
-        String[] columns = new String[] { DatabaseHelper._ID_HOSPITAL, DatabaseHelper.NAME__HOSPITAL, DatabaseHelper.PLACE__HOSPITAL, DatabaseHelper.NUMBER__HOSPITAL,DatabaseHelper.IMAGE_HOSPITAL_URL};
+        String[] columns = new String[] { DatabaseHelper._ID_HOSPITAL, DatabaseHelper.NAME__HOSPITAL,DatabaseHelper.DESCRIPTION__HOSPITAL, DatabaseHelper.PLACE__HOSPITAL, DatabaseHelper.NUMBER__HOSPITAL,DatabaseHelper.IMAGE_HOSPITAL_URL};
         Cursor cursor = database.query(TABLE_NAME_HOSPITAL, columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -64,11 +86,13 @@ public class DBManagerHospital {
         return cursor;
     }
 
-    public int update(String _id, String name, String place,String phone,String imageUrl) {
+    public int update(String _id, String name,String description ,String place,String phone,String service,String imageUrl) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME__HOSPITAL, name);
+        contentValues.put(DatabaseHelper.DESCRIPTION__HOSPITAL, description);
         contentValues.put(DatabaseHelper.PLACE__HOSPITAL, place);
         contentValues.put(DatabaseHelper.NUMBER__HOSPITAL, phone);
+        contentValues.put(DatabaseHelper.SERVICE__HOSPITAL, service);
         contentValues.put(DatabaseHelper.IMAGE_HOSPITAL_URL, imageUrl);
 
         int i = database.update(TABLE_NAME_HOSPITAL, contentValues, DatabaseHelper._ID_HOSPITAL_FIREBASE + " = " + "'"+_id+ "'", null);
@@ -95,11 +119,13 @@ public class DBManagerHospital {
                 int id = Integer.parseInt(cursor.getString(0));
                 String Id_firebase = cursor.getString(1);
                 String name = cursor.getString(2);
-                String place = cursor.getString(3);
-                String phone = cursor.getString(4);
-                String imageUrl = cursor.getString(5);
+                String description = cursor.getString(3);
+                String place = cursor.getString(4);
+                String phone = cursor.getString(5);
+                String service = cursor.getString(6);
+                String imageUrl = cursor.getString(7);
 
-                storeContacts.add(new Hopital(Id_firebase,name, place, phone,imageUrl));
+                storeContacts.add(new Hopital(Id_firebase,name, description,place, phone,service,imageUrl));
             }
             while (cursor.moveToNext());
         }

@@ -75,22 +75,23 @@ public class HopitalActivity extends AppCompatActivity {
         });
     }
 
-    public void readData(FireBaseCallBack fireBaseCallBack) {
+   /* public void readData(FireBaseCallBack fireBaseCallBack) {
         hopitalRefrence.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    boolean Is_Exist =ds.child("hospital_ID_Firebase").exists() &&ds.child("imageResource").exists() && ds.child("hopitalName").exists() && ds.child("hopitalPlace").exists() && ds.child("hopitalContact").exists() ;
+                    boolean Is_Exist =ds.child("hospital_ID_Firebase").exists() &&ds.child("imageResource").exists() && ds.child("hopitalName").exists() && ds.child("hopitalPlace").exists() && ds.child("hopitalContact").exists()&& ds.child("hopitalService").exists() ;
                     if (Is_Exist) {
                         String id_firebase = ds.child("hospital_ID_Firebase").getValue(String.class);
                         String Name = ds.child("hopitalName").getValue(String.class);
                         String Place = ds.child("hopitalPlace").getValue(String.class);
                         String Phone = ds.child("hopitalContact").getValue(String.class);
+                        String Service = ds.child("hopitalService").getValue(String.class);
                         String ImageUrl = ds.child("imageResource").getValue(String.class);
                         if (dbManagerHospital.CheckIsDataAlreadyInDBorNot(id_firebase)) {
-                            dbManagerHospital.update(id_firebase, Name, Place, Phone,ImageUrl);
+                            dbManagerHospital.update(id_firebase, Name, Place, Phone,Service,ImageUrl);
                         } else {
-                            dbManagerHospital.insert(id_firebase,Name,Place,Phone,ImageUrl);
+                            dbManagerHospital.insert(id_firebase,Name,Place,Phone,Service,ImageUrl);
 
                         }
                     }
@@ -107,6 +108,40 @@ public class HopitalActivity extends AppCompatActivity {
 
 
     }
+
+    */
+   public void readData(FireBaseCallBack fireBaseCallBack) {
+       hopitalRefrence.addListenerForSingleValueEvent(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+               for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                   boolean Is_Exist =ds.child("hospital_ID_Firebase").exists() &&ds.child("imageResource").exists() && ds.child("hopitalName").exists() && ds.child("hopitalPlace").exists() && ds.child("hopitalContact").exists() ;
+                   if (Is_Exist) {
+                       String id_firebase = ds.child("hospital_ID_Firebase").getValue(String.class);
+                       String Name = ds.child("hopitalName").getValue(String.class);
+                       String Place = ds.child("hopitalPlace").getValue(String.class);
+                       String Phone = ds.child("hopitalContact").getValue(String.class);
+                       String ImageUrl = ds.child("imageResource").getValue(String.class);
+                       if (dbManagerHospital.CheckIsDataAlreadyInDBorNot(id_firebase)) {
+                           dbManagerHospital.update(id_firebase, Name, "Il n'y a aucun description",Place,Phone,"Il n'y a aucun service",ImageUrl);
+                       } else {
+                           dbManagerHospital.insert(id_firebase,Name,"Il n'y a aucun description",Place,Phone,"Il n'y a aucun service",ImageUrl);
+
+                       }
+                   }
+               }
+               mhopitaldata= dbManagerHospital.listHospital();
+               mAdapter = new HopitalsAdapter(HopitalActivity.this,mhopitaldata);
+               mRecyclerView.setAdapter(mAdapter);
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError databaseError) {
+           }
+       });
+
+
+   }
 
     @Override
     protected void onResume() {

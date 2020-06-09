@@ -1,9 +1,14 @@
 package com.example.myapplication.Hospital;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -113,9 +119,20 @@ class HopitalsAdapter extends RecyclerView.Adapter<HopitalsAdapter.HopitalsViewH
                     .into(mHopitalImage);
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
         @Override
         public void onClick(View view) {
-            Toast.makeText(mCont,"Clicked",Toast.LENGTH_SHORT).show();
+           Intent detailIntent = Hopital.starter1(mCont, mCurrentHopital.getHospital_ID_Firebase());
+            Pair<View, String> p1 = Pair.create((View)mHopitalImage,"HOPITALIMAGE");
+            Pair<View, String> p2 = Pair.create((View)mHopitalContactTextView,"PHONE");
+            Pair<View, String> p3 = Pair.create((View)mHopitalPlaceTextView,"LOCATION");
+
+            ActivityOptions options = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                options = ActivityOptions.makeSceneTransitionAnimation((Activity) mCont, p1 ,p2,p3);
+            }
+            mCont.startActivity(detailIntent, options.toBundle());
+
         }
     }
 }

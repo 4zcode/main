@@ -41,6 +41,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String _ID_HOSPITAL_FIREBASE = "_id_hospital_firebase";
     public static final String NAME__HOSPITAL = "name";
     public static final String PLACE__HOSPITAL = "place";
+    public static final String SERVICE__HOSPITAL = "service";
+    public static final String DESCRIPTION__HOSPITAL = "description";
     public static final String NUMBER__HOSPITAL = "number";
     public static final String IMAGE_HOSPITAL_URL ="image" ;
 
@@ -65,7 +67,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String IMAGE_DOCTOR_URL ="image" ;
 
 
-    // Table doctor columns
+    // Table doctor specialité columns
     public static final String _ID_SPECIALITY = "_id";
     public static final String SPECIALITY_NAME = "name";
     public static final String SPECIALITY_NUMBER = "number";
@@ -95,13 +97,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     static final String DB_NAME = "SahtiFiYdi.db";
 
     // database version
-    static final int DB_VERSION = 25;
+    static final int DB_VERSION = 27;
 
     // Creating table query
     private static final String CREATE_TABLE_PHARMACIE = "create table " + TABLE_NAME_PHARMACIE + "(" + _ID_PHARMA
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_PHARMA_FIREBASE + " TEXT NOT NULL, "+ NAME_PHARMA + " TEXT NOT NULL, " + PLACE_PHARMA + " TEXT, " + PHONE_PHARMA+ " TEXT, "+OPEN_PHARMA + " TEXT, " + CLOSE_PHARMA + " TEXT, "+IMAGE_PHARMA_URL+" TEXT );";
     private static final String CREATE_TABLE_HOSPITAL = "create table " + TABLE_NAME_HOSPITAL + "(" + _ID_HOSPITAL
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_HOSPITAL_FIREBASE+" TEXT NOT NULL, "+NAME__HOSPITAL + " TEXT NOT NULL, " + PLACE__HOSPITAL + " TEXT, " + NUMBER__HOSPITAL + " TEXT, "+IMAGE_HOSPITAL_URL+" TEXT );";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_HOSPITAL_FIREBASE+" TEXT NOT NULL, "+NAME__HOSPITAL + " TEXT NOT NULL, " + DESCRIPTION__HOSPITAL + " TEXT, " +PLACE__HOSPITAL + " TEXT, " + NUMBER__HOSPITAL + " TEXT, "+ SERVICE__HOSPITAL + " TEXT, "+IMAGE_HOSPITAL_URL+" TEXT );";
     private static final String CREATE_TABLE_LABORATOIR = "create table " + TABLE_NAME_LABORATOIR + "(" + _ID_LABORATOIR
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_LABORATOIR_FIREBASE+ " TEXT NOT NULL, "+NAME__LABORATOIR + " TEXT NOT NULL, " + PLACE__LABORATOIR + " TEXT, " + NUMBER__LABORATOIR+" TEXT, " +IMAGE_LABORATOIR_URL+" TEXT );";
     private static final String CREATE_TABLE_DOCTORS = "create table " + TABLE_NAME_DOCTORS + "(" + _ID_DOCTOR

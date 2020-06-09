@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/applogo"
@@ -25,12 +24,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
-
-
-        <activity android:name=".doctors.details.Details_Doctor"
+        <activity android:name=".Hospital.HospitalProfileActivity"
+            android:label="Details Hopital"
+            android:parentActivityName=".Hospital.HopitalActivity"/>
+        <activity
+            android:name=".doctors.details.Details_Doctor"
             android:label="Details Doctor"
-            android:parentActivityName=".doctors.DoctorActivity"/>
+            android:parentActivityName=".doctors.DoctorActivity" />
         <activity
             android:name=".DetailsDoctorActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
