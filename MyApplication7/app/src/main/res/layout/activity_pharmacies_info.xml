@@ -57,12 +57,6 @@
         </LinearLayout>
 
     </LinearLayout>
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:id="@+id/mapph"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -147,15 +141,13 @@
 
         </LinearLayout>
 
-        <Button
-            android:onClick="map_ph_info"
-            android:layout_width="50dp"
-            android:layout_height="40dp"
-            android:text="map"
-            android:background="@drawable/custom_but" />
-
-
     </LinearLayout>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:id="@+id/mapph"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

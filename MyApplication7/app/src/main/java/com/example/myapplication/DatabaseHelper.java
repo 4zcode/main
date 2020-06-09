@@ -22,6 +22,7 @@ public class DatabaseHelper<IMAGE_PHARMA_URL> extends SQLiteOpenHelper {
     public static final String NAME_DONATEUR = "name";
     public static final String PLACE_DONATEUR = "place";
     public static final String PHONE_DONATEUR = "phone";
+    public static final String AGE="age";
     public static final String IMAGE_DONATEUR_URL ="image" ;
     public static final String GRSANGUIN_DONATEUR = "groupsanguin";
     public static final String _ID_PHARMA = "_id";
@@ -67,11 +68,11 @@ public class DatabaseHelper<IMAGE_PHARMA_URL> extends SQLiteOpenHelper {
     static final String DB_NAME = "SahtiFiYdi.db";
 
     // database version
-    static final int DB_VERSION = 24;
+    static final int DB_VERSION = 27;
 
     // Creating table query
     private static final String CREATE_TABLE_DONATEUR = "create table " + TABLE_NAME_DONATEUR + "(" + _ID_DONATEUR
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_DONATEUR_FIREBASE + " TEXT NOT NULL, "+ NAME_DONATEUR + " TEXT NOT NULL, " + PLACE_DONATEUR + " TEXT, " + PHONE_DONATEUR+ " TEXT, "+GRSANGUIN_DONATEUR + " TEXT, " +IMAGE_DONATEUR_URL+" TEXT );";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_DONATEUR_FIREBASE + " TEXT NOT NULL, "+ NAME_DONATEUR + " TEXT NOT NULL, " + PLACE_DONATEUR + " TEXT, " + PHONE_DONATEUR+ " TEXT, "+ AGE + " TEXT NOT NULL, " +GRSANGUIN_DONATEUR + " TEXT, " +IMAGE_DONATEUR_URL+" TEXT );";
     private static final String CREATE_TABLE_PHARMACIE = "create table " + TABLE_NAME_PHARMACIE + "(" + _ID_PHARMA
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_PHARMA_FIREBASE + " TEXT NOT NULL, "+ NAME_PHARMA + " TEXT NOT NULL, " + PLACE_PHARMA + " TEXT, " + PHONE_PHARMA+ " TEXT, "+TIME + " TEXT, " + DESCRIPTION + " TEXT, "+IMAGE_PHARMA_URL+" TEXT );";
     private static final String CREATE_TABLE_HOSPITAL = "create table " + TABLE_NAME_HOSPITAL + "(" + _ID_HOSPITAL

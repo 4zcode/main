@@ -145,4 +145,7 @@
     <string name="attachment_summary_off">Téléchargez automatiquement les mises à jour lorsque vous etes connecté à un réseau Wi-Fi ou bien les réseaux mobiles</string>
     <string name="pr_prenom">Prénom</string>
     <string name="nom">Nom</string>
+    <string name="title_activity_dondesang2">dondesang2</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 </resources>

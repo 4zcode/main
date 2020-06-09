@@ -7,6 +7,7 @@ import com.example.myapplication.message.chatRoom;
 
 public class don_de_song {
     private String _ID_firebase;
+    private String age;
     private String fullname;
     private String  grsanguin;
     private String imaged;
@@ -17,13 +18,21 @@ public class don_de_song {
 
     public static final String SENDER = "sender";
 
-    public don_de_song(String _ID_firebase, String fullname, String adressd , String contact,String grsanguin, String imaged) {
+    public don_de_song(String _ID_firebase, String fullname, String adressd , String contact,String age,String grsanguin, String imaged) {
         this._ID_firebase = _ID_firebase;
+        this.age=age;
         this.fullname = fullname;
         this.grsanguin = grsanguin;
         this.imaged = imaged;
         this.contact = contact;
         this.adressd = adressd;
+    }
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
     }
     public String getGrsanguin() {
         return grsanguin;
@@ -73,11 +82,10 @@ public class don_de_song {
     public void set_ID_firebase(String _ID_firebase) {
         this._ID_firebase = _ID_firebase;
     }
-    static Intent starter(Context context, String reciver, String sender, String image) {
+    static Intent starter(Context context, String reciver, String sender) {
         Intent chatIntent = new Intent(context, chatRoom.class);
         chatIntent.putExtra(RECIVER, reciver);
         chatIntent.putExtra(SENDER, sender);
-        chatIntent.putExtra(RECIVER_IMAGE,image);
         return chatIntent;
     }
 }

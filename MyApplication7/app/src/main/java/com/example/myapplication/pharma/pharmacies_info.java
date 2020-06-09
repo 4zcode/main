@@ -156,14 +156,7 @@ public class pharmacies_info extends AppCompatActivity implements OnMapReadyCall
         description.setText(intent.getStringExtra("description"));
 
     }
-
-    public void map_ph_info(View view) {
-        Uri addressUri = Uri.parse("geo:0,0?q=" + intent.getStringExtra("adress_ph"));
-        Intent intent1 = new Intent(Intent.ACTION_VIEW, addressUri);
-        startActivity(intent1);
-
-    }
-
+    
     public void txt_ph_info(View view) {
         SharedPreferences myPef;
         myPef =this.getSharedPreferences("userPref", Context.MODE_PRIVATE);

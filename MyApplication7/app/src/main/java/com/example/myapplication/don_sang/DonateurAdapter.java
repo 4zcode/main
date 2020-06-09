@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -85,7 +86,7 @@ public class DonateurAdapter extends RecyclerView.Adapter<DonateurAdapter.Donate
 
     static class DonateursViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        private TextView mNameText, mPlaceText,mphone,grsnaguin;
+        private TextView mNameText, mage,grsnaguin;
         private ImageView mDonateurImage;
         private Context mCont;
         private don_de_song mCurrentdonateur;
@@ -96,9 +97,8 @@ public class DonateurAdapter extends RecyclerView.Adapter<DonateurAdapter.Donate
         DonateursViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
             mNameText = (TextView) itemView.findViewById(R.id.donateur_name);
-            mPlaceText = (TextView) itemView.findViewById(R.id.donateur_place) ;
-            mDonateurImage = (ImageView) itemView.findViewById(R.id.donateur_image);
-            mphone =(TextView) itemView.findViewById(R.id.donateur_contact);
+            mage = (TextView) itemView.findViewById(R.id.agedonateur) ;
+            mDonateurImage = (ImageView) itemView.findViewById(R.id.donateur_imageinit);
             grsnaguin =(TextView) itemView.findViewById(R.id.donateur_grsanguin);
             mCont = context;
             mGradientDrawable = gradientDrawable;
@@ -107,12 +107,14 @@ public class DonateurAdapter extends RecyclerView.Adapter<DonateurAdapter.Donate
 
         void bindTo(don_de_song Currentdonateur) {
             mNameText.setText(Currentdonateur.getFullname());
-            mPlaceText.setText(Currentdonateur.getAdressd());
-            mphone.setText(Currentdonateur.getContact());
+            mage.setText(Currentdonateur.getAge()+" years old");
             grsnaguin.setText((Currentdonateur.getGrsanguin()));
             mCurrentdonateur = Currentdonateur;
             if (isNetworkAvailable()) {
-                Picasso.with(mCont).load(mCurrentdonateur.getImaged()).into(mDonateurImage);
+                Glide.with(mCont).load(mCurrentdonateur.getImaged())
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(mGradientDrawable)
+                        .into(mDonateurImage);
             }else{
                 Glide.with(mCont).load(R.drawable.blood).placeholder(mGradientDrawable).into(mDonateurImage);
             }
@@ -137,16 +139,16 @@ public class DonateurAdapter extends RecyclerView.Adapter<DonateurAdapter.Donate
 
         @Override
         public void onClick(View view) {
-            myPef =mCont.getSharedPreferences("userPref", Context.MODE_PRIVATE);
-            if (myPef.getBoolean("IsLogIn", false) && FirebaseAuth.getInstance().getCurrentUser() != null) {
-                FirebaseUser user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
-                if (!user1.getUid().equals(mCurrentdonateur.get_ID_firebase())) {
-                    Intent intent = don_de_song.starter(mCont,mCurrentdonateur.get_ID_firebase(), mCurrentdonateur.getFullname(),mCurrentdonateur.getImaged());
-                    mCont.startActivity(intent);
-                } else {
-                    Toast.makeText(mCont, "you cant send to your self", Toast.LENGTH_LONG).show();
-                }
-            }
+          Intent intent=new Intent(mCont,donateurinfo.class);
+          intent.putExtra("name_donateur",mCurrentdonateur.getFullname());
+          intent.putExtra("adress_donateur",mCurrentdonateur.getAdressd());
+          intent.putExtra("age_donateur",mCurrentdonateur.getAge());
+          intent.putExtra("idfirebase_donateur",mCurrentdonateur.get_ID_firebase());
+          intent.putExtra("image_donateur",mCurrentdonateur.getImaged());
+          intent.putExtra("phone_donateur",mCurrentdonateur.getContact());
+          intent.putExtra("grsanguin_donateur",mCurrentdonateur.getGrsanguin());
+          mCont.startActivity(intent);
+
         }
     }
 }
