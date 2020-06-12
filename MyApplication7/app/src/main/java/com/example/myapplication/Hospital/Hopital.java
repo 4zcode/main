@@ -10,20 +10,19 @@ public class Hopital {
     private String hopitalName;
     private String hopitaldescription;
     private String hopitalPlace;
+    private int hopitalType;
     private String hopitalservice;
     private String hopitalContact;
     private String imageResource;
- /*   public static final String RECIVER = "Reciver";
-    public static final String SENDER = "sender";
-
-  */
 
 
 
-    public Hopital( String hospital_ID_Firebase,String name,String description, String place, String contact,String service, String hopitalImage) {
+
+    public Hopital( String hospital_ID_Firebase,String name,String description, String place, int type,String contact,String service, String hopitalImage) {
         this.hopitalName = name;
         this.hopitaldescription = description;
         this.hopitalPlace = place;
+        this.hopitalType = type;
         this.hopitalContact=contact;
         this.hopitalservice = service;
         this.imageResource = hopitalImage;
@@ -49,25 +48,6 @@ public class Hopital {
     public  String getImageResource() {
         return imageResource;
     }
- /*   static Intent starter(Context context, String reciver, String sender) {
-        Intent chatIntent = new Intent(context, chatRoom.class);
-        chatIntent.putExtra(RECIVER, reciver);
-        chatIntent.putExtra(SENDER, sender);
-        return chatIntent;
-    }
-
-  */
-    public static Intent starter1(Context context, String id) {
-        Intent detailIntent = new Intent(context, HospitalProfileActivity.class);
-     /*   detailIntent.putExtra("NAME_KEY",name);
-        detailIntent.putExtra("SERV_KEY",serv);
-        detailIntent.putExtra("LOCA_KEY",loca);
-        detailIntent.putExtra("PHON_KEY",phone);
-
-      */
-     detailIntent.putExtra(ID_FIREBASE,id);
-        return detailIntent;
-    }
 
     public String getHospital_ID_Firebase() {
         return hospital_ID_Firebase;
@@ -83,5 +63,13 @@ public class Hopital {
 
     public void setHopitaldescription(String hopitaldescription) {
         this.hopitaldescription = hopitaldescription;
+    }
+
+    public int getHopitalType() {
+        return hopitalType;
+    }
+
+    public void setHopitalType(int hopitalType) {
+        this.hopitalType = hopitalType;
     }
 }

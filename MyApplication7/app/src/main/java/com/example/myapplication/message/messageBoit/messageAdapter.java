@@ -1,5 +1,6 @@
 package com.example.myapplication.message.messageBoit;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -37,10 +38,10 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
 
     public GradientDrawable mGradientDrawable;
     public ArrayList<MessageItem> mMessagesData;
-    public Context mContext;
-    public messageAdapter(Context context, ArrayList<MessageItem> message){
+    private Activity mActivity;
+    public messageAdapter(Activity activity, ArrayList<MessageItem> message){
         this.mMessagesData = message;
-        this.mContext = context;
+        this.mActivity = activity;
         mGradientDrawable = new GradientDrawable();
         mGradientDrawable.setColor(Color.GRAY);
 
@@ -49,8 +50,8 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(layout.message_item, parent, false);
-        return new messageAdapter.MessageViewHolder(mContext, view, mGradientDrawable);
+        View view = LayoutInflater.from(mActivity.getBaseContext()).inflate(layout.message_item, parent, false);
+        return new messageAdapter.MessageViewHolder(mActivity, view, mGradientDrawable);
     }
 
     @Override
@@ -75,7 +76,8 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
         public Context mCont;
         public MessageItem mCurrentMessage;
         public GradientDrawable mGradientDrawable;
-        public MessageViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
+        private Activity activity;
+        public MessageViewHolder(Activity activity, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
 
             //Initialize the views
@@ -83,8 +85,8 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
             mMessageTextView = (TextView) itemView.findViewById(id.messageText);
             mSenderImage = (ImageView) itemView.findViewById(id.sender_image);
             mDateTest = (TextView) itemView.findViewById(id.dateTest);
-
-            mCont = context;
+            this.activity = activity;
+            mCont = activity.getBaseContext();
             mGradientDrawable = gradientDrawable;
             //Set the OnClickListener to the whole view
             itemView.setOnClickListener(this);
@@ -99,6 +101,8 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
                    Intent intent = MessageItem.starter(mCont, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender(), mCurrentMessage.getImageResource());
                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                   mCont.startActivity(intent);
+                   activity.overridePendingTransition(R.anim.open_enter,R.anim.nav_default_exit_anim);
+
 
                }
            }catch (Exception e){

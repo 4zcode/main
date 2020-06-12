@@ -72,7 +72,7 @@ public class DoctorActivity extends AppCompatActivity{
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.open_enter,R.anim.nav_default_exit_anim);
+        overridePendingTransition(R.anim.nav_default_pop_enter_anim,R.anim.nav_default_pop_exit_anim);
     }
 
     @Override

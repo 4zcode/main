@@ -14,6 +14,58 @@
     </string-array>
 
 
+    <string-array name="wilaya">
+        <item>Wilaya</item>
+        <item>ADRAR</item>
+        <item>CHLEF</item>
+        <item>LAGHOUAT</item>
+        <item>OUM EL BOUAGHI</item>
+        <item>BATNA</item>
+        <item>BEJAIA</item>
+        <item>BISKRA</item>
+        <item>BECHAR</item>
+        <item>BLIDA</item>
+        <item>BOUIRA</item>
+        <item>TAMANRASSET</item>
+        <item>TEBESSA</item>
+        <item>TLEMCEN</item>
+        <item>TIARET</item>
+        <item>TIZI-OUZOU</item>
+        <item>ALGER</item>
+        <item>DJELFA</item>
+        <item>JIJEL</item>
+        <item>SETIF</item>
+        <item>SAIDA</item>
+        <item>SKIKDA</item>
+        <item>SIDI BEL ABBES</item>
+        <item>ANNABA</item>
+        <item>GUELMA</item>
+        <item>CONSTANTINE</item>
+        <item>MEDEA</item>
+        <item>MOSTAGANEM</item>
+        <item>MSILA</item>
+        <item>MASCARA</item>
+        <item>OUARGLA</item>
+        <item>ORAN</item>
+        <item>EL BAYADH</item>
+        <item>ILLIZI</item>
+        <item>BORDJ BOU ARRERIDJ</item>
+        <item>BOUMERDES</item>
+        <item>EL TAREF</item>
+        <item>TINDOUF</item>
+        <item>TISSEMSILT</item>
+        <item>EL OUED</item>
+        <item>KHENCHeLA</item>
+        <item>SOUK AHRAS</item>
+        <item>TIPAZA</item>
+        <item>MILA</item>
+        <item>AIN DEFLA</item>
+        <item>NAAMA</item>
+        <item>AIN TEMOUCHENT</item>
+        <item>GHARDAIA</item>
+        <item>RELIZANE</item>
+    </string-array>
+
     <string-array name="speciality">
         <item>Acupuncture</item>
         <item>Allergologue</item>

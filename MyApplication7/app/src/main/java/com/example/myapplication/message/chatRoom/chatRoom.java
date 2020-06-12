@@ -118,6 +118,7 @@ public class chatRoom extends AppCompatActivity {
         adapter= new ChatRoomAdapter(this,arrayMsg);
         recyclerView.setAdapter(adapter);
         linearManager = new LinearLayoutManager(this);
+        linearManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(linearManager);
         recyclerState = recyclerView.getLayoutManager().onSaveInstanceState();
         db = new DBManagerMessage(this);
@@ -148,14 +149,6 @@ public class chatRoom extends AppCompatActivity {
         });
     }
 
-/* @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public void startAnimation(){
-        Explode explode = new Explode();
-        explode.setDuration(1000);
-        getWindow().setEnterTransition(explode);
-    }
-
- */
 
 
 

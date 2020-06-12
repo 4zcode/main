@@ -76,7 +76,7 @@ public class DBManagerDonateur {
         return i;
     }
     public void delete(long _id) {
-        database.delete(TABLE_NAME_DONATEUR, DatabaseHelper._ID_HOSPITAL+ "=" + _id, null);
+        database.delete(TABLE_NAME_DONATEUR, DatabaseHelper._ID+ "=" + _id, null);
     }
     public ArrayList<don_de_song> listdonateur() {
         String sql = "select * from " + TABLE_NAME_DONATEUR;

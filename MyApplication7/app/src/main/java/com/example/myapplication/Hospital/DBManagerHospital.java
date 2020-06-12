@@ -46,51 +46,45 @@ public class DBManagerHospital {
         return false;
     }
 
-    public Hopital getHopitalFromID(String id_Firebase) {
+    public Hopital getHopitalFromID(int id) {
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
-        String Query = "Select * from " + TABLE_NAME_HOSPITAL + " where " + DatabaseHelper._ID_HOSPITAL_FIREBASE + " = '" + id_Firebase +"' ";
+        String Query = "Select * from " + TABLE_NAME_HOSPITAL + " where " + DatabaseHelper._ID + " = "+id ;
         Cursor cursor = db.rawQuery(Query, null);
         if(cursor.moveToFirst()) {
-            int id = Integer.parseInt(cursor.getString(0));
             String Id_firebase = cursor.getString(1);
             String name = cursor.getString(2);
             String description = cursor.getString(3);
             String place = cursor.getString(4);
-            String phone = cursor.getString(5);
-            String service = cursor.getString(6);
-            String imageUrl = cursor.getString(7);
+            int type = cursor.getInt(5);
+            String phone = cursor.getString(6);
+            String service = cursor.getString(7);
+            String imageUrl = cursor.getString(8);
             cursor.close();
-            return new Hopital(Id_firebase,name, description,place, phone,service,imageUrl);
+            return new Hopital(Id_firebase,name, description,place,type ,phone,service,imageUrl);
         }
         cursor.close();
         return null;
     }
 
-    public void insert(String _id,String name,String description, String place,String phone,String service,String imageUrl) {
+    public void insert(String _id,String name,String description, String place,int type,String phone,String service,String imageUrl) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper._ID_HOSPITAL_FIREBASE, _id);
         contentValue.put(DatabaseHelper.NAME__HOSPITAL, name);
         contentValue.put(DatabaseHelper.DESCRIPTION__HOSPITAL, description);
         contentValue.put(DatabaseHelper.PLACE__HOSPITAL, place);
+        contentValue.put(DatabaseHelper.TYPE__HOSPITAL, type);
         contentValue.put(DatabaseHelper.NUMBER__HOSPITAL, phone);
         contentValue.put(DatabaseHelper.SERVICE__HOSPITAL, service);
         contentValue.put(DatabaseHelper.IMAGE_HOSPITAL_URL, imageUrl);
         database.insert(TABLE_NAME_HOSPITAL, null, contentValue);
     }
-    public Cursor fetch() {
-        String[] columns = new String[] { DatabaseHelper._ID_HOSPITAL, DatabaseHelper.NAME__HOSPITAL,DatabaseHelper.DESCRIPTION__HOSPITAL, DatabaseHelper.PLACE__HOSPITAL, DatabaseHelper.NUMBER__HOSPITAL,DatabaseHelper.IMAGE_HOSPITAL_URL};
-        Cursor cursor = database.query(TABLE_NAME_HOSPITAL, columns, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        return cursor;
-    }
 
-    public int update(String _id, String name,String description ,String place,String phone,String service,String imageUrl) {
+    public int update(String _id, String name,String description ,String place,int type,String phone,String service,String imageUrl) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME__HOSPITAL, name);
         contentValues.put(DatabaseHelper.DESCRIPTION__HOSPITAL, description);
         contentValues.put(DatabaseHelper.PLACE__HOSPITAL, place);
+        contentValues.put(DatabaseHelper.TYPE__HOSPITAL, type);
         contentValues.put(DatabaseHelper.NUMBER__HOSPITAL, phone);
         contentValues.put(DatabaseHelper.SERVICE__HOSPITAL, service);
         contentValues.put(DatabaseHelper.IMAGE_HOSPITAL_URL, imageUrl);
@@ -101,36 +95,12 @@ public class DBManagerHospital {
 
 
     public void delete(long _id) {
-        database.delete(TABLE_NAME_HOSPITAL, DatabaseHelper._ID_HOSPITAL+ "=" + _id, null);
+        database.delete(TABLE_NAME_HOSPITAL, DatabaseHelper._ID+ "=" + _id, null);
     }
 
     public int deleteAll(){
         return database.delete(TABLE_NAME_HOSPITAL,"1",null);
     }
 
-
-    public ArrayList<Hopital> listHospital() {
-        String sql = "select * from " + TABLE_NAME_HOSPITAL;
-        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
-        ArrayList<Hopital> storeContacts = new ArrayList<>();
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.moveToFirst()) {
-            do {
-                int id = Integer.parseInt(cursor.getString(0));
-                String Id_firebase = cursor.getString(1);
-                String name = cursor.getString(2);
-                String description = cursor.getString(3);
-                String place = cursor.getString(4);
-                String phone = cursor.getString(5);
-                String service = cursor.getString(6);
-                String imageUrl = cursor.getString(7);
-
-                storeContacts.add(new Hopital(Id_firebase,name, description,place, phone,service,imageUrl));
-            }
-            while (cursor.moveToNext());
-        }
-        cursor.close();
-        return storeContacts;
-    }
 
 }

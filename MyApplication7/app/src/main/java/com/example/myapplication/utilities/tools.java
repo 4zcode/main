@@ -325,10 +325,20 @@ public class tools {
         }
         return array;
     }
+    public static String[] getCommuns(int matricule){
+
+        for (Wilaya s: getAllWilayasData()) {
+            if (s.getId()== matricule) {
+                return s.getCommunes();
+            }
+        }
+        return null;
+    }
 
     public static String[] getCommuns(String wilayaName){
+
        for (Wilaya s: getAllWilayasData()) {
-            if (s.getWilayaName().equals(wilayaName)) {
+            if (s.getWilayaName().toUpperCase().equals(wilayaName.toUpperCase())) {
                 return s.getCommunes();
             }
         }

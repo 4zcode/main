@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 import android.util.Log;
 
 import org.apache.commons.lang3.text.WordUtils;
@@ -15,7 +16,15 @@ import java.io.InputStreamReader;
 import java.util.Scanner;
 
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
+
+    // Database Information
+    static final String DB_NAME = "SahtiFiYdi.db";
+
+    // database version
+    static final int DB_VERSION = 28;
+
+
     // Table Name
     public static final String TABLE_NAME_PHARMACIE = "Pharmacies";
     public static final String TABLE_NAME_HOSPITAL = "hospital";
@@ -37,10 +46,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String CLOSE_PHARMA = "close";
 
     // Table Hopital columns
-    public static final String _ID_HOSPITAL = "_id";
     public static final String _ID_HOSPITAL_FIREBASE = "_id_hospital_firebase";
     public static final String NAME__HOSPITAL = "name";
     public static final String PLACE__HOSPITAL = "place";
+    public static final String TYPE__HOSPITAL = "type";
     public static final String SERVICE__HOSPITAL = "service";
     public static final String DESCRIPTION__HOSPITAL = "description";
     public static final String NUMBER__HOSPITAL = "number";
@@ -93,17 +102,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String IMAGE_DONATEUR_URL ="image" ;
     public static final String GRSANGUIN_DONATEUR = "groupsanguin";
 
-    // Database Information
-    static final String DB_NAME = "SahtiFiYdi.db";
 
-    // database version
-    static final int DB_VERSION = 27;
 
     // Creating table query
     private static final String CREATE_TABLE_PHARMACIE = "create table " + TABLE_NAME_PHARMACIE + "(" + _ID_PHARMA
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_PHARMA_FIREBASE + " TEXT NOT NULL, "+ NAME_PHARMA + " TEXT NOT NULL, " + PLACE_PHARMA + " TEXT, " + PHONE_PHARMA+ " TEXT, "+OPEN_PHARMA + " TEXT, " + CLOSE_PHARMA + " TEXT, "+IMAGE_PHARMA_URL+" TEXT );";
-    private static final String CREATE_TABLE_HOSPITAL = "create table " + TABLE_NAME_HOSPITAL + "(" + _ID_HOSPITAL
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_HOSPITAL_FIREBASE+" TEXT NOT NULL, "+NAME__HOSPITAL + " TEXT NOT NULL, " + DESCRIPTION__HOSPITAL + " TEXT, " +PLACE__HOSPITAL + " TEXT, " + NUMBER__HOSPITAL + " TEXT, "+ SERVICE__HOSPITAL + " TEXT, "+IMAGE_HOSPITAL_URL+" TEXT );";
+
+
+    private static final String CREATE_TABLE_HOSPITAL = "create table " + TABLE_NAME_HOSPITAL + "("
+            + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + _ID_HOSPITAL_FIREBASE+" TEXT NOT NULL, "
+            + NAME__HOSPITAL + " TEXT NOT NULL, "
+            + DESCRIPTION__HOSPITAL + " TEXT, "
+            + PLACE__HOSPITAL + " TEXT, "
+            + TYPE__HOSPITAL + " INTEGER, "
+            + NUMBER__HOSPITAL + " TEXT, "
+            + SERVICE__HOSPITAL + " TEXT, "
+            + IMAGE_HOSPITAL_URL+" TEXT );";
+
+
     private static final String CREATE_TABLE_LABORATOIR = "create table " + TABLE_NAME_LABORATOIR + "(" + _ID_LABORATOIR
             + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_LABORATOIR_FIREBASE+ " TEXT NOT NULL, "+NAME__LABORATOIR + " TEXT NOT NULL, " + PLACE__LABORATOIR + " TEXT, " + NUMBER__LABORATOIR+" TEXT, " +IMAGE_LABORATOIR_URL+" TEXT );";
     private static final String CREATE_TABLE_DOCTORS = "create table " + TABLE_NAME_DOCTORS + "(" + _ID_DOCTOR
@@ -117,13 +134,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-    private Context context;
 
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
-        this.context = context;
-
     }
 
     @Override

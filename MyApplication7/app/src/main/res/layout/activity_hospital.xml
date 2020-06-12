@@ -11,25 +11,44 @@ tools:context=".Hospital.HopitalActivity">
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_margin="3dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:orientation="horizontal"
-        android:layout_gravity="center"
         >
-        <SearchView
-            android:id="@+id/search_hopital"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="5"
-            android:background="@drawable/searchview_rounded"
-            />
         <Spinner
-            android:background="#FFFFFF"
+            android:id="@+id/spinner_wilaya"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/button_corner"
+            android:spinnerMode="dropdown"
+            android:layout_marginRight="8dp"
+            android:entries="@array/wilaya"/>
+
+        <RadioGroup
+            android:id="@+id/hopital_activity_radiobottongroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/spinner_hopital"
-            />
+            android:orientation="horizontal">
+            <RadioButton
+                android:id="@+id/public_hopital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Publique"
+                />
+            <RadioButton
+                android:id="@+id/private_hopital"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Privé"
+                />
+        </RadioGroup>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView

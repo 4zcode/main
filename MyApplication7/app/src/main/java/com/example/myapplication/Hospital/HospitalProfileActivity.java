@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
 
 public class HospitalProfileActivity extends AppCompatActivity {
-    public static final String ID_FIREBASE = "ID_FIREBASE";
+    public static final String ID = "id";
 
     private TextView nameView,desView, phoneView, serviceView, locationView;
     private ImageView imageView;
@@ -38,7 +38,7 @@ public class HospitalProfileActivity extends AppCompatActivity {
     private void initialView() {
         DBManagerHospital db = new DBManagerHospital(getBaseContext());
         db.open();
-        Hopital currentHopital = db.getHopitalFromID(getIntent().getStringExtra(ID_FIREBASE));
+        Hopital currentHopital = db.getHopitalFromID(getIntent().getIntExtra(ID,1));
         db.close();
         Glide.with(getBaseContext()).load(currentHopital.getImageResource()).into(imageView);
         phoneView.setText(currentHopital.getHopitalContact());

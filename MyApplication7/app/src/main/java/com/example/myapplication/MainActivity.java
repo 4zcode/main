@@ -167,6 +167,9 @@ public class MainActivity extends AppCompatActivity {
     public void goToLabos(View view) {
 
         startActivity(new Intent(this, LaboActivity.class));
+        overridePendingTransition(R.anim.nav_default_pop_enter_anim,R.anim.nav_default_pop_exit_anim);
+
+
     }
 
     public void goToDoctors(View view) {
@@ -178,10 +181,13 @@ public class MainActivity extends AppCompatActivity {
     public void goToPharmacies(View view) {
 
         startActivity(new Intent(this, pharmacyActivity.class));
+        overridePendingTransition(R.anim.nav_default_pop_enter_anim,R.anim.nav_default_pop_exit_anim);
+
     }
 
     public void goToHopitaux(View view) {
         startActivity(new Intent(this, HopitalActivity.class));
+        overridePendingTransition(R.anim.nav_default_pop_enter_anim,R.anim.nav_default_pop_exit_anim);
 
     }
 

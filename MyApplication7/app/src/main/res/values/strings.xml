@@ -31,69 +31,6 @@
     <string name="sahti_fi_yedi">Sahti fi yedi</string>
 
 
-    <string-array name="wilaya">
-        <item>Wilaya</item>
-        <item><b>01.</b> Adrar</item>
-        <item>Chlef02</item>
-        <item>Laghouat03</item>
-        <item>OumElBowaghi04</item>
-        <item>Batna05</item>
-        <item>Bejaia06</item>
-        <item>Biskra07</item>
-        <item>Bechar08</item>
-        <item>Blida09</item>
-        <item>Bouira10</item>
-        <item>Tamanrasset11</item>
-        <item>Tebessa12</item>
-        <item>Tlemcen13</item>
-        <item>Tiaret14</item>
-        <item>Tiziouzou15</item>
-        <item>Alger16</item>
-        <item>Djelfa17</item>
-        <item>Jijel18</item>
-        <item>Setif19</item>
-        <item>Saida20</item>
-        <item>Skikda21</item>
-        <item>Sidibelabbes22</item>
-        <item>Annaba23</item>
-        <item>Guelma24</item>
-        <item>Constantine25</item>
-        <item>Medea26</item>
-        <item>Mostaghanem27</item>
-        <item>Msila28</item>
-        <item>Mascara29</item>
-        <item>Owargla30</item>
-        <item>Oran31</item>
-        <item>ElBayadh32</item>
-        <item>Illizi33</item>
-        <item>BorjbouArrieridj34</item>
-        <item>Boumerdes35</item>
-        <item>ElTarif36</item>
-        <item>Tindouf37</item>
-        <item>Tissemsilt38</item>
-        <item>Eloued39</item>
-        <item>Khanchela40</item>
-        <item>SoukAhras41</item>
-        <item>Tipaza42</item>
-        <item>Mila43</item>
-        <item>AinDefla44</item>
-        <item>Naama45</item>
-        <item>Ain Temouchent46</item>
-        <item>Ghadaia47</item>
-        <item>Relizane48</item>
-        <item>ElMghair49</item>
-        <item>ElMeniaa50</item>
-        <item>Ouled Djelal51</item>
-        <item>BorjBajiMokhtar52</item>
-        <item>Beni Abbes53</item>
-        <item>Timimoun54</item>
-        <item>Touggourt55</item>
-        <item>Djanet56</item>
-        <item>In Salah57</item>
-        <item>In Guezzan58</item>
-
-
-    </string-array>
     <string-array name="horraire">
         <item>08:00</item>
         <item>09:00</item>

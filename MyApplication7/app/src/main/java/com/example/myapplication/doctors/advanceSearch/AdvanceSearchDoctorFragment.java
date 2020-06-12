@@ -108,25 +108,29 @@ public class AdvanceSearchDoctorFragment extends Fragment  {
              }
             }
         });
-       willayaCodeAdapter = new ArrayAdapter<CharSequence>(getActivity(),android.R.layout.simple_spinner_item,getWilayasList());
-
-        willayaCodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerWilaya.setAdapter(willayaCodeAdapter);
         spinnerWilaya.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spinnerCommuns.setVisibility(View.VISIBLE);
-                wilaya = String.valueOf(spinnerWilaya.getSelectedItem());
-                commmunsCodeAdapter = new ArrayAdapter<CharSequence>(getActivity(),android.R.layout.simple_spinner_item,getCommuns(wilaya));
-                commmunsCodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerCommuns.setAdapter(commmunsCodeAdapter);
-                if (position == 0) {
-                    spinnerWilaya.setSelection(0);
-                }
-                //
-                mDoctorsData = dbManager.listdoctors(count,"",wilaya,getLastSpeciality(getContext()));
-                mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
-                mRecyclerView.setAdapter(mAdapter);
+               try {
+                   spinnerCommuns.setVisibility(View.VISIBLE);
+                   wilaya = String.valueOf(spinnerWilaya.getSelectedItem());
+                   commmunsCodeAdapter = new ArrayAdapter<CharSequence>(getActivity(), android.R.layout.simple_spinner_item, getCommuns(position));
+                   commmunsCodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                   spinnerCommuns.setAdapter(commmunsCodeAdapter);
+                   if (position == 0) {
+                       spinnerWilaya.setSelection(0);
+                   }
+                   //
+                   mDoctorsData = dbManager.listdoctors(count, "", wilaya, getLastSpeciality(getContext()));
+
+                   mAdapter = new DoctorsAdapter(getActivity(), mDoctorsData);
+                   Log.d("spinnerproblemakram","pass 10 ");
+
+                   mRecyclerView.setAdapter(mAdapter);
+               }catch (Exception e){
+                    Log.d("spinnerproblemakram","error "+ e.getMessage());
+                    e.printStackTrace();
+               }
             }
 
             @Override

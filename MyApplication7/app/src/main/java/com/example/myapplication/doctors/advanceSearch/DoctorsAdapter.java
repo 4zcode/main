@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
-import android.provider.ContactsContract;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,19 +16,15 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.myapplication.DetailsDoctorActivity;
 import com.example.myapplication.Profiles.UserProfile;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,7 +72,7 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSV
 
     @Override
     public DoctorSViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.doctor_item, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.user_item, parent, false);
         return new DoctorSViewHolder(mContext, view, mGradientDrawable);
     }
 
@@ -106,10 +101,10 @@ public class DoctorsAdapter extends RecyclerView.Adapter<DoctorsAdapter.DoctorSV
 
         DoctorSViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
-            mNameText = (TextView) itemView.findViewById(R.id.name_doctor);
-            mPlaceText = (TextView) itemView.findViewById(R.id.place_doctor) ;
-            mDoctorImage = (ImageView) itemView.findViewById(R.id.doctor_image);
-            mSpecialiteText =(TextView) itemView.findViewById(R.id.specialite_doctor);
+            mNameText = (TextView) itemView.findViewById(R.id.user_name);
+            mPlaceText = (TextView) itemView.findViewById(R.id.user_place) ;
+            mDoctorImage = (ImageView) itemView.findViewById(R.id.user_image);
+            mSpecialiteText =(TextView) itemView.findViewById(R.id.user_other);
             backGroundLayout = (CardView) itemView.findViewById(R.id.doctor_cordinator_background);
             mCont = context;
             mGradientDrawable = gradientDrawable;
