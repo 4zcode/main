@@ -1,7 +1,11 @@
 package com.example.myapplication.message.messageBoit;
 
-import android.content.Context;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
 import android.content.DialogInterface;
+import android.content.Loader;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,62 +21,54 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
 import com.example.myapplication.message.DBManagerMessage;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import static com.example.myapplication.utilities.tools.isNetworkAvailable;
 
-public class messageBoit extends AppCompatActivity {
+public class messageBoit extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     public final static String TAG = messageBoit.class.getSimpleName();
 
 
     private RecyclerView mRecyclerView;
-    private ArrayList<MessageItem> linkedList;
-    private messageAdapter ada;
+    private messageAdapter mAdapter;
     private DBManagerMessage db;
     private LinearLayoutManager linearLayoutManager;
     private LinearLayout mlinearLayout;
     private TextView emptyText;
     private ImageView emptyImage;
   //  private Timer timer;
-
+  //
+  private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_message_boit);
+        //
+        dbHelper = new DatabaseHelper(this);
+
         mlinearLayout=(LinearLayout) findViewById(R.id.message_boit_empty_linear);
         emptyImage = (ImageView) findViewById(R.id.message_boit_empty_image);
         emptyText = (TextView) findViewById(R.id.message_boit_empty_text);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewMessage);
-        linkedList = new ArrayList<MessageItem>();
-        ada= new messageAdapter(this,linkedList);
-        mRecyclerView.setAdapter(ada);
+
+
+        mAdapter = new messageAdapter(this,null);
         linearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(linearLayoutManager);
         db = new DBManagerMessage(getBaseContext());
         db.open();
-        linkedList = db.listMessages();
-        Collections.sort(linkedList);
-        ada= new messageAdapter(this,linkedList);
-        mRecyclerView.setAdapter(ada);
-        linearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        Afficher(getBaseContext());
+
+
+        mRecyclerView.setAdapter(mAdapter);
 
 
     }
-    public void Afficher(Context context){
-        linkedList = db.listMessages();
-        if (linkedList.isEmpty()){
+    public void Afficher(Boolean vide){
+        if (vide){
             mlinearLayout.setVisibility(View.VISIBLE);
             emptyText.setVisibility(View.VISIBLE);
             emptyImage.setVisibility(View.VISIBLE);
@@ -83,13 +79,6 @@ public class messageBoit extends AppCompatActivity {
             emptyImage.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
         }
-        
-
-        Collections.sort(linkedList);
-        ada= new messageAdapter(this,linkedList);
-        mRecyclerView.setAdapter(ada);
-        linearLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(linearLayoutManager);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -111,7 +100,6 @@ public class messageBoit extends AppCompatActivity {
         int id = item.getItemId();
         if(id == R.id.action_refresh_message){
             if (isNetworkAvailable(getBaseContext())){
-                Afficher(getBaseContext());
                 invalidateOptionsMenu();
                 Toast.makeText(getBaseContext(),"synchronise",Toast.LENGTH_SHORT).show();
             }else {
@@ -131,31 +119,59 @@ public class messageBoit extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Afficher(getBaseContext());
-    }
 
 
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
     @Override
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.nav_default_pop_enter_anim,R.anim.nav_default_pop_exit_anim);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        CursorLoader loader = null;
+        if(id == 0) {
+            loader = new CursorLoader(this) {
+                @Override
+                public Cursor loadInBackground() {
+                    SQLiteDatabase db = dbHelper.getReadableDatabase();
+                    final String[] hopitalColumns = {
+                            DatabaseHelper._ID,
+                            DatabaseHelper._ID_MESSAGE_SENDER_FIREBASE,
+                            DatabaseHelper.SENDER_MESSAGE_NAME,
+                            DatabaseHelper.RECENT_MESSAGE,
+                            DatabaseHelper.MESSAGE_RECENT_DATE,
+                            DatabaseHelper.IS_READ,
+                            DatabaseHelper.IMAGE_SENDER_MESSAGE_URL};
+
+                    String OrderBy = "datetime("+DatabaseHelper.MESSAGE_RECENT_DATE+") DESC" ;
+                    Cursor cursor = db.query(DatabaseHelper.TABLE_NAME_MESSAGES, hopitalColumns,
+                            null, null, null, null, OrderBy,"20" );
+                Afficher(cursor == null);
+                return cursor;
+                }
+
+            };
+        }
+        return loader;
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if(loader.getId() == 0)  {
+            mAdapter.changeCursor(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        if(loader.getId() == 0)  {
+            mAdapter.changeCursor(null);
+        }
     }
 }

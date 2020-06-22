@@ -26,6 +26,7 @@
         tools:src="@drawable/doctor"
         android:layout_gravity="bottom"/>
     <LinearLayout
+        android:id="@+id/chat_room_item_petit_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
@@ -41,7 +42,7 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
-
+android:visibility="visible"
             android:padding="4dp"
             android:text="Akram Bensalem"
             />
@@ -53,19 +54,21 @@
             android:layout_marginLeft="15dp"
             android:layout_marginRight="10dp"
             android:layout_marginBottom="5dp"
-
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingBottom="5dp"
-
+            android:visibility="visible"
             tools:text="message"
             android:textColor="?android:textColorSecondary" />
         <ImageView
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:id="@+id/imagemessage"
-            tools:src="@drawable/ic_action_linkedin"
+            android:id="@+id/message_chat_image_sender"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
+            android:layout_margin="8dp"
+            android:layout_gravity="center"
+            tools:src="@drawable/profile"
             android:visibility="gone"
+            android:scaleType="centerCrop"
             />
     </LinearLayout>
 </LinearLayout>
@@ -74,6 +77,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="55dp"
-        tools:text="message"
+        tools:text="Depuit une minute"
         android:textColor="?android:textColorSecondary" />
     </LinearLayout>

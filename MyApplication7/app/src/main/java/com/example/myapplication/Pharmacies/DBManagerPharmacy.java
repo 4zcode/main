@@ -45,68 +45,64 @@ public class DBManagerPharmacy {
         return false;
     }
 
-    public void insert(String _id,String name, String place,String phone, String open,String close,String imageUrl) {
+    public pharmacy getPharmacieFromID(int id) {
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        String Query = "Select * from " + TABLE_NAME_PHARMACIE + " where " + DatabaseHelper._ID + " = "+id ;
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.moveToFirst()) {
+            String Id_firebase = cursor.getString(1);
+            String name = cursor.getString(2);
+            String place = cursor.getString(3);
+            int wilaya = cursor.getInt(4);
+            int commune = cursor.getInt(5);
+            String phone = cursor.getString(6);
+            String time = cursor.getString(7);
+            String description = cursor.getString(8);
+            String imageUrl = cursor.getString(9);
+            cursor.close();
+            return new pharmacy(Id_firebase,name, place, wilaya,commune,phone,time,imageUrl,description);
+        }
+        cursor.close();
+        return null;
+    }
+
+    public void insert(String _id,String name, String place, int wilaya , int commune,String phone, String time,String imageUrl,String description) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper._ID_PHARMA_FIREBASE, _id);
         contentValue.put(DatabaseHelper.NAME_PHARMA, name);
         contentValue.put(DatabaseHelper.PLACE_PHARMA, place);
+        contentValue.put(DatabaseHelper.WILAYA, wilaya);
+        contentValue.put(DatabaseHelper.COMMUNE, commune);
         contentValue.put(DatabaseHelper.PHONE_PHARMA, phone);
-        contentValue.put(DatabaseHelper.OPEN_PHARMA, open);
-        contentValue.put(DatabaseHelper.CLOSE_PHARMA, close);
+        contentValue.put(DatabaseHelper.TIME, time);
         contentValue.put(DatabaseHelper.IMAGE_PHARMA_URL, imageUrl);
-
+        contentValue.put(DatabaseHelper.DESCRIPTION,description);
         database.insert(TABLE_NAME_PHARMACIE, null, contentValue);
     }
-    public Cursor fetch() {
-        String[] columns = new String[] { DatabaseHelper._ID_PHARMA, DatabaseHelper.NAME_PHARMA, DatabaseHelper.PLACE_PHARMA, DatabaseHelper.PHONE_PHARMA, DatabaseHelper.OPEN_PHARMA,DatabaseHelper.CLOSE_PHARMA,DatabaseHelper.IMAGE_PHARMA_URL};
-        Cursor cursor = database.query(TABLE_NAME_PHARMACIE, columns, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        return cursor;
-    }
 
-    public int update(String _id, String name, String place,String phone,String open,String close,String imageUrl) {
+
+    public int update(String _id, String name, String place, int wilaya , int commune,String phone,String time,String imageUrl,String description) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME_PHARMA, name);
         contentValues.put(DatabaseHelper.PLACE_PHARMA, place);
+        contentValues.put(DatabaseHelper.WILAYA, wilaya);
+        contentValues.put(DatabaseHelper.COMMUNE, commune);
         contentValues.put(DatabaseHelper.PHONE_PHARMA, phone);
-        contentValues.put(DatabaseHelper.OPEN_PHARMA, open);
-        contentValues.put(DatabaseHelper.CLOSE_PHARMA, close);
+        contentValues.put(DatabaseHelper.TIME, time);
         contentValues.put(DatabaseHelper.IMAGE_PHARMA_URL, imageUrl);
-
+        contentValues.put(DatabaseHelper.DESCRIPTION,description);
         int i = database.update(TABLE_NAME_PHARMACIE, contentValues, DatabaseHelper._ID_PHARMA_FIREBASE + " = " + "'"+_id+ "'", null);
         return i;
     }
     public void delete(long _id) {
-        database.delete(TABLE_NAME_PHARMACIE, DatabaseHelper._ID_PHARMA + "=" + _id, null);
+        database.delete(TABLE_NAME_PHARMACIE, DatabaseHelper._ID + "=" + _id, null);
     }
-    public ArrayList<pharmacy> listPharmacies() {
-        Integer count = 0;
-        String sql = "select * from " + TABLE_NAME_PHARMACIE;
-        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
-        ArrayList<pharmacy> storeContacts = new ArrayList<>();
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.moveToFirst()) {
-            do {
-                int id = Integer.parseInt(cursor.getString(0));
-                String Id_firebase = cursor.getString(1);
-                String name = cursor.getString(2);
-                String place = cursor.getString(3);
-                String phone = cursor.getString(4);
-                String open = cursor.getString(5);
-                String close = cursor.getString(6);
-                String imageUrl = cursor.getString(7);
 
-                storeContacts.add(new pharmacy(Id_firebase,name, place, phone,open,close,imageUrl));
-                count ++;
-            }
-            while (cursor.moveToNext() && count < 15);
-        }
-        cursor.close();
-        return storeContacts;
+    public void deleteByFireBaseId(String _id) {
+        database.delete(TABLE_NAME_PHARMACIE, DatabaseHelper._ID_PHARMA_FIREBASE + " = " + "'"+_id+ "'", null);
     }
-    public void deleteall(){
+
+    public void deleteAll(){
         String sql = "select * from " + TABLE_NAME_PHARMACIE;
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);

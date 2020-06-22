@@ -19,38 +19,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_margin="5dp">
-        <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+        android:layout_margin="8dp"
+        >
+        <ImageButton
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:onClick="downlowd_image"
             android:src="@drawable/photocamera"
-            android:scaleType="centerCrop"/>
+            android:scaleType="centerCrop"
+            android:backgroundTint="@android:color/transparent"/>
 
     <EditText
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:id="@+id/edit_text_envoyer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="5"
+        android:layout_weight="1"
         android:hint="Écrire votre message"
         android:layout_gravity="center"
         android:background="@drawable/edit_corner"
-        android:padding="5dp"
-        app:maxImageSize="20dp"
+        android:padding="8dp"
         />
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/envoyer_button"
-            android:layout_width="wrap_content"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/send"
             android:gravity="center"
             android:onClick="Envoyer"
-            android:background="@drawable/send"
-            android:layout_margin="2dp"
-            app:maxImageSize="60dp"/>
+            android:src="@drawable/ic_send_black_24dp"
+            android:tint="@android:color/white"
+            android:backgroundTint="@color/colorAccent"
+            app:fabSize="mini"
+            />
     </LinearLayout>
 </LinearLayout>

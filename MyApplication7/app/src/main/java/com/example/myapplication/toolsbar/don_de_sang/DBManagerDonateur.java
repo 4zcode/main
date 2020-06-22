@@ -45,18 +45,21 @@ public class DBManagerDonateur {
         return false;
     }
 
-    public void insert(String _id,String name, String place,String phone,String grsanguin,String imageUrl) {
+    public void insert(String _id,String name, String place,String wilaya, String commune, String phone,String age,String grsanguin,String imageUrl) {
         ContentValues contentValue = new ContentValues();
         contentValue.put(DatabaseHelper._ID_DONATEUR_FIREBASE, _id);
+        contentValue.put(DatabaseHelper.AGE, age);
         contentValue.put(DatabaseHelper.NAME_DONATEUR, name);
         contentValue.put(DatabaseHelper.PLACE_DONATEUR, place);
+        contentValue.put(DatabaseHelper.WILAYA, wilaya);
+        contentValue.put(DatabaseHelper.COMMUNE, commune);
         contentValue.put(DatabaseHelper.PHONE_DONATEUR, phone);
         contentValue.put(DatabaseHelper.GRSANGUIN_DONATEUR, grsanguin);
         contentValue.put(DatabaseHelper.IMAGE_DONATEUR_URL, imageUrl);
         database.insert(TABLE_NAME_DONATEUR, null, contentValue);
     }
     public Cursor fetch() {
-        String[] columns = new String[] { DatabaseHelper._ID_DONATEUR, DatabaseHelper.NAME_DONATEUR, DatabaseHelper.PLACE_DONATEUR, DatabaseHelper.PHONE_DONATEUR,DatabaseHelper.GRSANGUIN_DONATEUR,DatabaseHelper.IMAGE_DONATEUR_URL};
+        String[] columns = new String[] { DatabaseHelper._ID, DatabaseHelper.NAME_DONATEUR, DatabaseHelper.PLACE_DONATEUR,DatabaseHelper.AGE,DatabaseHelper.PHONE_DONATEUR,DatabaseHelper.GRSANGUIN_DONATEUR,DatabaseHelper.IMAGE_DONATEUR_URL};
         Cursor cursor = database.query(TABLE_NAME_DONATEUR, columns, null, null, null, null, null);
         if (cursor != null) {
             cursor.moveToFirst();
@@ -64,10 +67,13 @@ public class DBManagerDonateur {
         return cursor;
     }
 
-    public int update(String _id, String name, String place,String phone,String grsnaguin,String imageUrl) {
+    public int update(String _id, String name, String place,String wilaya, String commune, String phone,String age,String grsnaguin,String imageUrl) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DatabaseHelper.NAME_DONATEUR, name);
+        contentValues.put(DatabaseHelper.AGE, age);
         contentValues.put(DatabaseHelper.PLACE_DONATEUR, place);
+        contentValues.put(DatabaseHelper.WILAYA, wilaya);
+        contentValues.put(DatabaseHelper.COMMUNE, commune);
         contentValues.put(DatabaseHelper.PHONE_DONATEUR, phone);
         contentValues.put(DatabaseHelper.GRSANGUIN_DONATEUR, grsnaguin);
         contentValues.put(DatabaseHelper.IMAGE_DONATEUR_URL, imageUrl);
@@ -89,11 +95,14 @@ public class DBManagerDonateur {
                 String Id_firebase = cursor.getString(1);
                 String name = cursor.getString(2);
                 String place = cursor.getString(3);
-                String phone = cursor.getString(4);
-                String grsnaguin=cursor.getString(5);
-                String imageUrl = cursor.getString(6);
+                String wilaya = cursor.getString(4);
+                String commune = cursor.getString(5);
+                String phone = cursor.getString(6);
+                String age=cursor.getString(7);
+                String grsnaguin=cursor.getString(8);
+                String imageUrl = cursor.getString(9);
 
-                storeContacts.add(new don_de_song(Id_firebase,name, place, phone,grsnaguin,imageUrl));
+                storeContacts.add(new don_de_song(Id_firebase,name, place,wilaya,commune, phone,age,grsnaguin,imageUrl));
             }
             while (cursor.moveToNext());
         }

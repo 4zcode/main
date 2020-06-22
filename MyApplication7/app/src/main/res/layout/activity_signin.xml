@@ -1,24 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:background="#6395CD"
+    android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
     android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    >
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/care" />
+        android:layout_marginTop="32dp"
+        android:src="@drawable/care"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="25dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="32dp"
         android:background="@drawable/cornershaped"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:elevation="4dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,43 +37,51 @@
             android:layout_gravity="center"
             android:text="Connexion"
             android:textColor="@color/colorAccent"
-            android:textSize="50dp"
-            android:textStyle="bold" />
-
-        <EditText
+            android:textSize="48sp"
+            android:fontFamily="sans-serif-black" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            >
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/AddressEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
             android:drawableStart="@drawable/ic_mail_outline_black_24dp"
             android:drawableLeft="@drawable/ic_mail_outline_black_24dp"
             android:drawableTint="@color/colorAccent"
-            android:drawablePadding="5dp"
+            android:drawablePadding="8dp"
             android:hint="Address E-mail"
-            android:inputType="textEmailAddress"
-            android:textColorHint="@color/colorAccent" />
-
-        <EditText
+            android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:passwordToggleEnabled="true"
+            >
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/Motdepasse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
             android:drawableStart="@drawable/ic_lock_outline_black_24dp"
             android:drawableLeft="@drawable/ic_lock_outline_black_24dp"
             android:drawableTint="@color/colorAccent"
-            android:drawablePadding="10dp"
+            android:drawablePadding="8dp"
             android:hint="Mot de passe"
             android:inputType="textPassword"
             android:textColorHint="@color/colorAccent" />
-
+        </com.google.android.material.textfield.TextInputLayout>
         <TextView
             android:id="@+id/Motdepasse_oublie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="160dp"
             android:text="Mot de passe oublié?"
-            android:textSize="15dp"
+            android:textSize="14dp"
             android:onClick="passwordOublie"/>
         <Button
             android:id="@+id/login"
@@ -75,22 +94,23 @@
             android:padding="10dp"
             android:text="Se connecter"
             android:textColor="#FFFFFF"
-            android:textStyle="bold"
+           android:fontFamily="sans-serif-black"
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vous n'avez pas encore de compte,"
+                android:text="Vous n'avez pas encore de compte"
                 android:textColor="@color/colorAccent"
-                android:textStyle="bold"
+                android:layout_marginRight="8dp"
+                android:fontFamily="sans-serif-medium"
                 />
 
             <TextView
@@ -99,8 +119,8 @@
                 android:layout_height="wrap_content"
                 android:text=" S'inscrire"
                 android:textColor="@color/colorAccent"
-                android:textSize="15dp"
-                android:textStyle="bold"
+                android:textSize="14sp"
+                android:fontFamily="sans-serif-black"
                 android:onClick="signUp"/>
         </LinearLayout>
 
@@ -108,92 +128,4 @@
     </LinearLayout>
 
 </LinearLayout>
-
-
-
-
-<!--
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="40dp"
-            android:text="Se connecter comme :"
-            android:textColor="#349fb1"
-            android:textSize="20dp"
-            android:textStyle="bold" />
-
- <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/seconnecter_medcin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:button="@drawable/circle_shape"
-                android:padding="8dp"
-                android:text="Médcin"
-                android:textColor="#69a3ba"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/Seconnecter_hopital"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/circle_shape"
-                android:padding="8dp"
-                android:text="Hôpital"
-                android:textColor="#69a3ba"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/Seconnecter_pharmacie"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/circle_shape"
-                android:padding="8dp"
-                android:text="Pharmacie"
-                android:textColor="#69a3ba"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <CheckBox
-                android:id="@+id/Seconnecter_labo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:button="@drawable/circle_shape"
-                android:padding="8dp"
-                android:text="Laboratoire"
-                android:textColor="#69a3ba"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-            <CheckBox
-                android:id="@+id/Seconnecter_utilisateur"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:button="@drawable/circle_shape"
-                android:padding="8dp"
-                android:text="Utilisateur"
-                android:textColor="#69a3ba"
-                android:textSize="18dp"
-                android:textStyle="bold" />
-
-
-        </LinearLayout>
-
--->
+</ScrollView>

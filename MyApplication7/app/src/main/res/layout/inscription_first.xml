@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorAccent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="100dp"
+        android:src="@drawable/care" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="25dp"
+        android:background="@drawable/cornershaped"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Inscription Terminé"
+            android:textColor="#349fb1"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bonjour en retour"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="merci d'avoir complété votre profil"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nous vous contacterons bientôt"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pour confirmer ces informations"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            />
+
+
+
+        <Button
+            android:id="@+id/sinscrire_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button_corner_two"
+            android:onClick="login"
+            android:padding="10dp"
+            android:text="Terminer"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold" />
+
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

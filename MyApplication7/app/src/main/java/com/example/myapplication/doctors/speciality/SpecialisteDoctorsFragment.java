@@ -47,26 +47,7 @@ public class SpecialisteDoctorsFragment extends Fragment {
         ArrayList<DoctorsSpecialistes> mDoctorsSpecialistes = new ArrayList<DoctorsSpecialistes>();
         String[] SpecialisteNames = getResources().getStringArray(R.array.speciality);
       //  TypedArray doctorSpecialistesImages = getResources().obtainTypedArray(R.array.sports_images);
-       /* mRecyclerView.setOnScrollChangeListener(new RecyclerView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if(scrollY > oldScrollY){
-                    Log.d("FileAkramTest","scrollDown");
-                }
-                if (scrollY < oldScrollY){
-                    Log.d("FileAkramTest","scrollup");
-                }
-                if (scrollY == 0){
-                    Log.d("FileAkramTest","top scroll");
-                }
-                if (scrollY == (v.getMeasuredHeight())){
-                    Log.d("FileAkramTest","end scroll");
-                }
-            }
-        });
 
-
-        */
 
 
         for (int i = 0; i <SpecialisteNames.length ; i++) {

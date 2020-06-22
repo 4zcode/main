@@ -22,7 +22,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
     static final String DB_NAME = "SahtiFiYdi.db";
 
     // database version
-    static final int DB_VERSION = 28;
+    static final int DB_VERSION = 35;
 
 
     // Table Name
@@ -34,16 +34,20 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String TABLE_NAME_MESSAGES = "messages";
     public static final String TABLE_NAME_DONATEUR = "donateurs";
 
-
     // Table pharmacies columns
-    public static final String _ID_PHARMA = "_id";
     public static final String _ID_PHARMA_FIREBASE = "_id_pharmacies_firebase";
     public static final String NAME_PHARMA = "name";
     public static final String PLACE_PHARMA = "place";
     public static final String IMAGE_PHARMA_URL ="image" ;
     public static final String PHONE_PHARMA = "phone";
-    public static final String OPEN_PHARMA = "open";
-    public static final String CLOSE_PHARMA = "close";
+    public static final String TIME = "time";
+    public static final String DESCRIPTION="description";
+
+    public static final String WILAYA = "wilaya";
+    public static final String COMMUNE = "commune";
+
+
+
 
     // Table Hopital columns
     public static final String _ID_HOSPITAL_FIREBASE = "_id_hospital_firebase";
@@ -55,16 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String NUMBER__HOSPITAL = "number";
     public static final String IMAGE_HOSPITAL_URL ="image" ;
 
-    // Taple labo columns
-    public static final String _ID_LABORATOIR = "_id";
-    public static final String _ID_LABORATOIR_FIREBASE = "_id_laboratoir_firebase";
-    public static final String NAME__LABORATOIR = "name";
-    public static final String PLACE__LABORATOIR = "place";
-    public static final String NUMBER__LABORATOIR = "number";
-    public static final String IMAGE_LABORATOIR_URL ="image" ;
-
     // Table doctor columns
-    public static final String _ID_DOCTOR = "_id";
     public static final String _ID_DOCTOR_FIREBASE = "_id_doctor_firebase";
     public static final String NAME_DOCTOR = "name";
     public static final String PLACE_DOCTOR = "place";
@@ -77,14 +72,12 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
 
 
     // Table doctor specialité columns
-    public static final String _ID_SPECIALITY = "_id";
     public static final String SPECIALITY_NAME = "name";
     public static final String SPECIALITY_NUMBER = "number";
 
 
 
     //Table message columns
-    public static final String _ID_MESSAGE = "_id";
     public static final String _ID_MESSAGE_SENDER_FIREBASE="_id_message_sender_firebase";
     public static final String SENDER_MESSAGE_NAME ="sender_name_message";
     public static final String RECENT_MESSAGE ="recent_message";
@@ -94,44 +87,140 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
     public static final String IMAGE_SENDER_MESSAGE_URL ="image_sender_message_url";
 
     // Table Donateur columns
-    public static final String _ID_DONATEUR = "_id";
     public static final String _ID_DONATEUR_FIREBASE = "_id_donateurs_firebase";
     public static final String NAME_DONATEUR = "name";
     public static final String PLACE_DONATEUR = "place";
     public static final String PHONE_DONATEUR = "phone";
+    public static final String AGE="age";
     public static final String IMAGE_DONATEUR_URL ="image" ;
     public static final String GRSANGUIN_DONATEUR = "groupsanguin";
 
 
 
     // Creating table query
-    private static final String CREATE_TABLE_PHARMACIE = "create table " + TABLE_NAME_PHARMACIE + "(" + _ID_PHARMA
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_PHARMA_FIREBASE + " TEXT NOT NULL, "+ NAME_PHARMA + " TEXT NOT NULL, " + PLACE_PHARMA + " TEXT, " + PHONE_PHARMA+ " TEXT, "+OPEN_PHARMA + " TEXT, " + CLOSE_PHARMA + " TEXT, "+IMAGE_PHARMA_URL+" TEXT );";
+    private static final String CREATE_TABLE_PHARMACIE = "create table " + TABLE_NAME_PHARMACIE + "("
+            + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + _ID_PHARMA_FIREBASE + " TEXT UNIQUE NOT NULL, "
+            + NAME_PHARMA + " TEXT NOT NULL, "
+            + PLACE_PHARMA + " TEXT, "
+            + WILAYA + " INTEGER, "
+            + COMMUNE + " INTEGER, "
+            + PHONE_PHARMA+ " TEXT, "
+            + TIME + " TEXT, "
+            + DESCRIPTION + " TEXT, "
+            + IMAGE_PHARMA_URL +" TEXT );";
+
+    public static final String INDEX_PHAR = TABLE_NAME_PHARMACIE + "_indexphar";
+    public static final String SQL_CREATE_INDEX_PHAR =
+            "CREATE INDEX " + INDEX_PHAR + " ON " + TABLE_NAME_PHARMACIE +
+                    "(" + _ID_PHARMA_FIREBASE + ")";
+
+
 
 
     private static final String CREATE_TABLE_HOSPITAL = "create table " + TABLE_NAME_HOSPITAL + "("
             + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + _ID_HOSPITAL_FIREBASE+" TEXT NOT NULL, "
+            + _ID_HOSPITAL_FIREBASE+" TEXT  UNIQUE NOT NULL, "
             + NAME__HOSPITAL + " TEXT NOT NULL, "
             + DESCRIPTION__HOSPITAL + " TEXT, "
             + PLACE__HOSPITAL + " TEXT, "
+            + WILAYA + " INTEGER, "
+            + COMMUNE + " INTEGER, "
             + TYPE__HOSPITAL + " INTEGER, "
-            + NUMBER__HOSPITAL + " TEXT, "
+            + NUMBER__HOSPITAL + " TEXT UNIQUE, "
+            + SERVICE__HOSPITAL + " TEXT, "
+            + IMAGE_HOSPITAL_URL+" TEXT );";
+
+    public static final String INDEX_HOS = TABLE_NAME_HOSPITAL + "_indexhos";
+    public static final String SQL_CREATE_INDEX_HOPITAL =
+            "CREATE INDEX " + INDEX_HOS + " ON " + TABLE_NAME_HOSPITAL +
+                    "(" + _ID_HOSPITAL_FIREBASE + ")";
+
+
+
+    private static final String CREATE_TABLE_LABORATOIR = "create table " + TABLE_NAME_LABORATOIR + "("
+            + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + _ID_HOSPITAL_FIREBASE+" TEXT  UNIQUE NOT NULL, "
+            + NAME__HOSPITAL + " TEXT NOT NULL, "
+            + DESCRIPTION__HOSPITAL + " TEXT, "
+            + PLACE__HOSPITAL + " TEXT, "
+            + WILAYA + " INTEGER, "
+            + COMMUNE + " INTEGER, "
+            + TYPE__HOSPITAL + " INTEGER, "
+            + NUMBER__HOSPITAL + " TEXT UNIQUE, "
             + SERVICE__HOSPITAL + " TEXT, "
             + IMAGE_HOSPITAL_URL+" TEXT );";
 
 
-    private static final String CREATE_TABLE_LABORATOIR = "create table " + TABLE_NAME_LABORATOIR + "(" + _ID_LABORATOIR
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_LABORATOIR_FIREBASE+ " TEXT NOT NULL, "+NAME__LABORATOIR + " TEXT NOT NULL, " + PLACE__LABORATOIR + " TEXT, " + NUMBER__LABORATOIR+" TEXT, " +IMAGE_LABORATOIR_URL+" TEXT );";
-    private static final String CREATE_TABLE_DOCTORS = "create table " + TABLE_NAME_DOCTORS + "(" + _ID_DOCTOR
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_DOCTOR_FIREBASE + " TEXT NOT NULL, " + NAME_DOCTOR + " TEXT NOT NULL, " + PLACE_DOCTOR + " TEXT, " + PHONE_DOCTOR+ " TEXT, "+SPEC_DOCTOR+" TEXT NOT NULL, "+DOCTOR_TYPE+" TEXT, "+DOCTOR_SERVICE+" TEXT, "+DOCTOR_TIME+" TEXT, "+IMAGE_DOCTOR_URL + " TEXT );";
-    private static final String CREATE_TABLE_MESSAGES ="create table "+TABLE_NAME_MESSAGES+"("+_ID_MESSAGE + " INTEGER PRIMARY KEY AUTOINCREMENT, " + _ID_MESSAGE_SENDER_FIREBASE+ " TEXT NOT NULL, " +SENDER_MESSAGE_NAME+ " TEXT NOT NULL, " +RECENT_MESSAGE+ " TEXT, "+FULL_MESSAGE + " TEXT ,"+MESSAGE_RECENT_DATE+ " TEXT, "+IS_READ + " TEXT ,"+IMAGE_SENDER_MESSAGE_URL+" TEXT);";
-    private static final String CREATE_TABLE_DONATEUR = "create table " + TABLE_NAME_DONATEUR + "(" + _ID_DONATEUR
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +_ID_DONATEUR_FIREBASE + " TEXT NOT NULL, "+ NAME_DONATEUR + " TEXT NOT NULL, " + PLACE_DONATEUR + " TEXT, " + PHONE_DONATEUR+ " TEXT, "+GRSANGUIN_DONATEUR + " TEXT, " +IMAGE_DONATEUR_URL+" TEXT );";
-    private static final String CREATE_TABLE_SPECIALITY = "create table " + TABLE_NAME_SPECIALITY + "(" + _ID_SPECIALITY
-            + " INTEGER PRIMARY KEY AUTOINCREMENT, " +SPECIALITY_NAME + " TEXT NOT NULL, "+  SPECIALITY_NUMBER+" TEXT );";
+    public static final String INDEX_LAB = TABLE_NAME_HOSPITAL + "_indexlab";
+    public static final String SQL_CREATE_INDEX_LABO =
+            "CREATE INDEX " + INDEX_LAB + " ON " + TABLE_NAME_LABORATOIR +
+                    "(" + _ID_HOSPITAL_FIREBASE + ")";
 
 
+    private static final String CREATE_TABLE_DOCTORS = "create table " + TABLE_NAME_DOCTORS + "("
+            + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + _ID_DOCTOR_FIREBASE + " TEXT UNIQUE NOT NULL, "
+            + NAME_DOCTOR + " TEXT NOT NULL, "
+            + PLACE_DOCTOR + " TEXT, "
+            + WILAYA + " INTEGER, "
+            + COMMUNE + " INTEGER, "
+            + PHONE_DOCTOR+ " TEXT, "
+            + SPEC_DOCTOR+" TEXT NOT NULL, "
+            + DOCTOR_TYPE +" TEXT, "
+            + DOCTOR_SERVICE+" TEXT, "
+            + DOCTOR_TIME+" TEXT, "
+            + IMAGE_DOCTOR_URL + " TEXT );";
+
+    public static final String INDEX_DOC = TABLE_NAME_HOSPITAL + "_indexdoc";
+    public static final String SQL_CREATE_INDEX_DOCTOR =
+            "CREATE INDEX " + INDEX_DOC + " ON " + TABLE_NAME_DOCTORS +
+                    "(" + _ID_DOCTOR_FIREBASE + ")";
+
+
+    private static final String CREATE_TABLE_MESSAGES ="create table "+TABLE_NAME_MESSAGES+"("
+     + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
+     + _ID_MESSAGE_SENDER_FIREBASE+ " TEXT UNIQUE NOT NULL, "
+     + SENDER_MESSAGE_NAME+ " TEXT NOT NULL, " 
+     + RECENT_MESSAGE+ " TEXT, "
+     + FULL_MESSAGE + " TEXT ,"
+     + MESSAGE_RECENT_DATE+ " TEXT, "
+     + IS_READ + " TEXT ,"
+     + IMAGE_SENDER_MESSAGE_URL+" TEXT);";
+  
+    public static final String INDEX_MES = TABLE_NAME_MESSAGES + "_indexmes";
+    public static final String SQL_CREATE_INDEX_MESSAGE =
+            "CREATE INDEX " + INDEX_MES + " ON " + TABLE_NAME_MESSAGES +
+                    "(" + _ID_MESSAGE_SENDER_FIREBASE + ")";
+
+
+
+    private static final String CREATE_TABLE_DONATEUR = "create table " + TABLE_NAME_DONATEUR + "("
+            + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            +_ID_DONATEUR_FIREBASE + " TEXT UNIQUE NOT NULL, "
+            + NAME_DONATEUR + " TEXT NOT NULL, "
+            + PLACE_DONATEUR + " TEXT, "
+            + WILAYA + " INTEGER, "
+            + COMMUNE + " INTEGER, "
+            + PHONE_DONATEUR+ " TEXT, "
+            + AGE + " TEXT NOT NULL, "
+            + GRSANGUIN_DONATEUR + " TEXT, "
+            + IMAGE_DONATEUR_URL+" TEXT );";
+
+    public static final String INDEX_DON = TABLE_NAME_DONATEUR + "_indexdon";
+    public static final String SQL_CREATE_INDEX_DONATION =
+            "CREATE INDEX " + INDEX_DON + " ON " + TABLE_NAME_DONATEUR +
+                    "(" + _ID_DONATEUR_FIREBASE + ")";
+
+ private static final String CREATE_TABLE_SPECIALITY = "create table " + TABLE_NAME_SPECIALITY + "(" 
+            + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " 
+            + SPECIALITY_NAME + " TEXT UNIQUE NOT NULL, "
+            + SPECIALITY_NUMBER+" TEXT );";
+
+    public static final String INDEX_SPEC = TABLE_NAME_SPECIALITY + "_indexspec";
+    public static final String SQL_CREATE_INDEX_SPEC =
+            "CREATE INDEX " + INDEX_SPEC + " ON " + TABLE_NAME_SPECIALITY +
+                    "(" + SPECIALITY_NAME + ")";
 
 
 
@@ -149,6 +238,15 @@ public class DatabaseHelper extends SQLiteOpenHelper implements BaseColumns {
         db.execSQL(CREATE_TABLE_LABORATOIR);
         db.execSQL(CREATE_TABLE_MESSAGES);
         db.execSQL(CREATE_TABLE_DONATEUR);
+
+        db.execSQL(SQL_CREATE_INDEX_DOCTOR);
+        db.execSQL(SQL_CREATE_INDEX_PHAR);
+        db.execSQL(SQL_CREATE_INDEX_HOPITAL);
+        db.execSQL(SQL_CREATE_INDEX_LABO);
+        db.execSQL(SQL_CREATE_INDEX_SPEC);
+        db.execSQL(SQL_CREATE_INDEX_MESSAGE);
+        db.execSQL(SQL_CREATE_INDEX_DONATION);
+
 
 
     }

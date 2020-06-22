@@ -55,7 +55,7 @@
                 android:layout_weight="1"
                 tools:text="message"
                 android:textSize="16sp"
-                android:textColor="?android:textColorSecondary" />
+                 />
 
             <TextView
                 android:id="@+id/dateTest"

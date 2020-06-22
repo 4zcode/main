@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,11 +15,12 @@ import androidx.fragment.app.Fragment;
 import com.example.myapplication.FragmentRefreshListener;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class HomeFragment extends Fragment {
     private SharedPreferences myPef;
-    private Button message_button;
+    private FloatingActionButton message_button;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -29,7 +31,10 @@ public class HomeFragment extends Fragment {
         ((MainActivity)getActivity()).setFragmentRefreshListener(new FragmentRefreshListener() {
             @Override
             public void onRefresh() {
-           message_button.setText("Messages: "+myPef.getString("NbrMessageNoRead","Messages"));
+                String nbr =  myPef.getString("NbrMessageNoRead","0");
+                String message = Integer.parseInt(nbr) > 1 ?  "Vous avez "+nbr + "Messages" : Integer.parseInt(nbr) == 1 ? "Vous avez un nouveau message" : "";
+                if (!message.equals(""))
+                Toast.makeText(getContext(), message,Toast.LENGTH_LONG ).show();
                 if (!myPef.getBoolean("IsLogIn",false ) || FirebaseAuth.getInstance().getCurrentUser()==null) {
                     message_button.setVisibility(View.INVISIBLE);
 
@@ -39,7 +44,12 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        message_button.setText("Messages: "+myPef.getString("NbrMessageNoRead","Messages"));
+
+
+        String nbr =  myPef.getString("NbrMessageNoRead","0");
+        String message = Integer.parseInt(nbr) > 1 ?  "Vous avez "+nbr + "Messages" : Integer.parseInt(nbr) == 1 ? "Vous avez un nouveau message" : "";
+        if (!message.equals(""))
+            Toast.makeText(getContext(), message,Toast.LENGTH_LONG ).show();
         if (myPef.getBoolean("IsLogIn",false ) && FirebaseAuth.getInstance().getCurrentUser()!=null) {
             message_button.setVisibility(View.VISIBLE);
         }

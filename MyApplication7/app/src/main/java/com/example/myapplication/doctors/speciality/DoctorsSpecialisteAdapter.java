@@ -32,7 +32,6 @@ class DoctorsSpecialisteAdapter extends RecyclerView.Adapter<DoctorsSpecialisteA
     private ArrayList<DoctorsSpecialistes> mDoctorsspecialistes;
     private Context mContext;
     private Activity activity;
-    private int lastPosition = -1;
 
     DoctorsSpecialisteAdapter(Activity activity,Context context, ArrayList<DoctorsSpecialistes> doctorData) {
         this.mDoctorsspecialistes = doctorData;

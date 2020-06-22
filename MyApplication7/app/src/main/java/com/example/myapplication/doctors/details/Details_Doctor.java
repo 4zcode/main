@@ -27,6 +27,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.myapplication.R;
+import com.example.myapplication.doctors.advanceSearch.DBManagerDoctor;
+import com.example.myapplication.doctors.advanceSearch.Doctors;
 import com.example.myapplication.message.chatRoom.chatRoom;
 import com.example.myapplication.ui.login.Signin;
 import com.google.android.material.tabs.TabLayout;
@@ -38,10 +40,6 @@ import static com.example.myapplication.utilities.tools.isNetworkAvailable;
 
 public class Details_Doctor extends AppCompatActivity {
     //Les constants
-    public static final String FIREBASE_ID = "firebaseId";
-    public static final String NAME = "name";
-    public static final String IMAGE = "image";
-    public static final String PHONE = "PHONE";
 
 
     public static final String RECIVER = "Reciver";
@@ -56,20 +54,22 @@ public class Details_Doctor extends AppCompatActivity {
     private ImageView DoctorImage;
     private TextView DoctorName;
 
-    private ImageButton bPhone, bMessage, bStar;
+    private ImageButton  bStar;
     private RatingBar star;
     private String mFireBaseId;
+    private Doctors mCurrentDoctor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details__doctor);
+
+
+
         tabLayout = (TabLayout) findViewById(R.id.details_doctor_tablayout);
         viewPager = (ViewPager) findViewById(R.id.details_doctor_viewpager);
         DoctorImage = (ImageView) findViewById(R.id.details_doctor_image);
         DoctorName = (TextView) findViewById(R.id.details_doctor_Name);
-        bPhone = (ImageButton) findViewById(R.id.details_doctor_phone);
-        bMessage = (ImageButton) findViewById(R.id.details_doctor_messsage);
         star = (RatingBar) findViewById(R.id.details_doctor_star);
       //  bStar = (ImageButton) findViewById(R.id.details_doctor_start);
 
@@ -77,9 +77,7 @@ public class Details_Doctor extends AppCompatActivity {
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
-        //
-        bPhone.setAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.fall_down_retard));
-        bMessage.setAnimation(AnimationUtils.loadAnimation(getBaseContext(), R.anim.fall_down_retard));
+
 
 
         //
@@ -116,44 +114,6 @@ public class Details_Doctor extends AppCompatActivity {
             }
         });
 
-        //
-        bPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //téléphoner
-                Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+getIntent().getStringExtra(PHONE).replaceAll(" ","")));
-                startActivity(i);
-            }
-        });
-        bMessage.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onClick(View v) {
-                //aller aux chat message
-                if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-                    Intent i = new Intent(getBaseContext(), chatRoom.class);
-                    i.putExtra(RECIVER, mFireBaseId);
-                    i.putExtra(RECIVER_IMAGE, "R.drawable.profile");
-                    i.putExtra(SENDER, DoctorName.getText().toString());
-                    startActivity(i);
-                    overridePendingTransition(R.anim.open_enter, R.anim.nav_default_exit_anim);
-                }else {
-                    //
-                    new AlertDialog.Builder(getBaseContext())
-                            .setTitle("Service non disponible")
-                            .setMessage("Vous devez vous connecter d'abord!")
-                            .setPositiveButton("Se connecter", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    startActivity(new Intent(getBaseContext(), Signin.class));
-                                }
-                            })
-                            .setNegativeButton("Cancel", null)
-                            .setIcon(R.drawable.ic_do_not_disturb_alt_black_24dp)
-                            .show();
-                }
-            }
-        });
 
           star.setOnClickListener(new View.OnClickListener() {
               @Override
@@ -179,10 +139,24 @@ public class Details_Doctor extends AppCompatActivity {
 
 
     private void initialView() {
+        DBManagerDoctor db = new DBManagerDoctor(this);
+        db.open();
+
         Intent i = getIntent();
-        mFireBaseId = i.getStringExtra(FIREBASE_ID);
-        Glide.with(getBaseContext()).load(R.drawable.profile).into(DoctorImage);
-        DoctorName.setText(WordUtils.capitalizeFully(i.getStringExtra(NAME)));
+
+        int id =  i.getIntExtra("id",1);
+        mCurrentDoctor = db.getDoctorFromID(id);
+        String imageUrl = mCurrentDoctor.getImageUrl();
+        if (imageUrl.equals("R.drawable.profile")){
+            Log.d("testImage","imageUrl is R.drawable.profile" );
+            Glide.with(this).load(R.drawable.profile).into(DoctorImage);
+        }else {
+            Log.d("testImage","imageUrl is " + imageUrl);
+            Glide.with(this).load(mCurrentDoctor.getImageUrl()).into(DoctorImage);
+        }
+
+        DoctorName.setText(WordUtils.capitalizeFully(mCurrentDoctor.getNameDoctor()));
+        db.close();
     }
 
     @Override

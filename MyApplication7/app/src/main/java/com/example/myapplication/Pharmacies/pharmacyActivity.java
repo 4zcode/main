@@ -1,11 +1,20 @@
 package com.example.myapplication.Pharmacies;
 
+import android.app.LoaderManager;
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -29,91 +38,136 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import static com.example.myapplication.utilities.tools.getCommuns;
 import static com.example.myapplication.utilities.tools.isNetworkAvailable;
 
-public class pharmacyActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    private ArrayList<pharmacy> mpharmaciesData = new ArrayList<pharmacy>();
+public class pharmacyActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
     private final DatabaseReference PhREf = FirebaseDatabase.getInstance().getReference().child("pharmacies");
     private RecyclerView mRecyclerView;
     private DBManagerPharmacy dbManager;
-    private ProgressDialog mProgressDialog;
     private pharmacyAdapter mAdapter;
-    private SearchView searchView;
-    private Spinner spinner;
-    private ArrayAdapter<CharSequence> spinnerAdapter;
-
-
-    private interface FireBaseCallBack {
-        void onCallBack(ArrayList<String> list);
-
-    }
-
+    private Spinner spinnerWilaya, spinnerCommuns;
+    private ArrayAdapter<CharSequence>  commmunsCodeAdapter;
+    private String mWilayaName ="Blida", commune;
+    private String mSpeciality, mSearch="";
+    private DatabaseHelper dbHelper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pharmacies);
-        mRecyclerView = findViewById(R.id.pharmacy_activity_recycleview);
+
+        //
+        dbHelper = new DatabaseHelper(this);
+
+        //
+        mRecyclerView = findViewById(R.id.pharmacies_recycler_search);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        searchView = findViewById(R.id.search_pharmacy);
+
+        spinnerWilaya = findViewById(R.id.spinner_pharmacie_wilaya);
+        spinnerCommuns = findViewById(R.id.spinner_pharmacie_communs);
+
+
         dbManager = new DBManagerPharmacy(this);
         dbManager.open();
-        mpharmaciesData = dbManager.listPharmacies();
-        mAdapter = new pharmacyAdapter(getBaseContext(),mpharmaciesData);
-        mRecyclerView.setAdapter(mAdapter);
-        if (isNetworkAvailable(this)) {
-                 new UpdatepharmacyListTask().execute();
-                    }
-        spinner = findViewById(R.id.pharmacy_spinner);
-        if (spinner != null) {
-            spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) pharmacyActivity.this);
-        }
-        spinnerAdapter = ArrayAdapter.createFromResource(getBaseContext(), R.array.wilaya, android.R.layout.simple_spinner_item);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        if (spinner != null) {
-            spinner.setAdapter(spinnerAdapter);
-        }
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+
+        mAdapter = new pharmacyAdapter(this,null);
+        mRecyclerView.setAdapter(mAdapter);
+
+
+        new UpdatepharmacyListTask().execute();
+
+
+        spinnerWilaya.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                mAdapter.filter(query);
-                return true;
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerCommuns.setVisibility(View.VISIBLE);
+                mWilayaName = String.valueOf(spinnerWilaya.getSelectedItem());
+                commmunsCodeAdapter = new ArrayAdapter<CharSequence>(getBaseContext(), android.R.layout.simple_spinner_item, getCommuns(position));
+                commmunsCodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerCommuns.setAdapter(commmunsCodeAdapter);
+                getLoaderManager().restartLoader(0, null, pharmacyActivity.this);
+                //
+
+
             }
+
             @Override
-            public boolean onQueryTextChange(String newText) {
-                mAdapter.filter(newText);
-                return true;
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
 
-    public void readData(final FireBaseCallBack fireBaseCallBack) {
+    public void readData() {
 
         PhREf.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    boolean Is_Exist =ds.child("pharma_ID_Firebase").exists() &&ds.child("imageUrl").exists() && ds.child("thename").exists() && ds.child("theadress").exists() && ds.child("phone").exists() && ds.child("oppen").exists() &&ds.child("close").exists();
-                    if (Is_Exist) {
-                        String id_firebase = ds.child("pharma_ID_Firebase").getValue(String.class);
-                        String Name = ds.child("thename").getValue(String.class);
-                        String Place = ds.child("theadress").getValue(String.class);
-                        String Phone = ds.child("phone").getValue(String.class);
-                        String open = ds.child("oppen").getValue(String.class);
-                        String close= ds.child("close").getValue(String.class);
-                        String ImageUrl = ds.child("imageUrl").getValue(String.class);
-                        if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
-                            dbManager.update(id_firebase, Name, Place, Phone, open, close,ImageUrl);
-                        } else {
 
-                            dbManager.insert(id_firebase, Name, Place, Phone, open, close,ImageUrl);
+                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                    boolean Is_Exist =ds.child("_ID_Firebase").exists()
+                            && ds.child("ImageUrl").exists()
+                            && ds.child("Name").exists()
+                            && ds.child("Place").exists()
+                            && ds.child("Wilaya").exists()
+                            && ds.child("Commune").exists()
+                            && ds.child("Phone").exists()
+                            && ds.child("Time").exists()
+                            && ds.child("Description").exists()
+                            && ds.child("Time").exists();
+                    if (Is_Exist) {
+                        final String id_firebase = ds.child("_ID_Firebase").getValue(String.class);
+                        final String Name = ds.child("Name").getValue(String.class);
+                        final String Place = ds.child("Place").getValue(String.class);
+                        final String Phone = ds.child("Phone").getValue(String.class);
+                        final String time = ds.child("Time").getValue(String.class);
+                        final String wilaya= ds.child("Wilaya").getValue(String.class);
+                        final String commune= ds.child("Commune").getValue(String.class);
+                        final String description = ds.child("Description").getValue(String.class);
+                        final String ImageUrl = ds.child("ImageUrl").getValue(String.class);
+                        boolean exist = ds.child("PharmacieExist").getValue(boolean.class);
+
+                        Log.d("pharmacy_test","pharmacy exist");
+
+
+                        if (!exist){
+                            new AsyncTask<Void,Void,Void>(){
+
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+                                    dbManager.deleteByFireBaseId(id_firebase);
+                                    return null;
+                                }
+                            };
+
+                        } else if (dbManager.CheckIsDataAlreadyInDBorNot(id_firebase)) {
+
+                            new AsyncTask<Void,Void,Void>(){
+
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+                                    dbManager.update(id_firebase, Name, Place, Integer.parseInt(wilaya),Integer.parseInt(commune),Phone, time,ImageUrl, description);
+                                    return null;
+                                }
+                            };
+
+                        } else {
+                            new AsyncTask<Void, Void, Void>() {
+
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+                                    dbManager.insert(id_firebase, Name, Place, Integer.parseInt(wilaya), Integer.parseInt(commune), Phone, time, ImageUrl, description);
+                                    return null;
+                                }
+                            };
 
                         }
                     } else Log.d("pharmacy_test","is not exist");
                 }
-                mpharmaciesData= dbManager.listPharmacies();
-                mAdapter.notifyDataSetChanged();
+               dbManager.close();
             }
 
             @Override
@@ -125,25 +179,105 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
 
 
     @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        SearchView searchView =null;
+        getMenuInflater().inflate(R.menu.search_menu,menu);
+        MenuItem searchItem = menu.findItem(R.id.search_item);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
+        if (searchItem != null){
+            searchView =(SearchView) searchItem.getActionView();
+        } else  Log.d("SearchTestAkram","searchItem  null ");
+
+        if (searchView != null){
+            searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+            searchView.setQueryHint("Chercher");
+            searchView.setIconified(false);
+            final SearchView finalSearchView = searchView;
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    mSearch=query;
+                    getLoaderManager().restartLoader(0, null, pharmacyActivity.this);
+                    finalSearchView.clearFocus();
+                    return true;
+                }
+
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    mSearch=newText;
+                    getLoaderManager().restartLoader(0, null, pharmacyActivity.this);
+                    return true;
+                }
+            });
+            searchView.clearFocus();
+        }else  Log.d("SearchTestAkram","searchView  null ");
+
+        return true;
+    }
+
+
+
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        CursorLoader loader = null;
+        if(id == 0) {
+            loader = new CursorLoader(this) {
+                @Override
+                public Cursor loadInBackground() {
+                    SQLiteDatabase db = dbHelper.getReadableDatabase();
+                    final String[] pharmaciesColumns = {
+                            DatabaseHelper._ID,
+                            DatabaseHelper._ID_PHARMA_FIREBASE,
+                            DatabaseHelper.NAME_PHARMA,
+                            DatabaseHelper.PLACE_PHARMA,
+                            DatabaseHelper.WILAYA,
+                            DatabaseHelper.COMMUNE,
+                            DatabaseHelper.PHONE_PHARMA,
+                            DatabaseHelper.IMAGE_HOSPITAL_URL};
+
+                    String selection=null;
+                    String[] selectionArgs= null;
+                    if (mWilayaName.equals("Wilaya")){
+                        selection = DatabaseHelper.NAME_PHARMA + " LIKE ?";
+                        selectionArgs = new String[]{"%"+mSearch+"%"};
+                    }else {
+                        selection = DatabaseHelper.NAME_PHARMA + " LIKE ? AND "+DatabaseHelper.PLACE_PHARMA + " LIKE ?";
+                        selectionArgs = new String[]{"%"+mSearch+"%", "%"+mWilayaName.toUpperCase()};
+                    }
+
+
+                    String OrderBy = DatabaseHelper.NAME_PHARMA ;
+                    return db.query(DatabaseHelper.TABLE_NAME_PHARMACIE, pharmaciesColumns,selection, selectionArgs, null, null, OrderBy ,"20");
+
+                 //   return db.query(DatabaseHelper.TABLE_NAME_PHARMACIE, pharmaciesColumns,null, null, null, null, null);
+                }
+            };
+        }
+        return loader;
     }
 
     @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        if(loader.getId() == 0)  {
+            mAdapter.changeCursor(data);
+        }
     }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        if(loader.getId() == 0)  {
+            mAdapter.changeCursor(null);
+        }
+    }
+
     public class UpdatepharmacyListTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... voids) {
             if (isNetworkAvailable(getBaseContext())) {
-                readData(new FireBaseCallBack() {
-                    @Override
-                    public void onCallBack(ArrayList<String> list) {
-
-                    }
-                });
+                readData();
             }
             return null;
         }
@@ -151,8 +285,26 @@ public class pharmacyActivity extends AppCompatActivity implements AdapterView.O
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            getLoaderManager().restartLoader(0, null, pharmacyActivity.this);
             Toast.makeText(getBaseContext(),"Updated",Toast.LENGTH_LONG).show();
         }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getLoaderManager().restartLoader(0, null, this);
+    }
+
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.nav_default_pop_enter_anim,R.anim.nav_default_pop_exit_anim);
     }
 
 }

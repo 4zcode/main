@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.R;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -70,45 +72,71 @@ public class ChatRoomAdapter extends RecyclerView.Adapter<ChatRoomAdapter.Messag
     public int getItemCount() {
         return mMessagesData.size();    }
 
-        class MessageViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+        class MessageViewHolder extends RecyclerView.ViewHolder {
 
         public TextView mSenderNameTextView;
         public TextView mMessageTextView, mDateTest;
-        public ImageView mSenderImage;
+        public ImageView mSenderImage,mImageMessage;
         public Context mCont;
         public MessageChatItem mCurrentMessage;
         public GradientDrawable mGradientDrawable;
+        private LinearLayout petitLinear;
+
+
         public MessageViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
 
+
+            mCont = context;
             //Initialize the views
             mSenderNameTextView = (TextView) itemView.findViewById(id.name_message_chat_sender);
             mMessageTextView = (TextView) itemView.findViewById(id.message_chat_text);
             mSenderImage = (ImageView) itemView.findViewById(id.message_chat_image);
             mDateTest = (TextView) itemView.findViewById(id.message_chat_date);
+            mImageMessage = (ImageView) itemView.findViewById(id.message_chat_image_sender);
+            petitLinear = itemView.findViewById(R.id.chat_room_item_petit_message);
 
-            mCont = context;
+            petitLinear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(mCont,"Copié",Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
             mGradientDrawable = gradientDrawable;
 
             //Set the OnClickListener to the whole view
-            itemView.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
-               Toast.makeText(mCont,"clicked",Toast.LENGTH_SHORT).show();
 
-        }
-        
 
         public void bindTo(MessageChatItem currentMessage) {
 
             mCurrentMessage = currentMessage;
             mSenderNameTextView.setText(currentMessage.getMsgName());
+            String msg = currentMessage.getMessage();
+            if (!msg.contains("5I5@")){
+            mMessageTextView.setText(msg);
+            }else{
+                mImageMessage.setVisibility(View.VISIBLE);
+                Glide.with(mCont).load(msg.replaceAll("5I5@",""))
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(mGradientDrawable)
+                        .into(mImageMessage);
+                mMessageTextView.setVisibility(View.GONE);
 
-            mMessageTextView.setText(currentMessage.getMessage());
-            mDateTest.setText(DiffrenceDate(currentMessage.getDate(),Calendar.getInstance().getTime()));
+            }
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+
+            try {
+                mDateTest.setText(DiffrenceDate(format.parse(currentMessage.getDate()), Calendar.getInstance().getTime()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                mDateTest.setText(currentMessage.getDate());
+            }
+
             Glide.with(mCont).load(mCurrentMessage.getImageResource())
                         .diskCacheStrategy(DiskCacheStrategy.DATA)
                         .placeholder(mGradientDrawable)

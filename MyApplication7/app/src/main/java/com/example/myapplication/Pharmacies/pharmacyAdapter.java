@@ -1,114 +1,186 @@
 package com.example.myapplication.Pharmacies;
 
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
 
-import java.util.ArrayList;
+import android.graphics.drawable.Drawable;
 
-public class pharmacyAdapter extends RecyclerView.Adapter<pharmacyAdapter.viewholder> {
-  private   ArrayList<pharmacy> pharmacyData;
-  private Context context;
-  private GradientDrawable gradientDrawable;
-  private ArrayList<pharmacy> mPharmacyArray = new ArrayList<>();
+import androidx.core.content.ContextCompat;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import org.apache.commons.lang3.text.WordUtils;
+
+public class pharmacyAdapter extends RecyclerView.Adapter<pharmacyAdapter.pharmaciesViewHolder> {
+    private GradientDrawable mGradientDrawable;
+    private Context mContext;
+    public Cursor mPharmacieCursor;
+    private final LayoutInflater mLayoutInflater;
+
+    private int mPharmaciePos;
+    private int mPharmacieFirabasePos;
+    private int mPharmacieNamePos;
+    private int mPharmaciePlacePos;
+    private int mPharmacieWilayaPos;
+    private int mPharmacieCommunePos;
+    private int mPharmacieNumberPos;
+    private int mPharmacieImagePos;
 
 
-    public pharmacyAdapter(Context context1, ArrayList liste){
-     this.context=context1;
-     this.pharmacyData=liste;
-     this.mPharmacyArray.addAll(pharmacyData);
+    pharmacyAdapter(Context context,  Cursor cursor) {
+        this.mPharmacieCursor = cursor;
+        this.mContext = context;
+        mLayoutInflater = LayoutInflater.from(this.mContext);
 
-        gradientDrawable=new GradientDrawable();
-     gradientDrawable.setColor(Color.BLUE);
- }
-    public void filter(String text) {
-        if(text.isEmpty()){
-            pharmacyData.clear();
-            pharmacyData.addAll(mPharmacyArray);
-        } else{
-            ArrayList<pharmacy> result = new ArrayList<>();
-            text = text.toLowerCase();
-            for(pharmacy item: mPharmacyArray){
-                if(item.getThename().toLowerCase().contains(text) ||
-                        item.getTheadress().toLowerCase().contains(text)){
-                    result.add(item);
-                }
-            }
-            pharmacyData.clear();
-            pharmacyData.addAll(result);
+        populateColumnPositions();
+
+        mGradientDrawable = new GradientDrawable();
+        mGradientDrawable.setColor(Color.GRAY);
+        Drawable drawable = ContextCompat.getDrawable
+                (mContext, R.drawable.profile);
+        if (drawable != null) {
+            mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
+    }
+
+    private void populateColumnPositions() {
+        if(mPharmacieCursor == null)
+            return;
+        // Get column indexes from mCursor
+        mPharmaciePos = mPharmacieCursor.getColumnIndex(DatabaseHelper._ID);
+        mPharmacieFirabasePos = mPharmacieCursor.getColumnIndex(DatabaseHelper._ID_PHARMA_FIREBASE);
+        mPharmacieNamePos = mPharmacieCursor.getColumnIndex(DatabaseHelper.NAME_PHARMA);
+        mPharmaciePlacePos = mPharmacieCursor.getColumnIndex(DatabaseHelper.PLACE_PHARMA);
+        mPharmacieWilayaPos = mPharmacieCursor.getColumnIndex(DatabaseHelper.WILAYA);
+        mPharmacieCommunePos = mPharmacieCursor.getColumnIndex(DatabaseHelper.COMMUNE);
+        mPharmacieNumberPos = mPharmacieCursor.getColumnIndex(DatabaseHelper.PHONE_PHARMA);
+        mPharmacieImagePos = mPharmacieCursor.getColumnIndex(DatabaseHelper.IMAGE_PHARMA_URL);
+
+    }
+
+    public void changeCursor(Cursor cursor) {
+        if(mPharmacieCursor != null)
+            mPharmacieCursor.close();
+        mPharmacieCursor = cursor;
+        populateColumnPositions();
         notifyDataSetChanged();
     }
 
-    @NonNull
     @Override
-    public viewholder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.pharmacy_item,parent,false);
-        return new viewholder(context,view,gradientDrawable);
+    public pharmacyAdapter.pharmaciesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view =mLayoutInflater.inflate(R.layout.pharmacy_item, parent, false);
+        return new pharmacyAdapter.pharmaciesViewHolder(mContext, view, mGradientDrawable);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull viewholder holder, int position) {
-        pharmacy mcarent=pharmacyData.get(position);
-        holder.onbind(mcarent);
 
+    @Override
+    public void onBindViewHolder(pharmaciesViewHolder holder, int position) {
+        if (position < 20) {
+
+            mPharmacieCursor.moveToPosition(position);
+            String imageUrl = mPharmacieCursor.getString(mPharmacieImagePos);
+            if (imageUrl.equals("R.drawable.profile")){
+                Glide.with(mContext)
+                        .load(R.drawable.profile)
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(mGradientDrawable)
+                        .into(holder.mHopitalImage);
+
+            }else {
+                Glide.with(mContext)
+                        .load(imageUrl)
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(mGradientDrawable)
+                        .into(holder.mHopitalImage);
+            }
+
+
+
+            String Name = WordUtils.capitalizeFully(mPharmacieCursor.getString(mPharmacieNamePos));
+            String Place = WordUtils.capitalizeFully(mPharmacieCursor.getString(mPharmaciePlacePos));
+            String Phone = WordUtils.capitalizeFully(mPharmacieCursor.getString(mPharmacieNumberPos));
+
+            int id = mPharmacieCursor.getInt(mPharmaciePos);
+            String FireBaseId = mPharmacieCursor.getString(mPharmacieFirabasePos);
+
+
+            holder.mPharmacieNameTextView.setText(Name);
+            holder.mPharmaciePlaceTextView.setText(Place);
+            holder.mPharmacieContactTextView.setText(Phone);
+
+            holder.mId = id;
+            holder.mFireBaseId = FireBaseId;
+
+
+            holder.backGroundLayout.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fall_down));
+            holder.mHopitalImage.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.fall_down_retard));
+
+        }
     }
+
 
     @Override
     public int getItemCount() {
-        return pharmacyData.size();
+        return mPharmacieCursor == null ? 0 : mPharmacieCursor.getCount() > 20 ? 20 : mPharmacieCursor.getCount();
     }
 
+    static class pharmaciesViewHolder extends RecyclerView.ViewHolder
+            implements View.OnClickListener {
 
-    public class viewholder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        private TextView NameTextView,PlaceTextView,NumberTextView,OpenTextView;
-        private ImageView PharmacyImageView;
-        private Context mcontextm;
-        private pharmacy mCurrentPharmacy;
-        private GradientDrawable mgd;
 
-        public viewholder(@NonNull Context contextm, View itemView,GradientDrawable mgradientDrawable) {
+        public TextView mPharmacieNameTextView, mPharmaciePlaceTextView, mPharmacieContactTextView;
+        public ImageView mHopitalImage;
+        public int mId;
+        public String mFireBaseId;
+
+        private Context mCont;
+        public GradientDrawable mGradientDrawable;
+
+        private FirebaseUser firebaseUser;
+
+        public CardView backGroundLayout;
+
+        pharmaciesViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
-            mcontextm = contextm;
-            PharmacyImageView=( ImageView) itemView.findViewById(R.id.pharmacy_image);
-            NameTextView=(TextView) itemView.findViewById(R.id.pharmacy_name);
-            PlaceTextView=(TextView) itemView.findViewById(R.id.pharmacy_place);
-            NumberTextView=(TextView) itemView.findViewById(R.id.pharmacy_number);
-          //  OpenTextView=(TextView) itemView.findViewById(R.id.pharmacies_open);
+            backGroundLayout = (CardView) itemView.findViewById(R.id.pharmacy_cordinator_background);
+            mPharmacieNameTextView = (TextView) itemView.findViewById(R.id.pharmacy_name);
+            mPharmaciePlaceTextView = (TextView) itemView.findViewById(R.id.pharmacy_place);
+            mPharmacieContactTextView = (TextView) itemView.findViewById(R.id.pharmacy_number);
+            mHopitalImage = (ImageView) itemView.findViewById(R.id.pharmacy_image);
+            mCont = context;
+            mGradientDrawable = gradientDrawable;
+            firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
-            gradientDrawable=mgradientDrawable;
+
             itemView.setOnClickListener(this);
-        }
-        public void onbind(pharmacy currentPharmacy){
-            NameTextView.setText(currentPharmacy.getThename());
-            PlaceTextView.setText(currentPharmacy.getTheadress());
-            NumberTextView.setText(currentPharmacy.getPhone());
-           // OpenTextView.setText(currentPharmacy.getClose());
-            mCurrentPharmacy=currentPharmacy;
-            Glide.with(mcontextm)
-                    .load(mCurrentPharmacy.ImageUrl)
-                    .placeholder(R.drawable.doctorm)
-                    .diskCacheStrategy(DiskCacheStrategy.DATA)
-                    .into(PharmacyImageView);
         }
 
 
         @Override
-        public void onClick(View v) {
-            Toast.makeText(mcontextm,"Clicked",Toast.LENGTH_SHORT).show();
+        public void onClick(View view) {
+            Intent intent=new Intent(mCont,pharmacies_info.class);
+            intent.putExtra("id",mId);
+            mCont.startActivity(intent);
+
 
         }
     }

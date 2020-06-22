@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pkg">
+    android:background="@drawable/pkg"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -29,6 +30,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="horizontal"
+
             >
 
 
@@ -82,18 +84,29 @@
     </LinearLayout>
     </LinearLayout>
 
-
     <Button
-        android:id="@+id/message_button_intent"
+        android:id="@+id/message_add_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:text="@string/messages"
-        android:visibility="gone"
-        android:onClick="message"/>
+        android:text="add user"
+        android:onClick="addUser"
+        />
 
-
-
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/message_button_intent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="16dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:text="message"
+        android:src="@drawable/ic_message_black_24dp"
+        android:tint="@android:color/white"
+        android:backgroundTint="#F80303"
+        android:visibility="visible"
+        android:onClick="message"
+        android:layout_alignParentRight="true" />
 </RelativeLayout>

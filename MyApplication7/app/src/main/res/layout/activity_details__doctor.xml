@@ -18,17 +18,17 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-       <!--! <ImageButton
-            android:id="@+id/details_doctor_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:tint="#FFEB3B"
-            android:src="@drawable/ic_star_border_black_24dp"
-            android:backgroundTint="@android:color/transparent"
-            android:layout_gravity="top|right"
+        <!--! <ImageButton
+             android:id="@+id/details_doctor_start"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:tint="#FFEB3B"
+             android:src="@drawable/ic_star_border_black_24dp"
+             android:backgroundTint="@android:color/transparent"
+             android:layout_gravity="top|right"
 
-            />
-            !-->
+             />
+             !-->
         <RatingBar
             android:id="@+id/details_doctor_star"
             android:layout_margin="4dp"
@@ -42,7 +42,7 @@
             android:stepSize="1"
             android:clickable="true"
             android:theme="@style/RatingBar"
-           />
+            />
         <com.mikhaellopez.circularimageview.CircularImageView
             android:elevation="4dp"
             android:transitionName="DOCTORIMAGE"
@@ -107,44 +107,4 @@
         app:layout_constraintTop_toBottomOf="@+id/details_doctor_tablayout">
 
     </androidx.viewpager.widget.ViewPager>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="2dp"
-        android:orientation="horizontal"
-        android:paddingTop="4dp"
-        android:paddingBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        >
-
-        <ImageButton
-            android:id="@+id/details_doctor_phone"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="#D6EDFF"
-            android:padding="8dp"
-            android:src="@drawable/ic_local_phone_black_24dp"
-            app:pressedTranslationZ="5dp" />
-
-        <ImageButton
-            android:id="@+id/details_doctor_messsage"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_weight="1"
-            android:backgroundTint="#D6EDFF"
-            android:padding="8dp"
-            android:src="@drawable/ic_mail_outline_black_24dp"
-            android:tint="#FF0000"
-            app:pressedTranslationZ="5dp" />
-    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

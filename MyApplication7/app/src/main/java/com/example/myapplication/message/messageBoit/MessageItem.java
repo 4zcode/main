@@ -40,7 +40,7 @@ public class MessageItem implements Comparable<MessageItem>{
         this.is_Readed = readStatus.equals("false");
         this.full_Message = full_message;
 
-        SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         try {
             this.Date = format.parse(date);
         } catch (ParseException e) {
@@ -81,7 +81,7 @@ public class MessageItem implements Comparable<MessageItem>{
         return this.Date;
     }
     public String getDate2String() {
-        DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
+        DateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         return date.format(this.Date);
     }
 
@@ -92,7 +92,7 @@ public class MessageItem implements Comparable<MessageItem>{
 
     public void setDate(String date) {
 
-        SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
         try {
             this.Date = format.parse(date);
         } catch (ParseException e) {

@@ -6,13 +6,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.myapplication.addProfile.Insertion;
+import com.example.myapplication.addProfile.AddUtilisateurActivity;
 import com.example.myapplication.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,6 +28,7 @@ public class SignupActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
+
         fullname=(EditText) findViewById(R.id.full_name);
         pass=(EditText)findViewById(R.id.write_password);
         repeatPass = (EditText)findViewById(R.id.confrim_password);
@@ -38,17 +38,20 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void login(View view) {
-        final String email=this.mail.getText().toString().trim();
-        String password=this.pass.getText().toString();
-        final String name=this.fullname.getText().toString();
-        final String phone=this.mobile.getText().toString();
 
-        String passRepeat = this.repeatPass.getText().toString();
+        final String email =this.mail.getText().toString().trim();
+        final String password =this.pass.getText().toString();
+        final String name =this.fullname.getText().toString();
+        final String phone =this.mobile.getText().toString();
+        final String passRepeat = this.repeatPass.getText().toString();
+
+
         if (TextUtils.isEmpty(email)|| TextUtils.isEmpty(password) || TextUtils.isEmpty(passRepeat) || TextUtils.isEmpty(name) || TextUtils.isEmpty(phone)){
             Toast.makeText(this,"un champ est vide",Toast.LENGTH_LONG).show();
-        }else if (! pass.equals(passRepeat)){
+        }else if (! password.equals(passRepeat)){
             Toast.makeText(this,"Vous devrez revérifier votre mot de pass",Toast.LENGTH_LONG).show();
         } else{
+
             progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Creation de compte");
             progressDialog.setMessage("S'il vous plait attendez un peu ...");
@@ -56,6 +59,7 @@ public class SignupActivity extends AppCompatActivity {
             progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar);
             progressDialog.setIndeterminate(true);
             progressDialog.show();
+
             firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this,new OnCompleteListener<AuthResult>(){
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -65,9 +69,11 @@ public class SignupActivity extends AppCompatActivity {
                         FirebaseUser user1=firebaseAuth.getCurrentUser();
                         user1.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>(){
                             public void onComplete( Task<Void> task){
-                                if(task.isSuccessful()){Toast.makeText(getApplicationContext(),"Vérifiez votre boit mail",Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(getApplicationContext(), Insertion.class);
+                                if(task.isSuccessful()){
+                                    Toast.makeText(getApplicationContext(),"Vérifiez votre boit mail",Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(getApplicationContext(), AddUtilisateurActivity.class);
                                     intent.putExtra("NAME",name);
+                                    intent.putExtra("EMAIL",email);
                                     intent.putExtra("PHONE",phone);
                                     startActivity(intent);
                                 }else{

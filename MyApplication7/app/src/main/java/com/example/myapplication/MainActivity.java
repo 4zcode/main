@@ -1,7 +1,6 @@
 package com.example.myapplication;
 
 import android.Manifest;
-import android.animation.LayoutTransition;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -36,10 +35,12 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.myapplication.Laboratoir.LaboActivity;
-import com.example.myapplication.Hospital.HopitalActivity;
+import com.example.myapplication.Etablissement.LaboActivity;
+import com.example.myapplication.Etablissement.HopitalActivity;
 import com.example.myapplication.Pharmacies.pharmacyActivity;
+import com.example.myapplication.Profiles.MainProfile;
 import com.example.myapplication.Profiles.UserProfile;
+import com.example.myapplication.addProfile.AddUtilisateurActivity;
 import com.example.myapplication.doctors.DoctorActivity;
 import com.example.myapplication.location.MyLocation;
 import com.example.myapplication.message.DBManagerMessage;
@@ -51,7 +52,6 @@ import com.example.myapplication.utilities.PreferenceUtilities;
 import com.example.myapplication.utilities.tools;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
-
 
 
 import java.util.Timer;
@@ -87,10 +87,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String NbrMsgNoRead = intent.getStringExtra("NbrMsgs");
-            Log.d("ServiceAkramTest","Nbr msg: "+NbrMsgNoRead);
             synchronizeLayout();
         }
     };
+    private String CHANNEL_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,8 +151,11 @@ public class MainActivity extends AppCompatActivity {
             Log.d("AkramTestdatabase","first Time");
             new UpdateDataBaseTask().execute();
         } else  Log.d("AkramTestdatabase","no first time");
-
     }
+
+
+
+
 
     public FragmentRefreshListener getFragmentRefreshListener() {
 
@@ -195,6 +198,12 @@ public class MainActivity extends AppCompatActivity {
 
         startActivity(new Intent(this, messageBoit.class));
     }
+
+    public void addUser(View view) {
+
+        startActivity(new Intent(this, AddUtilisateurActivity.class));
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -283,7 +292,7 @@ public class MainActivity extends AppCompatActivity {
             nav_user_profil.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(getBaseContext(), UserProfile.class));
+                    startActivity(new Intent(getBaseContext(), MainProfile.class));
 
                 }
                     /*
@@ -316,7 +325,7 @@ public class MainActivity extends AppCompatActivity {
                     .diskCacheStrategy(DiskCacheStrategy.DATA)
                     .into(nav_user_image);
         } else DefaultLayout();
-        if (getFragmentRefreshListener() != null) getFragmentRefreshListener().onRefresh();
+       if (getFragmentRefreshListener() != null) getFragmentRefreshListener().onRefresh();
     }
 
     public void DefaultLayout() {
@@ -333,6 +342,8 @@ public class MainActivity extends AppCompatActivity {
         if (getFragmentRefreshListener() != null) {
             getFragmentRefreshListener().onRefresh();
         }
+
+
     }
 
     @Override

@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MessageChatItem implements Comparable<MessageChatItem>{
+public class MessageChatItem {
 
 
 
@@ -14,7 +14,7 @@ public class MessageChatItem implements Comparable<MessageChatItem>{
     private final String msgName;
     private final String message;
     private final String imageResource;
-    private Date Date;
+    private String Date;
 
 
 
@@ -27,12 +27,7 @@ public class MessageChatItem implements Comparable<MessageChatItem>{
         this.message = message;
         this.imageResource = msgImage;
 
-        SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
-        try {
-            this.Date = format.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        this.Date = date;
     }
 
 
@@ -57,34 +52,11 @@ public class MessageChatItem implements Comparable<MessageChatItem>{
         Message_ID_Firebase = message_ID_Firebase;
     }
 
-    public java.util.Date getDate() {
+    public String getDate() {
 
         return this.Date;
     }
-    public String getDate2String() {
-        DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:SS");
-        return date.format(this.Date);
-    }
 
-
-    public void setDate(java.util.Date date) {
-        Date = date;
-    }
-
-    public void setDate(String date) {
-
-        SimpleDateFormat format = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
-        try {
-            this.Date = format.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public int compareTo(MessageChatItem o) {
-        return this.getDate().compareTo(o.getDate());
-    }
 
 
 }

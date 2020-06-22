@@ -25,6 +25,8 @@ public class Doctors {
     private String Doctor_ID_Firebase;
     private final String NameDoctor;
     private final String PlaceDoctor;
+    private  String Wilaya;
+    private  String Commune;
     private final String phone;
     private final String spec;
     private final String type;
@@ -34,10 +36,12 @@ public class Doctors {
 
 
 
-    public  Doctors(String id,String name, String place, String phone, String spec, String type,String service,String time,String image) {
+    public  Doctors(String id,String name, String place, String wilaya , String commune ,String phone, String spec, String type,String service,String time,String image) {
         this.Doctor_ID_Firebase=id;
         this.NameDoctor = name;
         this.PlaceDoctor = place;
+        this.Wilaya = wilaya;
+        this.Commune = commune;
         this.phone = phone;
         this.spec = spec;
         this.ImageUrl = image;
@@ -105,5 +109,21 @@ public class Doctors {
 
     public String getTime() {
         return time;
+    }
+
+    public String getWilaya() {
+        return Wilaya;
+    }
+
+    public void setWilaya(String wilaya) {
+        Wilaya = wilaya;
+    }
+
+    public String getCommune() {
+        return Commune;
+    }
+
+    public void setCommune(String commune) {
+        Commune = commune;
     }
 }

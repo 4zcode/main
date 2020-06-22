@@ -34,12 +34,46 @@ public class DBManagerMessage {
 
         dbHelper.close();
     }
-    public String getFullMessage(String messageID){
+
+    public MessageItem getMessageFromID(int id) {
         SQLiteDatabase db = this.dbHelper.getReadableDatabase();
-        String Query = "Select * from " + DatabaseHelper.TABLE_NAME_MESSAGES + " where " + DatabaseHelper._ID_MESSAGE_SENDER_FIREBASE + " = '" + messageID +"' ";
+        String Query = "Select * from " + DatabaseHelper.TABLE_NAME_MESSAGES + " where " + DatabaseHelper._ID + " = "+id ;
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.moveToFirst()) {
+            String Id_firebase = cursor.getString(1);
+            String senderName = cursor.getString(2);
+            String recentMessage = cursor.getString(3);
+            String fullMessage = cursor.getString(4);
+            String dateMessage = cursor.getString(5);
+            String is_read = cursor.getString(6);
+            String imageUrl = cursor.getString(7);
+            cursor.close();
+            return new MessageItem(Id_firebase,senderName, recentMessage, fullMessage, dateMessage,is_read,imageUrl);
+        }
+        cursor.close();
+        return null;
+    }
+
+
+    public String getFullMessage(int id){
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        String Query = "Select * from " + DatabaseHelper.TABLE_NAME_MESSAGES + " where " + DatabaseHelper._ID + " = "+id ;
         Cursor cursor = db.rawQuery(Query, null);
         if(cursor.moveToFirst()) {
            String msg = cursor.getString(4);
+            cursor.close();
+            return msg;
+        }
+        cursor.close();
+        return "";
+    }
+
+    public String getFullMessage(String id){
+        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
+        String Query = "Select * from " + DatabaseHelper.TABLE_NAME_MESSAGES + " where " + DatabaseHelper._ID_MESSAGE_SENDER_FIREBASE + " = '" + id +"' ";
+        Cursor cursor = db.rawQuery(Query, null);
+        if(cursor.moveToFirst()) {
+            String msg = cursor.getString(4);
             cursor.close();
             return msg;
         }
@@ -74,14 +108,6 @@ public class DBManagerMessage {
         contentValue.put(DatabaseHelper.IMAGE_SENDER_MESSAGE_URL, imageUrl);
         database.insert(DatabaseHelper.TABLE_NAME_MESSAGES, null, contentValue);
     }
-    public Cursor fetch() {
-        String[] columns = new String[] { DatabaseHelper._ID_MESSAGE, DatabaseHelper.SENDER_MESSAGE_NAME, DatabaseHelper.RECENT_MESSAGE, DatabaseHelper.FULL_MESSAGE, DatabaseHelper.MESSAGE_RECENT_DATE,DatabaseHelper.IS_READ, DatabaseHelper.IMAGE_DOCTOR_URL};
-        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_MESSAGES, columns, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        return cursor;
-    }
 
     public int update(String _id,String senderName, String recentMessage, String fullMessage,String dateMessage,String is_read,String imageUrl) {
         ContentValues contentValues = new ContentValues();
@@ -97,33 +123,9 @@ public class DBManagerMessage {
     }
 
     public void delete(long _id) {
-        database.delete(DatabaseHelper.TABLE_NAME_MESSAGES, DatabaseHelper._ID_MESSAGE + "=" + _id, null);
+        database.delete(DatabaseHelper.TABLE_NAME_MESSAGES, DatabaseHelper._ID + "=" + _id, null);
     }
     public void deleteF(String _id) {
         database.delete(DatabaseHelper.TABLE_NAME_MESSAGES, DatabaseHelper._ID_MESSAGE_SENDER_FIREBASE + "='" + _id+"'", null);
-    }
-
-    public ArrayList<MessageItem> listMessages() {
-        String sql = "select * from " + DatabaseHelper.TABLE_NAME_MESSAGES;
-        SQLiteDatabase db = this.dbHelper.getReadableDatabase();
-        ArrayList<MessageItem> storeContacts = new ArrayList<>();
-        Cursor cursor = db.rawQuery(sql, null);
-        if (cursor.moveToFirst()) {
-            do {
-                int id = Integer.parseInt(cursor.getString(0));
-                String Id_firebase = cursor.getString(1);
-                String senderName = cursor.getString(2);
-                String recentMessage = cursor.getString(3);
-                String fullMessage = cursor.getString(4);
-                String dateMessage = cursor.getString(5);
-                String is_read = cursor.getString(6);
-                String imageUrl = cursor.getString(7);
-
-                storeContacts.add(new MessageItem(Id_firebase,senderName, recentMessage, fullMessage, dateMessage,is_read,imageUrl));
-            }
-            while (cursor.moveToNext());
-        }
-        cursor.close();
-        return storeContacts;
     }
 }

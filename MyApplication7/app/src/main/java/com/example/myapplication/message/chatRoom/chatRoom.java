@@ -48,6 +48,8 @@ import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -100,56 +102,68 @@ public class chatRoom extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    //    startAnimation();
+
         setContentView(R.layout.activity_chat_room);
-        recyclerView =(RecyclerView) findViewById(R.id.message_chat_room_recycler);
-        button =(FloatingActionButton) findViewById(R.id.envoyer_button);
+
+        //
+        recyclerView = (RecyclerView) findViewById(R.id.message_chat_room_recycler);
+        button = (FloatingActionButton) findViewById(R.id.envoyer_button);
         editText = (EditText) findViewById(R.id.edit_text_envoyer);
-        arrayMsg = new ArrayList<MessageChatItem>();
+
+
         ID_reciver = getIntent().getStringExtra(RECIVER);
         ReceiverImage = getIntent().getStringExtra(RECIVER_IMAGE);
-        SenderName =getIntent().getStringExtra(SENDER);
-        this.setTitle(SenderName);
-        handler= new Handler();
-        user= new HashMap<String,Object>();
-        senderUser = new HashMap<String,Object>();
-        user1= FirebaseAuth.getInstance().getInstance().getCurrentUser();
+        SenderName = getIntent().getStringExtra(SENDER);
+
+        this.setTitle(WordUtils.capitalizeFully(SenderName));
+
+
+        arrayMsg = new ArrayList<MessageChatItem>();
+
+        handler = new Handler();
+        user = new HashMap<String, Object>();
+        senderUser = new HashMap<String, Object>();
+
+
+        user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
         myPef = getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
-        adapter= new ChatRoomAdapter(this,arrayMsg);
-        recyclerView.setAdapter(adapter);
-        linearManager = new LinearLayoutManager(this);
-        linearManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(linearManager);
-        recyclerState = recyclerView.getLayoutManager().onSaveInstanceState();
+
         db = new DBManagerMessage(this);
         db.open();
+
         String msg = db.getFullMessage(ID_reciver);
-        DecodeFullMsg(msg,arrayMsg);
-        adapter.notifyDataSetChanged();
+        DecodeFullMsg(msg, arrayMsg);
+
+        adapter = new ChatRoomAdapter(this, arrayMsg);
+        linearManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearManager);
+
+            recyclerView.setAdapter(adapter);
+
+        recyclerState = recyclerView.getLayoutManager().onSaveInstanceState();
+
+
+
         recyclerView.getLayoutManager().onRestoreInstanceState(recyclerState);
         if (isNetworkAvailable(getBaseContext())) {
             updateAffichage(2000);
             Afficher(getBaseContext());
         }
 
-
-
         recyclerView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                if (bottom < oldBottom){
+                if (bottom < oldBottom) {
                     recyclerView.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             recyclerView.smoothScrollToPosition(adapter.getItemCount());
                         }
-                    },100);
+                    }, 100);
                 }
             }
         });
     }
-
-
 
 
 
@@ -192,24 +206,30 @@ public class chatRoom extends AppCompatActivity {
     }
 
     public void DecodeFullMsg(String msg,ArrayList<MessageChatItem> arrayMsg) {
-        String[] fullMsg = msg.split("@E1S9I!");
-        arrayMsg.clear();
-        for (String petitMsg : fullMsg) {
-            String[] detail = petitMsg.split("<br>");
-            if (detail.length == 3) {
-                String msgName = "Anonyme";
-                String msgImage = "R.drawble.doctorm";
-                if (detail[0].equals(ID_reciver)) {
-                    msgName = SenderName;
-                    msgImage = ReceiverImage;
-                } else if (detail[0].equals(user1.getUid())) {
-                    msgName = myPef.getString(KEY_USER_NAME, "Annonyme");
-                    msgImage = myPef.getString(KEY_USER_IMAGE, "R.drawable.profile");
-                }
-                arrayMsg.add(new MessageChatItem(detail[0], msgName, detail[1], detail[2], msgImage));
-            }
-        }
-        Collections.sort(arrayMsg);
+       try {
+           String[] fullMsg = msg.split("@E1S9I!");
+           arrayMsg.clear();
+           for (String petitMsg : fullMsg) {
+               String[] detail = petitMsg.split("<br>");
+               if (detail.length == 3) {
+                   String msgName = "Anonyme";
+                   String msgImage = "R.drawble.doctorm";
+                   if (detail[0].equals(ID_reciver)) {
+                       msgName = SenderName;
+                       msgImage = ReceiverImage;
+                   } else if (detail[0].equals(user1.getUid())) {
+                       msgName = myPef.getString(KEY_USER_NAME, "Annonyme");
+                       msgImage = myPef.getString(KEY_USER_IMAGE, "R.drawable.profile");
+                   }
+                   arrayMsg.add(new MessageChatItem(detail[0], msgName, detail[1], detail[2], msgImage));
+
+               }
+           }
+          //  Collections.sort(arrayMsg);
+
+       }catch (Exception e){
+           Log.d("akramakramakram1","decode msg error"+e.getMessage());
+       }
     }
     public void readData(final Context context , FireBaseCallBack fireBaseCallBack) {
         if (!ID_reciver.equals(user1.getUid())) {
@@ -263,8 +283,9 @@ public class chatRoom extends AppCompatActivity {
             mProgressDialog.show();
 
             String name_current_user = myPef.getString("userName", "Annonyme");
-            DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
+            DateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             String dt = date.format(Calendar.getInstance().getTime());
+            Log.d("akramakramakram","chatroom : "+dt);
             String allMSG = MessageRecever  + user1.getUid() + "<br>" + message + "<br>"+dt+"@E1S9I!";
              updateUserReceiver(message,allMSG, SenderName, ID_reciver, dt);
              updateReceiverUser(name_current_user, message,allMSG, ID_reciver, dt);
@@ -403,6 +424,8 @@ public class chatRoom extends AppCompatActivity {
 
     }
 
+
+
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -511,9 +534,9 @@ public class chatRoom extends AppCompatActivity {
         if (isNetworkAvailable(getBaseContext()) && !imageUri.isEmpty()) {
             mProgressDialog.show();
             String name_current_user = myPef.getString("userName", "Annonyme");
-            DateFormat date = new SimpleDateFormat("d MMM yyyy, HH:mm:ss.SSS");
+            DateFormat date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
             String dt = date.format(Calendar.getInstance().getTime());
-            String allMSG = MessageRecever + user1.getUid() + "<br>" + "!?*#*?!" + imageUri + "<br>" + dt + "@E1S9I!";
+            String allMSG = MessageRecever + user1.getUid() + "<br>" + "5I5@" + imageUri + "<br>" + dt + "@E1S9I!";
             updateUserReceiver("image", allMSG, SenderName, ID_reciver, dt);
             updateReceiverUser(name_current_user, "image", allMSG, ID_reciver, dt);
             mProgressDialog.dismiss();

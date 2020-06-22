@@ -59,19 +59,11 @@ public class DBManagerSpeciality {
 
     public void insert(long _id,String name, String count) {
         ContentValues contentValue = new ContentValues();
-        contentValue.put(DatabaseHelper._ID_SPECIALITY, _id);
+        contentValue.put(DatabaseHelper._ID, _id);
         contentValue.put(DatabaseHelper.SPECIALITY_NAME, name);
         contentValue.put(DatabaseHelper.SPECIALITY_NUMBER, count);
 
         database.insert(DatabaseHelper.TABLE_NAME_SPECIALITY, null, contentValue);
-    }
-    public Cursor fetch() {
-        String[] columns = new String[] { DatabaseHelper._ID_SPECIALITY, DatabaseHelper.SPECIALITY_NAME, DatabaseHelper.SPECIALITY_NUMBER};
-        Cursor cursor = database.query(DatabaseHelper.TABLE_NAME_SPECIALITY, columns, null, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-        return cursor;
     }
 
     public int update(long _id,String name, String count) {
@@ -79,11 +71,11 @@ public class DBManagerSpeciality {
         contentValues.put(DatabaseHelper.SPECIALITY_NAME, name);
         contentValues.put(DatabaseHelper.SPECIALITY_NUMBER, count);;
 
-        int i = database.update(DatabaseHelper.TABLE_NAME_SPECIALITY, contentValues, DatabaseHelper._ID_SPECIALITY + " = " +_id, null);
+        int i = database.update(DatabaseHelper.TABLE_NAME_SPECIALITY, contentValues, DatabaseHelper._ID + " = " +_id, null);
         return i;
     }
     public void delete(long _id) {
-        database.delete(DatabaseHelper.TABLE_NAME_SPECIALITY, DatabaseHelper._ID_SPECIALITY + "=" + _id, null);
+        database.delete(DatabaseHelper.TABLE_NAME_SPECIALITY, DatabaseHelper._ID + "=" + _id, null);
     }
     public int deleteAll(){
         return database.delete(DatabaseHelper.TABLE_NAME_SPECIALITY,"1",null);

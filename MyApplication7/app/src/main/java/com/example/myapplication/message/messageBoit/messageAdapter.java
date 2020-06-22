@@ -3,31 +3,35 @@ package com.example.myapplication.message.messageBoit;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.text.DateFormat;
-import java.util.ArrayList;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-import static com.example.myapplication.R.drawable;
 import static com.example.myapplication.R.id;
 import static com.example.myapplication.R.layout;
 import static com.example.myapplication.utilities.tools.DiffrenceDate;
@@ -37,98 +41,165 @@ public class messageAdapter extends RecyclerView.Adapter<messageAdapter.MessageV
     public final static String TAG = messageAdapter.class.getSimpleName();
 
     public GradientDrawable mGradientDrawable;
-    public ArrayList<MessageItem> mMessagesData;
     private Activity mActivity;
-    public messageAdapter(Activity activity, ArrayList<MessageItem> message){
-        this.mMessagesData = message;
+    public Cursor mMessageCursor;
+
+    private final LayoutInflater mLayoutInflater;
+
+    private int mMessagePos;
+    private int mMessageFirabasePos;
+    private int mMessageSenderNamePos;
+    private int mMessageShortPos;
+    private int mMessageDatePos;
+    private int mMessageStatusPos;
+    private int mMessageImagePos;
+
+    public messageAdapter(Activity activity, Cursor cursor){
+        this.mMessageCursor = cursor;
         this.mActivity = activity;
+        mLayoutInflater = LayoutInflater.from(this.mActivity.getBaseContext());
+
+        populateColumnPositions();
+
         mGradientDrawable = new GradientDrawable();
         mGradientDrawable.setColor(Color.GRAY);
+        Drawable drawable = ContextCompat.getDrawable
+                (mActivity, R.drawable.profile);
+        if (drawable != null) {
+            mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        }
 
     }
+
+
+    private void populateColumnPositions() {
+        if(mMessageCursor == null)
+            return;
+        // Get column indexes from mCursor
+        mMessagePos = mMessageCursor.getColumnIndex(DatabaseHelper._ID);
+        mMessageFirabasePos = mMessageCursor.getColumnIndex(DatabaseHelper._ID_MESSAGE_SENDER_FIREBASE);
+        mMessageSenderNamePos = mMessageCursor.getColumnIndex(DatabaseHelper.SENDER_MESSAGE_NAME);
+        mMessageShortPos = mMessageCursor.getColumnIndex(DatabaseHelper.RECENT_MESSAGE);
+        mMessageDatePos = mMessageCursor.getColumnIndex(DatabaseHelper.MESSAGE_RECENT_DATE);
+        mMessageStatusPos = mMessageCursor.getColumnIndex(DatabaseHelper.IS_READ);
+        mMessageImagePos = mMessageCursor.getColumnIndex(DatabaseHelper.IMAGE_SENDER_MESSAGE_URL);
+
+    }
+
+    public void changeCursor(Cursor cursor) {
+        if(mMessageCursor != null)
+            mMessageCursor.close();
+        mMessageCursor = cursor;
+        populateColumnPositions();
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public MessageViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mActivity.getBaseContext()).inflate(layout.message_item, parent, false);
+        View view = mLayoutInflater.inflate(layout.message_item, parent, false);
         return new messageAdapter.MessageViewHolder(mActivity, view, mGradientDrawable);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
-        //Get the current sport
-        MessageItem currentMessage = mMessagesData.get(position);
 
-        //Bind the data to the views
-        holder.bindTo(currentMessage);
+        if (position < 20) {
+
+            mMessageCursor.moveToPosition(position);
+
+            String image = mMessageCursor.getString(mMessageImagePos);
+            if (image.equals("R.drawable.profile")){
+                Glide.with(mActivity.getBaseContext())
+                        .load(R.drawable.profile)
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(mGradientDrawable)
+                        .into(holder.mHopitalImage);
+
+            } else {
+                Glide.with(mActivity.getBaseContext())
+                        .load(image)
+                        .diskCacheStrategy(DiskCacheStrategy.DATA)
+                        .placeholder(mGradientDrawable)
+                        .into(holder.mHopitalImage);
+
+            }
+            String senderName = mMessageCursor.getString(mMessageSenderNamePos);
+            String recentMessage = mMessageCursor.getString(mMessageShortPos);
+            String date = mMessageCursor.getString(mMessageDatePos);
+            boolean status = mMessageCursor.getString(mMessageStatusPos).equals("false");
+            if (status){
+                holder.mMessageRecentMessage.setTextColor(Color.GRAY);
+                holder.mMessageRecentMessage.setTypeface(Typeface.DEFAULT_BOLD);
+            }
+
+            holder.mMessageSenderName.setText(WordUtils.capitalizeFully(senderName));
+            holder.mMessageRecentMessage.setText(WordUtils.capitalizeFully(recentMessage));
+
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+
+            try {
+                holder.mHopitalContactTextView.setText(DiffrenceDate(format.parse(date), Calendar.getInstance().getTime()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+                holder.mHopitalContactTextView.setText(date);
+            }
+
+            holder.mId =  mMessageCursor.getInt(mMessagePos);
+            holder.mFireBase = mMessageCursor.getString(mMessageFirabasePos);
+            holder.image = image;
+        }
+
     }
 
     @Override
     public int getItemCount() {
-        return mMessagesData.size();    }
+        return mMessageCursor == null ? 0 : mMessageCursor.getCount() > 20 ? 20 : mMessageCursor.getCount();
+    }
 
-        class MessageViewHolder extends RecyclerView.ViewHolder
-            implements View.OnClickListener {
+        class MessageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView mSenderNameTextView;
-        public TextView mMessageTextView, mDateTest;
-        public ImageView mSenderImage;
-        public Context mCont;
-        public MessageItem mCurrentMessage;
-        public GradientDrawable mGradientDrawable;
-        private Activity activity;
-        public MessageViewHolder(Activity activity, View itemView, GradientDrawable gradientDrawable) {
+            public TextView mMessageSenderName, mMessageRecentMessage, mHopitalContactTextView;
+            public ImageView mHopitalImage;
+            public int mId;
+            public String mFireBase, image;
+            private Context mCont;
+            public GradientDrawable mGradientDrawable;
+            private Activity activity;
+
+            private FirebaseUser firebaseUser;
+
+
+            public MessageViewHolder(Activity activity, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
 
             //Initialize the views
-            mSenderNameTextView = (TextView) itemView.findViewById(id.name_message_sender);
-            mMessageTextView = (TextView) itemView.findViewById(id.messageText);
-            mSenderImage = (ImageView) itemView.findViewById(id.sender_image);
-            mDateTest = (TextView) itemView.findViewById(id.dateTest);
+                mMessageSenderName = (TextView) itemView.findViewById(id.name_message_sender);
+                mMessageRecentMessage = (TextView) itemView.findViewById(id.messageText);
+                mHopitalImage = (ImageView) itemView.findViewById(id.sender_image);
+                mHopitalContactTextView = (TextView) itemView.findViewById(id.dateTest);
             this.activity = activity;
             mCont = activity.getBaseContext();
             mGradientDrawable = gradientDrawable;
-            //Set the OnClickListener to the whole view
+
+
+                firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+                //Set the OnClickListener to the whole view
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
 
-            FirebaseUser user= FirebaseAuth.getInstance().getInstance().getCurrentUser();
-            try {
-               if (!user.getUid().equals(mCurrentMessage.getMessage_ID_Firebase()) ) {
-                   Intent intent = MessageItem.starter(mCont, mCurrentMessage.getMessage_ID_Firebase(), mCurrentMessage.getSender(), mCurrentMessage.getImageResource());
-                  intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                  mCont.startActivity(intent);
-                   activity.overridePendingTransition(R.anim.open_enter,R.anim.nav_default_exit_anim);
-
-
+            if (firebaseUser== null|| !firebaseUser.getUid().equals(mFireBase)) {
+                Intent intent = MessageItem.starter(mCont,mFireBase, mMessageSenderName.getText().toString(), image);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mCont.startActivity(intent);
+                activity.overridePendingTransition(R.anim.open_enter,R.anim.nav_default_exit_anim);
                }
-           }catch (Exception e){
-               Log.d(TAG,"error : "+e.getMessage());
-               e.printStackTrace();
-               Toast.makeText(mCont,"clicked",Toast.LENGTH_SHORT).show();
-
-           }
-
-
-        }
-
-        public void bindTo(MessageItem currentMessage) {
-            mCurrentMessage = currentMessage;
-            mSenderNameTextView.setText(currentMessage.getSender());
-            if ( currentMessage.Is_Readed()){
-                mMessageTextView.setTextColor(Color.GRAY);
-                mMessageTextView.setTypeface(Typeface.DEFAULT_BOLD);
-            }
-            mMessageTextView.setText(currentMessage.getRecent_message());
-            mDateTest.setText(DiffrenceDate(currentMessage.getDate(), Calendar.getInstance().getTime()));
-
-                Glide.with(mCont).load(mCurrentMessage.getImageResource())
-                        .diskCacheStrategy(DiskCacheStrategy.DATA)
-                        .placeholder(mGradientDrawable)
-                        .into(mSenderImage);
         }
     }
 }

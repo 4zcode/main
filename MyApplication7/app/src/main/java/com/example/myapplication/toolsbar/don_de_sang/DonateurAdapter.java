@@ -1,6 +1,7 @@
 package com.example.myapplication.toolsbar.don_de_sang;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -8,19 +9,26 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.myapplication.R;
+import com.example.myapplication.message.chatRoom.chatRoom;
+import com.example.myapplication.ui.login.Signin;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
@@ -37,6 +45,8 @@ public class DonateurAdapter extends RecyclerView.Adapter<DonateurAdapter.Donate
         this.mdonateur = laboData;
         this.mContext = context;
         this.mdonateurArray.addAll(laboData);
+
+
         mGradientDrawable = new GradientDrawable();
         mGradientDrawable.setColor(Color.GRAY);
         Drawable drawable = ContextCompat.getDrawable
@@ -45,6 +55,8 @@ public class DonateurAdapter extends RecyclerView.Adapter<DonateurAdapter.Donate
             mGradientDrawable.setSize(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         }
     }
+
+
     public void filter(String text) {
         if(text.isEmpty()){
             mdonateur.clear();
@@ -86,44 +98,115 @@ public class DonateurAdapter extends RecyclerView.Adapter<DonateurAdapter.Donate
 
     static class DonateursViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
-        private TextView mNameText, mPlaceText,mphone,grsnaguin;
+        private TextView mNameText ,mPlaceText,mAge,grsnaguin;
+        private ImageButton mphone, mMSG;
         private ImageView mDonateurImage;
         private Context mCont;
         private don_de_song mCurrentdonateur;
+
+
+        private String phone;
+        private String firebaseId;
+        private String imageUrl;
+
+
+
         private GradientDrawable mGradientDrawable;
         private SharedPreferences myPef;
 
 
+        public static final String RECIVER = "Reciver";
+        public static final String SENDER = "sender";
+        public static final String RECIVER_IMAGE = "ReciverImageUrl";
+
+
+
         DonateursViewHolder(Context context, View itemView, GradientDrawable gradientDrawable) {
             super(itemView);
+
+            mDonateurImage = (ImageView) itemView.findViewById(R.id.donateur_imageinit);
+
             mNameText = (TextView) itemView.findViewById(R.id.donateur_name);
             mPlaceText = (TextView) itemView.findViewById(R.id.donateur_place) ;
-            mDonateurImage = (ImageView) itemView.findViewById(R.id.donateur_image);
-            mphone =(TextView) itemView.findViewById(R.id.donateur_contact);
             grsnaguin =(TextView) itemView.findViewById(R.id.donateur_grsanguin);
+            mAge  =(TextView) itemView.findViewById(R.id.agedonateur);
+
+
+            mphone =(ImageButton) itemView.findViewById(R.id.donnateur_phone);
+            mMSG =(ImageButton) itemView.findViewById(R.id.donnateur_message);
+
+
+
+            //
+            mphone.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //téléphoner
+                    Intent i = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:"+phone.replaceAll(" ","")));
+                    mCont.startActivity(i);
+                }
+            });
+            mMSG.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onClick(View v) {
+                    //aller aux chat message
+                    if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+                        Intent i = new Intent(mCont, chatRoom.class);
+                        i.putExtra(RECIVER, firebaseId);
+                        i.putExtra(RECIVER_IMAGE, imageUrl);
+                        i.putExtra(SENDER, mNameText.getText().toString());
+                        mCont.startActivity(i);
+                       // overridePendingTransition(R.anim.open_enter, R.anim.nav_default_exit_anim);
+                    }else {
+                        //
+                        new AlertDialog.Builder(mCont)
+                                .setTitle("Service non disponible")
+                                .setMessage("Vous devez vous connecter d'abord!")
+                                .setPositiveButton("Se connecter", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        mCont.startActivity(new Intent(mCont, Signin.class));
+                                    }
+                                })
+                                .setNegativeButton("Cancel", null)
+                                .setIcon(R.drawable.ic_do_not_disturb_alt_black_24dp)
+                                .show();
+                    }
+                }
+            });
+
+
+
             mCont = context;
             mGradientDrawable = gradientDrawable;
             itemView.setOnClickListener(this);
         }
 
         void bindTo(don_de_song Currentdonateur) {
-            mNameText.setText(Currentdonateur.getFullname());
-            mPlaceText.setText(Currentdonateur.getAdressd());
-            mphone.setText(Currentdonateur.getContact());
-            grsnaguin.setText((Currentdonateur.getGrsanguin()));
             mCurrentdonateur = Currentdonateur;
 
-                Glide.with(mCont).load(mCurrentdonateur.getImaged())
-                        .diskCacheStrategy(DiskCacheStrategy.DATA)
-                        .into(mDonateurImage);
+           Glide.with(mCont).load(mCurrentdonateur.getImaged())
+                    .diskCacheStrategy(DiskCacheStrategy.DATA)
+                    .into(mDonateurImage);
+
+            mNameText.setText(Currentdonateur.getFullname());
+            mPlaceText.setText(Currentdonateur.getAdressd());
+            mAge.setText(Currentdonateur.getAge()+" ans");
+            grsnaguin.setText((Currentdonateur.getGrsanguin()));
+
+           phone = Currentdonateur.getContact();
+           firebaseId = Currentdonateur.get_ID_firebase();
+           imageUrl = Currentdonateur.getImaged();
+
 
         }
 
 
         @Override
         public void onClick(View view) {
-            myPef =mCont.getSharedPreferences("userPref", Context.MODE_PRIVATE);
-            if (myPef.getBoolean("IsLogIn", false) && FirebaseAuth.getInstance().getCurrentUser() != null) {
+         /*   myPef =mCont.getSharedPreferences("userPref", Context.MODE_PRIVATE);
+            if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                 FirebaseUser user1 = FirebaseAuth.getInstance().getInstance().getCurrentUser();
                 if (!user1.getUid().equals(mCurrentdonateur.get_ID_firebase())) {
                     Intent intent = don_de_song.starter(mCont,mCurrentdonateur.get_ID_firebase(), mCurrentdonateur.getFullname(),mCurrentdonateur.getImaged());
@@ -132,6 +215,12 @@ public class DonateurAdapter extends RecyclerView.Adapter<DonateurAdapter.Donate
                     Toast.makeText(mCont, "you cant send to your self", Toast.LENGTH_LONG).show();
                 }
             }
+      */
+
+            Toast.makeText(mCont, "clicked : ", Toast.LENGTH_LONG).show();
+
         }
+
+
     }
 }

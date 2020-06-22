@@ -9,6 +9,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.text.Html;
 import android.text.Spanned;
@@ -21,11 +22,11 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 
-import com.example.myapplication.Laboratoir.DBManagerLaboratoir;
+import com.example.myapplication.DatabaseHelper;
+import com.example.myapplication.Etablissement.DBManagerEtablissement;
 import com.example.myapplication.Pharmacies.DBManagerPharmacy;
 import com.example.myapplication.Wilaya;
 import com.example.myapplication.doctors.advanceSearch.DBManagerDoctor;
-import com.example.myapplication.doctors.speciality.DBManagerSpeciality;
 import com.example.myapplication.doctors.speciality.Speciality;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -349,12 +350,22 @@ public class tools {
 
     public static int readAllData(Context context){
         ArrayList<Speciality> specialitiesArray = new ArrayList<>();
-        DBManagerDoctor dbDoctor = new DBManagerDoctor(context);
-        DBManagerLaboratoir dblabo = new DBManagerLaboratoir(context);
-        DBManagerPharmacy dbPharmacy = new DBManagerPharmacy(context);
+        final DBManagerDoctor dbDoctor = new DBManagerDoctor(context);
+        final DBManagerEtablissement dblabo = new DBManagerEtablissement(context);
+        final DBManagerPharmacy dbPharmacy = new DBManagerPharmacy(context);
         dbDoctor.open();
-        dblabo.open();
+        dblabo.open(DatabaseHelper.TABLE_NAME_LABORATOIR);
         dbPharmacy.open();
+
+
+        //
+        DBManagerEtablissement dbH = new DBManagerEtablissement(context);
+        dbH.open(DatabaseHelper.TABLE_NAME_HOSPITAL);
+        for (int i=0; i < 2000 ; i++ ) {
+            dbH.insert("test" + String.valueOf(i), "akram" +  String.valueOf(i), "desc" + i, "place" + i, "0","0",1, "07" + i, "ser" + i, "R.drawable.profile");
+        }
+        dbH.close();
+
         Integer count = 0;
         Integer bad_count =0;
         AssetManager assetManager = context.getResources().getAssets();
@@ -404,13 +415,44 @@ public class tools {
                         }else {
                             try {
                                 if (Speciality.contains("Pharmacien")) {
-                                    dbPharmacy.insert(Phone+Name.toLowerCase(),Name.toLowerCase(),Adresse.toLowerCase(),Phone,"08:00","16:00","R.drawable.profile");
+                                    final String finalPhone = Phone;
+                                    final String finalName = Name;
+                                    final String finalAdresse = Adresse;
+                                    new AsyncTask<Void, Void, Void>(){
+
+                                        @Override
+                                        protected Void doInBackground(Void... voids) {
+                                            dbPharmacy.insert(finalPhone + finalName.toLowerCase(), finalName.toLowerCase(), finalAdresse.toLowerCase(),-1,-1, finalPhone,"08:00 - 16:00","R.drawable.profile","Il n'y a aucun description");
+                                            return null;
+                                        }
+                                    };
                                 }else if (Speciality.contains("Biologie Clinique")){
-                                    dblabo.insert(Phone+Name.toLowerCase(),Name.toLowerCase(),Adresse.toLowerCase(),Phone,"R.drawable.profile");
+                                    final String finalPhone1 = Phone;
+                                    final String finalName1 = Name;
+                                    final String finalAdresse1 = Adresse;
+                                    new AsyncTask<Void, Void, Void>(){
+
+                                        @Override
+                                        protected Void doInBackground(Void... voids) {
+                                            dblabo.insert(finalPhone1 + finalName1.toLowerCase(), finalName1.toLowerCase(),"in n'y a aucun description", finalAdresse1.toLowerCase(),"0","0",0, finalPhone1,"il n'y a aucun service","R.drawable.profile");
+                                            return null;
+                                        }
+                                    };
                                 }else {
-                                    dbDoctor.insert(Phone+Name.toLowerCase(),Name.toLowerCase(),Adresse.toLowerCase(),Phone,Speciality,Type,"Il n'y a aucun service","08:00 - 16:00","R.drawable.profile");
+                                    final String finalPhone2 = Phone;
+                                    final String finalName2 = Name;
+                                    final String finalAdresse2 = Adresse;
+                                    final String finalSpeciality = Speciality;
+                                    final String finalType = Type;
+                                    new AsyncTask<Void, Void, Void>(){
+
+                                        @Override
+                                        protected Void doInBackground(Void... voids) {
+                                            dbDoctor.insert(finalPhone2 + finalName2.toLowerCase(), finalName2.toLowerCase(), finalAdresse2.toLowerCase(),"0","0", finalPhone2, finalSpeciality, finalType,"Il n'y a aucun service","08:00 - 16:00","R.drawable.profile");
+                                            return null;
+                                        }
+                                    };
                                 }
-                               // db.execSQL("INSERT INTO "+TABLE_NAME_DOCTORS+"("+_ID_DOCTOR_FIREBASE+", "+NAME_DOCTOR+", "+PLACE_DOCTOR+", "+PHONE_DOCTOR+", "+SPEC_DOCTOR+", "+SEX_DOCTOR+", "+IMAGE_DOCTOR_URL+") VALUES ("+"'"+count+"', "+"'"+Name.toLowerCase()+"', "+"'"+Adresse.toLowerCase()+"', "+"',"+Phone+"', "+"'"+Speciality.toLowerCase()+"', "+"'m','R.drawable.profile')");
                                 count ++;
                             }catch (Exception e){
                                 e.printStackTrace();
@@ -424,11 +466,18 @@ public class tools {
 
             }
             Log.d("FileAkramTest","Inserted" + String.valueOf(count));
+            dbDoctor.close();
+            dblabo.close();
+            dbPharmacy.close();
             return count;
+
         }catch (IOException e){
             e.printStackTrace();
             Log.d("FileAkramTest","Error: "+e.getMessage());
         }
+        dbDoctor.close();
+        dblabo.close();
+        dbPharmacy.close();
         return 0;
     }
 

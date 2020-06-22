@@ -21,12 +21,26 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
+        android:supportsRtl="false"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Hospital.HospitalProfileActivity"
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:supportsRtl">
+        <activity android:name=".Profiles.MainProfile"
+            android:label="Mon profile"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".toolsbar.medicaments.medicament_information"
+            android:label="Medicament"
+            />
+        <activity android:name=".Pharmacies.pharmacies_info" />
+        <activity
+            android:name=".addProfile.AddUtilisateurActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_add_utilisateur"
+            android:theme="@style/FullscreenTheme" />
+        <activity
+            android:name=".Etablissement.EtablissementProfileActivity"
             android:label="Details Hopital"
-            android:parentActivityName=".Hospital.HopitalActivity"/>
+            android:parentActivityName=".Etablissement.HopitalActivity" />
         <activity
             android:name=".doctors.details.Details_Doctor"
             android:label="Details Doctor"
@@ -57,18 +71,6 @@
             android:label="Mon Profile"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".addProfile.AddLaboProfile"
-            android:label="Ajouter votre Labo de recherche"
-            android:parentActivityName=".addProfile.Insertion" />
-        <activity
-            android:name=".Laboratoir.LaboActivity"
-            android:label="Les laboratoires de recherches"
-            android:parentActivityName=".addProfile.Insertion" />
-        <activity
-            android:name=".addProfile.AddDoctorProfile"
-            android:label="Ajouter votre cabinet"
-            android:parentActivityName=".addProfile.Insertion" />
-        <activity
             android:name=".message.messageBoit.messageBoit"
             android:label="Messages"
             android:parentActivityName=".MainActivity" />
@@ -90,24 +92,12 @@
             android:label="les pharmacies"
             android:parentActivityName=".MainActivity" />
         <activity
-            android:name=".Hospital.HopitalActivity"
+            android:name=".Etablissement.HopitalActivity"
             android:label="Les hopitaux"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".doctors.DoctorActivity"
             android:label="Les médcins"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".addProfile.Insertion"
-            android:label="Ajouter votre établissement"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".addProfile.AddPharmacyProfil"
-            android:label="Ajouter votre pharmacy"
-            android:parentActivityName=".MainActivity" />
-        <activity
-            android:name=".addProfile.AddHospitalProfil"
-            android:label="Ajouter votre hopital"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".MainActivity"
