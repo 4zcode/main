@@ -92,6 +92,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:text="add user"
         android:onClick="addUser"
+        android:visibility="gone"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

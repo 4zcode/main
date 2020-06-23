@@ -41,6 +41,7 @@
             android:name=".Etablissement.EtablissementProfileActivity"
             android:label="Details Hopital"
             android:parentActivityName=".Etablissement.HopitalActivity" />
+
         <activity
             android:name=".doctors.details.Details_Doctor"
             android:label="Details Doctor"
@@ -94,6 +95,10 @@
         <activity
             android:name=".Etablissement.HopitalActivity"
             android:label="Les hopitaux"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".Etablissement.LaboActivity"
+            android:label="Les Laboratoires de recherches"
             android:parentActivityName=".MainActivity" />
         <activity
             android:name=".doctors.DoctorActivity"

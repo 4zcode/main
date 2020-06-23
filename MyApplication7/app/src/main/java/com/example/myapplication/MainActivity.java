@@ -358,6 +358,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        PreferenceUtilities.saveUserInfo(this, FirebaseAuth.getInstance().getCurrentUser() != null);
     }
 
 
