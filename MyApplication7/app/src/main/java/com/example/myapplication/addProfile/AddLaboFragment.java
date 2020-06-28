@@ -63,7 +63,7 @@ public class AddLaboFragment extends Fragment {
 
     private String[] mAdress={"Médéa","Médéa","Ain Bensultan"};
 
-    private EditText nomEdit, ordreEdit, descriptionEdit, serviceEdit, timeEdit, adrressEdit;
+    private EditText nomEdit,phonEdit ,ordreEdit, descriptionEdit, serviceEdit, timeEdit, adrressEdit;
 
     private Uri mImageUri;
     public static int PICK_IMAGE = 1;
@@ -97,6 +97,7 @@ public class AddLaboFragment extends Fragment {
 
         nomEdit = (EditText) view.findViewById(R.id.etablissement_nom);
         ordreEdit =(EditText) view.findViewById(R.id.etablissement_dorde);
+        phonEdit =(EditText) view.findViewById(R.id.add_hospital_phone);
         descriptionEdit =(EditText) view.findViewById(R.id.etablissement_description);
         serviceEdit =(EditText) view.findViewById(R.id.etablissement_services);
         timeEdit = (EditText) view.findViewById(R.id.etablissement_ouverture);
@@ -204,7 +205,7 @@ public class AddLaboFragment extends Fragment {
         String willaya = String.valueOf(spinnerWilaya.getSelectedItemPosition());
         String commune = String.valueOf(spinnerCommuns.getSelectedItemPosition());
         String ouverture = timeEdit.getText().toString();
-        String phone = "0799434259";
+        String phone = phonEdit.getText().toString();
         String type = String.valueOf(mType[0]);
         String description = descriptionEdit.getText().toString();
         String services = serviceEdit.getText().toString();

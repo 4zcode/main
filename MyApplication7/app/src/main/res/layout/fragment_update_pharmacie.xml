@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="vertical"
-tools:context=".addProfile.AddHospitalFragment">
+tools:context=".addProfile.AddPharmacieFragment">
 
 <ScrollView
     android:layout_width="match_parent"
@@ -23,7 +23,7 @@ tools:context=".addProfile.AddHospitalFragment">
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Ajouter une image de votre Établissement:"
+            android:text="Ajouter une image de votre pharmacie:"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -36,13 +36,13 @@ tools:context=".addProfile.AddHospitalFragment">
             app:cardCornerRadius="80dp">
 
             <ImageView
-                android:id="@+id/add_etablissement_image"
+                android:id="@+id/add_pharmacie_image"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_gravity="center"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/hopital_icon" />
+                android:src="@drawable/pharmacy" />
         </androidx.cardview.widget.CardView>
         <TextView
             android:layout_width="match_parent"
@@ -72,7 +72,7 @@ tools:context=".addProfile.AddHospitalFragment">
                 android:tint="@color/colorAccent"/>
 
             <EditText
-                android:id="@+id/etablissement_nom"
+                android:id="@+id/pharamcie_nom"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Entrer le nom"
@@ -80,7 +80,6 @@ tools:context=".addProfile.AddHospitalFragment">
                 android:singleLine="true"
                 />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -98,7 +97,7 @@ tools:context=".addProfile.AddHospitalFragment">
                 android:tint="@color/colorAccent"/>
 
             <EditText
-                android:id="@+id/add_hospital_phone"
+                android:id="@+id/update_pharmacie_phone"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Le numéro de téléphone"
@@ -134,7 +133,7 @@ tools:context=".addProfile.AddHospitalFragment">
                 android:tint="@color/colorAccent"/>
 
             <EditText
-                android:id="@+id/etablissement_dorde"
+                android:id="@+id/pharamcie_dorde"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Entrer le n° d'ordre"
@@ -142,16 +141,6 @@ tools:context=".addProfile.AddHospitalFragment">
                 android:singleLine="true"
                 />
         </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="La description"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -170,82 +159,51 @@ tools:context=".addProfile.AddHospitalFragment">
                 android:tint="@color/colorAccent"/>
 
             <EditText
-                android:id="@+id/etablissement_description"
+                android:id="@+id/pharmacie_description"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:hint="Descriper votre établissement"
+                android:hint="Descripter votre pharmacie"
                 android:layout_gravity="center"
                 android:singleLine="true"
                 />
         </LinearLayout>
-          <TextView
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginLeft="16dp"
-              android:layout_marginTop="8dp"
-              android:fontFamily="sans-serif-medium"
-              android:text="Status :"
-              android:textColor="@android:color/black"
-              android:textSize="18sp" />
 
-          <RadioGroup
-              android:id="@+id/etablisement_fragment_radiobottongroup"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_gravity="center"
-              android:orientation="horizontal">
-              <RadioButton
-                  android:id="@+id/etablissement_type_publique"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:text="Publique"
-                  android:layout_marginLeft="32dp"
-                  android:checked="true"
-                  />
-              <RadioButton
-                  android:id="@+id/etablissement_type_prive"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_marginRight="32dp"
-                  android:text="Privé"
-                  />
-          </RadioGroup>
+
+      <!--
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Vos services"
+            android:text="Status :"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RadioGroup
+            android:id="@+id/doctor_fragment_radiobottongroup"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
-            <ImageButton
+            <RadioButton
+                android:id="@+id/doctor_type_prive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@android:color/transparent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_verified_user_black_24dp"
-                android:tint="@color/colorAccent"/>
+                android:layout_marginRight="32dp"
+                android:text="Privé"
+                android:checked="true"/>
 
-            <EditText
-                android:id="@+id/etablissement_services"
-                android:layout_width="fill_parent"
+            <RadioButton
+                android:id="@+id/doctor_type_publique"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Quelles sont les services que vous offrez"
-                android:layout_gravity="center"
-                android:singleLine="true"
+                android:text="Publique"
+                android:layout_marginLeft="32dp"
                 />
-        </LinearLayout>
+        </RadioGroup>
+        -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -258,7 +216,7 @@ tools:context=".addProfile.AddHospitalFragment">
             android:textSize="18sp" />
 
         <EditText
-            android:id="@+id/etablissement_ouverture"
+            android:id="@+id/pharmacie_ouverture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
@@ -294,10 +252,10 @@ tools:context=".addProfile.AddHospitalFragment">
                 android:backgroundTint="@android:color/transparent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_person_pin_circle_black_24dp"
-                android:tint="@color/colorAccent"/>
+                android:tint="@color/colorAccent"></ImageButton>
 
             <EditText
-                android:id="@+id/etablissement_location"
+                android:id="@+id/pharmacie_location"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Quartier de votre pharmacie"
@@ -316,7 +274,7 @@ tools:context=".addProfile.AddHospitalFragment">
             android:orientation="horizontal">
 
             <Spinner
-                android:id="@+id/etablissement_spinner_wilaya"
+                android:id="@+id/pharmacie_spinner_wilaya"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="8dp"
@@ -326,7 +284,7 @@ tools:context=".addProfile.AddHospitalFragment">
                 android:spinnerMode="dropdown" />
 
             <Spinner
-                android:id="@+id/etablissement_spinner_communs"
+                android:id="@+id/pharmacie_spinner_communs"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -336,23 +294,23 @@ tools:context=".addProfile.AddHospitalFragment">
                 android:visibility="visible" />
         </LinearLayout>
         <ProgressBar
-            android:id="@+id/etablissement_progressbar"
+            android:id="@+id/pharmacie_progressbar"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
     </LinearLayout>
 </ScrollView>
+    <Button
+        android:id="@+id/add_next_pharmacie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mise à jour"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_margin="8dp"/>
 
-<Button
-    android:id="@+id/add_next_etablissement"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="right"
-    android:layout_margin="8dp"
-    android:backgroundTint="@color/colorAccent"
-    android:gravity="center"
-    android:text="Suivant"
-    android:textColor="#FFFFFF"
-    android:textStyle="bold" />
 </LinearLayout>

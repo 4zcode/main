@@ -83,7 +83,7 @@
                 android:layout_marginRight="16dp"
                 >
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/add_doctor_phone"
+                    android:id="@+id/update_doctor_phone"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_phone_in_talk_black_24dp"
@@ -312,16 +312,15 @@
                 android:layout_gravity="center" />
         </LinearLayout>
     </ScrollView>
-
     <Button
-        android:id="@+id/add_next_doctor"
+        android:id="@+id/add_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:layout_margin="8dp"
-        android:backgroundTint="@color/colorAccent"
+        android:text="Mise à jour"
+        android:layout_gravity="center"
         android:gravity="center"
-        android:text="Suivant"
+        android:backgroundTint="@color/colorAccent"
         android:textColor="#FFFFFF"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_margin="8dp"/>
 </LinearLayout>

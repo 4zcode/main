@@ -248,6 +248,72 @@
                 android:textColor="@color/red"
                 android:textSize="14sp" />
 
+            <RadioGroup
+                android:id="@+id/blooddonor_fragment_radiobottongroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/blooddonor_o"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="O"
+                    android:checked="true"
+                    />
+                <RadioButton
+                    android:id="@+id/blooddonor_a"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="A"
+                    />
+                <RadioButton
+                    android:id="@+id/blooddonor_b"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="B"
+
+                    />
+                <RadioButton
+                    android:id="@+id/blooddonor_ab"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="AB"
+                    android:checked="false"
+
+                    />
+            </RadioGroup>
+            <RadioGroup
+                android:id="@+id/blooddonor_fragment_radiobottongroup_second"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/blooddonor_minus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:checked="true"
+                    android:layout_marginRight="64dp"
+                    />
+                <RadioButton
+                    android:id="@+id/blooddonor_plus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:layout_marginLeft="64dp"
+
+                    />
+            </RadioGroup>
+
+
             <ProgressBar
                 android:id="@+id/progress_b"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"

@@ -62,7 +62,7 @@ public class AddPharmacieFragment extends Fragment {
 
     private String[] mAdress={"Médéa","Médéa","Ain Bensultan"};
 
-    private EditText nomEdit, descriptionEdit,timeEdit, ordreEdit, adrressEdit;
+    private EditText nomEdit,phonEdit, descriptionEdit,timeEdit, ordreEdit, adrressEdit;
 
     private Uri mImageUri;
     public static int PICK_IMAGE = 1;
@@ -99,6 +99,7 @@ public class AddPharmacieFragment extends Fragment {
         nomEdit = (EditText) view.findViewById(R.id.pharamcie_nom);
         timeEdit = (EditText) view.findViewById(R.id.pharmacie_ouverture);
         ordreEdit =(EditText) view.findViewById(R.id.pharamcie_dorde);
+        phonEdit =(EditText) view.findViewById(R.id.add_pharmacie_phone);
         descriptionEdit =(EditText) view.findViewById(R.id.pharmacie_description);
         adrressEdit = (EditText) view.findViewById(R.id.pharmacie_location);
 
@@ -193,7 +194,7 @@ public class AddPharmacieFragment extends Fragment {
         String ouverture = timeEdit.getText().toString();
         String numOrdre = ordreEdit.getText().toString();
         String description = descriptionEdit.getText().toString();
-        String phone = "0772375348";
+        String phone = phonEdit.getText().toString();
 
         FirebaseUser user = FirebaseAuth.getInstance().getInstance().getCurrentUser();
         Map<String, Object> DoctorUserData = new HashMap<String, Object>();

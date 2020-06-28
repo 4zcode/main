@@ -72,7 +72,7 @@ public class updatePharmacieFragment extends Fragment {
 
     private String[] mAdress={"Médéa","Médéa","Ain Bensultan"};
 
-    private EditText nomEdit, descriptionEdit,timeEdit, ordreEdit, adrressEdit;
+    private EditText nomEdit,phonEdit, descriptionEdit,timeEdit, ordreEdit, adrressEdit;
 
     private Uri mImageUri;
     public static int PICK_IMAGE = 1;
@@ -93,7 +93,7 @@ public class updatePharmacieFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_pharmacie, container, false);
+        View view = inflater.inflate(R.layout.fragment_update_pharmacie, container, false);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("pharmacies");
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("pharmacies");
@@ -110,6 +110,7 @@ public class updatePharmacieFragment extends Fragment {
         nomEdit = (EditText) view.findViewById(R.id.pharamcie_nom);
         timeEdit = (EditText) view.findViewById(R.id.pharmacie_ouverture);
         ordreEdit =(EditText) view.findViewById(R.id.pharamcie_dorde);
+        phonEdit =(EditText) view.findViewById(R.id.update_pharmacie_phone);
         descriptionEdit =(EditText) view.findViewById(R.id.pharmacie_description);
         adrressEdit = (EditText) view.findViewById(R.id.pharmacie_location);
 
@@ -154,7 +155,7 @@ public class updatePharmacieFragment extends Fragment {
         SharedPreferences Pref = getContext().getSharedPreferences(PREFERENCE_NAME, getContext().MODE_PRIVATE);
         nomEdit.setText(Pref.getString(PHARMA_NAME, ""));
         ordreEdit.setText(Pref.getString(NUM_ORDRE, "0"));
-        adrressEdit.setText(Pref.getString(PHARMA_ADRESSE, "Ain Bensultan, Médéa, Médéa"));
+        adrressEdit.setText(Pref.getString(PHARMA_ADRESSE, ""));
         mImageUri = Uri.parse(Pref.getString(PHARMA_IMAGE, "R.drawable.profile"));
         Glide.with(getContext()).load(mImageUri).into(userImage);
         //  isDonor = Pref.getBoolean(KEY_IS_USER_DONOR,false);
@@ -165,7 +166,8 @@ public class updatePharmacieFragment extends Fragment {
         spinnerWilaya.setSelection(wilaya);
         int commune = Integer.parseInt(Pref.getString(PHARMA_COMMUNE, "0"));
         spinnerCommuns.setSelection(commune);
-        mPhone = Pref.getString(PHARMA_PHONE, "0772375348");
+        mPhone = Pref.getString(PHARMA_PHONE, "");
+        phonEdit.setText(mPhone);
 
     }
 
@@ -224,7 +226,7 @@ public class updatePharmacieFragment extends Fragment {
         String ouverture = timeEdit.getText().toString();
         String numOrdre = ordreEdit.getText().toString();
         String description = descriptionEdit.getText().toString();
-        String phone = mPhone;
+        String phone = phonEdit.getText().toString();
 
         FirebaseUser user = FirebaseAuth.getInstance().getInstance().getCurrentUser();
         Map<String, Object> DoctorUserData = new HashMap<String, Object>();

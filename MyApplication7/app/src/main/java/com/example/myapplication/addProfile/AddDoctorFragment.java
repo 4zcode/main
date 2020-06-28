@@ -66,7 +66,7 @@ public class AddDoctorFragment extends Fragment {
 
     private int[] mType ={0};
 
-    private EditText nomEdit, ordreEdit, serviceEdit ,timeEdit, adrressEdit;
+    private EditText nomEdit, phoneEdit ,ordreEdit, serviceEdit ,timeEdit, adrressEdit;
 
     private Uri mImageUri;
     public static int PICK_IMAGE = 1;
@@ -102,6 +102,7 @@ public class AddDoctorFragment extends Fragment {
         nomEdit = (EditText) view.findViewById(R.id.doctor_cabinet_nom);
         timeEdit = (EditText) view.findViewById(R.id.doctor_ouverture);
         ordreEdit =(EditText) view.findViewById(R.id.add_doctor_dorde);
+        phoneEdit =(EditText) view.findViewById(R.id.add_doctor_phone);
         serviceEdit =(EditText) view.findViewById(R.id.add_doctor_services);
         adrressEdit = (EditText) view.findViewById(R.id.doctor_location);
 
@@ -210,7 +211,7 @@ public class AddDoctorFragment extends Fragment {
         String commune = String.valueOf(spinnerCommuns.getSelectedItemPosition());
         String ouverture = timeEdit.getText().toString();
         String spec = String.valueOf(spinnerSpeciality.getSelectedItem());
-        String phone = "0772375348";
+        String phone = phoneEdit.getText().toString();
         String type = String.valueOf(mType[0]);
         String services = serviceEdit.getText().toString();
         String numOrdre = ordreEdit.getText().toString();

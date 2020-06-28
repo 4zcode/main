@@ -34,6 +34,7 @@ import android.widget.Toast;
 
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.toolsbar.don_de_sang.don_de_song;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -99,6 +100,14 @@ public class addNormalUserFragment extends Fragment {
     private String mName;
     private String mEmail;
     private String mPhone;
+
+
+    private RadioGroup mRadioGroup_3;
+    private RadioGroup mRadioGroup_4;
+
+    private String[] mBlood={"O","+"};
+    private FirebaseUser user;
+
 
     public addNormalUserFragment() {
         // Required empty public constructor
@@ -200,6 +209,38 @@ public class addNormalUserFragment extends Fragment {
             }
         });
 
+
+
+        mRadioGroup_3 = (RadioGroup) view.findViewById(R.id.blooddonor_fragment_radiobottongroup);
+        mRadioGroup_4 = (RadioGroup) view.findViewById(R.id.blooddonor_fragment_radiobottongroup_second);
+
+
+
+        mRadioGroup_3.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.blooddonor_o) {
+                    mBlood[0] = "O";
+                } else if (checkedId == R.id.blooddonor_a) {
+                    mBlood[0] = "A";
+                } else if (checkedId == R.id.blooddonor_b) {
+                    mBlood[0] = "B";
+                } else if (checkedId == R.id.blooddonor_ab) {
+                    mBlood[0] = "AB";
+                }
+            }
+        });
+        mRadioGroup_4.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.blooddonor_plus) {
+                    mBlood[1] = "+";
+                } else if (checkedId == R.id.blooddonor_minus) {
+                    mBlood[1] = "-";
+                }
+            }
+        });
+
         spinnerWilaya.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -282,7 +323,7 @@ public class addNormalUserFragment extends Fragment {
             Toast.makeText(getContext(), "No file selected", Toast.LENGTH_SHORT).show();
         }
     }
-    private void updateFireBase(String  image_url) {
+    private void updateFireBase(final String  image_url) {
 
          String name = mName;
          String email = mEmail;
@@ -292,8 +333,9 @@ public class addNormalUserFragment extends Fragment {
          final String type = String.valueOf(mType[0]);
          String phone = mPhone;
          String lage = String.valueOf(age);
+        final String grp = mBlood[0]+mBlood[1];
 
-         FirebaseUser user = FirebaseAuth.getInstance().getInstance().getCurrentUser();
+        user = FirebaseAuth.getInstance().getInstance().getCurrentUser();
 
 
 /*
@@ -313,6 +355,7 @@ public class addNormalUserFragment extends Fragment {
 
         UserData.put("UserName", name);
         UserData.put("UserEmail", email);
+        UserData.put("UserGrp", grp);
         UserData.put("UserType", type);
         UserData.put("_ID_Firebase", user.getUid());
         UserData.put("UserAge", lage);
@@ -328,6 +371,9 @@ public class addNormalUserFragment extends Fragment {
         mDatabaseRef.child(user.getUid()).setValue(UserData).addOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
+                if (isDonor){
+                    updateDonDeSang(image_url);
+                }
                 if (task.isSuccessful()) {
                     Toast.makeText(getContext(), "your User information is update", Toast.LENGTH_SHORT).show();
                     saveViewPagerInscriptionPosition(getContext(),Integer.parseInt(type));
@@ -380,4 +426,25 @@ public class addNormalUserFragment extends Fragment {
         MimeTypeMap mime = MimeTypeMap.getSingleton();
         return mime.getExtensionFromMimeType(cR.getType(uri));
     }
+
+    private void updateDonDeSang(String url) {
+
+        String name = mName;
+        String adress = adreassEdit.getText().toString() +", "+String.valueOf(spinnerCommuns.getSelectedItem())+", "+String.valueOf(spinnerWilaya.getSelectedItem());
+        String willaya = String.valueOf(spinnerWilaya.getSelectedItemPosition());
+        String commune = String.valueOf(spinnerCommuns.getSelectedItemPosition());
+        String phone = mPhone;
+        String lage = String.valueOf(age);
+        final String grp = mBlood[0]+mBlood[1];
+
+        DatabaseReference mdonDeSangRef = FirebaseDatabase.getInstance().getReference("Donateur");
+
+        String donateurID = FirebaseAuth.getInstance().getInstance().getCurrentUser().getUid();
+        don_de_song donateur=new don_de_song (donateurID,name,adress,willaya,commune,phone ,
+                lage,grp,url);
+        mdonDeSangRef.child(donateurID).setValue(donateur);
+
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.myapplication.Profiles;
 
+import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +22,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -32,6 +34,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.MainActivity;
 import com.example.myapplication.R;
+import com.example.myapplication.toolsbar.don_de_sang.don_de_song;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -46,6 +49,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,6 +61,7 @@ import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_A
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_AGE;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_COMMUNE;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_EMAIL;
+import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_GRP;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_IMAGE;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_NAME;
 import static com.example.myapplication.utilities.PreferenceUtilities.KEY_USER_TYPE;
@@ -103,6 +109,13 @@ public class updateNormalUserFragment extends Fragment {
     private StorageTask mUploadTask;
     private String mEmail;
     private String mPhone;
+    private String url;
+    private FirebaseUser userFireBase;
+
+    private RadioGroup mRadioGroup_1;
+    private RadioGroup mRadioGroup_2;
+
+    private String[] mBlood={"O","+"};
 
 
     public updateNormalUserFragment() {
@@ -143,15 +156,58 @@ public class updateNormalUserFragment extends Fragment {
 
         next = (Button) view.findViewById(R.id.add_next);
         mProgressBar = view.findViewById(R.id.progress_b);
+        userFireBase = FirebaseAuth.getInstance().getInstance().getCurrentUser();
+        mRadioGroup_1 = (RadioGroup) view.findViewById(R.id.blooddonor_fragment_radiobottongroup);
+        mRadioGroup_2 = (RadioGroup) view.findViewById(R.id.blooddonor_fragment_radiobottongroup_second);
 
-        initialiseView();
 
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+        mRadioGroup_1.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                isDonor = isChecked;
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.blooddonor_o) {
+                    mBlood[0] = "O";
+                } else if (checkedId == R.id.blooddonor_a) {
+                    mBlood[0] = "A";
+                } else if (checkedId == R.id.blooddonor_b) {
+                    mBlood[0] = "B";
+                } else if (checkedId == R.id.blooddonor_ab) {
+                    mBlood[0] = "AB";
+                }
             }
         });
+        mRadioGroup_2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.blooddonor_plus) {
+                    mBlood[1] = "+";
+                } else if (checkedId == R.id.blooddonor_minus) {
+                    mBlood[1] = "-";
+                }
+            }
+        });
+
+
+        spinnerWilaya.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                spinnerCommuns.setVisibility(View.VISIBLE);
+                mAdress[2] = String.valueOf(spinnerWilaya.getSelectedItem());
+                commmunsCodeAdapter = new ArrayAdapter<CharSequence>(getActivity(), android.R.layout.simple_spinner_item, getCommuns(position));
+                commmunsCodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerCommuns.setAdapter(commmunsCodeAdapter);
+                //
+                initialiseView();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
 
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,29 +224,12 @@ public class updateNormalUserFragment extends Fragment {
             }
         });
 
-        spinnerWilaya.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spinnerCommuns.setVisibility(View.VISIBLE);
-                mAdress[2] = String.valueOf(spinnerWilaya.getSelectedItem());
-                commmunsCodeAdapter = new ArrayAdapter<CharSequence>(getActivity(), android.R.layout.simple_spinner_item, getCommuns(position));
-                commmunsCodeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spinnerCommuns.setAdapter(commmunsCodeAdapter);
-                //
 
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
 
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveUserInfoInFireBsae();
+                updateFireBase(url);
             }
         });
 
@@ -201,22 +240,30 @@ public class updateNormalUserFragment extends Fragment {
     private void initialiseView() {
         SharedPreferences Pref = getContext().getSharedPreferences(PREFERENCE_NAME, getContext().MODE_PRIVATE);
         ageEdite.setText(Pref.getString(KEY_USER_AGE, "20"));
-        nameEdit.setText(Pref.getString(KEY_USER_NAME, "Anonyme"));
-        adreassEdit.setText(Pref.getString(KEY_USER_ADRESSES, "Ain Bensultan, Médéa, Médéa"));
-        mImageUri = Uri.parse(Pref.getString(KEY_USER_IMAGE, "R.drawable.profile"));
-        Glide.with(getContext()).load(mImageUri).into(userImage);
+        nameEdit.setText(Pref.getString(KEY_USER_NAME, ""));
+        adreassEdit.setText(Pref.getString(KEY_USER_ADRESSES, ""));
+        url = Pref.getString(KEY_USER_IMAGE, "R.drawable.profile");
+        Glide.with(getContext()).load(url).into(userImage);
         isDonor = Pref.getBoolean(KEY_IS_USER_DONOR,false);
         checkBox.setChecked(isDonor);
-        mEmail = Pref.getString(KEY_USER_EMAIL, "ak.bensalem@esi-sba.dz");
-        mPhone = Pref.getString(KEY_USER_EMAIL, "0772375348");
+        mEmail = Pref.getString(KEY_USER_EMAIL, "");
+        mPhone = Pref.getString(KEY_USER_EMAIL, "");
         int wilaya = Integer.parseInt(Pref.getString(KEY_USER_WILAYA, "0"));
-        spinnerWilaya.setSelection(wilaya);
         int commune = Integer.parseInt(Pref.getString(KEY_USER_COMMUNE, "0"));
-        spinnerCommuns.setSelection(commune);
         mType[0] = Integer.parseInt(Pref.getString(KEY_USER_TYPE, "0"));
+        String grp = Pref.getString(KEY_USER_GRP, "+O");
+
+        spinnerWilaya.setSelection(wilaya);
+        spinnerCommuns.setSelection(commune);
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isDonor = isChecked;
+            }
+        });
     }
 
-    private void saveUserInfoInFireBsae() {
+    private void saveImageInFireBise() {
 
         if (mImageUri != null) {
             final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()
@@ -235,8 +282,8 @@ public class updateNormalUserFragment extends Fragment {
                             fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    String url =uri.toString();
-                                    updateFireBase(url);
+                                    url = uri.toString();
+                                 //   updateFireBase(url);
 
                                 }
                             });
@@ -260,7 +307,14 @@ public class updateNormalUserFragment extends Fragment {
         }
     }
     private void updateFireBase(String  image_url) {
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Mise à jour");
+        progressDialog.setMessage("S'il veux plait attendez un peu de moment ...");
+        progressDialog.setCancelable(false);
+        progressDialog.setProgressStyle(android.R.style.Widget_ProgressBar);
+        progressDialog.setIndeterminate(true);
 
+        progressDialog.show();
          String name = nameEdit.getText().toString().trim() ;
          String email = mEmail;
          String adress = adreassEdit.getText().toString() +", "+String.valueOf(spinnerCommuns.getSelectedItem())+", "+String.valueOf(spinnerWilaya.getSelectedItem());
@@ -270,8 +324,7 @@ public class updateNormalUserFragment extends Fragment {
          final String type = String.valueOf(mType[0]);
          String phone = mPhone;
          String lage = String.valueOf(age);
-
-         FirebaseUser user = FirebaseAuth.getInstance().getInstance().getCurrentUser();
+         final String grp = mBlood[0]+mBlood[1];
 
 
 /*
@@ -290,9 +343,10 @@ public class updateNormalUserFragment extends Fragment {
         Map<String, Object> UserData = new HashMap<String, Object>();
 
         UserData.put("UserName", name);
+        UserData.put("UserGrp", grp);
         UserData.put("UserEmail", email);
         UserData.put("UserType", type);
-        UserData.put("_ID_Firebase", user.getUid());
+        UserData.put("_ID_Firebase", userFireBase.getUid());
         UserData.put("UserAge", lage);
         UserData.put("UserPhone", phone);
         UserData.put("UserAdress", adress);
@@ -303,19 +357,41 @@ public class updateNormalUserFragment extends Fragment {
         UserData.put("UserExist", true);
 
 
-        mDatabaseRef.child(user.getUid()).setValue(UserData).addOnCompleteListener(new OnCompleteListener() {
+        mDatabaseRef.child(userFireBase.getUid()).setValue(UserData).addOnCompleteListener(new OnCompleteListener() {
             @Override
             public void onComplete(@NonNull Task task) {
                 if (task.isSuccessful()) {
                     Toast.makeText(getContext(),"vos information ont été mise à jour", Toast.LENGTH_LONG).show();
+                    if (isDonor){
+                        updateDonDeSang();
+                    }
                 } else {
                     String error;
                     error = task.getException().getMessage();
                     Toast.makeText(getContext(), error, Toast.LENGTH_LONG).show();
 
                 }
+                progressDialog.dismiss();
             }
         });
+    }
+
+    private void updateDonDeSang() {
+
+        final String name = nameEdit.getText().toString().trim() ;
+        final String adress = adreassEdit.getText().toString() +", "+String.valueOf(spinnerCommuns.getSelectedItem())+", "+String.valueOf(spinnerWilaya.getSelectedItem());
+        final String willaya = String.valueOf(spinnerWilaya.getSelectedItemPosition());
+        final String commune = String.valueOf(spinnerCommuns.getSelectedItemPosition());
+        final String grp = mBlood[0]+mBlood[1];
+        final String phone = mPhone;
+        final String lage = String.valueOf(age);
+        DatabaseReference mdonDeSangRef = FirebaseDatabase.getInstance().getReference("Donateur");
+
+        String donateurID = FirebaseAuth.getInstance().getInstance().getCurrentUser().getUid();
+        don_de_song donateur=new don_de_song (donateurID,name,adress,willaya,commune,phone ,
+                lage,grp,url);
+        mdonDeSangRef.child(donateurID).setValue(donateur);
+
     }
 
     public void onClicks() {
@@ -333,7 +409,7 @@ public class updateNormalUserFragment extends Fragment {
 
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
             mImageUri = data.getData();
-
+            saveImageInFireBise();
             try {
                 AppCompatActivity test=new AppCompatActivity();
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap( getActivity().getContentResolver(), mImageUri);

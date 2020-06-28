@@ -101,6 +101,7 @@ public class PreferenceUtilities {
     public static final String ETABLISSEMENT_WILAYA = "etablissementWilaya";
     public static final String ETABLISSEMENT_COMMUNE = "etablissementCommune";
     public static final String ETABLISSEMENT_EXIST = "etablissementExist";
+    public static final String KEY_USER_GRP = "userGrp";
 
 
     private static DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
@@ -136,8 +137,9 @@ public static final String RECIVER = "Reciver";
                             && dataSnapshot.child("UserAdress").exists()
                             && dataSnapshot.child("UserWillaya").exists()
                             && dataSnapshot.child("UserCommune").exists()
-                            && dataSnapshot.child("UserDonnation").exists();
-/*
+                            && dataSnapshot.child("UserDonnation").exists()
+                            && dataSnapshot.child("UserGrp").exists();
+
                     Log.d("logingtest","mContinue User = "+ mContinue);
 
                     Log.d("logingtest","UserName = "+ dataSnapshot.child("UserName").exists());
@@ -150,10 +152,12 @@ public static final String RECIVER = "Reciver";
                     Log.d("logingtest","UserWillaya = "+ dataSnapshot.child("UserWillaya").exists());
                     Log.d("logingtest","UserCommune = "+ dataSnapshot.child("UserCommune").exists());
                     Log.d("logingtest","UserDonnation = "+ dataSnapshot.child("UserDonnation").exists());
+                    Log.d("logingtest","UserGrp = "+ dataSnapshot.child("UserGrp").exists());
 
 
 
- */
+
+
 
                     if (mContinue) {
                         String Name = dataSnapshot.child("UserName").getValue(String.class);
@@ -168,10 +172,10 @@ public static final String RECIVER = "Reciver";
                         String willaya = dataSnapshot.child("UserWillaya").getValue(String.class);
                         String commune = dataSnapshot.child("UserCommune").getValue(String.class);
                         boolean isDonor = dataSnapshot.child("UserDonnation").getValue(boolean.class);
-
+                        String grp = dataSnapshot.child("UserGrp").getValue(String.class);
 
                         Log.d("logingtest","profile exist");
-                        saveData(context, Name, Type,email,age,phone,adress,willaya,commune, isDonor, ImageUrl, true, true);
+                        saveData(context, Name, Type,email,age,phone,adress,willaya,commune, isDonor, grp,ImageUrl, true, true);
                         getNbrMessageNoRead(context);
                         switch (Type){
                             case "0" :
@@ -195,7 +199,7 @@ public static final String RECIVER = "Reciver";
 
                     } else {
                         Log.d("logingtest","profile does not exist");
-                        saveData(context, DEFAULT_USER_NAME, DEFAULT_USER_IMAGE, DEFAULT_USER_TYPE, "","","","","",false,"R.drawale.profile",true, false);
+                        saveData(context, DEFAULT_USER_NAME, DEFAULT_USER_IMAGE, DEFAULT_USER_TYPE, "","","","","",false,"+O","R.drawale.profile",true, false);
                         saveViewPagerInscriptionPosition(context, 0);
                         AlertDialog message = new AlertDialog.Builder(context)
                                 .setTitle("Reminder")
@@ -220,7 +224,7 @@ public static final String RECIVER = "Reciver";
                 }
             });
         } else {
-            saveData(context, DEFAULT_USER_NAME, DEFAULT_USER_IMAGE, DEFAULT_USER_TYPE, "","","","","",false,"R.drawale.profile",true, false);
+            saveData(context, DEFAULT_USER_NAME, DEFAULT_USER_IMAGE, DEFAULT_USER_TYPE, "","","","","",false,"+O","R.drawale.profile",true, false);
             saveViewPagerInscriptionPosition(context, 0);
 
         }
@@ -254,6 +258,21 @@ public static final String RECIVER = "Reciver";
                             && ds.child("EtablissmentExist").exists();
 
                     Log.d("logingtest","mContinue etablissement = "+ mContinue);
+
+                    Log.d("logingtest","_ID_Firebase = "+ ds.child("_ID_Firebase").exists());
+                    Log.d("logingtest","Name = "+  ds.child("Name").exists());
+                    Log.d("logingtest","Place = "+ ds.child("Place").exists());
+                    Log.d("logingtest","Phone = "+ ds.child("Phone").exists());
+                    Log.d("logingtest","Wilaya = "+ ds.child("Wilaya").exists());
+
+                    Log.d("logingtest","Commune = "+ ds.child("Commune").exists());
+                    Log.d("logingtest","Description = "+ ds.child("Description").exists());
+                    Log.d("logingtest","Service = "+ ds.child("Service").exists());
+
+                    Log.d("logingtest","numOrdre = "+ ds.child("numOrdre").exists());
+                    Log.d("logingtest","Type = "+ ds.child("Type").exists());
+                    Log.d("logingtest","Time = "+ ds.child("Time").exists());
+                    Log.d("logingtest","EtablissmentExist = "+ ds.child("EtablissmentExist").exists());
 
                     if (mContinue) {
                         String Name = ds.child("Name").getValue(String.class);
@@ -346,7 +365,25 @@ public static final String RECIVER = "Reciver";
                             && dataSnapshot.child("ImageUrl").exists()
                             && dataSnapshot.child("DoctorExist").exists();
 
-                    Log.d("logingtest","mContinue = "+ mContinue);
+                    Log.d("logingtest","mContinue doctor = "+ mContinue);
+
+                    Log.d("logingtest","_ID_Firebase = "+ dataSnapshot.child("_ID_Firebase").exists());
+                    Log.d("logingtest","Name = "+  dataSnapshot.child("Name").exists());
+                    Log.d("logingtest","Place = "+ dataSnapshot.child("Place").exists());
+                    Log.d("logingtest","Phone = "+ dataSnapshot.child("Phone").exists());
+                    Log.d("logingtest","Wilaya = "+ dataSnapshot.child("Wilaya").exists());
+
+                    Log.d("logingtest","Speciality = "+ dataSnapshot.child("Speciality").exists());
+
+
+                    Log.d("logingtest","Commune = "+ dataSnapshot.child("Commune").exists());
+                    Log.d("logingtest","Type = "+ dataSnapshot.child("Type").exists());
+                    Log.d("logingtest","Service = "+ dataSnapshot.child("Service").exists());
+
+                    Log.d("logingtest","NumOrdre = "+ dataSnapshot.child("NumOrdre").exists());
+                    Log.d("logingtest","Time = "+ dataSnapshot.child("Time").exists());
+                    Log.d("logingtest","ImageUrl = "+ dataSnapshot.child("ImageUrl").exists());
+                    Log.d("logingtest","DoctorExist = "+ dataSnapshot.child("DoctorExist").exists());
 
                     if (mContinue) {
                         String Name = dataSnapshot.child("Name").getValue(String.class);
@@ -445,6 +482,21 @@ public static final String RECIVER = "Reciver";
                             && ds.child("Time").exists();
 
                     Log.d("logingtest","mContinue pharma = "+ mContinue);
+
+                    Log.d("logingtest","_ID_Firebase = "+ ds.child("_ID_Firebase").exists());
+                    Log.d("logingtest","Name = "+  ds.child("Name").exists());
+                    Log.d("logingtest","Place = "+ ds.child("Place").exists());
+                    Log.d("logingtest","Phone = "+ ds.child("Phone").exists());
+                    Log.d("logingtest","Wilaya = "+ ds.child("Wilaya").exists());
+
+
+                    Log.d("logingtest","Commune = "+ ds.child("Commune").exists());
+                    Log.d("logingtest","Description = "+ ds.child("Description").exists());
+
+                    Log.d("logingtest","NumOrdre = "+ ds.child("NumOrdre").exists());
+                    Log.d("logingtest","Time = "+ ds.child("Time").exists());
+                    Log.d("logingtest","ImageUrl = "+ ds.child("ImageUrl").exists());
+               //     Log.d("logingtest","DoctorExist = "+ dataSnapshot.child("DoctorExist").exists());
 
                     if (mContinue) {
                         String Name = ds.child("Name").getValue(String.class);
@@ -559,13 +611,13 @@ public static final String RECIVER = "Reciver";
     }
 
 
-    public static void saveData(Context context, String userName,String userType, String email, String age, String phone, String adress, String willaya, String commune,boolean isDonor, String userImage, boolean isLogin, boolean isProfileExist) {
+    public static void saveData(Context context, String userName,String userType, String email, String age, String phone, String adress, String willaya, String commune,boolean isDonor,String grp,String userImage, boolean isLogin, boolean isProfileExist) {
         SharedPreferences prefs = context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(KEY_USER_NAME, userName);
         editor.putString(KEY_USER_IMAGE, userImage);
         editor.putString(KEY_USER_TYPE, userType);
-
+        editor.putString(KEY_USER_GRP, grp);
         editor.putString(KEY_USER_EMAIL, email);
         editor.putString(KEY_USER_AGE, age);
         editor.putString(KEY_USER_PHONE, phone);

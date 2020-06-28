@@ -98,7 +98,7 @@ tools:context=".addProfile.AddHospitalFragment">
                 android:tint="@color/colorAccent"/>
 
             <EditText
-                android:id="@+id/add_hospital_phone"
+                android:id="@+id/update_etablissement_phone"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:hint="Le numéro de téléphone"
@@ -343,16 +343,15 @@ tools:context=".addProfile.AddHospitalFragment">
             android:layout_gravity="center" />
     </LinearLayout>
 </ScrollView>
-
-<Button
-    android:id="@+id/add_next_etablissement"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="right"
-    android:layout_margin="8dp"
-    android:backgroundTint="@color/colorAccent"
-    android:gravity="center"
-    android:text="Suivant"
-    android:textColor="#FFFFFF"
-    android:textStyle="bold" />
+    <Button
+        android:id="@+id/add_next_etablissement"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mise à jour"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:backgroundTint="@color/colorAccent"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_margin="8dp"/>
 </LinearLayout>

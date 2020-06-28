@@ -80,6 +80,31 @@ tools:context=".addProfile.AddPharmacieFragment">
                 android:singleLine="true"
                 />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@android:color/transparent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_phone_in_talk_black_24dp"
+                android:tint="@color/colorAccent"/>
+
+            <EditText
+                android:id="@+id/add_pharmacie_phone"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="Le numéro de téléphone"
+                android:layout_gravity="center"
+                android:singleLine="true"
+                />
+        </LinearLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

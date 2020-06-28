@@ -77,7 +77,7 @@ public class updateHospitalFragment extends Fragment {
 
     private String[] mAdress={"Médéa","Médéa","Ain Bensultan"};
 
-    private EditText nomEdit, ordreEdit, descriptionEdit, serviceEdit, timeEdit, adrressEdit;
+    private EditText nomEdit, phonEdit, ordreEdit, descriptionEdit, serviceEdit, timeEdit, adrressEdit;
 
     private Uri mImageUri;
     public static int PICK_IMAGE = 1;
@@ -113,6 +113,7 @@ public class updateHospitalFragment extends Fragment {
 
         nomEdit = (EditText) view.findViewById(R.id.etablissement_nom);
         ordreEdit =(EditText) view.findViewById(R.id.etablissement_dorde);
+        phonEdit =(EditText) view.findViewById(R.id.update_etablissement_phone);
         descriptionEdit =(EditText) view.findViewById(R.id.etablissement_description);
         serviceEdit =(EditText) view.findViewById(R.id.etablissement_services);
         timeEdit = (EditText) view.findViewById(R.id.etablissement_ouverture);
@@ -173,7 +174,7 @@ public class updateHospitalFragment extends Fragment {
         SharedPreferences Pref = getContext().getSharedPreferences(PREFERENCE_NAME, getContext().MODE_PRIVATE);
         nomEdit.setText(Pref.getString(ETABLISSEMENT_NAME, ""));
         ordreEdit.setText(Pref.getString(NUM_ORDRE, "0"));
-        adrressEdit.setText(Pref.getString(ETABLISSEMENT_ADRESSE, "Ain Bensultan, Médéa, Médéa"));
+        adrressEdit.setText(Pref.getString(ETABLISSEMENT_ADRESSE, ""));
         mImageUri = Uri.parse(Pref.getString(ETABLISSEMENT_IMAGE, "R.drawable.profile"));
         Glide.with(getContext()).load(mImageUri).into(userImage);
         //  isDonor = Pref.getBoolean(KEY_IS_USER_DONOR,false);
@@ -185,7 +186,9 @@ public class updateHospitalFragment extends Fragment {
         spinnerWilaya.setSelection(wilaya);
         int commune = Integer.parseInt(Pref.getString(ETABLISSEMENT_COMMUNE, "0"));
         spinnerCommuns.setSelection(commune);
-        mPhone = Pref.getString(ETABLISSEMENT_PHONE, "0772375348");
+        mPhone = Pref.getString(ETABLISSEMENT_PHONE, "");
+        phonEdit.setText(mPhone);
+
         mType[0] = Integer.parseInt(Pref.getString(ETABLISSEMENT_TYPE, "0"));
 
         if (mType[0] == 0){
@@ -249,7 +252,7 @@ public class updateHospitalFragment extends Fragment {
         String willaya = String.valueOf(spinnerWilaya.getSelectedItemPosition());
         String commune = String.valueOf(spinnerCommuns.getSelectedItemPosition());
         String ouverture = timeEdit.getText().toString();
-        String phone = "0772375348";
+        String phone = phonEdit.getText().toString();
         String type = String.valueOf(mType[0]);
         String description = descriptionEdit.getText().toString();
         String services = serviceEdit.getText().toString();
